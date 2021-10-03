@@ -1,0 +1,8 @@
+ECOTOXr v0.1.0 (Release date: 2021-10-03)
+=============
+
+  * Inital release which can:
+
+    * Download raw ECOTOX database tables from the EPA website
+    * Build an SQLite database from those files
+    * Search and extract data from the created local database
