@@ -34,13 +34,6 @@ check_ecotox_availability <- function(target = get_ecotox_path()) {
   return(result)
 }
 
-.fail_on_missing <- function(path = get_ecotox_path()) {
-  test <- check_ecotox_availability(path)
-  if (!test) {
-    stop("No local database located. Download data first by calling 'download_ecotox_data()'")
-  } else return(test)
-}
-
 #' The local path to the ECOTOX database (directory or sqlite file)
 #'
 #' Obtain the local path to where the ECOTOX database is (or will be) placed.
@@ -80,6 +73,7 @@ get_ecotox_path <- function() {
 #' When found it will attempt to download the zipped archive containing all required data. This data is than
 #' extracted and a local copy of the database is build.
 #'
+#' Use '\code{\link{suppressMessages}}' to suppress the progress report.
 #' @section Known issues:
 #' On some machines this function fails to connect to the database download URL from the EPA website due to missing
 #' SSL certificates. Unfortunately, there is no easy fix for this in this package. A work around is to download and
@@ -100,7 +94,8 @@ get_ecotox_path <- function() {
 #' @name download_ecotox_data
 #' @examples
 #' \dontrun{
-#' download_ecotox_data()
+#' ## This will download and build the database in your temp dir:
+#' download_ecotox_data(tempdir())
 #' }
 #' @author Pepijn de Vries
 #' @export
@@ -110,13 +105,13 @@ download_ecotox_data <- function(target = get_ecotox_path(), write_log = TRUE, a
     cat(sprintf("A local database already exists (%s).", paste(attributes(avail)$file$database, collapse = ", ")))
     prompt <- readline(prompt = "Do you wish to continue and potentially overwrite the existing database? (y/n) ")
     if (!startsWith("Y", toupper(prompt))) {
-      cat("Download aborted...\n")
+      message("Download aborted...\n")
       return(invisible(NULL))
     }
   }
   if (!dir.exists(target)) dir.create(target, recursive = T)
   ## Obtain download link from EPA website:
-  cat("Obtaining download link from EPA website... ")
+  message(crayon::white("Obtaining download link from EPA website... "))
   con <- url("https://cfpub.epa.gov/ecotox/index.cfm")
   link <- rvest::read_html(con)
   link <- rvest::html_nodes(link, "a.ascii-link")
@@ -125,14 +120,14 @@ download_ecotox_data <- function(target = get_ecotox_path(), write_log = TRUE, a
   dest_path <- file.path(target, utils::tail(unlist(strsplit(link, "/")), 1))
   closeAllConnections()
   if (length(link) == 0) stop("Could not find ASCII download link...")
-  cat(crayon::green("Done\n"))
+  message(crayon::green("Done\n"))
   proceed.download <- T
   if (file.exists(dest_path) && ask) {
     prompt <- readline(prompt = sprintf("ECOTOX data is already present (%s), overwrite (y/n)? ", dest_path))
     proceed.download <- startsWith("Y", toupper(prompt))
   }
   if (proceed.download) {
-    cat(sprintf("Start downloading ECOTOX data from %s...\n", link))
+    message(crayon::white(sprintf("Start downloading ECOTOX data from %s...\n", link)))
     con       <- url(link, "rb")
     dest      <- file(gsub(".zip", ".incomplete.download", dest_path, fixed = T), "wb")
     mb <- 0
@@ -140,11 +135,11 @@ download_ecotox_data <- function(target = get_ecotox_path(), write_log = TRUE, a
       read <- readBin(con, "raw", 1024*1024) ## download in 1MB chunks.
       writeBin(read, dest)
       mb <- mb + 1
-      cat(sprintf("\r%i MB downloaded...", mb))
+      message(crayon::white(sprintf("\r%i MB downloaded...", mb)), appendLF = F)
       if (length(read) == 0) break
     }
     closeAllConnections()
-    cat(crayon::green(" Done\n"))
+    message(crayon::green(" Done\n"))
   }
   file.rename(gsub(".zip", ".incomplete.download", dest_path, fixed = T), dest_path)
 
@@ -171,22 +166,22 @@ download_ecotox_data <- function(target = get_ecotox_path(), write_log = TRUE, a
     }
   }
   if (proceed.unzip) {
-    cat("Extracting downloaded zip file... ")
+    message(crayon::white("Extracting downloaded zip file... "))
     utils::unzip(file.path(target, utils::tail(unlist(strsplit(link, "/")), 1)), exdir = target)
-    cat(crayon::green("Done\n"))
+    message(crayon::green("Done\n"))
     if (ask &&
         startsWith("Y", toupper(readline(prompt = "Done extracting zip file, remove it to save disk space (y/n)? ")))) {
-      cat("Trying to delete zip file... ")
+      message(crayon::white("Trying to delete zip file... "))
       tryCatch({
         file.remove(file.path(target, utils::tail(unlist(strsplit(link, "/")), 1)))
-        cat(crayon::green("Done\n"))
+        message(crayon::green("Done\n"))
       }, error = function(e) {
-        cat(crayon::red("Failed to delete the file, continuing with next step"))
+        message(crayon::red("Failed to delete the file, continuing with next step"))
       })
     }
   }
-  cat("Start constructing SQLite database from downloaded tables...\n")
-  cat("Note that this may take some time...\n")
+  message(crayon::white("Start constructing SQLite database from downloaded tables...\n"))
+  message(crayon::white("Note that this may take some time...\n"))
   build_ecotox_sqlite(extr.path, target, write_log)
   return(invisible(NULL))
 }
@@ -213,6 +208,8 @@ download_ecotox_data <- function(target = get_ecotox_path(), write_log = TRUE, a
 #' consequences for reproducibility, but only if you build search queries that look for such special characters. It is
 #' therefore advised to stick to common (non-accented) alpha-numerical characters in your searches, for the sake of
 #' reproducibility.
+#' 
+#' Use '\code{\link{suppressMessages}}' to suppress the progress report.
 #'
 #' @param source A \code{character} string pointing to the directory path where the text files with the raw
 #' tables are located. These can be obtained by extracting the zip archive from \url{https://cfpub.epa.gov/ecotox/}
@@ -237,7 +234,8 @@ download_ecotox_data <- function(target = get_ecotox_path(), write_log = TRUE, a
 #'   dir     <- gsub(".sqlite", "", files$database, fixed = T)
 #'   path    <- files$path
 #'   if (dir.exists(file.path(path, dir))) {
-#'     build_ecotox_sqlite(source = file.path(path, dir), destination = get_ecotox_path())
+#'     ## This will build the database in your temp directory:
+#'     build_ecotox_sqlite(source = file.path(path, dir), destination = tempdir())
 #'   }
 #' }
 #' }
@@ -248,8 +246,11 @@ build_ecotox_sqlite <- function(source, destination = get_ecotox_path(), write_l
   dbcon  <- RSQLite::dbConnect(RSQLite::SQLite(), file.path(destination, dbname))
 
   ## Loop the text file tables and add them to the sqlite database 1 by 1
+  i <- 0
   by(.db_specs, .db_specs$table, function(tab) {
-    cat(sprintf("Adding '%s' table to database:\n", tab$table[[1]]))
+    i <<- i + 1
+    message(crayon::white(sprintf("Adding '%s' table (%i/%i) to database:\n",
+                                  tab$table[[1]], i, length(unique(.db_specs$table)))))
     filename <- file.path(source, paste0(tab$table[[1]], ".txt"))
     if (!file.exists(filename)) filename <- file.path(source, "validation", paste0(tab$table[[1]], ".txt"))
 
@@ -276,7 +277,8 @@ build_ecotox_sqlite <- function(source, destination = get_ecotox_path(), write_l
     lines.read <- 1
     ## Copy tables in 50000 line fragments to database, to avoid memory issues
     frag.size  <- 50000
-    cat(sprintf("\r  0 lines (incl. header) added of '%s' added to database", tab$table[[1]]))
+    message(crayon::white(sprintf("\r  0 lines (incl. header) added of '%s' added to database", tab$table[[1]])),
+            appendLF = F)
     repeat {
       if (is.null(head)) {
         head <- iconv(readr::read_lines(filename, skip = 0, n_max = 1, progress = F), to = "UTF8", sub = "*")
@@ -303,11 +305,12 @@ build_ecotox_sqlite <- function(source, destination = get_ecotox_path(), write_l
                                         stringsAsFactors = F, strip.white = F)
 
         RSQLite::dbWriteTable(dbcon, tab$table[[1]], table.frag, append = T)
-        cat(sprintf("\r  %i lines (incl. header) added of '%s' added to database", lines.read, tab$table[[1]]))
+        message(crayon::white(sprintf("\r %i lines (incl. header) added of '%s' added to database", lines.read, tab$table[[1]])),
+                appendLF = F)
         if (length(body) < testsize) break
       }
     }
-    cat(crayon::green(" Done\n"))
+    message(crayon::green(" Done\n"))
   })
   RSQLite::dbDisconnect(dbcon)
   if (write_log) {

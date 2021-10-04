@@ -131,7 +131,7 @@ get_ecotox_info <- function(path = get_ecotox_path(), version) {
   } else {
     inf <- default
   }
-  cat(paste(inf, collapse = "\n"))
+  message(crayon::white(paste(inf, collapse = "\n")))
   return(invisible(inf))
 }
 
@@ -158,7 +158,7 @@ get_ecotox_info <- function(path = get_ecotox_path(), version) {
 #'
 #' ## All except fields from the table 'dose_response_details'
 #' ## that are available from the ECOTOX database:
-#' list_ecotox_fields("all")
+#' list_ecotox_fields("full")
 #' @author Pepijn de Vries
 #' @export
 list_ecotox_fields <- function(which = c("default", "full", "all"), include_table = TRUE) {
