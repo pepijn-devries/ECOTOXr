@@ -1,3 +1,12 @@
+ECOTOXr v0.1.1 (Release date: 2021-10-04)
+=============
+
+  * Updates to DESCRIPTION file and manual in order to
+    comply with CRAN policies.
+  
+  * Function progress reports are now shown with 'message'
+    instead of 'cat', such that they can be suppressed.
+
 ECOTOXr v0.1.0 (Release date: 2021-10-03)
 =============
 

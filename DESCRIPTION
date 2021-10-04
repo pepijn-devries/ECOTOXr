@@ -1,8 +1,8 @@
 Package: ECOTOXr
 Type: Package
 Title: Download and Extract Data from US EPA's ECOTOX Database
-Version: 0.1.0
-Date: 2021-10-03
+Version: 0.1.1
+Date: 2021-10-04
 Authors@R: c(person("Pepijn", "de Vries", role = c("aut", "cre", "dtc"),
     email = "pepijn.devries@outlook.com"))
 Author:
@@ -28,7 +28,7 @@ Imports:
 Suggests: 
     testthat (>= 3.0.0),
     webchem
-URL: https://github.com/pepijn-devries/ECOTOXr
+URL: <https://github.com/pepijn-devries/ECOTOXr>
 BugReports: https://github.com/pepijn-devries/ECOTOXr/issues
 License: GPL (>= 3)
 Encoding: UTF-8
