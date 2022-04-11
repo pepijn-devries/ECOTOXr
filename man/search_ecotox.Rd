@@ -102,7 +102,7 @@ CRAN and document the package and database version that are used to generate spe
 \examples{
 \dontrun{
 ## let's find the ids of all ecotox tests on species
-## where latin names contain either of 2 specific genus names and
+## where Latin names contain either of 2 specific genus names and
 ## where they were exposed to the chemical benzene
 if (check_ecotox_availability()) {
   search <-

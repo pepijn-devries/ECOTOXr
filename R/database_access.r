@@ -143,7 +143,8 @@ get_ecotox_info <- function(path = get_ecotox_path(), version) {
 #' are available from the database, for searching and output.
 #' @param which A \code{character} string that specifies which fields to return. Can be any of:
 #' '\code{default}': returns default output field names; '\code{all}': returns all fields; or
-#' '\code{full}': returns all except fields from table 'dose_response_details'.
+#' '\code{full}': returns all except fields from table 'chemical_carriers', 'media_characteristics', 'doses', 'dose_responses',
+#'  'dose_response_details', 'dose_response_links' and 'dose_stat_method_codes'.
 #' @param include_table A \code{logical} value indicating whether the table name should be included
 #' as prefix. Default is \code{TRUE}.
 #' @return Returns a \code{vector} of type \code{character} containing the field names from the ECOTOX database.
@@ -156,7 +157,8 @@ get_ecotox_info <- function(path = get_ecotox_path(), version) {
 #' ## All fields that are available from the ECOTOX database:
 #' list_ecotox_fields("all")
 #'
-#' ## All except fields from the table 'dose_response_details'
+#' ## All except fields from the tables 'chemical_carriers', 'media_characteristics', 'doses',
+#' ## 'dose_responses', 'dose_response_details', 'dose_response_links' and 'dose_stat_method_codes'
 #' ## that are available from the ECOTOX database:
 #' list_ecotox_fields("full")
 #' @author Pepijn de Vries
@@ -166,6 +168,6 @@ list_ecotox_fields <- function(which = c("default", "full", "all"), include_tabl
   result <- .db_specs$field_name
   if (include_table)      result <- paste(.db_specs$table, result, sep = ".")
   if (which == "default") result <- result[.db_specs$default_output]
-  if (which == "full")    result <- result[.db_specs$table != "dose_response_details"]
+  if (which == "full")    result <- result[!(.db_specs$table %in% c("chemical_carriers", "media_characteristics", "doses", "dose_response_details", "dose_response_links", "dose_stat_method_codes"))]
   return(result)
 }

@@ -9,7 +9,8 @@ list_ecotox_fields(which = c("default", "full", "all"), include_table = TRUE)
 \arguments{
 \item{which}{A \code{character} string that specifies which fields to return. Can be any of:
 '\code{default}': returns default output field names; '\code{all}': returns all fields; or
-'\code{full}': returns all except fields from table 'dose_response_details'.}
+'\code{full}': returns all except fields from table 'chemical_carriers', 'media_characteristics', 'doses', 'dose_responses',
+ 'dose_response_details', 'dose_response_links' and 'dose_stat_method_codes'.}
 
 \item{include_table}{A \code{logical} value indicating whether the table name should be included
 as prefix. Default is \code{TRUE}.}
@@ -31,9 +32,10 @@ list_ecotox_fields("default")
 ## All fields that are available from the ECOTOX database:
 list_ecotox_fields("all")
 
-## All except fields from the table 'dose_response_details'
+## All except fields from the tables 'chemical_carriers', 'media_characteristics', 'doses',
+## 'dose_responses', 'dose_response_details', 'dose_response_links' and 'dose_stat_method_codes'
 ## that are available from the ECOTOX database:
-list_ecotox_fields("all")
+list_ecotox_fields("full")
 }
 \author{
 Pepijn de Vries

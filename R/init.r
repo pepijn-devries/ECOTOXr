@@ -1,3 +1,32 @@
+#' Get ECOTOX download URL from EPA website
+#'
+#' This function downloads the webpage at \url{https://cfpub.epa.gov/ecotox/index.cfm}. It then searches for the
+#' download link for the complete ECOTOX database and extract its URL.
+#'
+#' This function is called by \code{\link{download_ecotox_data}} which tries to download the file from the resulting
+#' URL. On some machines this fails due to issues with the SSL certificate. The user can try to download the file
+#' by using this URL in a different browser (or on a different machine).
+#' @return Returns a \code{character} string containing the download URL of the latest version of the EPA ECOTOX
+#' database.
+#' @rdname get_ecotox_url
+#' @name get_ecotox_url
+#' @examples
+#' \dontrun{
+#' get_ecotox_url()
+#' }
+#' @author Pepijn de Vries
+#' @export
+get_ecotox_url <- function() {
+  con <- url("https://cfpub.epa.gov/ecotox/index.cfm")
+  link <- rvest::read_html(con)
+  link <- rvest::html_nodes(link, "a.ascii-link")
+  link <- rvest::html_attr(link, "href")
+  link <- link[!is.na(link) & endsWith(link, ".zip")]
+  closeAllConnections()
+  if (length(link) == 0) stop("Could not find ASCII download link...")
+  return(link)
+}
+
 #' Check whether a ECOTOX database exists locally
 #'
 #' Tests whether a local copy of the US EPA ECOTOX database exists in \code{\link{get_ecotox_path}}.
@@ -69,17 +98,19 @@ get_ecotox_path <- function() {
 #' In order for this package to fully function, a local copy of the ECOTOX database needs to be build.
 #' This function will download the required data and build the database.
 #'
-#' This function will attempt to find the latest download url for the ECOTOX database from the EPA website.
+#' This function will attempt to find the latest download url for the ECOTOX database from the 
+#' \href{https://cfpub.epa.gov/ecotox/index.cfm}{EPA website} (see \code{\link{get_ecotox_url}()}).
 #' When found it will attempt to download the zipped archive containing all required data. This data is than
 #' extracted and a local copy of the database is build.
 #'
 #' Use '\code{\link{suppressMessages}}' to suppress the progress report.
 #' @section Known issues:
-#' On some machines this function fails to connect to the database download URL from the EPA website due to missing
+#' On some machines this function fails to connect to the database download URL from the
+#' \href{https://cfpub.epa.gov/ecotox/index.cfm}{EPA website} due to missing
 #' SSL certificates. Unfortunately, there is no easy fix for this in this package. A work around is to download and
 #' unzip the file manually using a different machine or browser that is less strict with SSL certificates. You can
 #' then call \code{\link{build_ecotox_sqlite}()} and point the \code{source} location to the manually extracted zip
-#' archive.
+#' archive. For this purpose \code{\link{get_ecotox_url}()} can be used.
 #'
 #' @param target Target directory where the files will be downloaded and the database compiled. Default is
 #' \code{\link{get_ecotox_path}()}.
@@ -112,14 +143,8 @@ download_ecotox_data <- function(target = get_ecotox_path(), write_log = TRUE, a
   if (!dir.exists(target)) dir.create(target, recursive = T)
   ## Obtain download link from EPA website:
   message(crayon::white("Obtaining download link from EPA website... "))
-  con <- url("https://cfpub.epa.gov/ecotox/index.cfm")
-  link <- rvest::read_html(con)
-  link <- rvest::html_nodes(link, "a.ascii-link")
-  link <- rvest::html_attr(link, "href")
-  link <- link[!is.na(link) & endsWith(link, ".zip")]
+  link <- get_ecotox_url()
   dest_path <- file.path(target, utils::tail(unlist(strsplit(link, "/")), 1))
-  closeAllConnections()
-  if (length(link) == 0) stop("Could not find ASCII download link...")
   message(crayon::green("Done\n"))
   proceed.download <- T
   if (file.exists(dest_path) && ask) {

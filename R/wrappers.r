@@ -199,7 +199,7 @@ search_query_ecotox <- function(search, output_fields = list_ecotox_fields("defa
     repeat {
       i <- which(search.tables$table == tab)
       links <- subset(db_links, (db_links$table == tab & db_links$foreign_table != "") | db_links$foreign_table == tab)
-      exclude <- c("chemical_carriers", "doses", "dose_responses", "dose_response_details")
+      exclude <- c("chemical_carriers", "doses", "dose_responses", "dose_response_details", "dose_response_links", "dose_stat_method_codes")
       exclude <- exclude[!(exclude %in% output_fields$table)]
       links <- subset(links, !links$table %in% exclude)
       inverselink <- subset(links, links$table == tab & links$field_name %in% c("test_id", "result_id"))

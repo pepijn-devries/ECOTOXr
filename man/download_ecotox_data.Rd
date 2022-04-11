@@ -25,22 +25,27 @@ In order for this package to fully function, a local copy of the ECOTOX database
 This function will download the required data and build the database.
 }
 \details{
-This function will attempt to find the latest download url for the ECOTOX database from the EPA website.
+This function will attempt to find the latest download url for the ECOTOX database from the 
+\href{https://cfpub.epa.gov/ecotox/index.cfm}{EPA website} (see \code{\link{get_ecotox_url}()}).
 When found it will attempt to download the zipped archive containing all required data. This data is than
 extracted and a local copy of the database is build.
+
+Use '\code{\link{suppressMessages}}' to suppress the progress report.
 }
 \section{Known issues}{
 
-On some machines this function fails to connect to the database download URL from the EPA website due to missing
+On some machines this function fails to connect to the database download URL from the
+\href{https://cfpub.epa.gov/ecotox/index.cfm}{EPA website} due to missing
 SSL certificates. Unfortunately, there is no easy fix for this in this package. A work around is to download and
 unzip the file manually using a different machine or browser that is less strict with SSL certificates. You can
 then call \code{\link{build_ecotox_sqlite}()} and point the \code{source} location to the manually extracted zip
-archive.
+archive. For this purpose \code{\link{get_ecotox_url}()} can be used.
 }
 
 \examples{
 \dontrun{
-download_ecotox_data()
+## This will download and build the database in your temp dir:
+download_ecotox_data(tempdir())
 }
 }
 \author{

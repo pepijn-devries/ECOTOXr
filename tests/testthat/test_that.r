@@ -176,7 +176,7 @@ test_that("A simple search results in unique result ids", {
 #################################
 #################################
 
-test_that("A simple when there is a reference number there is a publication year.", {
+test_that("In a simple search test that there is a publication year when there is a reference number.", {
   check_db()
   expect_false({
     any(is.na(simple_search1$publication_year) & !is.na(simple_search1$reference_number))
