@@ -5,7 +5,9 @@
 #'
 #' This function is called by \code{\link{download_ecotox_data}} which tries to download the file from the resulting
 #' URL. On some machines this fails due to issues with the SSL certificate. The user can try to download the file
-#' by using this URL in a different browser (or on a different machine).
+#' by using this URL in a different browser (or on a different machine). Alternatively, the user could try to use
+#' \code{\link{download_ecotox_data(ssl_verifypeer = 0L)}} when the download URL is trusted.
+#' @param ... arguments passed on to \code{\link[httr]{GET}}
 #' @return Returns a \code{character} string containing the download URL of the latest version of the EPA ECOTOX
 #' database.
 #' @rdname get_ecotox_url
@@ -16,13 +18,12 @@
 #' }
 #' @author Pepijn de Vries
 #' @export
-get_ecotox_url <- function() {
-  con <- url("https://cfpub.epa.gov/ecotox/index.cfm")
-  link <- rvest::read_html(con)
-  link <- rvest::html_nodes(link, "a.ascii-link")
+get_ecotox_url <- function(...) {
+  link <- httr::GET("https://cfpub.epa.gov/ecotox/index.cfm", ...)
+  link <- rvest::read_html(link)
+  link <- rvest::html_elements(link, "a.ascii-link")
   link <- rvest::html_attr(link, "href")
   link <- link[!is.na(link) & endsWith(link, ".zip")]
-  closeAllConnections()
   if (length(link) == 0) stop("Could not find ASCII download link...")
   return(link)
 }
@@ -120,6 +121,9 @@ get_ecotox_path <- function() {
 #' @param ask There are several steps in which files are (potentially) overwritten or deleted. In those cases
 #' the user is asked on the command line what to do in those cases. Set this parameter to \code{FALSE} in order
 #' to continue without warning and asking.
+#' @param ... Arguments passed on to \code{\link[httr]{GET}}. When this function fails with the error: "Peer
+#' certificate cannot be authenticated with given CA certificates", you could try to rerun the function with
+#' the option \code{ssl_verifypeer = 0L}. Only do so when you trust the indicated URL.
 #' @return Returns \code{NULL} invisibly.
 #' @rdname download_ecotox_data
 #' @name download_ecotox_data
@@ -130,7 +134,7 @@ get_ecotox_path <- function() {
 #' }
 #' @author Pepijn de Vries
 #' @export
-download_ecotox_data <- function(target = get_ecotox_path(), write_log = TRUE, ask = TRUE) {
+download_ecotox_data <- function(target = get_ecotox_path(), write_log = TRUE, ask = TRUE, ...) {
   avail <- check_ecotox_availability()
   if (avail && ask) {
     cat(sprintf("A local database already exists (%s).", paste(attributes(avail)$file$database, collapse = ", ")))
@@ -153,20 +157,14 @@ download_ecotox_data <- function(target = get_ecotox_path(), write_log = TRUE, a
   }
   if (proceed.download) {
     message(crayon::white(sprintf("Start downloading ECOTOX data from %s...\n", link)))
-    con       <- url(link, "rb")
-    dest      <- file(gsub(".zip", ".incomplete.download", dest_path, fixed = T), "wb")
-    mb <- 0
-    repeat {
-      read <- readBin(con, "raw", 1024*1024) ## download in 1MB chunks.
-      writeBin(read, dest)
-      mb <- mb + 1
-      message(crayon::white(sprintf("\r%i MB downloaded...", mb)), appendLF = F)
-      if (length(read) == 0) break
-    }
-    closeAllConnections()
+    httr::GET(link, httr::config(
+      noprogress = 0L,
+      progressfunction = function(down, up) {
+        message(crayon::white(sprintf("\r%0.1f MB downloaded...", down[2]/(1024*1024))), appendLF = F)
+        TRUE
+      }), httr::write_disk(dest_path, overwrite = TRUE))
     message(crayon::green(" Done\n"))
   }
-  file.rename(gsub(".zip", ".incomplete.download", dest_path, fixed = T), dest_path)
 
   ## create bib-file for later reference
   con <- file(gsub(".zip", "_cit.txt", dest_path), "w+")
@@ -185,7 +183,7 @@ download_ecotox_data <- function(target = get_ecotox_path(), write_log = TRUE, a
   if (dir.exists(extr.path)) {
     test.files <- list.files(extr.path)
     if (length(test.files) >= 12 && any(test.files == "chemical_carriers.txt") && ask) {
-      cat("EXtracted zip files already appear to exist.\n")
+      cat("Extracted zip files already appear to exist.\n")
       prompt <- readline(prompt = "Continue unzipping and overwriting these files (y/n)? ")
       proceed.unzip <- startsWith("Y", toupper(prompt))
     }
@@ -302,7 +300,7 @@ build_ecotox_sqlite <- function(source, destination = get_ecotox_path(), write_l
     lines.read <- 1
     ## Copy tables in 50000 line fragments to database, to avoid memory issues
     frag.size  <- 50000
-    message(crayon::white(sprintf("\r  0 lines (incl. header) added of '%s' added to database", tab$table[[1]])),
+    message(crayon::white(sprintf("\r  0 lines (incl. header) of '%s' added to database", tab$table[[1]])),
             appendLF = F)
     repeat {
       if (is.null(head)) {
@@ -330,7 +328,7 @@ build_ecotox_sqlite <- function(source, destination = get_ecotox_path(), write_l
                                         stringsAsFactors = F, strip.white = F)
 
         RSQLite::dbWriteTable(dbcon, tab$table[[1]], table.frag, append = T)
-        message(crayon::white(sprintf("\r %i lines (incl. header) added of '%s' added to database", lines.read, tab$table[[1]])),
+        message(crayon::white(sprintf("\r %i lines (incl. header) of '%s' added to database", lines.read, tab$table[[1]])),
                 appendLF = F)
         if (length(body) < testsize) break
       }

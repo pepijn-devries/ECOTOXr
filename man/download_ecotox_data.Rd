@@ -4,7 +4,12 @@
 \alias{download_ecotox_data}
 \title{Download and extract ECOTOX database files and compose database}
 \usage{
-download_ecotox_data(target = get_ecotox_path(), write_log = TRUE, ask = TRUE)
+download_ecotox_data(
+  target = get_ecotox_path(),
+  write_log = TRUE,
+  ask = TRUE,
+  ...
+)
 }
 \arguments{
 \item{target}{Target directory where the files will be downloaded and the database compiled. Default is
@@ -16,6 +21,10 @@ download_ecotox_data(target = get_ecotox_path(), write_log = TRUE, ask = TRUE)
 \item{ask}{There are several steps in which files are (potentially) overwritten or deleted. In those cases
 the user is asked on the command line what to do in those cases. Set this parameter to \code{FALSE} in order
 to continue without warning and asking.}
+
+\item{...}{Arguments passed on to \code{\link[httr]{GET}}. When this function fails with the error: "Peer
+certificate cannot be authenticated with given CA certificates", you could try to rerun the function with
+the option \code{ssl_verifypeer = 0L}. Only do so when you trust the indicated URL.}
 }
 \value{
 Returns \code{NULL} invisibly.

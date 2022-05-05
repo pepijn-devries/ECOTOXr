@@ -19,6 +19,7 @@ Depends:
     RSQLite
 Imports:
     crayon,
+    httr,
     rappdirs,
     readr,
     rvest,
