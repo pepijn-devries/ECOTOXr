@@ -327,7 +327,16 @@ build_ecotox_sqlite <- function(source, destination = get_ecotox_path(), write_l
                                         sep = "|", header = T, quote = "", comment.char = "",
                                         stringsAsFactors = F, strip.white = F)
 
-        RSQLite::dbWriteTable(dbcon, tab$table[[1]], table.frag, append = T)
+        missing_cols    <- tab$field_name[!tab$field_name %in% colnames(table.frag)]
+        unexpected_cols <- colnames(table.frag)[!colnames(table.frag) %in% tab$field_name]
+        if (length(unexpected_cols) > 0)
+          message(sprintf("\r Ignoring unexpected column(s) '%s' in '%s'", paste(unexpected_cols, collapse = "', '"),
+                          tab$table[[1]]))
+        if (length(missing_cols) > 0)
+          message(sprintf("\r Missing column(s) '%s' in '%s'", paste(missing_cols, collapse = "', '"), tab$table[[1]]))
+        RSQLite::dbWriteTable(dbcon, tab$table[[1]],
+                              table.frag[,setdiff(tab$field_name, missing_cols), drop = F], append = T)
+        
         message(crayon::white(sprintf("\r %i lines (incl. header) of '%s' added to database", lines.read, tab$table[[1]])),
                 appendLF = F)
         if (length(body) < testsize) break
