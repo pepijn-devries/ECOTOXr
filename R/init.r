@@ -190,7 +190,8 @@ download_ecotox_data <- function(target = get_ecotox_path(), write_log = TRUE, a
   }
   if (proceed.unzip) {
     message(crayon::white("Extracting downloaded zip file... "))
-    utils::unzip(file.path(target, utils::tail(unlist(strsplit(link, "/")), 1)), exdir = target)
+    utils::unzip(file.path(target, utils::tail(unlist(strsplit(link, "/")), 1)),
+                 exdir = file.path(target, gsub(".zip", "", basename(link))))
     message(crayon::green("Done\n"))
     if (ask &&
         startsWith("Y", toupper(readline(prompt = "Done extracting zip file, remove it to save disk space (y/n)? ")))) {
