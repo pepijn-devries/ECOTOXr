@@ -348,6 +348,7 @@ build_ecotox_sqlite <- function(source, destination = get_ecotox_path(), write_l
           )
         RSQLite::dbWriteTable(dbcon, tab$table[[1]],
                               table.frag[,setdiff(tab$field_name, missing_cols), drop = F], append = T)
+        
         message(crayon::white(sprintf("\r %i lines (incl. header) of '%s' added to database", lines.read, tab$table[[1]])),
                 appendLF = F)
         if (length(body) < testsize) break
