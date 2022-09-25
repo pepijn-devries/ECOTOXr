@@ -6,7 +6,7 @@
 #' This function is called by \code{\link{download_ecotox_data}} which tries to download the file from the resulting
 #' URL. On some machines this fails due to issues with the SSL certificate. The user can try to download the file
 #' by using this URL in a different browser (or on a different machine). Alternatively, the user could try to use
-#' \code{\link{download_ecotox_data(ssl_verifypeer = 0L)}} when the download URL is trusted.
+#' \code{\link{download_ecotox_data}(ssl_verifypeer = 0L)} when the download URL is trusted.
 #' @param ... arguments passed on to \code{\link[httr]{GET}}
 #' @return Returns a \code{character} string containing the download URL of the latest version of the EPA ECOTOX
 #' database.
@@ -101,7 +101,7 @@ get_ecotox_path <- function() {
 #'
 #' This function will attempt to find the latest download url for the ECOTOX database from the 
 #' \href{https://cfpub.epa.gov/ecotox/index.cfm}{EPA website} (see \code{\link{get_ecotox_url}()}).
-#' When found it will attempt to download the zipped archive containing all required data. This data is than
+#' When found it will attempt to download the zipped archive containing all required data. This data is then
 #' extracted and a local copy of the database is build.
 #'
 #' Use '\code{\link{suppressMessages}}' to suppress the progress report.
@@ -147,7 +147,7 @@ download_ecotox_data <- function(target = get_ecotox_path(), write_log = TRUE, a
   if (!dir.exists(target)) dir.create(target, recursive = T)
   ## Obtain download link from EPA website:
   message(crayon::white("Obtaining download link from EPA website... "))
-  link <- get_ecotox_url()
+  link <- get_ecotox_url(...)
   dest_path <- file.path(target, utils::tail(unlist(strsplit(link, "/")), 1))
   message(crayon::green("Done\n"))
   proceed.download <- T
@@ -190,7 +190,8 @@ download_ecotox_data <- function(target = get_ecotox_path(), write_log = TRUE, a
   }
   if (proceed.unzip) {
     message(crayon::white("Extracting downloaded zip file... "))
-    utils::unzip(file.path(target, utils::tail(unlist(strsplit(link, "/")), 1)), exdir = target)
+    utils::unzip(file.path(target, utils::tail(unlist(strsplit(link, "/")), 1)),
+                 exdir = file.path(target, gsub(".zip", "", basename(link))))
     message(crayon::green("Done\n"))
     if (ask &&
         startsWith("Y", toupper(readline(prompt = "Done extracting zip file, remove it to save disk space (y/n)? ")))) {
@@ -270,6 +271,7 @@ build_ecotox_sqlite <- function(source, destination = get_ecotox_path(), write_l
 
   ## Loop the text file tables and add them to the sqlite database 1 by 1
   i <- 0
+
   by(.db_specs, .db_specs$table, function(tab) {
     i <<- i + 1
     message(crayon::white(sprintf("Adding '%s' table (%i/%i) to database:\n",
@@ -318,16 +320,34 @@ build_ecotox_sqlite <- function(source, destination = get_ecotox_path(), write_l
 
         lines.read <- lines.read + length(body)
 
-        table.frag <- utils::read.table(text = c(head, body[1:1]),
-                                        sep = "|", header = T, quote = "", comment.char = "",
-                                        stringsAsFactors = F, strip.white = F)
+        ## Join lines when number of pipes is to small (probably caused by unintended linefeed)
+        count_pipes <- unlist(lapply(regmatches(body, gregexpr("[|]", body)), length))
+        join_lines  <- which(count_pipes < length(regmatches(head, gregexpr("[|]", head))[[1]]))
+        if (length(join_lines) > 0) {
+          body        <- c(body[-join_lines], paste(body[join_lines], collapse = " "))
+        }
 
         ## strip.white is set to F, as they occur in primary keys!
         table.frag <- utils::read.table(text = c(head, body),
                                         sep = "|", header = T, quote = "", comment.char = "",
                                         stringsAsFactors = F, strip.white = F)
 
-        RSQLite::dbWriteTable(dbcon, tab$table[[1]], table.frag, append = T)
+        missing_cols    <- tab$field_name[!tab$field_name %in% colnames(table.frag)]
+        unexpected_cols <- colnames(table.frag)[!colnames(table.frag) %in% tab$field_name]
+        if (length(unexpected_cols) > 0)
+          message(stringr::str_pad(
+            sprintf("\r Ignoring unexpected column(s) '%s' in '%s'", paste(unexpected_cols, collapse = "', '"),
+                    tab$table[[1]]),
+            width = 80, "right")
+          )
+        if (length(missing_cols) > 0)
+          message(stringr::str_pad(
+            sprintf("\r Missing column(s) '%s' in '%s'", paste(missing_cols, collapse = "', '"),
+                    tab$table[[1]]),
+            width = 80, "right")
+          )
+        RSQLite::dbWriteTable(dbcon, tab$table[[1]],
+                              table.frag[,setdiff(tab$field_name, missing_cols), drop = F], append = T)
         message(crayon::white(sprintf("\r %i lines (incl. header) of '%s' added to database", lines.read, tab$table[[1]])),
                 appendLF = F)
         if (length(body) < testsize) break

@@ -1,3 +1,19 @@
+ECOTOXr v0.2.0 (Release date: ***********TODO)
+=============
+
+  * Major changes:
+
+    * Modified searching routines to make advantage of
+      the sql parser and optimisers implemented in
+      the package 'dplyr'. Performance (i.e. speed) of the
+      search routines have improved considerably.
+    * Added support for handling Chemical Abstracts
+      Service (CAS) numbers.
+
+  * Several minor adjustments and corrections to code
+    and manual. These include fixes to address notes
+    from CRAN checks.
+
 ECOTOXr v0.1.1 (Release date: 2021-10-04)
 =============
 

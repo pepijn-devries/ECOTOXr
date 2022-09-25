@@ -36,7 +36,7 @@ This function will download the required data and build the database.
 \details{
 This function will attempt to find the latest download url for the ECOTOX database from the 
 \href{https://cfpub.epa.gov/ecotox/index.cfm}{EPA website} (see \code{\link{get_ecotox_url}()}).
-When found it will attempt to download the zipped archive containing all required data. This data is than
+When found it will attempt to download the zipped archive containing all required data. This data is then
 extracted and a local copy of the database is build.
 
 Use '\code{\link{suppressMessages}}' to suppress the progress report.

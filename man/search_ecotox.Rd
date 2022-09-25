@@ -2,6 +2,7 @@
 % Please edit documentation in R/wrappers.r
 \name{search_ecotox}
 \alias{search_ecotox}
+\alias{search_ecotox_lazy}
 \alias{search_query_ecotox}
 \title{Search and retrieve toxicity records from the database}
 \usage{
@@ -9,14 +10,19 @@ search_ecotox(
   search,
   output_fields = list_ecotox_fields("default"),
   group_by_results = TRUE,
+  compute = FALSE,
+  as_data_frame = TRUE,
   ...
 )
 
-search_query_ecotox(
+search_ecotox_lazy(
   search,
   output_fields = list_ecotox_fields("default"),
-  group_by_results = TRUE
+  compute = FALSE,
+  ...
 )
+
+search_query_ecotox(search, output_fields = list_ecotox_fields("default"), ...)
 }
 \arguments{
 \item{search}{A named \code{list} containing the search terms. The names of the elements should refer to
@@ -49,7 +55,8 @@ When searching such fields, the search result may not be as expected.}
 should be included in the output. By default \code{\link{list_ecotox_fields}("default")} is used. Use
 \code{\link{list_ecotox_fields}("all")} to list all available fields.}
 
-\item{group_by_results}{Ecological test results are generally the most informative element in the ECOTOX
+\item{group_by_results}{TODO behaviour has changed results will be nested by `results_id'
+Ecological test results are generally the most informative element in the ECOTOX
 database. Therefore, this search function returns a table with unique results in each row.
 
 However, some tables in the database (such as 'chemical_carriers' and 'dose_responses') have a one to many
@@ -59,6 +66,15 @@ similarly, multiple doses can also be linked to a single test result.
 By default the search results are grouped by test results. As a result not all doses or chemical carriers may
 be displayed in the output. Set the \code{group_by_results} parameter to \code{FALSE} in order to force SQLite
 to output all data (all carriers and doses). But beware that test results may be duplicated in those cases.}
+
+\item{compute}{The ECOTOXr package tries to construct database queries as lazy as possible. Meaning that R
+moves as much of the heavy lifting as possible to the database. When your search becomes complicated (e.g., when
+including many output fields), you may run into trouble and hit the SQL parser limits. In those cases you can set
+this parameter to \code{TRUE}. Database queries are then computed in the process of joining tables. This is generally
+slower. Alternatively, you could try to include less output fields in order to simplify the query.}
+
+\item{as_data_frame}{\code{logical} value indicating whether the result should be converted into a \code{data.frame}
+(default is \code{TRUE}). When set to \code{FALSE} the data will be returned as a \code{\link[dplyr:tibble]{tbl_df}}.}
 
 \item{...}{Arguments passed to \code{\link{dbConnectEcotox}}. You can use this when the database
 is not located at the default path (\code{\link{get_ecotox_path}()}).}
@@ -101,6 +117,7 @@ CRAN and document the package and database version that are used to generate spe
 }
 \examples{
 \dontrun{
+## TODO check all examples after heavy modifications of code
 ## let's find the ids of all ecotox tests on species
 ## where Latin names contain either of 2 specific genus names and
 ## where they were exposed to the chemical benzene
