@@ -14,121 +14,98 @@
 }
 
 .search_ecotox_lazy_get_result_ids <- function(search, dbcon) {
-  # TODO when searching multiple fields in the same table, combine those searches in 1 with 'and'
-  # TODO when searching for test_id only, result_id is not correctly joined...
-  search_results <- lapply(
-    names(search),
-    function(search_field) {
-      srch <- search[[search_field]]
-      search_tables <- .db_specs$table[.db_specs$field_name == search_field & .db_specs$primary_key != ""]
-
-      if (length(search_tables) == 0) search_tables <- .db_specs$table[.db_specs$field_name == search_field]
-      if (length(search_tables) == 0) stop(sprintf("Unknown search field: %s", search_field))
-      species <- paste(search_tables[search_tables %in% c("species", "species_synonyms")], collapse = ";")
-      search_tables <- search_tables[!search_tables %in% c("species", "species_synonyms")]
-      if (species != "") search_tables <- c(search_tables, species)
-      search_results <-
-        lapply(search_tables, function(my_tbl) {
-          if (!all(names(srch) %in% c("terms", "method")))
-            stop("Each search field can only contain two elements: 'terms' and 'method'.")
-          if (typeof(srch$terms) != "character" || length(srch$terms) == 0)
-            stop("Provide at least 1 search term (type 'character')")
-          method   <- match.arg(srch[["method"]], c("exact", "contains"))
-          wildcard <- ifelse(method == "contains", "%", "")
-          collapse <- ifelse(method == "contains", " OR ", ", ")
-          prefix   <- ifelse(method == "contains", sprintf("\`%s\` LIKE ", search_field), "")
-          terms    <- paste(sprintf("%s'%s%s%s'",
-                                    prefix,
-                                    wildcard,
-                                    srch$terms,
-                                    wildcard),
-                            collapse = collapse)
-          if (method == "exact")
-            terms <- sprintf("`%s` COLLATE NOCASE IN (%s)", search_field, terms)
-          get_fields    <- ""
-          search_result <- NULL
-          repeat {
-            my_tbl <- strsplit(my_tbl, ";")[[1]]
-            get_fields <-
-              unique(.db_specs$field_name[.db_specs$table %in% my_tbl &
-                                            (.db_specs$primary_key != "" | .db_specs$foreign_key != "")])
-            if (is.null(search_result)) {
-              search_result <- lapply(
-                my_tbl, function(my_t) {
-                  tbl(dbcon, sql(sprintf("SELECT DISTINCT %s FROM '%s' WHERE %s",
-                                         paste(sprintf("`%s`", get_fields), collapse = ", "), my_t, terms)))
-                }
-              )
-              if (length(search_result) == 1) {
-                search_result <- search_result[[1]]
-              } else {
-                search_result <- purrr::reduce(search_result, dplyr::union_all)
-              }
-            } else {
-              join_key2 <-
-                .db_specs$field_name[.db_specs$table == my_tbl &
-                                       grepl(sprintf("(%s)", join_key), .db_specs$foreign_key, fixed = T)]
-              search_result <-
-                search_result %>%
-                inner_join({
-                  temp_search <- lapply(
-                    my_tbl, function(my_t) {
-                      tbl(dbcon, sql(sprintf("SELECT %s FROM '%s'",
-                                             paste(sprintf("`%s`", get_fields), collapse = ", "), my_t)))
-                    })
-                  if (length(temp_search) == 1) {
-                    temp_search[[1]]
-                  } else {
-                    purrr::reduce(temp_search, dplyr::union_all)
-                  }
-                }, stats::setNames(join_key2, join_key))
-            }
-
-            if (any(c("test_id", "result_id") %in% get_fields)) break
-            join_key <- unique(.db_specs$field_name[.db_specs$table %in% my_tbl & .db_specs$primary_key != ""])
-            if (length(join_key) == 0) {
-              join_key <- .db_specs$field_name[.db_specs$table == my_tbl & .db_specs$foreign_key != ""]
-              next_tbl <- .db_specs$table[.db_specs$field_name %in% join_key]
-            } else {
-              next_tbl <- .db_specs$table[.db_specs$foreign_key %in% sprintf("%s(%s)", my_tbl, join_key)]
-            }
-            if (length(next_tbl) > 1 && !any(next_tbl %in% c("results", "tests")))
-              stop("Sorry can't build a query for your search. Try searching in a different table.")
-            if (length(next_tbl) > 0) my_tbl <- next_tbl[next_tbl %in% c("results", "tests")][[1]]
-            
-          }
-          return(search_result %>% select(dplyr::matches("^result_id$|^test_id$")))
-        })
-      
-      search_results <-
-        if (length(search_results) == 1) search_results[[1]] else purrr::reduce(search_results, dplyr::union_all)
+  method <- field <- wildcard <- collapse <- prefix <- terms <- term <- term_t <- NULL
+  search_result <-
+    lapply(search, as.data.frame, strings.as.factors = F) %>%
+    dplyr::bind_rows(.id = "field") %>%
+    dplyr::mutate(
+      table = lapply(field, function(x) .db_specs$table[.db_specs$field_name %in% x])
+    ) %>%
+    tidyr::unnest("table") %>%
+    dplyr::mutate(method   = if(!"method" %in% names(dplyr::cur_data())) NA else dplyr::cur_data()[["method"]],
+                  method   = ifelse(is.na(method), "contains", method),
+                  wildcard = ifelse(method == "contains", "%", ""),
+                  collapse = ifelse(method == "contains", " OR ", ", "),
+                  prefix   = ifelse(method == "contains",
+                                    sprintf("\`%s\` LIKE ", field),
+                                    sprintf("\`%s\` COLLATE NOCASE IN ", field)),
+                  term_t   = paste(sprintf("'%s%s%s'", wildcard, terms, wildcard))
+                  ) %>%
+    dplyr::group_by(dplyr::across(dplyr::any_of("field"))) %>%
+    dplyr::group_modify(~{
+      tab <- .db_specs$table[.db_specs$field_name == .y$field & .db_specs$primary_key != ""]
+      if (length(tab) == 0 || nrow(.x) == 1) return(.x %>% dplyr::select(-"field"))
+      if (length(tab) > 0 && "results" %in% tab) return(.x %>% dplyr::select(-"field") %>% dplyr::filter(table == "results"))
+      return(.x %>% dplyr::select(-"field") %>% dplyr::filter(table %in% tab))
+    }, .keep = TRUE) %>%
+    dplyr::group_by(dplyr::across(dplyr::any_of(c("table", "method", "field")))) %>%
+    dplyr::summarise(
+      term = {
+        sprintf(ifelse(method == "contains", "%s%s", "%s(%s)"), prefix, paste(term_t, collapse = collapse))
+        },
+      .groups = "keep") %>%
+    dplyr::group_by(dplyr::across(dplyr::any_of(c("table", "field")))) %>%
+    dplyr::summarise(term = paste(term, collapse = " OR "), .groups = "keep") %>%
+    dplyr::group_by(dplyr::across(dplyr::any_of(c("table")))) %>%
+    dplyr::summarise(term = paste(sprintf("(%s)", term), collapse = " OR "), .groups = "keep") %>%
+    dplyr::rowwise() %>%
+    dplyr::summarise(
+      tbl   = list({
+        get_fields <-
+          .db_specs$field_name[.db_specs$table %in% table & (.db_specs$primary_key != "" | .db_specs$foreign_key != "")] %>%
+          unique() %>%
+          {function(x) {sprintf("`%s`", x)}}() %>%
+          paste(collapse = ", ")
+        dplyr::tbl(dbcon, dplyr::sql(sprintf("SELECT %s FROM '%s' WHERE %s", get_fields, table, term)))
+      }), .groups = "keep") %>%
+    dplyr::mutate(table_group = ifelse(any(c("species", "species_synonyms") %in% table), "specsyn", table)) %>%
+    dplyr::group_by(dplyr::across(dplyr::any_of("table_group"))) %>%
+    dplyr::summarise(
+      tbl   = if (length(table) > 1) list(do.call(dplyr::union, tbl)) else tbl,
+      table = if (length(table) > 1) "species" else table[[1]]
+    ) %>%
+    dplyr::group_by(dplyr::across(dplyr::any_of("table"))) %>%
+    dplyr::group_map(~{
+      #keep linking tables until result_ids are obtained
+      count <- 0
+      repeat {
+        count <- count + 1
+        if (count > 5) stop("Sorry could not build a query for the search you have specified.")
+        cur_tab    <- .y$table
+        cur_fields <- colnames(.x$tbl[[1]])
+        if (any(c("result_id", "test_id") %in% cur_fields)) break
+        referring <- .db_specs[.db_specs$table %in% c("results", "tests") &
+                                 .db_specs$foreign_key == sprintf("%s(%s)", cur_tab, cur_fields),,drop = F]
+        if (nrow(referring) > 0) {
+          .y$table <- referring$table
+          .x$tbl[[1]] <-
+            dplyr::left_join(.x$tbl[[1]],
+                             dplyr::tbl(dbcon, referring$table), structure(referring$field_name, names = cur_fields))
+        }
+      }
+      return(.x$tbl[[1]] %>% select(dplyr::matches("^result_id$|^test_id$")))
     })
-  
-  all_tests <- unlist(purrr::map(search_results, ~all(colnames(.) == "test_id")))
-  search_test_results <- if (length(search_results) == 1) search_results[[1]] else
-    if (any(all_tests)) {
-      purrr::reduce(
-        search_results[all_tests],
-        dplyr::intersect
-      )
-    } else NULL
-  if (!is.null(search_test_results))
-    search_test_results <- search_test_results %>%
-    dplyr::inner_join(dplyr::tbl(dbcon, "results") %>% dplyr::select(dplyr::any_of(c("result_id", "test_id"))), "test_id")
-  search_results_results <- search_results[unlist(purrr::map(search_results, ~!all(colnames(.) == "test_id")))]
-  if(length(search_results_results) == 0) {
-    return(search_test_results)
+
+  test_results   <- search_result %>% purrr::map(~{!"result_id" %in% colnames(.)}) %>% unlist()
+  result_results <- search_result[!test_results]
+  if (length(result_results) > 0) result_results <- result_results %>%
+    purrr::reduce(dplyr::inner_join, by = c("test_id", "result_id"))
+  test_results   <- search_result[test_results]
+  if (length(test_results) > 0)
+      test_results <- test_results %>%
+        purrr::reduce(dplyr::inner_join, by = c("test_id")) %>%
+        dplyr::left_join(dplyr::tbl(dbcon, "results") %>% dplyr::select("result_id", "test_id"), "test_id")
+  if (length(test_results) == 0) {
+    search_result <- result_results
+  } else if (length(result_results) == 0) {
+    search_result <- test_results
   } else {
-    search_results_results <- purrr::reduce(search_results_results, dplyr::intersect)
-    if (is.null(search_test_results)) return(search_results_results) else
-      return(inner_join(search_test_results, search_results_results,
-                        by = c("test_id", "result_id")))
+    search_result <- dplyr::intersect(test_results, result_results)
   }
+  return(search_result)
 }
 
 .search_ecotox_lazy_append_fields <- function(dbcon, search_result, output_fields, compute) {
-  ## TODO let's start with a clean slate.
-  ## TODO steps: distinguish between simple lookup table and complex nested tables (i.e. dose-response)
   con                  <- search_result[["src"]]$con
   output_fields        <- as.data.frame(do.call(rbind, strsplit(output_fields, ".", fixed = T)), stringsAsFactors = F)
   names(output_fields) <- c("table", "field")
@@ -216,11 +193,6 @@
       dplyr::left_join(dplyr::tbl(con, "dose_responses"),      c("dose_resp_id", "test_id")) %>%
       dplyr::left_join(dplyr::tbl(con, "dose_response_details"), "dose_resp_id") %>%
       dplyr::left_join(dplyr::tbl(con, "doses"),               c("dose_id", "test_id")) %>%
-      #TODO narrowing the selection will clash when joining lookup tables
-      # dplyr::select(any_of(union(
-      #   colnames(result),
-      #   output_fields$field[output_fields$table %in% dose_tables]
-      # ))) %>%
       dplyr::rename_with(~paste0("dose_link_", .), !dplyr::any_of(c("test_id", "result_id")))
     .process_lookups("dose_response_links")
     .process_lookups("doses", "dose_link_")

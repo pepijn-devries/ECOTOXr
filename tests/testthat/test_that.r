@@ -7,25 +7,26 @@ check_db <- function() {
 simple_search1 <- if (check_ecotox_availability()) {
   suppressMessages(suppressWarnings(search_ecotox(
     list(latin_name = list(terms = "Daphnia magna"), chemical_name = list(terms = "benzene")),
-    c(list_ecotox_fields(), "results.result_id", "results.test_id", "tests.reference_number"))))
+    c(list_ecotox_fields(), "results.result_id", "results.test_id", "tests.reference_number"),
+    compute = TRUE)))
 } else NULL
 
 simple_search2 <- if (check_ecotox_availability()) {
-  suppressMessages(suppressWarnings({search_ecotox(list(test_id = list(terms = "1")))}))
+  suppressMessages(suppressWarnings({search_ecotox(list(test_id = list(terms = "1")), compute = TRUE)}))
 } else NULL
 
 simple_search3 <- if (check_ecotox_availability()) {
   suppressMessages(suppressWarnings({search_ecotox(list(latin_name = list(terms = "perdix perdix"),
                                                        test_cas = list(terms = "1336363")),
-  c(list_ecotox_fields(), "results.result_id", "results.test_id", "tests.reference_number"))}))
+  c(list_ecotox_fields(), "results.result_id", "results.test_id", "tests.reference_number"), compute = TRUE)}))
 } else NULL
 
 search_q <- if (check_ecotox_availability()) {
-  suppressMessages(suppressWarnings({search_query_ecotox(list(test_id = list(terms = "1")))}))
+  suppressMessages(suppressWarnings({search_query_ecotox(list(test_id = list(terms = "1")), compute = TRUE)}))
 } else NULL
 
 throws_errors <- function(expression) {
-  result <- F
+  result <- FALSE
   tryCatch(expression, error = function(e) {result <<- T}, warning = function(w) {invisible(NULL)})
   result
 }
