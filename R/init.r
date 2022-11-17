@@ -1,3 +1,33 @@
+#' Get ECOTOX download URL from EPA website
+#'
+#' This function downloads the webpage at \url{https://cfpub.epa.gov/ecotox/index.cfm}. It then searches for the
+#' download link for the complete ECOTOX database and extract its URL.
+#'
+#' This function is called by \code{\link{download_ecotox_data}} which tries to download the file from the resulting
+#' URL. On some machines this fails due to issues with the SSL certificate. The user can try to download the file
+#' by using this URL in a different browser (or on a different machine). Alternatively, the user could try to use
+#' \code{\link{download_ecotox_data}(ssl_verifypeer = 0L)} when the download URL is trusted.
+#' @param ... arguments passed on to \code{\link[httr]{GET}}
+#' @return Returns a \code{character} string containing the download URL of the latest version of the EPA ECOTOX
+#' database.
+#' @rdname get_ecotox_url
+#' @name get_ecotox_url
+#' @examples
+#' \dontrun{
+#' get_ecotox_url()
+#' }
+#' @author Pepijn de Vries
+#' @export
+get_ecotox_url <- function(...) {
+  link <- httr::GET("https://cfpub.epa.gov/ecotox/index.cfm", ...)
+  link <- rvest::read_html(link)
+  link <- rvest::html_elements(link, "a.ascii-link")
+  link <- rvest::html_attr(link, "href")
+  link <- link[!is.na(link) & endsWith(link, ".zip")]
+  if (length(link) == 0) stop("Could not find ASCII download link...")
+  return(link)
+}
+
 #' Check whether a ECOTOX database exists locally
 #'
 #' Tests whether a local copy of the US EPA ECOTOX database exists in \code{\link{get_ecotox_path}}.
@@ -39,7 +69,8 @@ check_ecotox_availability <- function(target = get_ecotox_path()) {
 #' Obtain the local path to where the ECOTOX database is (or will be) placed.
 #'
 #' It can be useful to know where the database is located on your disk. This function
-#' returns the location as provided by \code{\link[rappdirs]{app_dir}}.
+#' returns the location as provided by \code{\link[rappdirs]{app_dir}}, or as
+#' specified by you using \code{options(ECOTOXr_path = "mypath")}.
 #'
 #' @param path When you have a copy of the database somewhere other than the default
 #' directory (\code{\link{get_ecotox_path}()}), you can provide the path here.
@@ -61,7 +92,7 @@ check_ecotox_availability <- function(target = get_ecotox_path()) {
 #' @author Pepijn de Vries
 #' @export
 get_ecotox_path <- function() {
-  rappdirs::app_dir("ECOTOXr")$cache()
+  getOption("ECOTOXr_path", rappdirs::app_dir("ECOTOXr")$cache())
 }
 
 #' Download and extract ECOTOX database files and compose database
@@ -69,17 +100,19 @@ get_ecotox_path <- function() {
 #' In order for this package to fully function, a local copy of the ECOTOX database needs to be build.
 #' This function will download the required data and build the database.
 #'
-#' This function will attempt to find the latest download url for the ECOTOX database from the EPA website.
-#' When found it will attempt to download the zipped archive containing all required data. This data is than
+#' This function will attempt to find the latest download url for the ECOTOX database from the 
+#' \href{https://cfpub.epa.gov/ecotox/index.cfm}{EPA website} (see \code{\link{get_ecotox_url}()}).
+#' When found it will attempt to download the zipped archive containing all required data. This data is then
 #' extracted and a local copy of the database is build.
 #'
 #' Use '\code{\link{suppressMessages}}' to suppress the progress report.
 #' @section Known issues:
-#' On some machines this function fails to connect to the database download URL from the EPA website due to missing
+#' On some machines this function fails to connect to the database download URL from the
+#' \href{https://cfpub.epa.gov/ecotox/index.cfm}{EPA website} due to missing
 #' SSL certificates. Unfortunately, there is no easy fix for this in this package. A work around is to download and
 #' unzip the file manually using a different machine or browser that is less strict with SSL certificates. You can
 #' then call \code{\link{build_ecotox_sqlite}()} and point the \code{source} location to the manually extracted zip
-#' archive.
+#' archive. For this purpose \code{\link{get_ecotox_url}()} can be used.
 #'
 #' @param target Target directory where the files will be downloaded and the database compiled. Default is
 #' \code{\link{get_ecotox_path}()}.
@@ -89,6 +122,9 @@ get_ecotox_path <- function() {
 #' @param ask There are several steps in which files are (potentially) overwritten or deleted. In those cases
 #' the user is asked on the command line what to do in those cases. Set this parameter to \code{FALSE} in order
 #' to continue without warning and asking.
+#' @param ... Arguments passed on to \code{\link[httr]{GET}}. When this function fails with the error: "Peer
+#' certificate cannot be authenticated with given CA certificates", you could try to rerun the function with
+#' the option \code{ssl_verifypeer = 0L}. Only do so when you trust the indicated URL.
 #' @return Returns \code{NULL} invisibly.
 #' @rdname download_ecotox_data
 #' @name download_ecotox_data
@@ -99,7 +135,7 @@ get_ecotox_path <- function() {
 #' }
 #' @author Pepijn de Vries
 #' @export
-download_ecotox_data <- function(target = get_ecotox_path(), write_log = TRUE, ask = TRUE) {
+download_ecotox_data <- function(target = get_ecotox_path(), write_log = TRUE, ask = TRUE, ...) {
   avail <- check_ecotox_availability()
   if (avail && ask) {
     cat(sprintf("A local database already exists (%s).", paste(attributes(avail)$file$database, collapse = ", ")))
@@ -112,14 +148,8 @@ download_ecotox_data <- function(target = get_ecotox_path(), write_log = TRUE, a
   if (!dir.exists(target)) dir.create(target, recursive = T)
   ## Obtain download link from EPA website:
   message(crayon::white("Obtaining download link from EPA website... "))
-  con <- url("https://cfpub.epa.gov/ecotox/index.cfm")
-  link <- rvest::read_html(con)
-  link <- rvest::html_nodes(link, "a.ascii-link")
-  link <- rvest::html_attr(link, "href")
-  link <- link[!is.na(link) & endsWith(link, ".zip")]
+  link <- get_ecotox_url(...)
   dest_path <- file.path(target, utils::tail(unlist(strsplit(link, "/")), 1))
-  closeAllConnections()
-  if (length(link) == 0) stop("Could not find ASCII download link...")
   message(crayon::green("Done\n"))
   proceed.download <- T
   if (file.exists(dest_path) && ask) {
@@ -128,20 +158,14 @@ download_ecotox_data <- function(target = get_ecotox_path(), write_log = TRUE, a
   }
   if (proceed.download) {
     message(crayon::white(sprintf("Start downloading ECOTOX data from %s...\n", link)))
-    con       <- url(link, "rb")
-    dest      <- file(gsub(".zip", ".incomplete.download", dest_path, fixed = T), "wb")
-    mb <- 0
-    repeat {
-      read <- readBin(con, "raw", 1024*1024) ## download in 1MB chunks.
-      writeBin(read, dest)
-      mb <- mb + 1
-      message(crayon::white(sprintf("\r%i MB downloaded...", mb)), appendLF = F)
-      if (length(read) == 0) break
-    }
-    closeAllConnections()
+    httr::GET(link, httr::config(
+      noprogress = 0L,
+      progressfunction = function(down, up) {
+        message(crayon::white(sprintf("\r%0.1f MB downloaded...", down[2]/(1024*1024))), appendLF = F)
+        TRUE
+      }), httr::write_disk(dest_path, overwrite = TRUE))
     message(crayon::green(" Done\n"))
   }
-  file.rename(gsub(".zip", ".incomplete.download", dest_path, fixed = T), dest_path)
 
   ## create bib-file for later reference
   con <- file(gsub(".zip", "_cit.txt", dest_path), "w+")
@@ -160,14 +184,15 @@ download_ecotox_data <- function(target = get_ecotox_path(), write_log = TRUE, a
   if (dir.exists(extr.path)) {
     test.files <- list.files(extr.path)
     if (length(test.files) >= 12 && any(test.files == "chemical_carriers.txt") && ask) {
-      cat("EXtracted zip files already appear to exist.\n")
+      cat("Extracted zip files already appear to exist.\n")
       prompt <- readline(prompt = "Continue unzipping and overwriting these files (y/n)? ")
       proceed.unzip <- startsWith("Y", toupper(prompt))
     }
   }
   if (proceed.unzip) {
     message(crayon::white("Extracting downloaded zip file... "))
-    utils::unzip(file.path(target, utils::tail(unlist(strsplit(link, "/")), 1)), exdir = target)
+    utils::unzip(file.path(target, utils::tail(unlist(strsplit(link, "/")), 1)),
+                 exdir = file.path(target, gsub(".zip", "", basename(link))))
     message(crayon::green("Done\n"))
     if (ask &&
         startsWith("Y", toupper(readline(prompt = "Done extracting zip file, remove it to save disk space (y/n)? ")))) {
@@ -247,6 +272,7 @@ build_ecotox_sqlite <- function(source, destination = get_ecotox_path(), write_l
 
   ## Loop the text file tables and add them to the sqlite database 1 by 1
   i <- 0
+
   by(.db_specs, .db_specs$table, function(tab) {
     i <<- i + 1
     message(crayon::white(sprintf("Adding '%s' table (%i/%i) to database:\n",
@@ -277,7 +303,7 @@ build_ecotox_sqlite <- function(source, destination = get_ecotox_path(), write_l
     lines.read <- 1
     ## Copy tables in 50000 line fragments to database, to avoid memory issues
     frag.size  <- 50000
-    message(crayon::white(sprintf("\r  0 lines (incl. header) added of '%s' added to database", tab$table[[1]])),
+    message(crayon::white(sprintf("\r  0 lines (incl. header) of '%s' added to database", tab$table[[1]])),
             appendLF = F)
     repeat {
       if (is.null(head)) {
@@ -289,23 +315,43 @@ build_ecotox_sqlite <- function(source, destination = get_ecotox_path(), write_l
         ## Replace pipe-characters with dashes when they are between brackets "("and ")",
         ## These should not be interpreted as table separators and will mess up the table.read call
         body       <- stringr::str_replace_all(body, "(?<=\\().+?(?=\\))", function(x){
-          if (grepl("[\\(/]", x)) return(x) ## there should not be another opening bracket or forward slash! in that case leave as is
+          ## there should not be another opening bracket, double pipe or forward slash! in that case leave as is
+          if (grepl("[\\(/]", x) || grepl("||", x, fixed = T)) return(x)
           gsub("[|]", "-", x)
         })
 
         lines.read <- lines.read + length(body)
 
-        table.frag <- utils::read.table(text = c(head, body[1:1]),
-                                        sep = "|", header = T, quote = "", comment.char = "",
-                                        stringsAsFactors = F, strip.white = F)
+        ## Join lines when number of pipes is to small (probably caused by unintended linefeed)
+        count_pipes <- unlist(lapply(regmatches(body, gregexpr("[|]", body)), length))
+        join_lines  <- which(count_pipes < length(regmatches(head, gregexpr("[|]", head))[[1]]))
+        if (length(join_lines) > 0) {
+          body        <- c(body[-join_lines], paste(body[join_lines], collapse = " "))
+        }
 
         ## strip.white is set to F, as they occur in primary keys!
         table.frag <- utils::read.table(text = c(head, body),
                                         sep = "|", header = T, quote = "", comment.char = "",
                                         stringsAsFactors = F, strip.white = F)
 
-        RSQLite::dbWriteTable(dbcon, tab$table[[1]], table.frag, append = T)
-        message(crayon::white(sprintf("\r %i lines (incl. header) added of '%s' added to database", lines.read, tab$table[[1]])),
+        missing_cols    <- tab$field_name[!tab$field_name %in% colnames(table.frag)]
+        unexpected_cols <- colnames(table.frag)[!colnames(table.frag) %in% tab$field_name]
+        if (length(unexpected_cols) > 0)
+          message(stringr::str_pad(
+            sprintf("\r Ignoring unexpected column(s) '%s' in '%s'", paste(unexpected_cols, collapse = "', '"),
+                    tab$table[[1]]),
+            width = 80, "right")
+          )
+        if (length(missing_cols) > 0)
+          message(stringr::str_pad(
+            sprintf("\r Missing column(s) '%s' in '%s'", paste(missing_cols, collapse = "', '"),
+                    tab$table[[1]]),
+            width = 80, "right")
+          )
+        RSQLite::dbWriteTable(dbcon, tab$table[[1]],
+                              table.frag[,setdiff(tab$field_name, missing_cols), drop = F], append = T)
+        
+        message(crayon::white(sprintf("\r %i lines (incl. header) of '%s' added to database", lines.read, tab$table[[1]])),
                 appendLF = F)
         if (length(body) < testsize) break
       }

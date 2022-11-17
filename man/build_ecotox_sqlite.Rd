@@ -43,6 +43,8 @@ This problem only seems to occur for characters that are listed as 'control char
 consequences for reproducibility, but only if you build search queries that look for such special characters. It is
 therefore advised to stick to common (non-accented) alpha-numerical characters in your searches, for the sake of
 reproducibility.
+
+Use '\code{\link{suppressMessages}}' to suppress the progress report.
 }
 \examples{
 \dontrun{
@@ -55,7 +57,8 @@ if (test) {
   dir     <- gsub(".sqlite", "", files$database, fixed = T)
   path    <- files$path
   if (dir.exists(file.path(path, dir))) {
-    build_ecotox_sqlite(source = file.path(path, dir), destination = get_ecotox_path())
+    ## This will build the database in your temp directory:
+    build_ecotox_sqlite(source = file.path(path, dir), destination = tempdir())
   }
 }
 }
