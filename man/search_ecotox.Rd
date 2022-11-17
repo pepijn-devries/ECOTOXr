@@ -31,7 +31,7 @@ obtain a list of available field names.
 
 Each element in that list should contain another list with at least one element named 'terms'. This should
 contain a \code{vector} of \code{character} strings with search terms. Optionally, a second element
-named 'method' can be provided which should be set to either '\code{contain}' (default, when missing) or
+named 'method' can be provided which should be set to either '\code{contains}' (default, when missing) or
 '\code{exact}'. In the first case the query will match any record in the indicated field that contains
 the search term. In case of '\code{exact}' it will only return exact matches. Note that searches are
 not case sensitive, but are picky with special (accented) characters. While building the local database
@@ -55,8 +55,7 @@ When searching such fields, the search result may not be as expected.}
 should be included in the output. By default \code{\link{list_ecotox_fields}("default")} is used. Use
 \code{\link{list_ecotox_fields}("all")} to list all available fields.}
 
-\item{group_by_results}{TODO behaviour has changed results will be nested by `results_id'
-Ecological test results are generally the most informative element in the ECOTOX
+\item{group_by_results}{Ecological test results are generally the most informative element in the ECOTOX
 database. Therefore, this search function returns a table with unique results in each row.
 
 However, some tables in the database (such as 'chemical_carriers' and 'dose_responses') have a one to many
@@ -65,7 +64,7 @@ similarly, multiple doses can also be linked to a single test result.
 
 By default the search results are grouped by test results. As a result not all doses or chemical carriers may
 be displayed in the output. Set the \code{group_by_results} parameter to \code{FALSE} in order to force SQLite
-to output all data (all carriers and doses). But beware that test results may be duplicated in those cases.}
+to output all data (e.g., all carriers). But beware that test results may be duplicated in those cases.}
 
 \item{compute}{The ECOTOXr package tries to construct database queries as lazy as possible. Meaning that R
 moves as much of the heavy lifting as possible to the database. When your search becomes complicated (e.g., when
@@ -76,7 +75,7 @@ slower. Alternatively, you could try to include less output fields in order to s
 \item{as_data_frame}{\code{logical} value indicating whether the result should be converted into a \code{data.frame}
 (default is \code{TRUE}). When set to \code{FALSE} the data will be returned as a \code{\link[dplyr:tibble]{tbl_df}}.}
 
-\item{...}{Arguments passed to \code{\link{dbConnectEcotox}}. You can use this when the database
+\item{...}{Arguments passed to \code{\link{dbConnectEcotox}} and other functions. You can use this when the database
 is not located at the default path (\code{\link{get_ecotox_path}()}).}
 }
 \value{
@@ -117,7 +116,6 @@ CRAN and document the package and database version that are used to generate spe
 }
 \examples{
 \dontrun{
-## TODO check all examples after heavy modifications of code
 ## let's find the ids of all ecotox tests on species
 ## where Latin names contain either of 2 specific genus names and
 ## where they were exposed to the chemical benzene
@@ -133,7 +131,7 @@ if (check_ecotox_availability()) {
         method         = "exact"
       )
     )
-  ## numbers in result each represent a unique test id from the database
+  ## rows in result each represent a unique test id from the database
   result <- search_ecotox(search)
   query  <- search_query_ecotox(search)
   cat(query)

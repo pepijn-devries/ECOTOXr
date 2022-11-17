@@ -12,17 +12,17 @@ simple_search1 <- if (check_ecotox_availability()) {
 } else NULL
 
 simple_search2 <- if (check_ecotox_availability()) {
-  suppressMessages(suppressWarnings({search_ecotox(list(test_id = list(terms = "1")), compute = TRUE)}))
+  suppressMessages(suppressWarnings({search_ecotox(list(test_id = list(terms = "1", method = "exact")))}))
 } else NULL
 
 simple_search3 <- if (check_ecotox_availability()) {
   suppressMessages(suppressWarnings({search_ecotox(list(latin_name = list(terms = "perdix perdix"),
                                                        test_cas = list(terms = "1336363")),
-  c(list_ecotox_fields(), "results.result_id", "results.test_id", "tests.reference_number"), compute = TRUE)}))
+  c(list_ecotox_fields(), "results.result_id", "results.test_id", "tests.reference_number"))}))
 } else NULL
 
 search_q <- if (check_ecotox_availability()) {
-  suppressMessages(suppressWarnings({search_query_ecotox(list(test_id = list(terms = "1")), compute = TRUE)}))
+  suppressMessages(suppressWarnings({search_query_ecotox(list(test_id = list(terms = "1", method = "exact")))}))
 } else NULL
 
 throws_errors <- function(expression) {
@@ -295,3 +295,4 @@ test_that("When multiple doses are linked to a result, no duplicates are returne
 test_that("get_ecotox_info doesn't throw an error.", {
   expect_false({ throws_errors(get_ecotox_info()) })
 })
+

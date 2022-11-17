@@ -9,7 +9,7 @@
 }
 
 #' @importFrom RSQLite dbExecute dbConnect dbDisconnect dbWriteTable
-#' @importFrom dplyr collect inner_join select sql tbl
+#' @importFrom dplyr collect left_join inner_join select sql tbl
 #' @importFrom rlang :=
 NULL
 

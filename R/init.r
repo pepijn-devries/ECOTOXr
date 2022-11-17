@@ -69,7 +69,8 @@ check_ecotox_availability <- function(target = get_ecotox_path()) {
 #' Obtain the local path to where the ECOTOX database is (or will be) placed.
 #'
 #' It can be useful to know where the database is located on your disk. This function
-#' returns the location as provided by \code{\link[rappdirs]{app_dir}}.
+#' returns the location as provided by \code{\link[rappdirs]{app_dir}}, or as
+#' specified by you using \code{options(ECOTOXr_path = "mypath")}.
 #'
 #' @param path When you have a copy of the database somewhere other than the default
 #' directory (\code{\link{get_ecotox_path}()}), you can provide the path here.
@@ -91,7 +92,7 @@ check_ecotox_availability <- function(target = get_ecotox_path()) {
 #' @author Pepijn de Vries
 #' @export
 get_ecotox_path <- function() {
-  rappdirs::app_dir("ECOTOXr")$cache()
+  getOption("ECOTOXr_path", rappdirs::app_dir("ECOTOXr")$cache())
 }
 
 #' Download and extract ECOTOX database files and compose database

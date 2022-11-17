@@ -27,7 +27,7 @@
 #'
 #' Each element in that list should contain another list with at least one element named 'terms'. This should
 #' contain a \code{vector} of \code{character} strings with search terms. Optionally, a second element
-#' named 'method' can be provided which should be set to either '\code{contain}' (default, when missing) or
+#' named 'method' can be provided which should be set to either '\code{contains}' (default, when missing) or
 #' '\code{exact}'. In the first case the query will match any record in the indicated field that contains
 #' the search term. In case of '\code{exact}' it will only return exact matches. Note that searches are
 #' not case sensitive, but are picky with special (accented) characters. While building the local database
@@ -49,7 +49,7 @@
 #' @param output_fields A \code{vector} of \code{character} strings indicating which field names (table headers)
 #' should be included in the output. By default \code{\link{list_ecotox_fields}("default")} is used. Use
 #' \code{\link{list_ecotox_fields}("all")} to list all available fields.
-#' @param group_by_results TODO behaviour has changed results will be nested by `results_id'
+#' @param group_by_results
 #' Ecological test results are generally the most informative element in the ECOTOX
 #' database. Therefore, this search function returns a table with unique results in each row.
 #'
@@ -59,7 +59,7 @@
 #'
 #' By default the search results are grouped by test results. As a result not all doses or chemical carriers may
 #' be displayed in the output. Set the \code{group_by_results} parameter to \code{FALSE} in order to force SQLite
-#' to output all data (all carriers and doses). But beware that test results may be duplicated in those cases.
+#' to output all data (e.g., all carriers). But beware that test results may be duplicated in those cases.
 #' @param compute The ECOTOXr package tries to construct database queries as lazy as possible. Meaning that R
 #' moves as much of the heavy lifting as possible to the database. When your search becomes complicated (e.g., when
 #' including many output fields), you may run into trouble and hit the SQL parser limits. In those cases you can set
@@ -67,7 +67,7 @@
 #' slower. Alternatively, you could try to include less output fields in order to simplify the query.
 #' @param as_data_frame \code{logical} value indicating whether the result should be converted into a \code{data.frame}
 #' (default is \code{TRUE}). When set to \code{FALSE} the data will be returned as a \code{\link[dplyr:tibble]{tbl_df}}.
-#' @param ... Arguments passed to \code{\link{dbConnectEcotox}}. You can use this when the database
+#' @param ... Arguments passed to \code{\link{dbConnectEcotox}} and other functions. You can use this when the database
 #' is not located at the default path (\code{\link{get_ecotox_path}()}).
 #' @return In case of \code{search_query_ecotox}, a \code{character} string containing an SQL
 #' query is returned. This query is built based on the provided search terms and options.
@@ -83,7 +83,6 @@
 #' @name search_ecotox
 #' @examples
 #' \dontrun{
-#' ## TODO check all examples after heavy modifications of code
 #' ## let's find the ids of all ecotox tests on species
 #' ## where Latin names contain either of 2 specific genus names and
 #' ## where they were exposed to the chemical benzene
@@ -99,7 +98,7 @@
 #'         method         = "exact"
 #'       )
 #'     )
-#'   ## numbers in result each represent a unique test id from the database
+#'   ## rows in result each represent a unique test id from the database
 #'   result <- search_ecotox(search)
 #'   query  <- search_query_ecotox(search)
 #'   cat(query)
@@ -114,7 +113,7 @@ search_ecotox <- function(search, output_fields = list_ecotox_fields("default"),
   temp_field <- if (!"results.result_id" %in% output_fields) "results.result_id" else NULL
   if (any(startsWith(output_fields, "dose_responses.")) && !"dose_responses.dose_resp_id" %in% output_fields)
     temp_field <- c(temp_field, "dose_responses.dose_resp_id")
-  search_result <- search_ecotox_lazy(search, c(output_fields, temp_field), compute, ...)
+  search_result <- search_ecotox_lazy(search, c(output_fields, temp_field), compute, group_by_results = group_by_results)
   database_file <- attributes(search_result)$database_file
   dbcon         <- search_result[["src"]]$con
   search_result <- search_result %>% collect()
@@ -145,7 +144,7 @@ search_ecotox_lazy <- function(search, output_fields = list_ecotox_fields("defau
   ## to close the connection when no longer required.
   dbcon         <- dbConnectEcotox(...)
   search_result <- .search_ecotox_lazy_get_result_ids(search, dbcon)
-  search_result <- .search_ecotox_lazy_append_fields(dbcon, search_result, output_fields, compute)
+  search_result <- .search_ecotox_lazy_append_fields(dbcon, search_result, output_fields, compute, ...)
   return(.add_tags(search_result, attributes(dbcon)$database_file))
 }
 
@@ -154,14 +153,7 @@ search_ecotox_lazy <- function(search, output_fields = list_ecotox_fields("defau
 #' @export
 search_query_ecotox <- function(search, output_fields = list_ecotox_fields("default"), ...) {
   search_result <- search_ecotox_lazy(search, output_fields, ...)
-  dbcon         <- search_result[["src"]]$con
   database_file <- attributes(search_result)$database_file
-  search_result <- utils::capture.output(
-    search_result %>%
-      dplyr::show_query()
-  ) %>%
-    utils::tail(-1) %>%
-    paste(collapse = "\n")
-  dbDisconnect(dbcon)
+  search_result <- search_result %>% dbplyr::sql_render()
   return(.add_tags(search_result, database_file))
 }
