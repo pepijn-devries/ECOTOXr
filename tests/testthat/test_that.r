@@ -5,22 +5,28 @@ check_db <- function() {
 }
 
 simple_search1 <- if (check_ecotox_availability()) {
-  suppressWarnings(search_ecotox(
+  suppressMessages(suppressWarnings(search_ecotox(
     list(latin_name = list(terms = "Daphnia magna"), chemical_name = list(terms = "benzene")),
-    c(list_ecotox_fields(), "results.result_id", "results.test_id", "tests.reference_number")))
+    c(list_ecotox_fields(), "results.result_id", "results.test_id", "tests.reference_number"),
+    compute = TRUE)))
 } else NULL
 
 simple_search2 <- if (check_ecotox_availability()) {
-  suppressWarnings({search_ecotox(list(test_id = list(terms = "1")))})
+  suppressMessages(suppressWarnings({search_ecotox(list(test_id = list(terms = "1", method = "exact")))}))
 } else NULL
 
 simple_search3 <- if (check_ecotox_availability()) {
-  suppressWarnings({search_ecotox(list(latin_name = list(terms = "perdix perdix"), test_cas = list(terms="1336363")),
-  c(list_ecotox_fields(), "results.result_id", "results.test_id", "tests.reference_number"))})
+  suppressMessages(suppressWarnings({search_ecotox(list(latin_name = list(terms = "perdix perdix"),
+                                                       test_cas = list(terms = "1336363")),
+  c(list_ecotox_fields(), "results.result_id", "results.test_id", "tests.reference_number"))}))
+} else NULL
+
+search_q <- if (check_ecotox_availability()) {
+  suppressMessages(suppressWarnings({search_query_ecotox(list(test_id = list(terms = "1", method = "exact")))}))
 } else NULL
 
 throws_errors <- function(expression) {
-  result <- F
+  result <- FALSE
   tryCatch(expression, error = function(e) {result <<- T}, warning = function(w) {invisible(NULL)})
   result
 }
@@ -142,12 +148,11 @@ test_that("A simple search results in expected table", {
   expect_true({
     ## Compare result with anticipated ids:
     all(
-      simple_search1$test_id %in%
-        c("1020021", "1020022", "1020023", "1022155", "1031085", "1031086", "1031087", "1031088", "1031196", "1031197",
-          "1064409", "1064410", "1064411", "1072942", "1072943", "1072944", "1083684", "1083685", "1083686", "1098939",
-          "1098940", "1098941", "1098942", "1098943", "1098944", "1098945", "1098946", "1098947", "1098948", "1098949",
-          "1098950", "1125798", "1136665", "1136666", "1142641", "1152541", "1185661", "1185662", "1185663", "1187783",
-          "1189253", "1237724", "2113979", "2114101", "2194929")
+      c("1020021", "1020022", "1020023", "1022155", "1031085", "1031086", "1031087", "1031088", "1031196", "1031197",
+        "1064409", "1072942", "1072943", "1072944", "1083684", "1083685", "1083686", "1098939", "1098940", "1098941",
+        "1098942", "1098943", "1098944", "1098945", "1098946", "1098947", "1098948", "1098949", "1098950", "1125798",
+        "1136665", "1136666", "1142641", "1152541", "1185661", "1185662", "1185663", "1187783", "1189253", "1237724",
+        "2113979", "2114101", "2194929") %in% simple_search1$test_id
     )
   })
 })
@@ -230,8 +235,7 @@ test_that("Default field names are fewer than all field names", {
 test_that("A simple search query returns a single element of type character", {
   check_db()
   expect_true({
-    search <- search_query_ecotox(list(test_id = list(terms = "1")))
-    length(search == 1) && typeof(search) == "character"
+    length(search_q) == 1 && typeof(search_q) == "character"
   })
 })
 
@@ -291,3 +295,4 @@ test_that("When multiple doses are linked to a result, no duplicates are returne
 test_that("get_ecotox_info doesn't throw an error.", {
   expect_false({ throws_errors(get_ecotox_info()) })
 })
+

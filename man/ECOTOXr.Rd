@@ -26,7 +26,7 @@ First download a copy of the complete EPA database. This can be done by calling 
 This may not always work on all machines as R does not always accept the website SSL certificate from the EPA.
 In those cases the zipped archive with the database files can be downloaded manually with a different (more
 forgiving) browser. The files from the zip archive can be extracted to a location of choice. Alternatively,
-the user could try to use \code{\link{download_ecotox_data(ssl_verifypeer = 0L)}} when the download URL is trusted.
+the user could try to use \code{\link{download_ecotox_data}(ssl_verifypeer = 0L)} when the download URL is trusted.
 }
 \item{
 Next, an SQLite database needs to be build from the downloaded files. This will be done automatically when

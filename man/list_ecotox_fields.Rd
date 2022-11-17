@@ -4,13 +4,18 @@
 \alias{list_ecotox_fields}
 \title{List the field names that are available from the ECOTOX database}
 \usage{
-list_ecotox_fields(which = c("default", "full", "all"), include_table = TRUE)
+list_ecotox_fields(
+  which = c("default", "extended", "full", "all"),
+  include_table = TRUE
+)
 }
 \arguments{
 \item{which}{A \code{character} string that specifies which fields to return. Can be any of:
-'\code{default}': returns default output field names; '\code{all}': returns all fields; or
-'\code{full}': returns all except fields from table 'chemical_carriers', 'media_characteristics', 'doses', 'dose_responses',
- 'dose_response_details', 'dose_response_links' and 'dose_stat_method_codes'.}
+'\code{default}': returns default output field names; '\code{all}': returns all fields;
+'\code{extended}': returns all fields of the default tables; or
+'\code{full}': returns all fields except those from tables 'chemical_carriers',
+'media_characteristics', 'doses', 'dose_responses',
+'dose_response_details', 'dose_response_links' and 'dose_stat_method_codes'.}
 
 \item{include_table}{A \code{logical} value indicating whether the table name should be included
 as prefix. Default is \code{TRUE}.}

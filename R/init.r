@@ -6,7 +6,7 @@
 #' This function is called by \code{\link{download_ecotox_data}} which tries to download the file from the resulting
 #' URL. On some machines this fails due to issues with the SSL certificate. The user can try to download the file
 #' by using this URL in a different browser (or on a different machine). Alternatively, the user could try to use
-#' \code{\link{download_ecotox_data(ssl_verifypeer = 0L)}} when the download URL is trusted.
+#' \code{\link{download_ecotox_data}(ssl_verifypeer = 0L)} when the download URL is trusted.
 #' @param ... arguments passed on to \code{\link[httr]{GET}}
 #' @return Returns a \code{character} string containing the download URL of the latest version of the EPA ECOTOX
 #' database.
@@ -69,7 +69,8 @@ check_ecotox_availability <- function(target = get_ecotox_path()) {
 #' Obtain the local path to where the ECOTOX database is (or will be) placed.
 #'
 #' It can be useful to know where the database is located on your disk. This function
-#' returns the location as provided by \code{\link[rappdirs]{app_dir}}.
+#' returns the location as provided by \code{\link[rappdirs]{app_dir}}, or as
+#' specified by you using \code{options(ECOTOXr_path = "mypath")}.
 #'
 #' @param path When you have a copy of the database somewhere other than the default
 #' directory (\code{\link{get_ecotox_path}()}), you can provide the path here.
@@ -91,7 +92,7 @@ check_ecotox_availability <- function(target = get_ecotox_path()) {
 #' @author Pepijn de Vries
 #' @export
 get_ecotox_path <- function() {
-  rappdirs::app_dir("ECOTOXr")$cache()
+  getOption("ECOTOXr_path", rappdirs::app_dir("ECOTOXr")$cache())
 }
 
 #' Download and extract ECOTOX database files and compose database
@@ -101,7 +102,7 @@ get_ecotox_path <- function() {
 #'
 #' This function will attempt to find the latest download url for the ECOTOX database from the 
 #' \href{https://cfpub.epa.gov/ecotox/index.cfm}{EPA website} (see \code{\link{get_ecotox_url}()}).
-#' When found it will attempt to download the zipped archive containing all required data. This data is than
+#' When found it will attempt to download the zipped archive containing all required data. This data is then
 #' extracted and a local copy of the database is build.
 #'
 #' Use '\code{\link{suppressMessages}}' to suppress the progress report.
@@ -147,7 +148,7 @@ download_ecotox_data <- function(target = get_ecotox_path(), write_log = TRUE, a
   if (!dir.exists(target)) dir.create(target, recursive = T)
   ## Obtain download link from EPA website:
   message(crayon::white("Obtaining download link from EPA website... "))
-  link <- get_ecotox_url()
+  link <- get_ecotox_url(...)
   dest_path <- file.path(target, utils::tail(unlist(strsplit(link, "/")), 1))
   message(crayon::green("Done\n"))
   proceed.download <- T
@@ -271,6 +272,7 @@ build_ecotox_sqlite <- function(source, destination = get_ecotox_path(), write_l
 
   ## Loop the text file tables and add them to the sqlite database 1 by 1
   i <- 0
+
   by(.db_specs, .db_specs$table, function(tab) {
     i <<- i + 1
     message(crayon::white(sprintf("Adding '%s' table (%i/%i) to database:\n",
@@ -313,15 +315,19 @@ build_ecotox_sqlite <- function(source, destination = get_ecotox_path(), write_l
         ## Replace pipe-characters with dashes when they are between brackets "("and ")",
         ## These should not be interpreted as table separators and will mess up the table.read call
         body       <- stringr::str_replace_all(body, "(?<=\\().+?(?=\\))", function(x){
-          if (grepl("[\\(/]", x)) return(x) ## there should not be another opening bracket or forward slash! in that case leave as is
+          ## there should not be another opening bracket, double pipe or forward slash! in that case leave as is
+          if (grepl("[\\(/]", x) || grepl("||", x, fixed = T)) return(x)
           gsub("[|]", "-", x)
         })
 
         lines.read <- lines.read + length(body)
 
-        table.frag <- utils::read.table(text = c(head, body[1:1]),
-                                        sep = "|", header = T, quote = "", comment.char = "",
-                                        stringsAsFactors = F, strip.white = F)
+        ## Join lines when number of pipes is to small (probably caused by unintended linefeed)
+        count_pipes <- unlist(lapply(regmatches(body, gregexpr("[|]", body)), length))
+        join_lines  <- which(count_pipes < length(regmatches(head, gregexpr("[|]", head))[[1]]))
+        if (length(join_lines) > 0) {
+          body        <- c(body[-join_lines], paste(body[join_lines], collapse = " "))
+        }
 
         ## strip.white is set to F, as they occur in primary keys!
         table.frag <- utils::read.table(text = c(head, body),
@@ -331,10 +337,17 @@ build_ecotox_sqlite <- function(source, destination = get_ecotox_path(), write_l
         missing_cols    <- tab$field_name[!tab$field_name %in% colnames(table.frag)]
         unexpected_cols <- colnames(table.frag)[!colnames(table.frag) %in% tab$field_name]
         if (length(unexpected_cols) > 0)
-          message(sprintf("\r Ignoring unexpected column(s) '%s' in '%s'", paste(unexpected_cols, collapse = "', '"),
-                          tab$table[[1]]))
+          message(stringr::str_pad(
+            sprintf("\r Ignoring unexpected column(s) '%s' in '%s'", paste(unexpected_cols, collapse = "', '"),
+                    tab$table[[1]]),
+            width = 80, "right")
+          )
         if (length(missing_cols) > 0)
-          message(sprintf("\r Missing column(s) '%s' in '%s'", paste(missing_cols, collapse = "', '"), tab$table[[1]]))
+          message(stringr::str_pad(
+            sprintf("\r Missing column(s) '%s' in '%s'", paste(missing_cols, collapse = "', '"),
+                    tab$table[[1]]),
+            width = 80, "right")
+          )
         RSQLite::dbWriteTable(dbcon, tab$table[[1]],
                               table.frag[,setdiff(tab$field_name, missing_cols), drop = F], append = T)
         

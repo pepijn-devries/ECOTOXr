@@ -27,7 +27,8 @@ Obtain the local path to where the ECOTOX database is (or will be) placed.
 }
 \details{
 It can be useful to know where the database is located on your disk. This function
-returns the location as provided by \code{\link[rappdirs]{app_dir}}.
+returns the location as provided by \code{\link[rappdirs]{app_dir}}, or as
+specified by you using \code{options(ECOTOXr_path = "mypath")}.
 }
 \examples{
 get_ecotox_path()
