@@ -8,6 +8,6 @@ Objects imported and exported from other packages. See original documentation fo
 }
 \details{
 \describe{
-\item{dplyr}{\code{\link[dplyr:reexports]{\%>\%}}}
+\item{dplyr}{\code{\link[dplyr:reexports]{\\\%>\\\%()}}}
 }
 }

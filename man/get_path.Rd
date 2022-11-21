@@ -11,7 +11,7 @@ get_ecotox_path()
 }
 \arguments{
 \item{path}{When you have a copy of the database somewhere other than the default
-directory (\code{\link{get_ecotox_path}()}), you can provide the path here.}
+directory (\code{\link[=get_ecotox_path]{get_ecotox_path()}}), you can provide the path here.}
 
 \item{version}{A \code{character} string referring to the release version of the database you wish to locate.
 It should have the same format as the date in the EPA download link, which is month, day, year, separated by
@@ -23,11 +23,12 @@ Returns a \code{character} string of the path.
 \code{get_ecotox_sqlite_file} will return the path to the sqlite file when it exists.
 }
 \description{
-Obtain the local path to where the ECOTOX database is (or will be) placed.
+\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#stable}{\figure{lifecycle-stable.svg}{options: alt='[Stable]'}}}{\strong{[Stable]}} Obtain the local path to where the ECOTOX database is
+(or will be) placed.
 }
 \details{
 It can be useful to know where the database is located on your disk. This function
-returns the location as provided by \code{\link[rappdirs]{app_dir}}, or as
+returns the location as provided by \code{\link[rappdirs:app_dir]{rappdirs::app_dir()}}, or as
 specified by you using \code{options(ECOTOXr_path = "mypath")}.
 }
 \examples{

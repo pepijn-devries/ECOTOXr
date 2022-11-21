@@ -8,7 +8,7 @@ get_ecotox_info(path = get_ecotox_path(), version)
 }
 \arguments{
 \item{path}{A \code{character} string with the path to the location of the local database (default is
-\code{\link{get_ecotox_path}()}).}
+\code{\link[=get_ecotox_path]{get_ecotox_path()}}).}
 
 \item{version}{A \code{character} string referring to the release version of the database you wish to locate.
 It should have the same format as the date in the EPA download link, which is month, day, year, separated by
@@ -18,12 +18,12 @@ underscores ("\%m_\%d_\%Y"). When missing, the most recent available copy is sel
 Returns a \code{vector} of \code{character}s, containing a information on the selected local ECOTOX database.
 }
 \description{
-Get information on how and when the local ECOTOX database was build.
+\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#stable}{\figure{lifecycle-stable.svg}{options: alt='[Stable]'}}}{\strong{[Stable]}} Get information on how and when the local ECOTOX database was build.
 }
 \details{
 Get information on how and when the local ECOTOX database was build. This information is retrieved
-from the log-file that is (optionally) stored with the local database when calling \code{\link{download_ecotox_data}}
-or \code{\link{build_ecotox_sqlite}}.
+from the log-file that is (optionally) stored with the local database when calling \code{\link[=download_ecotox_data]{download_ecotox_data()}}
+or \code{\link[=build_ecotox_sqlite]{build_ecotox_sqlite()}}.
 }
 \examples{
 \dontrun{

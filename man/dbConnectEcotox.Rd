@@ -11,29 +11,30 @@ dbDisconnectEcotox(conn, ...)
 }
 \arguments{
 \item{path}{A \code{character} string with the path to the location of the local database (default is
-\code{\link{get_ecotox_path}()}).}
+\code{\link[=get_ecotox_path]{get_ecotox_path()}}).}
 
 \item{version}{A \code{character} string referring to the release version of the database you wish to locate.
 It should have the same format as the date in the EPA download link, which is month, day, year, separated by
 underscores ("\%m_\%d_\%Y"). When missing, the most recent available copy is selected automatically.}
 
-\item{...}{Arguments that are passed to \code{\link[RSQLite:SQLite]{dbConnect}} method
-or \code{\link[RSQLite:SQLite]{dbDisconnect}} method.}
+\item{...}{Arguments that are passed to \code{\link[RSQLite:SQLite]{dbConnect()}} method
+or \code{\link[RSQLite:SQLite]{dbDisconnect()}} method.}
 
 \item{conn}{An open connection to the ECOTOX database that needs to be closed.}
 }
 \value{
-A database connection in the form of a \code{\link[DBI]{DBIConnection-class}} object.
+A database connection in the form of a \code{\link[DBI:DBIConnection-class]{DBI::DBIConnection-class()}} object.
 The object is tagged with: a time stamp; the package version used; and the
 file path of the SQLite database used in the connection. These tags are added as attributes
 to the object.
 }
 \description{
-Wrappers for \code{\link[RSQLite:SQLite]{dbConnect}} and \code{\link[RSQLite:SQLite]{dbDisconnect}} methods.
+\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#stable}{\figure{lifecycle-stable.svg}{options: alt='[Stable]'}}}{\strong{[Stable]}} Wrappers for \code{\link[RSQLite:SQLite]{dbConnect()}} and
+\code{\link[RSQLite:SQLite]{dbDisconnect()}} methods.
 }
 \details{
 Open or close a connection to the local ECOTOX database. These functions are only required when you want
-to send custom queries to the database. For most searches the \code{\link{search_ecotox}} function
+to send custom queries to the database. For most searches the \code{\link[=search_ecotox]{search_ecotox()}} function
 will be adequate.
 }
 \examples{

@@ -20,21 +20,22 @@ get_ecotox_sqlite_file <- function(path = get_ecotox_path(), version) {
 
 #' Open or close a connection to the local ECOTOX database
 #'
-#' Wrappers for \code{\link[RSQLite:SQLite]{dbConnect}} and \code{\link[RSQLite:SQLite]{dbDisconnect}} methods.
+#' `r lifecycle::badge('stable')` Wrappers for [`dbConnect()`][RSQLite::SQLite] and
+#' [`dbDisconnect()`][RSQLite::SQLite] methods.
 #'
 #' Open or close a connection to the local ECOTOX database. These functions are only required when you want
-#' to send custom queries to the database. For most searches the \code{\link{search_ecotox}} function
+#' to send custom queries to the database. For most searches the [search_ecotox()] function
 #' will be adequate.
 #'
-#' @param path A \code{character} string with the path to the location of the local database (default is
-#' \code{\link{get_ecotox_path}()}).
-#' @param version A \code{character} string referring to the release version of the database you wish to locate.
+#' @param path A `character` string with the path to the location of the local database (default is
+#' [get_ecotox_path()]).
+#' @param version A `character` string referring to the release version of the database you wish to locate.
 #' It should have the same format as the date in the EPA download link, which is month, day, year, separated by
-#' underscores ("\%m_\%d_\%Y"). When missing, the most recent available copy is selected automatically.
+#' underscores ("%m_%d_%Y"). When missing, the most recent available copy is selected automatically.
 #' @param conn An open connection to the ECOTOX database that needs to be closed.
-#' @param ... Arguments that are passed to \code{\link[RSQLite:SQLite]{dbConnect}} method
-#' or \code{\link[RSQLite:SQLite]{dbDisconnect}} method.
-#' @return A database connection in the form of a \code{\link[DBI]{DBIConnection-class}} object.
+#' @param ... Arguments that are passed to [`dbConnect()`][RSQLite::SQLite] method
+#' or [`dbDisconnect()`][RSQLite::SQLite] method.
+#' @return A database connection in the form of a [DBI::DBIConnection-class()] object.
 #' The object is tagged with: a time stamp; the package version used; and the
 #' file path of the SQLite database used in the connection. These tags are added as attributes
 #' to the object.
@@ -67,19 +68,19 @@ dbDisconnectEcotox <- function(conn, ...) {
 
 #' Cite the downloaded copy of the ECOTOX database
 #'
-#' Cite the downloaded copy of the ECOTOX database and this package for reproducible results.
+#' `r lifecycle::badge('stable')` Cite the downloaded copy of the ECOTOX database and this package for reproducible results.
 #'
-#' When you download a copy of the EPA ECOTOX database using \code{\link{download_ecotox_data}()}, a BibTex file
-#' is stored that registers the database release version and the access (= download) date. Use this function
-#' to obtain a citation to that specific download.
+#' When you download a copy of the EPA ECOTOX database using [download_ecotox_data()],
+#' a BibTex file is stored that registers the database release version and the access (= download) date. Use this
+#' function to obtain a citation to that specific download.
 #'
 #' In order for others to reproduce your results, it is key to cite the data source as accurately as possible.
-#' @param path A \code{character} string with the path to the location of the local database (default is
-#' \code{\link{get_ecotox_path}()}).
-#' @param version A \code{character} string referring to the release version of the database you wish to locate.
+#' @param path A `character` string with the path to the location of the local database \(default is
+#' [get_ecotox_path()]\).
+#' @param version A `character` string referring to the release version of the database you wish to locate.
 #' It should have the same format as the date in the EPA download link, which is month, day, year, separated by
-#' underscores ("\%m_\%d_\%Y"). When missing, the most recent available copy is selected automatically.
-#' @return Returns a \code{vector} of \code{\link{bibentry}}'s, containing a reference to the downloaded database
+#' underscores ("%m_%d_%Y"). When missing, the most recent available copy is selected automatically.
+#' @return Returns a `vector` of [bibentry()]'s, containing a reference to the downloaded database
 #' and this package.
 #' @rdname cite_ecotox
 #' @name cite_ecotox
@@ -100,17 +101,17 @@ cite_ecotox <- function(path = get_ecotox_path(), version) {
 
 #' Get information on the local ECOTOX database when available
 #'
-#' Get information on how and when the local ECOTOX database was build.
+#' `r lifecycle::badge('stable')` Get information on how and when the local ECOTOX database was build.
 #'
 #' Get information on how and when the local ECOTOX database was build. This information is retrieved
-#' from the log-file that is (optionally) stored with the local database when calling \code{\link{download_ecotox_data}}
-#' or \code{\link{build_ecotox_sqlite}}.
-#' @param path A \code{character} string with the path to the location of the local database (default is
-#' \code{\link{get_ecotox_path}()}).
-#' @param version A \code{character} string referring to the release version of the database you wish to locate.
+#' from the log-file that is (optionally) stored with the local database when calling [download_ecotox_data()]
+#' or [build_ecotox_sqlite()].
+#' @param path A `character` string with the path to the location of the local database (default is
+#' [get_ecotox_path()]).
+#' @param version A `character` string referring to the release version of the database you wish to locate.
 #' It should have the same format as the date in the EPA download link, which is month, day, year, separated by
-#' underscores ("\%m_\%d_\%Y"). When missing, the most recent available copy is selected automatically.
-#' @return Returns a \code{vector} of \code{character}s, containing a information on the selected local ECOTOX database.
+#' underscores ("%m_%d_%Y"). When missing, the most recent available copy is selected automatically.
+#' @return Returns a `vector` of `character`s, containing a information on the selected local ECOTOX database.
 #' @rdname get_ecotox_info
 #' @name get_ecotox_info
 #' @examples
@@ -137,19 +138,19 @@ get_ecotox_info <- function(path = get_ecotox_path(), version) {
 
 #' List the field names that are available from the ECOTOX database
 #'
-#' List the field names (table headers) that are available from the ECOTOX database
+#' `r lifecycle::badge('stable')` List the field names (table headers) that are available from the ECOTOX database
 #'
-#' This can be useful when specifying a \code{\link{search_ecotox}}, to identify which fields
+#' This can be useful when specifying a [search_ecotox()], to identify which fields
 #' are available from the database, for searching and output.
-#' @param which A \code{character} string that specifies which fields to return. Can be any of:
-#' '\code{default}': returns default output field names; '\code{all}': returns all fields;
-#' '\code{extended}': returns all fields of the default tables; or
-#' '\code{full}': returns all fields except those from tables 'chemical_carriers',
+#' @param which A `character` string that specifies which fields to return. Can be any of:
+#' '`default`': returns default output field names; '`all`': returns all fields;
+#' '`extended`': returns all fields of the default tables; or
+#' '`full`': returns all fields except those from tables 'chemical_carriers',
 #' 'media_characteristics', 'doses', 'dose_responses',
 #' 'dose_response_details', 'dose_response_links' and 'dose_stat_method_codes'.
-#' @param include_table A \code{logical} value indicating whether the table name should be included
-#' as prefix. Default is \code{TRUE}.
-#' @return Returns a \code{vector} of type \code{character} containing the field names from the ECOTOX database.
+#' @param include_table A `logical` value indicating whether the table name should be included
+#' as prefix. Default is `TRUE`.
+#' @return Returns a `vector` of type `character` containing the field names from the ECOTOX database.
 #' @rdname list_ecotox_fields
 #' @name list_ecotox_fields
 #' @examples
@@ -159,9 +160,9 @@ get_ecotox_info <- function(path = get_ecotox_path(), version) {
 #' ## All fields that are available from the ECOTOX database:
 #' list_ecotox_fields("all")
 #'
-#' ## All except fields from the tables 'chemical_carriers', 'media_characteristics', 'doses',
-#' ## 'dose_responses', 'dose_response_details', 'dose_response_links' and 'dose_stat_method_codes'
-#' ## that are available from the ECOTOX database:
+#' ## All except fields from the tables 'chemical_carriers', 'media_characteristics',
+#' ## 'doses', 'dose_responses', 'dose_response_details', 'dose_response_links' and
+#' ## 'dose_stat_method_codes' that are available from the ECOTOX database:
 #' list_ecotox_fields("full")
 #' @author Pepijn de Vries
 #' @export

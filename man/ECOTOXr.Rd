@@ -22,22 +22,22 @@ in order to use the package to its full capacity.
 
 \itemize{
 \item{
-First download a copy of the complete EPA database. This can be done by calling \code{\link{download_ecotox_data}}.
+First download a copy of the complete EPA database. This can be done by calling \code{\link[=download_ecotox_data]{download_ecotox_data()}}.
 This may not always work on all machines as R does not always accept the website SSL certificate from the EPA.
 In those cases the zipped archive with the database files can be downloaded manually with a different (more
 forgiving) browser. The files from the zip archive can be extracted to a location of choice. Alternatively,
-the user could try to use \code{\link{download_ecotox_data}(ssl_verifypeer = 0L)} when the download URL is trusted.
+the user could try to use \verb{[download_ecotox_data](ssl_verifypeer = 0L)} when the download URL is trusted.
 }
 \item{
 Next, an SQLite database needs to be build from the downloaded files. This will be done automatically when
-you used \code{\link{download_ecotox_data}} in the previous step. When you have manually downloaded the files
-you can call \code{\link{build_ecotox_sqlite}} to build the database locally.
+you used \code{\link[=download_ecotox_data]{download_ecotox_data()}} in the previous step. When you have manually downloaded the files
+you can call \code{\link[=build_ecotox_sqlite]{build_ecotox_sqlite()}} to build the database locally.
 }
 \item{
 When the previous steps have been performed successfully, you can now search the database by calling
-\code{\link{search_ecotox}}. You can also use \code{\link{dbConnectEcotox}} to open a connection to the
+\code{\link[=search_ecotox]{search_ecotox()}}. You can also use \code{\link[=dbConnectEcotox]{dbConnectEcotox()}} to open a connection to the
 database. You can query the database using this connection and any of the methods provided from the
-\link[DBI:DBI]{DBI} or \link[RSQLite:RSQLite]{RSQLite} packages.
+\link[DBI:DBI-package]{DBI} or \link[RSQLite:SQLite]{RSQLite} packages.
 }
 }
 }
@@ -54,9 +54,9 @@ Different versions, may produce different end results (although we will strive f
 }
 \item{
 Make sure you are working with a clean (unaltered) version of the database. When in doubt, download and build
-a fresh copy of the database (\code{\link{download_ecotox_data}}). Also cite the (release) version of the downloaded
-database (\code{\link{cite_ecotox}}), and the system operating system in which the local database was build
-\code{\link{get_ecotox_info}}). Or, just make sure that you never modify the database (e.g., write data to it, delete
+a fresh copy of the database (\code{\link[=download_ecotox_data]{download_ecotox_data()}}). Also cite the (release) version of the downloaded
+database (\code{\link[=cite_ecotox]{cite_ecotox()}}), and the system operating system in which the local database was build
+\code{\link[=get_ecotox_info]{get_ecotox_info()}}). Or, just make sure that you never modify the database (e.g., write data to it, delete
 data from it, etc.)
 }
 \item{

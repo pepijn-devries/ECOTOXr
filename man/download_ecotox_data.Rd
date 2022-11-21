@@ -13,7 +13,7 @@ download_ecotox_data(
 }
 \arguments{
 \item{target}{Target directory where the files will be downloaded and the database compiled. Default is
-\code{\link{get_ecotox_path}()}.}
+\code{\link[=get_ecotox_path]{get_ecotox_path()}}.}
 
 \item{write_log}{A \code{logical} value indicating whether a log file should be written to the target path
 \code{TRUE}.}
@@ -22,7 +22,7 @@ download_ecotox_data(
 the user is asked on the command line what to do in those cases. Set this parameter to \code{FALSE} in order
 to continue without warning and asking.}
 
-\item{...}{Arguments passed on to \code{\link[httr]{GET}}. When this function fails with the error: "Peer
+\item{...}{Arguments passed on to \code{\link[httr:GET]{httr::GET()}}. When this function fails with the error: "Peer
 certificate cannot be authenticated with given CA certificates", you could try to rerun the function with
 the option \code{ssl_verifypeer = 0L}. Only do so when you trust the indicated URL.}
 }
@@ -30,16 +30,16 @@ the option \code{ssl_verifypeer = 0L}. Only do so when you trust the indicated U
 Returns \code{NULL} invisibly.
 }
 \description{
-In order for this package to fully function, a local copy of the ECOTOX database needs to be build.
-This function will download the required data and build the database.
+\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#stable}{\figure{lifecycle-stable.svg}{options: alt='[Stable]'}}}{\strong{[Stable]}} In order for this package to fully function, a local copy of the ECOTOX database
+needs to be build. This function will download the required data and build the database.
 }
 \details{
-This function will attempt to find the latest download url for the ECOTOX database from the 
-\href{https://cfpub.epa.gov/ecotox/index.cfm}{EPA website} (see \code{\link{get_ecotox_url}()}).
+This function will attempt to find the latest download url for the ECOTOX database from the
+\href{https://cfpub.epa.gov/ecotox/index.cfm}{EPA website} (see \code{\link[=get_ecotox_url]{get_ecotox_url()}}).
 When found it will attempt to download the zipped archive containing all required data. This data is then
 extracted and a local copy of the database is build.
 
-Use '\code{\link{suppressMessages}}' to suppress the progress report.
+Use '\code{\link[=suppressMessages]{suppressMessages()}}' to suppress the progress report.
 }
 \section{Known issues}{
 
@@ -47,8 +47,8 @@ On some machines this function fails to connect to the database download URL fro
 \href{https://cfpub.epa.gov/ecotox/index.cfm}{EPA website} due to missing
 SSL certificates. Unfortunately, there is no easy fix for this in this package. A work around is to download and
 unzip the file manually using a different machine or browser that is less strict with SSL certificates. You can
-then call \code{\link{build_ecotox_sqlite}()} and point the \code{source} location to the manually extracted zip
-archive. For this purpose \code{\link{get_ecotox_url}()} can be used.
+then call \code{\link[=build_ecotox_sqlite]{build_ecotox_sqlite()}} and point the \code{source} location to the manually extracted zip
+archive. For this purpose \code{\link[=get_ecotox_url]{get_ecotox_url()}} can be used.
 }
 
 \examples{

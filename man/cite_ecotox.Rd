@@ -7,24 +7,24 @@
 cite_ecotox(path = get_ecotox_path(), version)
 }
 \arguments{
-\item{path}{A \code{character} string with the path to the location of the local database (default is
-\code{\link{get_ecotox_path}()}).}
+\item{path}{A \code{character} string with the path to the location of the local database \(default is
+\code{\link[=get_ecotox_path]{get_ecotox_path()}}\).}
 
 \item{version}{A \code{character} string referring to the release version of the database you wish to locate.
 It should have the same format as the date in the EPA download link, which is month, day, year, separated by
 underscores ("\%m_\%d_\%Y"). When missing, the most recent available copy is selected automatically.}
 }
 \value{
-Returns a \code{vector} of \code{\link{bibentry}}'s, containing a reference to the downloaded database
+Returns a \code{vector} of \code{\link[=bibentry]{bibentry()}}'s, containing a reference to the downloaded database
 and this package.
 }
 \description{
-Cite the downloaded copy of the ECOTOX database and this package for reproducible results.
+\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#stable}{\figure{lifecycle-stable.svg}{options: alt='[Stable]'}}}{\strong{[Stable]}} Cite the downloaded copy of the ECOTOX database and this package for reproducible results.
 }
 \details{
-When you download a copy of the EPA ECOTOX database using \code{\link{download_ecotox_data}()}, a BibTex file
-is stored that registers the database release version and the access (= download) date. Use this function
-to obtain a citation to that specific download.
+When you download a copy of the EPA ECOTOX database using \code{\link[=download_ecotox_data]{download_ecotox_data()}},
+a BibTex file is stored that registers the database release version and the access (= download) date. Use this
+function to obtain a citation to that specific download.
 
 In order for others to reproduce your results, it is key to cite the data source as accurately as possible.
 }

@@ -1,30 +1,30 @@
 #' Functions for handling chemical abstract service (CAS) registry numbers
 #'
-#' Functions for handling chemical abstract service (CAS) registry numbers
+#' `r lifecycle::badge('stable')` Functions for handling chemical abstract service (CAS) registry numbers
 #' 
-#' In the database \href{https://en.wikipedia.org/wiki/Chemical_Abstracts_Service}{CAS registry} numbers are stored
-#' as text (type \code{character}). As CAS numbers can consist of a maximum of 10 digits (plus two hyphens) this means
+#' In the database [CAS registry](https://en.wikipedia.org/wiki/Chemical_Abstracts_Service) numbers are stored
+#' as text (type `character`). As CAS numbers can consist of a maximum of 10 digits (plus two hyphens) this means
 #' that each CAS number can consume up to 12 bytes of memory or disk space. By storing the data numerically, only
 #' 5 bytes are required. These functions provide the means to handle CAS registry numbers and coerce from and to
 #' different formats and types.
 #' @param x Object from which data needs to be extracted or replaced, or needs to be coerced into a specific
 #' format. For nearly all of the functions documented here, this needs to be an object of the S3 class 'cas',
-#' which can be created with \code{as.cas}. For \code{as.cas}, \code{x} can be a \code{character} (CAS registry number
-#' with or without hyphenation) or a \code{numeric} value. Note that \code{as.cas} will only accept correctly
+#' which can be created with `as.cas`. For `as.cas`, `x` can be a `character` (CAS registry number
+#' with or without hyphenation) or a `numeric` value. Note that `as.cas` will only accept correctly
 #' formatted and valid CAS registry numbers.
-#' @param i Index specifying element(s) to extract or replace. See also \code{\link[base:Extract]{Extract}}.
-#' @param value A replacement value, can be anything that can be converted into an S3 cas-class object with \code{as.cas}.
-#' @param length A non-negative \code{integer} specifying the desired length. Double values will be coerced to
-#' \code{integer}: supplying an argument of length other than one is an error.
-#' @param hyphenate A \code{logical} value indicating whether the formatted CAS number needs to be hyphenated.
-#' Default is \code{TRUE}.
+#' @param i Index specifying element(s) to extract or replace. See also [base::Extract()].
+#' @param value A replacement value, can be anything that can be converted into an S3 cas-class object with `as.cas`.
+#' @param length A non-negative `integer` specifying the desired length. Double values will be coerced to
+#' `integer`: supplying an argument of length other than one is an error.
+#' @param hyphenate A `logical` value indicating whether the formatted CAS number needs to be hyphenated.
+#' Default is `TRUE`.
 #' @param ... Arguments passed to other functions
-#' @return Functions \code{cas}, \code{c} and \code{as.cas} return S3 class 'cas' objects. Coercion functions
-#' (starting with 'as') return the object as specified by their respective function names (i.e., \code{integer},
-#' \code{double}, \code{character}, \code{list} and \code{data.frame}). The \code{show.cas} and \code{print} functions
-#' also return formatted \code{charater}s. The function \code{is.cas} will return a single \code{logical} value,
-#' indicating whether \code{x} is a valid S3 cas-class object. The square brackets return the selected index/indices,
-#' or the \code{vector} of cas objects where the selected elements are replaced by \code{value}.
+#' @return Functions `cas`, `c` and `as.cas` return S3 class 'cas' objects. Coercion functions
+#' (starting with 'as') return the object as specified by their respective function names (i.e., `integer`,
+#' `double`, `character`, `list` and `data.frame`). The `show.cas` and `print` functions
+#' also return formatted `charater`s. The function `is.cas` will return a single `logical` value,
+#' indicating whether `x` is a valid S3 cas-class object. The square brackets return the selected index/indices,
+#' or the `vector` of cas objects where the selected elements are replaced by `value`.
 #' @rdname cas
 #' @name cas 
 #' @examples

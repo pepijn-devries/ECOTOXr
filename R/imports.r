@@ -18,7 +18,7 @@ NULL
 #' Objects imported and exported from other packages. See original documentation for more details.
 #' 
 #' \describe{
-#' \item{dplyr}{\code{\link[dplyr:reexports]{\%>\%}}}
+#' \item{dplyr}{[`\%>\%()`][dplyr::reexports]}
 #' }
 #' @importFrom dplyr %>%
 #' @export %>%

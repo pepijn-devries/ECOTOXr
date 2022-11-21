@@ -1,14 +1,14 @@
 #' Get ECOTOX download URL from EPA website
 #'
-#' This function downloads the webpage at \url{https://cfpub.epa.gov/ecotox/index.cfm}. It then searches for the
+#' `r lifecycle::badge('stable')` This function downloads the webpage at <https://cfpub.epa.gov/ecotox/index.cfm>. It then searches for the
 #' download link for the complete ECOTOX database and extract its URL.
 #'
-#' This function is called by \code{\link{download_ecotox_data}} which tries to download the file from the resulting
+#' This function is called by [download_ecotox_data()] which tries to download the file from the resulting
 #' URL. On some machines this fails due to issues with the SSL certificate. The user can try to download the file
 #' by using this URL in a different browser (or on a different machine). Alternatively, the user could try to use
-#' \code{\link{download_ecotox_data}(ssl_verifypeer = 0L)} when the download URL is trusted.
-#' @param ... arguments passed on to \code{\link[httr]{GET}}
-#' @return Returns a \code{character} string containing the download URL of the latest version of the EPA ECOTOX
+#' `[download_ecotox_data](ssl_verifypeer = 0L)` when the download URL is trusted.
+#' @param ... arguments passed on to [httr::GET()]
+#' @return Returns a `character` string containing the download URL of the latest version of the EPA ECOTOX
 #' database.
 #' @rdname get_ecotox_url
 #' @name get_ecotox_url
@@ -30,13 +30,14 @@ get_ecotox_url <- function(...) {
 
 #' Check whether a ECOTOX database exists locally
 #'
-#' Tests whether a local copy of the US EPA ECOTOX database exists in \code{\link{get_ecotox_path}}.
+#' `r lifecycle::badge('stable')` Tests whether a local copy of the US EPA ECOTOX database exists in
+#'  [get_ecotox_path()].
 #'
-#' When arguments are omitted, this function will look in the default directory (\code{\link{get_ecotox_path}}).
+#' When arguments are omitted, this function will look in the default directory ([get_ecotox_path()]).
 #' However, it is possible to build a database file elsewhere if necessary.
-#' @param target A \code{character} string specifying the path where to look for the database file.
-#' @return Returns a \code{logical} value indicating whether a copy of the database exists. It also returns
-#' a \code{files} attribute that lists which copies of the database are found.
+#' @param target A `character` string specifying the path where to look for the database file.
+#' @return Returns a `logical` value indicating whether a copy of the database exists. It also returns
+#' a `files` attribute that lists which copies of the database are found.
 #' @rdname check_ecotox_availability
 #' @name check_ecotox_availability
 #' @examples
@@ -66,20 +67,21 @@ check_ecotox_availability <- function(target = get_ecotox_path()) {
 
 #' The local path to the ECOTOX database (directory or sqlite file)
 #'
-#' Obtain the local path to where the ECOTOX database is (or will be) placed.
+#' `r lifecycle::badge('stable')` Obtain the local path to where the ECOTOX database is
+#' (or will be) placed.
 #'
 #' It can be useful to know where the database is located on your disk. This function
-#' returns the location as provided by \code{\link[rappdirs]{app_dir}}, or as
-#' specified by you using \code{options(ECOTOXr_path = "mypath")}.
+#' returns the location as provided by [rappdirs::app_dir()], or as
+#' specified by you using `options(ECOTOXr_path = "mypath")`.
 #'
 #' @param path When you have a copy of the database somewhere other than the default
-#' directory (\code{\link{get_ecotox_path}()}), you can provide the path here.
-#' @param version A \code{character} string referring to the release version of the database you wish to locate.
+#' directory ([get_ecotox_path()]), you can provide the path here.
+#' @param version A `character` string referring to the release version of the database you wish to locate.
 #' It should have the same format as the date in the EPA download link, which is month, day, year, separated by
-#' underscores ("\%m_\%d_\%Y"). When missing, the most recent available copy is selected automatically.
-#' @return Returns a \code{character} string of the path.
-#' \code{get_ecotox_path} will return the default directory of the database.
-#' \code{get_ecotox_sqlite_file} will return the path to the sqlite file when it exists.
+#' underscores ("%m_%d_%Y"). When missing, the most recent available copy is selected automatically.
+#' @return Returns a `character` string of the path.
+#' `get_ecotox_path` will return the default directory of the database.
+#' `get_ecotox_sqlite_file` will return the path to the sqlite file when it exists.
 #' @rdname get_path
 #' @name get_ecotox_path
 #' @examples
@@ -97,35 +99,35 @@ get_ecotox_path <- function() {
 
 #' Download and extract ECOTOX database files and compose database
 #'
-#' In order for this package to fully function, a local copy of the ECOTOX database needs to be build.
-#' This function will download the required data and build the database.
+#' `r lifecycle::badge('stable')` In order for this package to fully function, a local copy of the ECOTOX database
+#'  needs to be build. This function will download the required data and build the database.
 #'
 #' This function will attempt to find the latest download url for the ECOTOX database from the 
-#' \href{https://cfpub.epa.gov/ecotox/index.cfm}{EPA website} (see \code{\link{get_ecotox_url}()}).
+#' [EPA website](https://cfpub.epa.gov/ecotox/index.cfm) (see [get_ecotox_url()]).
 #' When found it will attempt to download the zipped archive containing all required data. This data is then
 #' extracted and a local copy of the database is build.
 #'
-#' Use '\code{\link{suppressMessages}}' to suppress the progress report.
+#' Use '[suppressMessages()]' to suppress the progress report.
 #' @section Known issues:
 #' On some machines this function fails to connect to the database download URL from the
-#' \href{https://cfpub.epa.gov/ecotox/index.cfm}{EPA website} due to missing
+#' [EPA website](https://cfpub.epa.gov/ecotox/index.cfm) due to missing
 #' SSL certificates. Unfortunately, there is no easy fix for this in this package. A work around is to download and
 #' unzip the file manually using a different machine or browser that is less strict with SSL certificates. You can
-#' then call \code{\link{build_ecotox_sqlite}()} and point the \code{source} location to the manually extracted zip
-#' archive. For this purpose \code{\link{get_ecotox_url}()} can be used.
+#' then call [build_ecotox_sqlite()] and point the `source` location to the manually extracted zip
+#' archive. For this purpose [get_ecotox_url()] can be used.
 #'
 #' @param target Target directory where the files will be downloaded and the database compiled. Default is
-#' \code{\link{get_ecotox_path}()}.
-#' @param write_log A \code{logical} value indicating whether a log file should be written to the target path
+#' [get_ecotox_path()].
+#' @param write_log A `logical` value indicating whether a log file should be written to the target path
 #  after building the SQLite database. See \code{\link{build_ecotox_sqlite}()} for more details. Default is
-#' \code{TRUE}.
+#' `TRUE`.
 #' @param ask There are several steps in which files are (potentially) overwritten or deleted. In those cases
-#' the user is asked on the command line what to do in those cases. Set this parameter to \code{FALSE} in order
+#' the user is asked on the command line what to do in those cases. Set this parameter to `FALSE` in order
 #' to continue without warning and asking.
-#' @param ... Arguments passed on to \code{\link[httr]{GET}}. When this function fails with the error: "Peer
+#' @param ... Arguments passed on to [httr::GET()]. When this function fails with the error: "Peer
 #' certificate cannot be authenticated with given CA certificates", you could try to rerun the function with
-#' the option \code{ssl_verifypeer = 0L}. Only do so when you trust the indicated URL.
-#' @return Returns \code{NULL} invisibly.
+#' the option `ssl_verifypeer = 0L`. Only do so when you trust the indicated URL.
+#' @return Returns `NULL` invisibly.
 #' @rdname download_ecotox_data
 #' @name download_ecotox_data
 #' @examples
@@ -213,8 +215,8 @@ download_ecotox_data <- function(target = get_ecotox_path(), write_log = TRUE, a
 
 #' Build an SQLite database from zip archived tables downloaded from EPA website
 #'
-#' This function is called automatically after \code{\link{download_ecotox_data}}. The database files can
-#' also be downloaded manually from the \href{https://cfpub.epa.gov/ecotox/}{EPA website} from which a local
+#' `r lifecycle::badge('stable')` This function is called automatically after [download_ecotox_data()]. The database
+#' files can also be downloaded manually from the [EPA website](https://cfpub.epa.gov/ecotox/) from which a local
 #' database can be build using this function.
 #'
 #' Raw data downloaded from the EPA website is in itself not very efficient to work with in R. The files are large
@@ -222,7 +224,7 @@ download_ecotox_data <- function(target = get_ecotox_path(), write_log = TRUE, a
 #' to build an SQLite database from the tables. That way, the data can be queried without having to load it all into
 #' memory.
 #'
-#' EPA provides the raw table from the \href{https://cfpub.epa.gov/ecotox/}{ECOTOX database} as text files with
+#' EPA provides the raw table from the [ECOTOX database](https://cfpub.epa.gov/ecotox/) as text files with
 #' pipe-characters ('|') as table column separators. Although not documented, the tables appear not to contain comment
 #' or quotation characters. There are records containing the reserved pipe-character that will confuse the table parser.
 #' For these records, the pipe-character is replaced with a dash character ('-').
@@ -234,18 +236,18 @@ download_ecotox_data <- function(target = get_ecotox_path(), write_log = TRUE, a
 #' therefore advised to stick to common (non-accented) alpha-numerical characters in your searches, for the sake of
 #' reproducibility.
 #' 
-#' Use '\code{\link{suppressMessages}}' to suppress the progress report.
+#' Use '[suppressMessages()]' to suppress the progress report.
 #'
-#' @param source A \code{character} string pointing to the directory path where the text files with the raw
-#' tables are located. These can be obtained by extracting the zip archive from \url{https://cfpub.epa.gov/ecotox/}
+#' @param source A `character` string pointing to the directory path where the text files with the raw
+#' tables are located. These can be obtained by extracting the zip archive from <https://cfpub.epa.gov/ecotox/>
 #' and look for 'Download ASCII Data'.
-#' @param destination A \code{character} string representing the destination path for the SQLite file. By default
-#' this is \code{\link{get_ecotox_path}()}.
-#' @param write_log A \code{logical} value indicating whether a log file should be written in the destination path
+#' @param destination A `character` string representing the destination path for the SQLite file. By default
+#' this is [get_ecotox_path()].
+#' @param write_log A `logical` value indicating whether a log file should be written in the destination path
 #  after building the SQLite database. See \code{\link{build_ecotox_sqlite}()} for more details. Default is
-#' \code{TRUE}. The log contains information on the source and destination path, the version of this package,
+#' `TRUE`. The log contains information on the source and destination path, the version of this package,
 #' the creation date, and the operating system on which the database was created.
-#' @return Returns \code{NULL} invisibly.
+#' @return Returns `NULL` invisibly.
 #' @rdname build_ecotox_sqlite
 #' @name build_ecotox_sqlite
 #' @examples
