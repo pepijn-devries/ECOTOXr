@@ -19,10 +19,10 @@
 #' @author Pepijn de Vries
 #' @export
 get_ecotox_url <- function(...) {
-  link <- httr::GET("https://cfpub.epa.gov/ecotox/index.cfm", ...)
-  link <- rvest::read_html(link)
-  link <- rvest::html_elements(link, "a.ascii-link")
-  link <- rvest::html_attr(link, "href")
+  link <- httr::GET("https://cfpub.epa.gov/ecotox/index.cfm", ...) %>%
+    rvest::read_html() %>%
+    rvest::html_elements("a.ascii-link") %>%
+    rvest::html_attr("href")
   link <- link[!is.na(link) & endsWith(link, ".zip")]
   if (length(link) == 0) stop("Could not find ASCII download link...")
   return(link)

@@ -5,7 +5,7 @@ Version: 0.2.1
 Date: #TODO
 Authors@R: c(person("Pepijn", "de Vries", role = c("aut", "cre", "dtc"),
     email = "pepijn.devries@outlook.com",
-    comment = list(ORCID = "0000-0002-7961-6646")))
+    comment = c(ORCID = "0000-0002-7961-6646")))
 Author:
     Pepijn de Vries [aut, cre, dtc] (0000-0002-7961-6646)
 Maintainer: Pepijn de Vries <pepijn.devries@outlook.com>
@@ -21,9 +21,9 @@ Depends:
 Imports:
     crayon,
     dbplyr,
-    lifecycle,
     dplyr,
     httr,
+    lifecycle,
     purrr,
     rappdirs,
     readr,
