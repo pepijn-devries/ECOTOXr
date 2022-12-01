@@ -5,7 +5,7 @@ test_that("Source code does not have things on TODO list", {
       unlist(
         lapply(files_to_check, function(file) {
           content <- suppressWarnings(readLines(file))
-          any(grepl("TODO", content))
+          any(grepl("TODO", content) & !grepl("grepl\\(\"TODO\"", content))
         })
       )
     )
