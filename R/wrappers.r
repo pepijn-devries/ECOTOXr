@@ -1,12 +1,12 @@
 #' Search and retrieve toxicity records from the database
 #'
-#' Create (and execute) an SQL search query based on basic search terms and options. This allows you to search
-#' the database, without having to understand SQL.
+#' `r lifecycle::badge('stable')` Create (and execute) an SQL search query based on basic search terms and
+#' options. This allows you to search the database, without having to understand SQL.
 #'
 #' The ECOTOX database is stored locally as an SQLite file, which can be queried with SQL. These functions
 #' allow you to automatically generate an SQL query and send it to the database, without having to understand
-#' SQL. The function \code{search_query_ecotox} generates and returns the SQL query (which can be edited by
-#' hand if desired). You can also directly call \code{search_ecotox}, this will first generate the query,
+#' SQL. The function `search_query_ecotox` generates and returns the SQL query (which can be edited by
+#' hand if desired). You can also directly call `search_ecotox`, this will first generate the query,
 #' send it to the database and retrieve the result.
 #'
 #'
@@ -14,24 +14,24 @@
 #' within an acceptable time. The time required for retrieving data from a search query depends on the complexity
 #' of the query, the size of the query and the speed of your machine. Most queries should be completed within
 #' seconds (or several minutes at most) on modern machines. If your search require optimisation for speed,
-#' you could try reordering the search fields. You can also edit the query generated with \code{search_query_ecotox}
-#' by hand and retrieve it with \code{\link[DBI]{dbGetQuery}}.
+#' you could try reordering the search fields. You can also edit the query generated with `search_query_ecotox`
+#' by hand and retrieve it with [DBI::dbGetQuery()].
 #'
 #' Note that this package is actively maintained and this function may be revised in future versions.
 #' In order to create reproducible results the user must: always work with an official release from
 #' CRAN and document the package and database version that are used to generate specific results (see also
-#' \code{\link{cite_ecotox}()}).
-#' @param search A named \code{list} containing the search terms. The names of the elements should refer to
-#' the field (i.e. table header) in which the terms are searched. Use \code{\link{list_ecotox_fields}()} to
+#' [cite_ecotox()]).
+#' @param search A named `list` containing the search terms. The names of the elements should refer to
+#' the field (i.e. table header) in which the terms are searched. Use [list_ecotox_fields()] to
 #' obtain a list of available field names.
 #'
 #' Each element in that list should contain another list with at least one element named 'terms'. This should
-#' contain a \code{vector} of \code{character} strings with search terms. Optionally, a second element
-#' named 'method' can be provided which should be set to either '\code{contains}' (default, when missing) or
-#' '\code{exact}'. In the first case the query will match any record in the indicated field that contains
-#' the search term. In case of '\code{exact}' it will only return exact matches. Note that searches are
+#' contain a `vector` of `character` strings with search terms. Optionally, a second element
+#' named 'method' can be provided which should be set to either '`contains`' (default, when missing) or
+#' '`exact`'. In the first case the query will match any record in the indicated field that contains
+#' the search term. In case of '`exact`' it will only return exact matches. Note that searches are
 #' not case sensitive, but are picky with special (accented) characters. While building the local database
-#' (see \link{build_ecotox_sqlite}) such special characters may be treated differently on different
+#' (see [build_ecotox_sqlite]) such special characters may be treated differently on different
 #' operating systems. For the sake of reproducibility, the user is advised to stick with non-accented
 #' alpha-numeric characters.
 #'
@@ -46,9 +46,9 @@
 #'
 #' Beware that some field names are ambiguous and occur in multiple tables (like `cas_number' and `code').
 #' When searching such fields, the search result may not be as expected.
-#' @param output_fields A \code{vector} of \code{character} strings indicating which field names (table headers)
-#' should be included in the output. By default \code{\link{list_ecotox_fields}("default")} is used. Use
-#' \code{\link{list_ecotox_fields}("all")} to list all available fields.
+#' @param output_fields A `vector` of `character` strings indicating which field names (table headers)
+#' should be included in the output. By default `[list_ecotox_fields]("default")` is used. Use
+#' `[list_ecotox_fields]("all")` to list all available fields.
 #' @param group_by_results
 #' Ecological test results are generally the most informative element in the ECOTOX
 #' database. Therefore, this search function returns a table with unique results in each row.
@@ -58,23 +58,23 @@
 #' similarly, multiple doses can also be linked to a single test result.
 #'
 #' By default the search results are grouped by test results. As a result not all doses or chemical carriers may
-#' be displayed in the output. Set the \code{group_by_results} parameter to \code{FALSE} in order to force SQLite
+#' be displayed in the output. Set the `group_by_results` parameter to `FALSE` in order to force SQLite
 #' to output all data (e.g., all carriers). But beware that test results may be duplicated in those cases.
 #' @param compute The ECOTOXr package tries to construct database queries as lazy as possible. Meaning that R
 #' moves as much of the heavy lifting as possible to the database. When your search becomes complicated (e.g., when
 #' including many output fields), you may run into trouble and hit the SQL parser limits. In those cases you can set
-#' this parameter to \code{TRUE}. Database queries are then computed in the process of joining tables. This is generally
+#' this parameter to `TRUE`. Database queries are then computed in the process of joining tables. This is generally
 #' slower. Alternatively, you could try to include less output fields in order to simplify the query.
-#' @param as_data_frame \code{logical} value indicating whether the result should be converted into a \code{data.frame}
-#' (default is \code{TRUE}). When set to \code{FALSE} the data will be returned as a \code{\link[dplyr:tibble]{tbl_df}}.
-#' @param ... Arguments passed to \code{\link{dbConnectEcotox}} and other functions. You can use this when the database
-#' is not located at the default path (\code{\link{get_ecotox_path}()}).
-#' @return In case of \code{search_query_ecotox}, a \code{character} string containing an SQL
+#' @param as_data_frame `r lifecycle::badge('experimental')` `logical` value indicating whether the result should be
+#' converted into a `data.frame` (default is `TRUE`). When set to `FALSE` the data will be returned as a [`tbl_df()`][dplyr::tibble].
+#' @param ... Arguments passed to [dbConnectEcotox()] and other functions. You can use this when the database
+#' is not located at the default path ([get_ecotox_path()]).
+#' @return In case of `search_query_ecotox`, a `character` string containing an SQL
 #' query is returned. This query is built based on the provided search terms and options.
 #'
-#' In case of \code{search_ecotox} a \code{data.frame} is returned based on the search query built with
-#' \code{search_query_ecotox}. The \code{data.frame} is unmodified as returned by SQLite, meaning that all
-#' fields are returned as \code{character}s (even where the field types are 'date' or 'numeric').
+#' In case of `search_ecotox` a `data.frame` is returned based on the search query built with
+#' `search_query_ecotox`. The `data.frame` is unmodified as returned by SQLite, meaning that all
+#' fields are returned as `character`s (even where the field types are 'date' or 'numeric').
 #'
 #' The results are tagged with: a time stamp; the package version used; and the
 #' file path of the SQLite database used in the search (when applicable). These tags are added as attributes

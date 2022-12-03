@@ -1,11 +1,11 @@
 Package: ECOTOXr
 Type: Package
 Title: Download and Extract Data from US EPA's ECOTOX Database
-Version: 0.2.0
-Date: 2022-11-17
+Version: 0.2.1
+Date: #TODO
 Authors@R: c(person("Pepijn", "de Vries", role = c("aut", "cre", "dtc"),
     email = "pepijn.devries@outlook.com",
-    comment = list(ORCID = "0000-0002-7961-6646")))
+    comment = c(ORCID = "0000-0002-7961-6646")))
 Author:
     Pepijn de Vries [aut, cre, dtc] (0000-0002-7961-6646)
 Maintainer: Pepijn de Vries <pepijn.devries@outlook.com>
@@ -23,6 +23,7 @@ Imports:
     dbplyr,
     dplyr,
     httr,
+    lifecycle,
     purrr,
     rappdirs,
     readr,
@@ -45,3 +46,4 @@ Encoding: UTF-8
 LazyData: true
 RoxygenNote: 7.1.2
 Config/testthat/edition: 3
+Roxygen: list(markdown = TRUE)

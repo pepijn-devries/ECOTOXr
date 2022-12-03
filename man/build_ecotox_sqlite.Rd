@@ -12,7 +12,7 @@ tables are located. These can be obtained by extracting the zip archive from \ur
 and look for 'Download ASCII Data'.}
 
 \item{destination}{A \code{character} string representing the destination path for the SQLite file. By default
-this is \code{\link{get_ecotox_path}()}.}
+this is \code{\link[=get_ecotox_path]{get_ecotox_path()}}.}
 
 \item{write_log}{A \code{logical} value indicating whether a log file should be written in the destination path
 \code{TRUE}. The log contains information on the source and destination path, the version of this package,
@@ -22,8 +22,8 @@ the creation date, and the operating system on which the database was created.}
 Returns \code{NULL} invisibly.
 }
 \description{
-This function is called automatically after \code{\link{download_ecotox_data}}. The database files can
-also be downloaded manually from the \href{https://cfpub.epa.gov/ecotox/}{EPA website} from which a local
+\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#stable}{\figure{lifecycle-stable.svg}{options: alt='[Stable]'}}}{\strong{[Stable]}} This function is called automatically after \code{\link[=download_ecotox_data]{download_ecotox_data()}}. The database
+files can also be downloaded manually from the \href{https://cfpub.epa.gov/ecotox/}{EPA website} from which a local
 database can be build using this function.
 }
 \details{
@@ -44,7 +44,7 @@ consequences for reproducibility, but only if you build search queries that look
 therefore advised to stick to common (non-accented) alpha-numerical characters in your searches, for the sake of
 reproducibility.
 
-Use '\code{\link{suppressMessages}}' to suppress the progress report.
+Use '\code{\link[=suppressMessages]{suppressMessages()}}' to suppress the progress report.
 }
 \examples{
 \dontrun{

@@ -24,10 +24,10 @@ as prefix. Default is \code{TRUE}.}
 Returns a \code{vector} of type \code{character} containing the field names from the ECOTOX database.
 }
 \description{
-List the field names (table headers) that are available from the ECOTOX database
+\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#stable}{\figure{lifecycle-stable.svg}{options: alt='[Stable]'}}}{\strong{[Stable]}} List the field names (table headers) that are available from the ECOTOX database
 }
 \details{
-This can be useful when specifying a \code{\link{search_ecotox}}, to identify which fields
+This can be useful when specifying a \code{\link[=search_ecotox]{search_ecotox()}}, to identify which fields
 are available from the database, for searching and output.
 }
 \examples{
@@ -37,9 +37,9 @@ list_ecotox_fields("default")
 ## All fields that are available from the ECOTOX database:
 list_ecotox_fields("all")
 
-## All except fields from the tables 'chemical_carriers', 'media_characteristics', 'doses',
-## 'dose_responses', 'dose_response_details', 'dose_response_links' and 'dose_stat_method_codes'
-## that are available from the ECOTOX database:
+## All except fields from the tables 'chemical_carriers', 'media_characteristics',
+## 'doses', 'dose_responses', 'dose_response_details', 'dose_response_links' and
+## 'dose_stat_method_codes' that are available from the ECOTOX database:
 list_ecotox_fields("full")
 }
 \author{

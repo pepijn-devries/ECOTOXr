@@ -26,7 +26,7 @@ search_query_ecotox(search, output_fields = list_ecotox_fields("default"), ...)
 }
 \arguments{
 \item{search}{A named \code{list} containing the search terms. The names of the elements should refer to
-the field (i.e. table header) in which the terms are searched. Use \code{\link{list_ecotox_fields}()} to
+the field (i.e. table header) in which the terms are searched. Use \code{\link[=list_ecotox_fields]{list_ecotox_fields()}} to
 obtain a list of available field names.
 
 Each element in that list should contain another list with at least one element named 'terms'. This should
@@ -48,12 +48,12 @@ with 'latin_name' 'Daphnia magna', only tests where Daphnia magna are exposed to
 When this search behaviour described above is not desirable, the user can either adjust the query manually,
 or use this function to perform several separate searches and combine the results afterwards.
 
-Beware that some field names are ambiguous and occur in multiple tables (like `cas_number' and `code').
+Beware that some field names are ambiguous and occur in multiple tables (like \verb{cas_number' and }code').
 When searching such fields, the search result may not be as expected.}
 
 \item{output_fields}{A \code{vector} of \code{character} strings indicating which field names (table headers)
-should be included in the output. By default \code{\link{list_ecotox_fields}("default")} is used. Use
-\code{\link{list_ecotox_fields}("all")} to list all available fields.}
+should be included in the output. By default \verb{[list_ecotox_fields]("default")} is used. Use
+\verb{[list_ecotox_fields]("all")} to list all available fields.}
 
 \item{group_by_results}{Ecological test results are generally the most informative element in the ECOTOX
 database. Therefore, this search function returns a table with unique results in each row.
@@ -72,11 +72,11 @@ including many output fields), you may run into trouble and hit the SQL parser l
 this parameter to \code{TRUE}. Database queries are then computed in the process of joining tables. This is generally
 slower. Alternatively, you could try to include less output fields in order to simplify the query.}
 
-\item{as_data_frame}{\code{logical} value indicating whether the result should be converted into a \code{data.frame}
-(default is \code{TRUE}). When set to \code{FALSE} the data will be returned as a \code{\link[dplyr:tibble]{tbl_df}}.}
+\item{as_data_frame}{\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#experimental}{\figure{lifecycle-experimental.svg}{options: alt='[Experimental]'}}}{\strong{[Experimental]}} \code{logical} value indicating whether the result should be
+converted into a \code{data.frame} (default is \code{TRUE}). When set to \code{FALSE} the data will be returned as a \code{\link[dplyr:reexports]{tbl_df()}}.}
 
-\item{...}{Arguments passed to \code{\link{dbConnectEcotox}} and other functions. You can use this when the database
-is not located at the default path (\code{\link{get_ecotox_path}()}).}
+\item{...}{Arguments passed to \code{\link[=dbConnectEcotox]{dbConnectEcotox()}} and other functions. You can use this when the database
+is not located at the default path (\code{\link[=get_ecotox_path]{get_ecotox_path()}}).}
 }
 \value{
 In case of \code{search_query_ecotox}, a \code{character} string containing an SQL
@@ -91,8 +91,8 @@ file path of the SQLite database used in the search (when applicable). These tag
 to the output table or query.
 }
 \description{
-Create (and execute) an SQL search query based on basic search terms and options. This allows you to search
-the database, without having to understand SQL.
+\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#stable}{\figure{lifecycle-stable.svg}{options: alt='[Stable]'}}}{\strong{[Stable]}} Create (and execute) an SQL search query based on basic search terms and
+options. This allows you to search the database, without having to understand SQL.
 }
 \details{
 The ECOTOX database is stored locally as an SQLite file, which can be queried with SQL. These functions
@@ -101,18 +101,17 @@ SQL. The function \code{search_query_ecotox} generates and returns the SQL query
 hand if desired). You can also directly call \code{search_ecotox}, this will first generate the query,
 send it to the database and retrieve the result.
 
-
 Although the generated query is not optimized for speed, it should be able to process most common searches
 within an acceptable time. The time required for retrieving data from a search query depends on the complexity
 of the query, the size of the query and the speed of your machine. Most queries should be completed within
 seconds (or several minutes at most) on modern machines. If your search require optimisation for speed,
 you could try reordering the search fields. You can also edit the query generated with \code{search_query_ecotox}
-by hand and retrieve it with \code{\link[DBI]{dbGetQuery}}.
+by hand and retrieve it with \code{\link[DBI:dbGetQuery]{DBI::dbGetQuery()}}.
 
 Note that this package is actively maintained and this function may be revised in future versions.
 In order to create reproducible results the user must: always work with an official release from
 CRAN and document the package and database version that are used to generate specific results (see also
-\code{\link{cite_ecotox}()}).
+\code{\link[=cite_ecotox]{cite_ecotox()}}).
 }
 \examples{
 \dontrun{

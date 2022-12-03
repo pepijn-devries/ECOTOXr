@@ -61,7 +61,7 @@ which can be created with \code{as.cas}. For \code{as.cas}, \code{x} can be a \c
 with or without hyphenation) or a \code{numeric} value. Note that \code{as.cas} will only accept correctly
 formatted and valid CAS registry numbers.}
 
-\item{i}{Index specifying element(s) to extract or replace. See also \code{\link[base:Extract]{Extract}}.}
+\item{i}{Index specifying element(s) to extract or replace. See also \code{\link[base:Extract]{base::Extract()}}.}
 
 \item{value}{A replacement value, can be anything that can be converted into an S3 cas-class object with \code{as.cas}.}
 
@@ -79,7 +79,7 @@ indicating whether \code{x} is a valid S3 cas-class object. The square brackets 
 or the \code{vector} of cas objects where the selected elements are replaced by \code{value}.
 }
 \description{
-Functions for handling chemical abstract service (CAS) registry numbers
+\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#stable}{\figure{lifecycle-stable.svg}{options: alt='[Stable]'}}}{\strong{[Stable]}} Functions for handling chemical abstract service (CAS) registry numbers
 }
 \details{
 In the database \href{https://en.wikipedia.org/wiki/Chemical_Abstracts_Service}{CAS registry} numbers are stored

@@ -14,10 +14,11 @@ Returns a \code{logical} value indicating whether a copy of the database exists.
 a \code{files} attribute that lists which copies of the database are found.
 }
 \description{
-Tests whether a local copy of the US EPA ECOTOX database exists in \code{\link{get_ecotox_path}}.
+\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#stable}{\figure{lifecycle-stable.svg}{options: alt='[Stable]'}}}{\strong{[Stable]}} Tests whether a local copy of the US EPA ECOTOX database exists in
+\code{\link[=get_ecotox_path]{get_ecotox_path()}}.
 }
 \details{
-When arguments are omitted, this function will look in the default directory (\code{\link{get_ecotox_path}}).
+When arguments are omitted, this function will look in the default directory (\code{\link[=get_ecotox_path]{get_ecotox_path()}}).
 However, it is possible to build a database file elsewhere if necessary.
 }
 \examples{

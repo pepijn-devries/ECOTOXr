@@ -7,21 +7,21 @@
 get_ecotox_url(...)
 }
 \arguments{
-\item{...}{arguments passed on to \code{\link[httr]{GET}}}
+\item{...}{arguments passed on to \code{\link[httr:GET]{httr::GET()}}}
 }
 \value{
 Returns a \code{character} string containing the download URL of the latest version of the EPA ECOTOX
 database.
 }
 \description{
-This function downloads the webpage at \url{https://cfpub.epa.gov/ecotox/index.cfm}. It then searches for the
+\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#stable}{\figure{lifecycle-stable.svg}{options: alt='[Stable]'}}}{\strong{[Stable]}} This function downloads the webpage at \url{https://cfpub.epa.gov/ecotox/index.cfm}. It then searches for the
 download link for the complete ECOTOX database and extract its URL.
 }
 \details{
-This function is called by \code{\link{download_ecotox_data}} which tries to download the file from the resulting
+This function is called by \code{\link[=download_ecotox_data]{download_ecotox_data()}} which tries to download the file from the resulting
 URL. On some machines this fails due to issues with the SSL certificate. The user can try to download the file
 by using this URL in a different browser (or on a different machine). Alternatively, the user could try to use
-\code{\link{download_ecotox_data}(ssl_verifypeer = 0L)} when the download URL is trusted.
+\verb{[download_ecotox_data](ssl_verifypeer = 0L)} when the download URL is trusted.
 }
 \examples{
 \dontrun{
