@@ -19,10 +19,10 @@
 #' @author Pepijn de Vries
 #' @export
 get_ecotox_url <- function(...) {
-  link <- httr::GET("https://cfpub.epa.gov/ecotox/index.cfm", ...)
-  link <- rvest::read_html(link)
-  link <- rvest::html_elements(link, "a.ascii-link")
-  link <- rvest::html_attr(link, "href")
+  link <- httr::GET("https://cfpub.epa.gov/ecotox/index.cfm", ...) %>%
+    rvest::read_html() %>%
+    rvest::html_elements("a.ascii-link") %>%
+    rvest::html_attr("href")
   link <- link[!is.na(link) & endsWith(link, ".zip")]
   if (length(link) == 0) stop("Could not find ASCII download link...")
   return(link)
@@ -114,7 +114,8 @@ get_ecotox_path <- function() {
 #' SSL certificates. Unfortunately, there is no easy fix for this in this package. A work around is to download and
 #' unzip the file manually using a different machine or browser that is less strict with SSL certificates. You can
 #' then call [build_ecotox_sqlite()] and point the `source` location to the manually extracted zip
-#' archive. For this purpose [get_ecotox_url()] can be used.
+#' archive. For this purpose [get_ecotox_url()] can be used. Alternatively, one could try to call [download_ecotox_data()]
+#' by setting `ssl_verifypeer = 0L`; but only do so when you trust the download URL from [get_ecotox_URL()].
 #'
 #' @param target Target directory where the files will be downloaded and the database compiled. Default is
 #' [get_ecotox_path()].
