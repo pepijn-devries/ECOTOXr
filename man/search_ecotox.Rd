@@ -139,6 +139,12 @@ if (check_ecotox_availability()) {
 }
 }
 }
+\seealso{
+Other search-functions: 
+\code{\link{websearch_comptox}()},
+\code{\link{websearch_ecotox}}
+}
 \author{
 Pepijn de Vries
 }
+\concept{search-functions}

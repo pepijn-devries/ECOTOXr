@@ -107,6 +107,7 @@
 #' }
 #' }
 #' @author Pepijn de Vries
+#' @family search-functions
 #' @export
 search_ecotox <- function(search, output_fields = list_ecotox_fields("default"),
                           group_by_results = TRUE, compute = FALSE, as_data_frame = TRUE, ...) {
