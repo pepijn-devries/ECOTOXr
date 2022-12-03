@@ -48,7 +48,8 @@ On some machines this function fails to connect to the database download URL fro
 SSL certificates. Unfortunately, there is no easy fix for this in this package. A work around is to download and
 unzip the file manually using a different machine or browser that is less strict with SSL certificates. You can
 then call \code{\link[=build_ecotox_sqlite]{build_ecotox_sqlite()}} and point the \code{source} location to the manually extracted zip
-archive. For this purpose \code{\link[=get_ecotox_url]{get_ecotox_url()}} can be used.
+archive. For this purpose \code{\link[=get_ecotox_url]{get_ecotox_url()}} can be used. Alternatively, one could try to call \code{\link[=download_ecotox_data]{download_ecotox_data()}}
+by setting \code{ssl_verifypeer = 0L}; but only do so when you trust the download URL from \link[=get_ecotox_url]{get_ecotox_URL()}.
 }
 
 \examples{

@@ -1,6 +1,6 @@
 #' Package description
 #'
-#' Everything you need to know when you start using the ECOTOXr package.
+#' Everything you need to know when you start using the ECOTOXr package. \if{html}{\figure{logo.svg}{options: width="150px"}}
 #'
 #' The ECOTOXr provides the means to efficiently search, extract and analyse [US EPA](https://www.epa.gov/)
 #' [ECOTOX](https://cfpub.epa.gov/ecotox/) data, with a focus on reproducible results. Although the package
@@ -53,7 +53,7 @@
 #'   the quality of this package and therefore outweighs the convenience of having the data bundled with the package.
 #' * The user has full control over the release version of the database that is being used.
 #'
-#' @section Why doesn't this package search the online ECOTOX database?:
+#' @section Why doesn't this package search the on-line ECOTOX database?:
 #' Although this is possible, there are several reasons why we opted for creating a local copy:
 #' * The user would be restricted to the search options provided on the website ([ECOTOX](https://cfpub.epa.gov/ecotox/)).
 #' * The on-line database doesn't come with an API that would allow for convenient interface.

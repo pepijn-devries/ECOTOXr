@@ -5,7 +5,7 @@
 \alias{ECOTOXr}
 \title{Package description}
 \description{
-Everything you need to know when you start using the ECOTOXr package.
+Everything you need to know when you start using the ECOTOXr package. \if{html}{\figure{logo.svg}{options: width="150px"}}
 }
 \details{
 The ECOTOXr provides the means to efficiently search, extract and analyse \href{https://www.epa.gov/}{US EPA}
@@ -70,7 +70,7 @@ the quality of this package and therefore outweighs the convenience of having th
 }
 }
 
-\section{Why doesn't this package search the online ECOTOX database?}{
+\section{Why doesn't this package search the on-line ECOTOX database?}{
 
 Although this is possible, there are several reasons why we opted for creating a local copy:
 \itemize{
