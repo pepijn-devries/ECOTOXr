@@ -14,7 +14,14 @@
 #' @param fields A named `list` of `character`s, used to build a search for for the on-line search query of <https://www.epa.gov/ecotox/search.cfm>.
 #' Use [list_ecotox_web_fields()] to construct a valid list.
 #' @param habitat Use `aquire` (default) to retrieve aquatic data, `terrestrial` for, you've guessed it, terrestrial data.
+#' @param ... In case of [list_ecotox_web_fields()] the dots can be used as search field values used to update the returned list of fields.
+#' 
+#' In case of [websearch_ecotox()] the dots can be used to pass custom options to the underlying [httr::POST()] call. For available
+#' field names, use `names(list_ecotox_web_fields())`
 #' @return Returns named `list` of [dplyr::tibble]s with search results. Results are unpolished and `as is' returned by EPA's web service.
+#' 
+#' [list_ecotox_web_fields()] returns a named list with fields that can be used in a web search of EPA's ECOTOX database, using
+#' [websearch_ecotox()].
 #' @rdname websearch
 #' @name websearch_ecotox
 #' @examples
@@ -30,7 +37,7 @@
 #' @author Pepijn de Vries
 #' @family online-search-functions
 #' @family search-functions
-?#' @export
+#' @export
 websearch_ecotox <- function(fields = list_ecotox_web_fields(), habitat = c("aquire", "terrestrial"), ...) {
   habitat <- match.arg(habitat)
   
@@ -80,12 +87,6 @@ websearch_ecotox <- function(fields = list_ecotox_web_fields(), habitat = c("aqu
   return(data_tables)
 }
 
-#' @param ... In case of [list_ecotox_web_fields()] the dots can be used as search field values used to update the returned list of fields.
-#' 
-#' In case of [websearch_ecotox()] the dots can be used to pass custom options to the underlying [httr::POST()] call. For available
-#' field names, use `names(list_ecotox_web_fields())`
-#' @return [list_ecotox_web_fields()] returns a named list with fields that can be used in a web search of EPA's ECOTOX database, using
-#' [websearch_ecotox()].
 #' @rdname websearch
 #' @name list_ecotox_web_fields
 #' @export
@@ -97,7 +98,7 @@ list_ecotox_web_fields <- function(...){
   form_data <- form_data[form_data != ""]
   form_data <- do.call(c, lapply(form_data, function(x) {
     x <- strsplit(x[[1]], "=")[[1]]
-    structure(ifelse(is.na(x[2]), "", gsub("[+]", " ", URLdecode(x[2]))), names = x[1])
+    structure(ifelse(is.na(x[2]), "", gsub("[+]", " ", utils::URLdecode(x[2]))), names = x[1])
   })) %>% as.list()
   form_data[names(c(...))] <- c(...)
   return(form_data)
@@ -117,7 +118,7 @@ list_ecotox_web_fields <- function(...){
 #' R and the [CompTox](https://comptox.epa.gov) website and is therefore limited by the restrictions documented there.
 #' @param searchItems A `vector` of `character`s where each element is a substance descriptor (any of the selected `identifierType`s) you
 #' wish to query.
-#' @param identifierType Substance identifiers for searching CompTox. Only used when `inputType` is set to `"IDENTIFIER"`.
+#' @param identifierTypes Substance identifiers for searching CompTox. Only used when `inputType` is set to `"IDENTIFIER"`.
 #' @param inputType Type of input used for searching CompTox. See usage section for valid entries.
 #' @param downloadItems Output fields of CompTox data for requested substances
 #' @param massError Error tolerance when searching for substances based on their monoisotopic mass. Only used for `inputType = "MASS"`.
@@ -125,6 +126,7 @@ list_ecotox_web_fields <- function(...){
 #' It will throw an error if it takes longer than the specified `timeout`.
 #' @return Returns a named `list` of [dplyr::tibble]s containing the search results for the requested output tables and fields.
 #' Results are unpolished and `as is' returned by EPA's web service.
+#' @param ... Arguments passed on to [httr::GET] requests.
 #' @rdname websearch_comptox
 #' @name websearch_comptox
 #' @examples
@@ -166,7 +168,8 @@ websearch_comptox <- function(
                         "WATER_SOLUBILITY_MOL/L_OPERA_PRED", "EXPOCAST_MEDIAN_EXPOSURE_PREDICTION_MG/KG-BW/DAY",
                         "NHANES", "TOXCAST_NUMBER_OF_ASSAYS/TOTAL", "TOXCAST_PERCENT_ACTIVE"),
     massError = 0,
-    timeout   = 300) {
+    timeout   = 300,
+    ...) {
   search_form <-
     list(
       identifierTypes = match.arg(identifierTypes, several.ok = T),
@@ -188,9 +191,9 @@ websearch_comptox <- function(
   i <- 0
   repeat {
     search_status <- httr::GET(
-      paste0("https://comptox.epa.gov/dashboard-api/batchsearch/export/status/", post_result$content %>% rawToChar()))
+      paste0("https://comptox.epa.gov/dashboard-api/batchsearch/export/status/", post_result$content %>% rawToChar()), ...)
     .check_http_status(search_status, "Failed to check download status")
-    if (search_status$content %>% rawToChar() %>% `==`("true")) break
+    if ((search_status$content %>% rawToChar()) == "true") break
     i <- i + 1
     if (i == 30) warning("It is taking exceptionally long for preparing the download, you may wish to abort...")
     if (i == timeout) stop("Did not succeed before timeout, try again or increase the timeout...")
@@ -200,7 +203,7 @@ websearch_comptox <- function(
   ## Download is ready, so let's go get it
   search_result <- httr::GET(
     paste0("https://comptox.epa.gov/dashboard-api/batchsearch/export/content/", post_result$content %>% rawToChar()),
-    httr::content_type("application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"))
+    httr::content_type("application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"), ...)
   .check_http_status(search_result, "Failed to obtain search result")
   tab_file <- tempfile(fileext = ".xlsx")
   writeBin(search_result$content, tab_file)

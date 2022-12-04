@@ -5,18 +5,24 @@
 \alias{list_ecotox_web_fields}
 \title{Search and retrieve toxicity records from the on-line database}
 \usage{
+websearch_ecotox(
+  fields = list_ecotox_web_fields(),
+  habitat = c("aquire", "terrestrial"),
+  ...
+)
+
 list_ecotox_web_fields(...)
 }
 \arguments{
-\item{...}{In case of \code{\link[=list_ecotox_web_fields]{list_ecotox_web_fields()}} the dots can be used as search field values used to update the returned list of fields.
-
-In case of \code{\link[=websearch_ecotox]{websearch_ecotox()}} the dots can be used to pass custom options to the underlying \code{\link[httr:POST]{httr::POST()}} call. For available
-field names, use \code{names(list_ecotox_web_fields())}}
-
 \item{fields}{A named \code{list} of \code{character}s, used to build a search for for the on-line search query of \url{https://www.epa.gov/ecotox/search.cfm}.
 Use \code{\link[=list_ecotox_web_fields]{list_ecotox_web_fields()}} to construct a valid list.}
 
 \item{habitat}{Use \code{aquire} (default) to retrieve aquatic data, \code{terrestrial} for, you've guessed it, terrestrial data.}
+
+\item{...}{In case of \code{\link[=list_ecotox_web_fields]{list_ecotox_web_fields()}} the dots can be used as search field values used to update the returned list of fields.
+
+In case of \code{\link[=websearch_ecotox]{websearch_ecotox()}} the dots can be used to pass custom options to the underlying \code{\link[httr:POST]{httr::POST()}} call. For available
+field names, use \code{names(list_ecotox_web_fields())}}
 }
 \value{
 Returns named \code{list} of \link[dplyr:reexports]{dplyr::tibble}s with search results. Results are unpolished and `as is' returned by EPA's web service.

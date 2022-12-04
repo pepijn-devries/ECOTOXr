@@ -37,12 +37,15 @@ websearch_comptox(
     "EXPOCAST_MEDIAN_EXPOSURE_PREDICTION_MG/KG-BW/DAY", "NHANES",
     "TOXCAST_NUMBER_OF_ASSAYS/TOTAL", "TOXCAST_PERCENT_ACTIVE"),
   massError = 0,
-  timeout = 300
+  timeout = 300,
+  ...
 )
 }
 \arguments{
 \item{searchItems}{A \code{vector} of \code{character}s where each element is a substance descriptor (any of the selected \code{identifierType}s) you
 wish to query.}
+
+\item{identifierTypes}{Substance identifiers for searching CompTox. Only used when \code{inputType} is set to \code{"IDENTIFIER"}.}
 
 \item{inputType}{Type of input used for searching CompTox. See usage section for valid entries.}
 
@@ -53,7 +56,7 @@ wish to query.}
 \item{timeout}{Time in seconds (default is 300 secs), that the routine will wait for the download link to get ready.
 It will throw an error if it takes longer than the specified \code{timeout}.}
 
-\item{identifierType}{Substance identifiers for searching CompTox. Only used when \code{inputType} is set to \code{"IDENTIFIER"}.}
+\item{...}{Arguments passed on to \link[httr:GET]{httr::GET} requests.}
 }
 \value{
 Returns a named \code{list} of \link[dplyr:reexports]{dplyr::tibble}s containing the search results for the requested output tables and fields.
@@ -85,7 +88,7 @@ comptox_results2 <- websearch_comptox("100", inputType = "MASS", massError = 5)
 \seealso{
 Other search-functions: 
 \code{\link{search_ecotox}()},
-\code{\link{websearch_ecotox}}
+\code{\link{websearch_ecotox}()}
 }
 \author{
 Pepijn de Vries
