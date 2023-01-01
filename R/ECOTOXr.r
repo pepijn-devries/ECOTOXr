@@ -53,12 +53,14 @@
 #'   the quality of this package and therefore outweighs the convenience of having the data bundled with the package.
 #' * The user has full control over the release version of the database that is being used.
 #'
-#' @section Why doesn't this package search the on-line ECOTOX database?:
-#' Although this is possible, there are several reasons why we opted for creating a local copy:
+#' @section Why does this package promotes using a local copy of the ECOTOX database?:
+#' Although this package offers experimental features for searching on-line, there are several reasons why we
+#' opted for creating a local copy:
 #' * The user would be restricted to the search options provided on the website ([ECOTOX](https://cfpub.epa.gov/ecotox/)).
-#' * The on-line database doesn't come with an API that would allow for convenient interface.
+#' * The on-line database doesn't come with an API that would allow for convenient interface. This is why
+#'   features implemented in this package are experimental.
 #' * The user is not limited by an internet connection and its bandwidth.
-#' * Not all database fields can be retrieved from the on-line interface.
+#' * Not all database fields, and only a limited number of records, can be retrieved from the on-line interface.
 #' @docType package
 #' @name ECOTOXr
 #' @author Pepijn de Vries

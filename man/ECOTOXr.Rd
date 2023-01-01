@@ -70,14 +70,16 @@ the quality of this package and therefore outweighs the convenience of having th
 }
 }
 
-\section{Why doesn't this package search the on-line ECOTOX database?}{
+\section{Why does this package promotes using a local copy of the ECOTOX database?}{
 
-Although this is possible, there are several reasons why we opted for creating a local copy:
+Although this package offers experimental features for searching on-line, there are several reasons why we
+opted for creating a local copy:
 \itemize{
 \item The user would be restricted to the search options provided on the website (\href{https://cfpub.epa.gov/ecotox/}{ECOTOX}).
-\item The on-line database doesn't come with an API that would allow for convenient interface.
+\item The on-line database doesn't come with an API that would allow for convenient interface. This is why
+features implemented in this package are experimental.
 \item The user is not limited by an internet connection and its bandwidth.
-\item Not all database fields can be retrieved from the on-line interface.
+\item Not all database fields, and only a limited number of records, can be retrieved from the on-line interface.
 }
 }
 

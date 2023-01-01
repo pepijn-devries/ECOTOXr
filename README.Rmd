@@ -51,7 +51,7 @@ devtools::install_github('pepijn-devries/ECOTOXr')
 
 ### Preparing the database
 
-Although {`ECOTOXr`} has experimental features to search the on-line database. The package will
+Although `{ECOTOXr}` has experimental features to search the on-line database. The package will
 reach its full potential when you build a copy of the database on your local machine.
 
 > Download and build a local copy of the latest ASCII export of the US EPA ECOTOX database
@@ -95,7 +95,7 @@ search_ecotox(
 )
 ```
 
-If you like to use [{`dplyr`}](https://dplyr.tidyverse.org/) verbs, you are in luck. SQLite database can be approached using
+If you like to use [`{dplyr}`](https://dplyr.tidyverse.org/) verbs, you are in luck. SQLite database can be approached using
 `{dplyr}` verbs. This approach will only return information from the `results` table. The end-user will have to join other information
 (like test species and test substance) manually. This does require knowledge of the database structure.
 
@@ -115,9 +115,7 @@ needs knowledge of the database structure in order to join additional data.
 > Using `SQL` syntax
 
 ```{r warning = FALSE}
-dbGetQuery(
-  con,
-  "SELECT * FROM results WHERE result_id='401386'") %>%
+dbGetQuery(con, "SELECT * FROM results WHERE result_id='401386'") %>%
   dplyr::as_tibble()
 ```
 
