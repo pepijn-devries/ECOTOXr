@@ -14,7 +14,8 @@ websearch_ecotox(
 list_ecotox_web_fields(...)
 }
 \arguments{
-\item{fields}{A named \code{list} of \code{character}s, used to build a search for for the on-line search query of \url{https://www.epa.gov/ecotox/search.cfm}.
+\item{fields}{A named \code{list} of \code{character}s, used to build a search for for the on-line search query of
+\url{https://cfpub.epa.gov/ecotox/search.cfm}.
 Use \code{\link[=list_ecotox_web_fields]{list_ecotox_web_fields()}} to construct a valid list.}
 
 \item{habitat}{Use \code{aquire} (default) to retrieve aquatic data, \code{terrestrial} for, you've guessed it, terrestrial data.}
@@ -32,7 +33,7 @@ Returns named \code{list} of \link[dplyr:reexports]{dplyr::tibble}s with search 
 }
 \description{
 \ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#experimental}{\figure{lifecycle-experimental.svg}{options: alt='[Experimental]'}}}{\strong{[Experimental]}} Functions to search and retrieve records from the on-line database at
-\url{https://www.epa.gov/ecotox/search.cfm}.
+\url{https://cfpub.epa.gov/ecotox/search.cfm}.
 }
 \details{
 The functions described here to search and retrieve records from the on-line database are experimental. This is because this feature is
