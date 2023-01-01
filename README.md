@@ -1,6 +1,6 @@
 
 > `{ECOTOXr}` Harness information from the [US EPA ECOTOXicology
-> Knowledgebase](https://www.epa.gov/ecotox/) [![R build
+> Knowledgebase](https://cfpub.epa.gov/ecotox/) [![R build
 > status](https://github.com/pepijn-devries/ECOTOXr/workflows/R-CMD-check/badge.svg)](https://github.com/pepijn-devries/ECOTOXr/actions)
 > [![version](https://www.r-pkg.org/badges/version/ECOTOXr)](https://CRAN.R-project.org/package=ECOTOXr)
 > ![cranlogs](https://cranlogs.r-pkg.org/badges/ECOTOXr)
@@ -9,23 +9,24 @@
 
 <a href="https://github.com/pepijn-devries/ECOTOXr/"><img src="man/figures/logo.png" alt="ECOTOXr logo" align="right" /></a>
 `{ECOTOXr}` can be used to explore and analyse data from the [US EPA
-ECOTOX database](https://www.epa.gov/ecotox). More specifically you can:
+ECOTOX database](https://cfpub.epa.gov/ecotox/). More specifically you
+can:
 
 -   Build a local SQLite copy of the [US EPA ECOTOX
-    database](https://www.epa.gov/ecotox)
+    database](https://cfpub.epa.gov/ecotox/)
 -   Search and extract data from the local database
 -   Use experimental features to search the on-line dashboards:
-    [ECOTOX](https://www.epa.gov/ecotox/search.cfm) and
+    [ECOTOX](https://cfpub.epa.gov/ecotox/search.cfm) and
     [CompTox](https://comptox.epa.gov/dashboard/batch-search)
 
 ## Why use `{ECOTOXr}`?
 
 The `{ECOTOXr}` package allows you to search and extract data from the
-[ECOTOXicological Knowledgebase](https://www.epa.gov/ecotox/) and import
-it directly into `R`. This will allow you to formalize and document the
-search- and extract-procedures in `R` code. This makes it easier to
-share and reproduce such procedures and its results. Moreover, you can
-directly apply any statistical analysis offered in `R`.
+[ECOTOXicological Knowledgebase](https://cfpub.epa.gov/ecotox/) and
+import it directly into `R`. This will allow you to formalize and
+document the search- and extract-procedures in `R` code. This makes it
+easier to share and reproduce such procedures and its results. Moreover,
+you can directly apply any statistical analysis offered in `R`.
 
 ## Installation
 
@@ -99,7 +100,7 @@ search_ecotox(
 #> # A tibble: 1 x 98
 #>   test_cas test_grade test_gra~1 test_~2 test_~3 test_~4 test_~5 test_~6 test_~7
 #> *    <int> <chr>      <chr>      <chr>   <chr>   <chr>   <chr>   <chr>   <chr>  
-#> 1    71432 NR         None       None    NR      None    NR      None    NR     
+#> 1    71432 NR         ""         ""      NR      <NA>    NR      <NA>    NR     
 #> # ... with 89 more variables: test_purity_comments <chr>,
 #> #   organism_lifestage <chr>, organism_age_mean_op <chr>,
 #> #   organism_age_mean <chr>, organism_age_min_op <chr>, organism_age_min <chr>,
@@ -126,7 +127,7 @@ dplyr::tbl(con, "results") %>%
 #> # A tibble: 1 x 137
 #>   result_id test_id sample_siz~1 sampl~2 sampl~3 sampl~4 sampl~5 sampl~6 sampl~7
 #>       <int>   <int> <chr>        <chr>   <chr>   <chr>   <chr>   <chr>   <chr>  
-#> 1    401386 1020021 None         NC      None    NC      None    NC      NC     
+#> 1    401386 1020021 ""           NC      ""      NC      ""      NC      NC     
 #> # ... with 128 more variables: sample_size_comments <chr>,
 #> #   obs_duration_mean_op <chr>, obs_duration_mean <chr>,
 #> #   obs_duration_min_op <chr>, obs_duration_min <chr>,
@@ -150,7 +151,7 @@ dbGetQuery(con, "SELECT * FROM results WHERE result_id='401386'") %>%
 #> # A tibble: 1 x 137
 #>   result_id test_id sample_siz~1 sampl~2 sampl~3 sampl~4 sampl~5 sampl~6 sampl~7
 #>       <int>   <int> <chr>        <chr>   <chr>   <chr>   <chr>   <chr>   <chr>  
-#> 1    401386 1020021 None         NC      None    NC      None    NC      NC     
+#> 1    401386 1020021 ""           NC      ""      NC      ""      NC      NC     
 #> # ... with 128 more variables: sample_size_comments <chr>,
 #> #   obs_duration_mean_op <chr>, obs_duration_mean <chr>,
 #> #   obs_duration_min_op <chr>, obs_duration_min <chr>,
@@ -173,12 +174,12 @@ package is therefore **not** official US EPA software.
 ## Resources
 
 -   [Manual of the CRAN
-    release](https://cran.r-project.org/web/packages/ECOTOXr/ECOTOXr.pdf)
--   EPA ECOTOX help <https://www.epa.gov/ecotox/help.cfm>
--   Olker, J. H.; Elonen, C. M.; Pilli, A.; Anderson, A.;
-    Kinziger, B.; Erickson, S.; Skopinski, M.; Pomplun,
-    A.; LaLone, C. A.; Russom, C. L.; Hoff, D. (2022):
+    release](https://CRAN.R-project.org/package=ECOTOXr)
+-   EPA ECOTOX help <https://cfpub.epa.gov/ecotox/help.cfm>
+-   Olker, Jennifer H.; Elonen, Colleen M.; Pilli, Anne; Anderson, Arne;
+    Kinziger, Brian; Erickson, Stephen; Skopinski, Michael; Pomplun,
+    Anita; LaLone, Carlie A.; Russom, Christine L.; Hoff, Dale. (2022):
     The ECOTOXicology Knowledgebase: A Curated Database of Ecologically
     Relevant Toxicity Tests to Support Environmental Research and Risk
     Assessment. *Environmental Toxicology and Chemistry* 41(6) 1520-1539
-    <https://doi.org/10.1002/etc.5324>
+    <https://doi.org/10%2E1002/etc%2E5324>

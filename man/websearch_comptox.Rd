@@ -91,7 +91,7 @@ Official US EPA CompTox website:
 
 Williams, A.J., Grulke, C.M., Edwards, J., McEachran, A.D., Mansouri, K, Baker, N.C., Patlewicz, G., Shah, I.,
 Wambaugh, J.F., Judson, R.S. & Richard, A.M. (2017), The CompTox Chemistry Dashboard: a community data resource
-for environmental chemistry. \emph{J Cheminform}, 9(61) \url{https://doi.org/10.1186/s13321-017-0247-6}
+for environmental chemistry. \emph{J Cheminform}, 9(61) \doi{10.1186/s13321-017-0247-6}
 }
 \seealso{
 Other search-functions: 
