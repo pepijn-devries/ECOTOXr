@@ -85,6 +85,14 @@ comptox_results <- websearch_comptox(c("benzene", "108-88-3"))
 comptox_results2 <- websearch_comptox("100", inputType = "MASS", massError = 5)
 }
 }
+\references{
+Official US EPA CompTox website:
+\url{https://comptox.epa.gov/dashboard/}
+
+Williams, A.J., Grulke, C.M., Edwards, J., McEachran, A.D., Mansouri, K, Baker, N.C., Patlewicz, G., Shah, I.,
+Wambaugh, J.F., Judson, R.S. & Richard, A.M. (2017), The CompTox Chemistry Dashboard: a community data resource
+for environmental chemistry. \emph{J Cheminform}, 9(61) \url{https://doi.org/10.1186/s13321-017-0247-6}
+}
 \seealso{
 Other search-functions: 
 \code{\link{search_ecotox}()},

@@ -194,8 +194,11 @@ download_ecotox_data <- function(target = get_ecotox_path(), write_log = TRUE, a
   }
   if (proceed.unzip) {
     message(crayon::white("Extracting downloaded zip file... "))
+    exdir     <- gsub(".zip", "", basename(link))
+    file_list <- utils::unzip(file.path(target, utils::tail(unlist(strsplit(link, "/")), 1)), list = T)$Name
+    if (all(startsWith(file_list, exdir))) exdir <- ""
     utils::unzip(file.path(target, utils::tail(unlist(strsplit(link, "/")), 1)),
-                 exdir = file.path(target, gsub(".zip", "", basename(link))))
+                 exdir = file.path(target, exdir))
     message(crayon::green("Done\n"))
     if (ask &&
         startsWith("Y", toupper(readline(prompt = "Done extracting zip file, remove it to save disk space (y/n)? ")))) {
@@ -313,7 +316,12 @@ build_ecotox_sqlite <- function(source, destination = get_ecotox_path(), write_l
         head <- iconv(readr::read_lines(filename, skip = 0, n_max = 1, progress = F), to = "UTF8", sub = "*")
       } else {
         testsize   <- ifelse(lines.read == 1, frag.size - 1, frag.size)
-        body       <- readr::read_lines(filename, skip = lines.read, n_max = testsize, progress = F)
+        ## readr sometimes generates warnings for possible parsing problems (inherited from vroom)
+        ## however, running 'readr::problems' does not show any issues, muffle this warning
+        ## if this is the case:
+        body       <- withCallingHandlers({
+          chunk <- readr::read_lines(filename, skip = lines.read, n_max = testsize, progress = F)
+        }, warning = function(w) if (nrow(readr::problems(chunk)) == 0) rlang::cnd_muffle(w))
         body       <- suppressWarnings({iconv(body, to = "UTF8", sub = "*")})
         ## Replace pipe-characters with dashes when they are between brackets "("and ")",
         ## These should not be interpreted as table separators and will mess up the table.read call

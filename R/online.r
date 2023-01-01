@@ -141,6 +141,13 @@ list_ecotox_web_fields <- function(...){
 #' @author Pepijn de Vries
 #' @family onlinesearch-functions
 #' @family search-functions
+#' @references
+#' Official US EPA CompTox website:
+#' <https://comptox.epa.gov/dashboard/>
+#' 
+#' Williams, A.J., Grulke, C.M., Edwards, J., McEachran, A.D., Mansouri, K, Baker, N.C., Patlewicz, G., Shah, I.,
+#' Wambaugh, J.F., Judson, R.S. & Richard, A.M. (2017), The CompTox Chemistry Dashboard: a community data resource
+#' for environmental chemistry. _J Cheminform_, 9(61) <https://doi.org/10.1186/s13321-017-0247-6>
 #' @export
 websearch_comptox <- function(
     searchItems,

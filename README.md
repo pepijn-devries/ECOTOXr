@@ -45,7 +45,7 @@ devtools::install_github('pepijn-devries/ECOTOXr')
 
 ### Preparing the database
 
-Although {`ECOTOXr`} has experimental features to search the on-line
+Although `{ECOTOXr}` has experimental features to search the on-line
 database. The package will reach its full potential when you build a
 copy of the database on your local machine.
 
@@ -109,7 +109,7 @@ search_ecotox(
 #> #   exposure_duration_max_op <chr>, exposure_duration_max <chr>, ...
 ```
 
-If you like to use [{`dplyr`}](https://dplyr.tidyverse.org/) verbs, you
+If you like to use [`{dplyr}`](https://dplyr.tidyverse.org/) verbs, you
 are in luck. SQLite database can be approached using `{dplyr}` verbs.
 This approach will only return information from the `results` table. The
 end-user will have to join other information (like test species and test
@@ -145,9 +145,7 @@ the database structure in order to join additional data.
 > Using `SQL` syntax
 
 ``` r
-dbGetQuery(
-  con,
-  "SELECT * FROM results WHERE result_id='401386'") %>%
+dbGetQuery(con, "SELECT * FROM results WHERE result_id='401386'") %>%
   dplyr::as_tibble()
 #> # A tibble: 1 x 137
 #>   result_id test_id sample_siz~1 sampl~2 sampl~3 sampl~4 sampl~5 sampl~6 sampl~7
@@ -177,9 +175,9 @@ package is therefore **not** official US EPA software.
 -   [Manual of the CRAN
     release](https://cran.r-project.org/web/packages/ECOTOXr/ECOTOXr.pdf)
 -   EPA ECOTOX help <https://www.epa.gov/ecotox/help.cfm>
--   Olker, Jennifer H.; Elonen, Colleen M.; Pilli, Anne; Anderson, Arne;
-    Kinziger, Brian; Erickson, Stephen; Skopinski, Michael; Pomplun,
-    Anita; LaLone, Carlie A.; Russom, Christine L.; Hoff, Dale. (2022):
+-   Olker, J. H.; Elonen, C. M.; Pilli, A.; Anderson, A.;
+    Kinziger, B.; Erickson, S.; Skopinski, M.; Pomplun,
+    A.; LaLone, C. A.; Russom, C. L.; Hoff, D. (2022):
     The ECOTOXicology Knowledgebase: A Curated Database of Ecologically
     Relevant Toxicity Tests to Support Environmental Research and Risk
     Assessment. *Environmental Toxicology and Chemistry* 41(6) 1520-1539
