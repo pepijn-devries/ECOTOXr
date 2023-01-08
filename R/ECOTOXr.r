@@ -1,6 +1,6 @@
 #' Package description
 #'
-#' Everything you need to know when you start using the ECOTOXr package. \if{html}{\figure{logo.svg}{options: width="150px"}}
+#' Everything you need to know when you start using the ECOTOXr package. \if{html}{\figure{logo.png}}
 #'
 #' The ECOTOXr provides the means to efficiently search, extract and analyse [US EPA](https://www.epa.gov/)
 #' [ECOTOX](https://cfpub.epa.gov/ecotox/) data, with a focus on reproducible results. Although the package
