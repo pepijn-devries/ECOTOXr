@@ -133,4 +133,4 @@ Note that the package maintainer is not affiliated with the US EPA, this package
  * Olker, Jennifer H.; Elonen, Colleen M.; Pilli, Anne; Anderson, Arne; Kinziger, Brian; Erickson, Stephen; Skopinski, Michael;
    Pomplun, Anita; LaLone, Carlie A.; Russom, Christine L.; Hoff, Dale. (2022): The ECOTOXicology Knowledgebase: A Curated Database of
    Ecologically Relevant Toxicity Tests to Support Environmental Research and Risk Assessment. _Environmental Toxicology and Chemistry_
-   41(6) 1520-1539 <https://doi.org/10%2E1002/etc%2E5324>
+   41(6) 1520-1539 <!--https://doi.org/10.1002/etc.5324-->

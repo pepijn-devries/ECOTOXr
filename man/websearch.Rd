@@ -43,7 +43,7 @@ functions should therefore be used with caution.
 }
 \note{
 \strong{IMPORTANT:} when you plan to perform multiple adjacent searches (for instance in a loop), please insert a call to \code{\link[=Sys.sleep]{Sys.sleep()}}.
-This to avoid overloading the server and getting you IP address banned from the server.
+This to avoid overloading the server and getting your IP address banned from the server.
 }
 \examples{
 \dontrun{

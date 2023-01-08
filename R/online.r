@@ -9,7 +9,7 @@
 #' functions should therefore be used with caution.
 #' 
 #' @note **IMPORTANT:** when you plan to perform multiple adjacent searches (for instance in a loop), please insert a call to [Sys.sleep()].
-#' This to avoid overloading the server and getting you IP address banned from the server.
+#' This to avoid overloading the server and getting your IP address banned from the server.
 #'
 #' @param fields A named `list` of `character`s, used to build a search for for the on-line search query of
 #' <https://cfpub.epa.gov/ecotox/search.cfm>.
@@ -101,6 +101,7 @@ list_ecotox_web_fields <- function(...){
     x <- strsplit(x[[1]], "=")[[1]]
     structure(ifelse(is.na(x[2]), "", gsub("[+]", " ", utils::URLdecode(x[2]))), names = x[1])
   })) %>% as.list()
+  form_data$Ending_Publication_Year <- format(Sys.Date(), "%Y")
   form_data[names(c(...))] <- c(...)
   return(form_data)
 }

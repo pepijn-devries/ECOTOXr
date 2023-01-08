@@ -1,8 +1,8 @@
 Package: ECOTOXr
 Type: Package
 Title: Download and Extract Data from US EPA's ECOTOX Database
-Version: 1.0.0
-Date: 2023-01-01
+Version: 1.0.1
+Date: 2023-01-08
 Authors@R: c(person("Pepijn", "de Vries", role = c("aut", "cre", "dtc"),
     email = "pepijn.devries@outlook.com",
     comment = c(ORCID = "0000-0002-7961-6646")))

@@ -90,7 +90,6 @@ Official US EPA ECOTOX website:
 Olker, J.H., Elonen, C.M., Pilli, A., Anderson, A., Kinziger, B., Erickson, S., Skopinski, M., Pomplun, A., LaLone, C.A.,
 Russom, C.L. and Hoff, D. (2022), The ECOTOXicology Knowledgebase: A Curated Database of Ecologically Relevant Toxicity
 Tests to Support Environmental Research and Risk Assessment. \emph{Environ Toxicol Chem}, 41: 1520-1539.
-\doi{10.1002/etc.5324}
 }
 \author{
 Pepijn de Vries
