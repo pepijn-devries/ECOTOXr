@@ -5,7 +5,7 @@
 \alias{ECOTOXr}
 \title{Package description}
 \description{
-Everything you need to know when you start using the ECOTOXr package. \if{html}{\figure{logo.svg}{options: width="150px"}}
+Everything you need to know when you start using the ECOTOXr package. \if{html}{\figure{logo.png}}
 }
 \details{
 The ECOTOXr provides the means to efficiently search, extract and analyse \href{https://www.epa.gov/}{US EPA}
