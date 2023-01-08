@@ -182,4 +182,4 @@ package is therefore **not** official US EPA software.
     The ECOTOXicology Knowledgebase: A Curated Database of Ecologically
     Relevant Toxicity Tests to Support Environmental Research and Risk
     Assessment. *Environmental Toxicology and Chemistry* 41(6) 1520-1539
-    <https://doi.org/10%2E1002/etc%2E5324>
+    <!--https://doi.org/10.1002/etc.5324-->

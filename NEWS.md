@@ -1,4 +1,4 @@
-ECOTOXr v1.0.0 (Release date: 2023-01-01)
+ECOTOXr v1.0.1 (Release date: 2023-01-01)
 -------------
 
   * Experimental features for on-line searching of
