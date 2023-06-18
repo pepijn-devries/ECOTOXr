@@ -275,6 +275,10 @@ download_ecotox_data <- function(target = get_ecotox_path(), write_log = TRUE, a
 build_ecotox_sqlite <- function(source, destination = get_ecotox_path(), write_log = TRUE) {
   dbname <- paste0(basename(source), ".sqlite")
   dbcon  <- RSQLite::dbConnect(RSQLite::SQLite(), file.path(destination, dbname))
+  unexpected_fields <- character(0)
+  missing_fields    <- character(0)
+  missing_tables    <- character(0)
+  incomplete_check  <- character(0)
 
   ## Loop the text file tables and add them to the sqlite database 1 by 1
   i <- 0
@@ -285,7 +289,15 @@ build_ecotox_sqlite <- function(source, destination = get_ecotox_path(), write_l
                                   tab$table[[1]], i, length(unique(.db_specs$table)))))
     filename <- file.path(source, paste0(tab$table[[1]], ".txt"))
     if (!file.exists(filename)) filename <- file.path(source, "validation", paste0(tab$table[[1]], ".txt"))
-
+    if (!file.exists(filename)) {
+      missing_tables <<- c(missing_tables, tab$table[[1]])
+      message(stringr::str_pad(sprintf("\r File for table '%s' does not exist. This may occur for older ECOTOX releases\n",
+                                    tab$table[[1]]),
+                               width = 80, "right"))
+      message(stringr::str_pad("\r Will try to continue without this table\n", width = 80, "right"))
+      return(NULL)
+    }
+    
     ## Remove table from database if it already exists
     RSQLite::dbExecute(dbcon, sprintf("DROP TABLE IF EXISTS [%s];", tab$table[[1]]))
 
@@ -310,7 +322,7 @@ build_ecotox_sqlite <- function(source, destination = get_ecotox_path(), write_l
     ## Copy tables in 50000 line fragments to database, to avoid memory issues
     frag.size  <- 50000
     message(crayon::white(sprintf("\r  0 lines (incl. header) of '%s' added to database", tab$table[[1]])),
-            appendLF = F)
+            appendLF = FALSE)
     repeat {
       if (is.null(head)) {
         head <- iconv(readr::read_lines(filename, skip = 0, n_max = 1, progress = F), to = "UTF8", sub = "*")
@@ -323,6 +335,8 @@ build_ecotox_sqlite <- function(source, destination = get_ecotox_path(), write_l
           chunk <- readr::read_lines(filename, skip = lines.read, n_max = testsize, progress = F)
         }, warning = function(w) if (nrow(readr::problems(chunk)) == 0) rlang::cnd_muffle(w))
         body       <- suppressWarnings({iconv(body, to = "UTF8", sub = "*")})
+        ## Some records incorrectly contain line feed characters. Replace with space:
+        body       <- suppressWarnings({gsub("\U000D", " ", body)})
         ## Replace pipe-characters with dashes when they are between brackets "("and ")",
         ## These should not be interpreted as table separators and will mess up the table.read call
         body       <- stringr::str_replace_all(body, "(?<=\\().+?(?=\\))", function(x){
@@ -334,55 +348,97 @@ build_ecotox_sqlite <- function(source, destination = get_ecotox_path(), write_l
         lines.read <- lines.read + length(body)
 
         ## Join lines when number of pipes is to small (probably caused by unintended linefeed)
-        count_pipes <- unlist(lapply(regmatches(body, gregexpr("[|]", body)), length))
-        join_lines  <- which(count_pipes < length(regmatches(head, gregexpr("[|]", head))[[1]]))
-        if (length(join_lines) > 0) {
-          body        <- c(body[-join_lines], paste(body[join_lines], collapse = " "))
+        repeat{
+          count_pipes <- unlist(lapply(regmatches(body, gregexpr("[|]", body)), length))
+          join_lines  <- which(count_pipes < length(regmatches(head, gregexpr("[|]", head))[[1]]))[1:2]
+          if (length(join_lines) > 0 & !any(is.na(join_lines))) {
+            body        <- c(body[-join_lines], paste(body[join_lines], collapse = " "))
+          } else break
         }
 
         ## strip.white is set to F, as they occur in primary keys!
         table.frag <- utils::read.table(text = c(head, body),
-                                        sep = "|", header = T, quote = "", comment.char = "",
-                                        stringsAsFactors = F, strip.white = F)
+                                        sep = "|", header = TRUE, quote = "", comment.char = "",
+                                        stringsAsFactors = FALSE, strip.white = FALSE)
 
         missing_cols    <- tab$field_name[!tab$field_name %in% colnames(table.frag)]
         unexpected_cols <- colnames(table.frag)[!colnames(table.frag) %in% tab$field_name]
         if (length(unexpected_cols) > 0)
-          message(stringr::str_pad(
-            sprintf("\r Ignoring unexpected column(s) '%s' in '%s'", paste(unexpected_cols, collapse = "', '"),
-                    tab$table[[1]]),
-            width = 80, "right")
-          )
+          unexpected_fields <<- union(unexpected_fields, paste(tab$table[[1]], unexpected_cols, sep = "."))
         if (length(missing_cols) > 0)
-          message(stringr::str_pad(
-            sprintf("\r Missing column(s) '%s' in '%s'", paste(missing_cols, collapse = "', '"),
-                    tab$table[[1]]),
-            width = 80, "right")
-          )
-        RSQLite::dbWriteTable(dbcon, tab$table[[1]],
-                              table.frag[,setdiff(tab$field_name, missing_cols), drop = F], append = T)
+          missing_fields    <<- union(missing_fields, paste(tab$table[[1]], missing_cols, sep = "."))
         
+        if (RSQLite::dbExistsTable(dbcon, tab$table[[1]]) && ("PRIMARY KEY" %in% tab$primary_key)) {
+          prim_key <- which(tab$primary_key == "PRIMARY KEY")
+          RSQLite::dbWriteTable(dbcon, "temp",
+                                table.frag[,setdiff(tab$field_name, missing_cols), drop = FALSE], overwrite = TRUE)
+          
+          ## When the primary key is not unique, update the table using the last occurrence of the primary key.
+          updt <- dbplyr::sql_query_upsert(dbcon, tab$table[[1]], dplyr::tbl(dbcon, "temp"), by = names(table.frag)[prim_key],
+                                           update_cols = names(table.frag)[-prim_key])
+          written_len <- RSQLite::dbExecute(dbcon, updt)
+          if (written_len < nrow(table.frag)) {
+            message(
+              stringr::str_pad(
+                sprintf("\r Table '%s' contains less records than read from source. Likely cause: duplicate records in source.\n",
+                        tab$table[[1]]),
+                width = 80, "right")
+            )
+            incomplete_check <- union(incomplete_check, tab$table[[1]])
+          }
+          invisible(RSQLite::dbExecute(dbcon, "DROP TABLE IF EXISTS temp;"))
+        } else {
+          RSQLite::dbWriteTable(dbcon, tab$table[[1]],
+                                table.frag[,setdiff(tab$field_name, missing_cols), drop = FALSE], append = TRUE)
+        }
+
         message(crayon::white(sprintf("\r %i lines (incl. header) of '%s' added to database", lines.read, tab$table[[1]])),
                 appendLF = F)
         if (length(body) < testsize) break
       }
     }
     message(crayon::green(" Done\n"))
+    if (any(startsWith(unexpected_fields, paste0(tab$table[[1]], ".")))) {
+      message(
+        stringr::str_pad(
+          sprintf("\r Ignored unexpected column(s) '%s'\n",
+                  paste(unexpected_fields[startsWith(unexpected_fields, paste0(tab$table[[1]], "."))], collapse = "', '")),
+          width = 80, "right")
+      )
+    }
+    if (any(startsWith(missing_fields, paste0(tab$table[[1]], ".")))) {
+      message(
+        stringr::str_pad(
+          sprintf("\r Missing column(s) '%s'\n",
+                  paste(missing_fields[startsWith(missing_fields, paste0(tab$table[[1]], "."))], collapse = "', '")),
+          width = 80, "right")
+      )
+    }
   })
   RSQLite::dbDisconnect(dbcon)
   if (write_log) {
     logfile      <- file.path(destination, paste0(basename(source), ".log"))
     downloadinfo <- file.path(destination, paste0(basename(source), "_cit.txt"))
+    if (file.exists(logfile)) invisible(file.remove(logfile))
+    if (file.exists(downloadinfo)) invisible(file.remove(downloadinfo))
     writeLines(text = sprintf(
-      "ECOTOXr SQLite log\n\nSource:        %s\nDestination:   %s\nDownload info: %s\nBuild with:    %s\nBuild on:      %s\nBuild date:    %s",
+      paste(c(
+        "ECOTOXr SQLite log\n",
+        "Source:        %s", "Destination:   %s", "Download info: %s", "Build with:    %s",
+        "Build on:      %s", "Build date:    %s", "Missing tbls:  %s", "Missing flds:  %s",
+        "Unexp. fields: %s", "Incomplete?:   %s"), collapse = "\n"),
       source,
       destination,
       ifelse(file.exists(downloadinfo), downloadinfo, "Not available"),
       paste0("ECOTOXr V", utils::packageVersion("ECOTOXr")),
       paste(Sys.info()[c("sysname", "release")], collapse = " "),
-      format(Sys.Date(), "%Y-%m-%d")
+      format(Sys.Date(), "%Y-%m-%d"),
+      paste(missing_tables, collapse = ", "),
+      paste(missing_fields, collapse = ", "),
+      paste(unexpected_fields, collapse = ", "),
+      paste(incomplete_check, collapse = ", ")
     ),
-    con = logfile)
+    con = logfile, )
   }
   return(invisible(NULL))
 }

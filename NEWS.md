@@ -1,3 +1,22 @@
+ECOTOXr v1.0.2 (Release date: 2023-06-18)
+-------------
+
+  * Fixes for 2023 June release of the database:
+  
+    * Handling of new fields and tables introduced
+      in the new release.
+  
+    * Better handler unintended line-feed characters
+      in source material, when building SQLite file.
+    
+    * When table primary key is not unique, update
+      table with latest occurrence of the key.
+      This is also reported to EPA.
+  
+  * Keeping track of missing tables and fields, and
+    occurrence of unexpected fields while building.
+    These are added to the build log file.
+
 ECOTOXr v1.0.1 (Release date: 2023-01-01)
 -------------
 
