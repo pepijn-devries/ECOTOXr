@@ -142,6 +142,10 @@ get_ecotox_info <- function(path = get_ecotox_path(), version) {
 #'
 #' This can be useful when specifying a [search_ecotox()], to identify which fields
 #' are available from the database, for searching and output.
+#' 
+#' Not that when requesting '`all`' fields, you will get all fields available from the
+#' latest EPA release of the ECOTOX database. This means that not necessarily all
+#' fields are available in your local build of the database.
 #' @param which A `character` string that specifies which fields to return. Can be any of:
 #' '`default`': returns default output field names; '`all`': returns all fields;
 #' '`extended`': returns all fields of the default tables; or

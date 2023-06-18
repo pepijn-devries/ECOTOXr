@@ -29,6 +29,10 @@ Returns a \code{vector} of type \code{character} containing the field names from
 \details{
 This can be useful when specifying a \code{\link[=search_ecotox]{search_ecotox()}}, to identify which fields
 are available from the database, for searching and output.
+
+Not that when requesting '\code{all}' fields, you will get all fields available from the
+latest EPA release of the ECOTOX database. This means that not necessarily all
+fields are available in your local build of the database.
 }
 \examples{
 ## Fields that are included in search results by default:

@@ -61,8 +61,14 @@ test_that("All tables in the database are specified", {
 test_that("All specified tables are in the database", {
   check_db()
   expect_true({
-    dbcon <- suppressWarnings(dbConnectEcotox())
-    test <- all(ECOTOXr:::.db_specs$table %in% dbListTables(dbcon))
+    dbcon            <- suppressWarnings(dbConnectEcotox())
+    tables_not_in_db <- ECOTOXr:::.db_specs$table[!ECOTOXr:::.db_specs$table %in% dbListTables(dbcon)]
+    e_file           <- suppressWarnings({get_ecotox_sqlite_file()})
+    e_date           <- as.Date(substr(e_file, nchar(e_file) - 16, nchar(e_file) - 7), format = "%m_%d_%Y")
+    test             <-
+      length(tables_not_in_db) == 0 ||
+      (all(tables_not_in_db %in% c("length_unit_codes", "length_unit_codes", "length_type_codes", "length_type_codes")) &&
+                                  e_date <= as.Date("2023-06-15"))
     dbDisconnectEcotox(dbcon)
     test
   })
