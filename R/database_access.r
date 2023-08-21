@@ -35,7 +35,7 @@ get_ecotox_sqlite_file <- function(path = get_ecotox_path(), version) {
 #' @param conn An open connection to the ECOTOX database that needs to be closed.
 #' @param ... Arguments that are passed to [`dbConnect()`][RSQLite::SQLite] method
 #' or [`dbDisconnect()`][RSQLite::SQLite] method.
-#' @return A database connection in the form of a [DBI::DBIConnection-class()] object.
+#' @returns A database connection in the form of a [DBI::DBIConnection-class()] object.
 #' The object is tagged with: a time stamp; the package version used; and the
 #' file path of the SQLite database used in the connection. These tags are added as attributes
 #' to the object.
@@ -80,7 +80,7 @@ dbDisconnectEcotox <- function(conn, ...) {
 #' @param version A `character` string referring to the release version of the database you wish to locate.
 #' It should have the same format as the date in the EPA download link, which is month, day, year, separated by
 #' underscores ("%m_%d_%Y"). When missing, the most recent available copy is selected automatically.
-#' @return Returns a `vector` of [bibentry()]'s, containing a reference to the downloaded database
+#' @returns Returns a `vector` of [bibentry()]'s, containing a reference to the downloaded database
 #' and this package.
 #' @rdname cite_ecotox
 #' @name cite_ecotox
@@ -111,7 +111,7 @@ cite_ecotox <- function(path = get_ecotox_path(), version) {
 #' @param version A `character` string referring to the release version of the database you wish to locate.
 #' It should have the same format as the date in the EPA download link, which is month, day, year, separated by
 #' underscores ("%m_%d_%Y"). When missing, the most recent available copy is selected automatically.
-#' @return Returns a `vector` of `character`s, containing a information on the selected local ECOTOX database.
+#' @returns Returns a `vector` of `character`s, containing a information on the selected local ECOTOX database.
 #' @rdname get_ecotox_info
 #' @name get_ecotox_info
 #' @examples
@@ -154,7 +154,7 @@ get_ecotox_info <- function(path = get_ecotox_path(), version) {
 #' 'dose_response_details', 'dose_response_links' and 'dose_stat_method_codes'.
 #' @param include_table A `logical` value indicating whether the table name should be included
 #' as prefix. Default is `TRUE`.
-#' @return Returns a `vector` of type `character` containing the field names from the ECOTOX database.
+#' @returns Returns a `vector` of type `character` containing the field names from the ECOTOX database.
 #' @rdname list_ecotox_fields
 #' @name list_ecotox_fields
 #' @examples

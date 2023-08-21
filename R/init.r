@@ -8,7 +8,7 @@
 #' by using this URL in a different browser (or on a different machine). Alternatively, the user could try to use
 #' `[download_ecotox_data](ssl_verifypeer = 0L)` when the download URL is trusted.
 #' @param ... arguments passed on to [httr::GET()]
-#' @return Returns a `character` string containing the download URL of the latest version of the EPA ECOTOX
+#' @returns Returns a `character` string containing the download URL of the latest version of the EPA ECOTOX
 #' database.
 #' @rdname get_ecotox_url
 #' @name get_ecotox_url
@@ -36,7 +36,7 @@ get_ecotox_url <- function(...) {
 #' When arguments are omitted, this function will look in the default directory ([get_ecotox_path()]).
 #' However, it is possible to build a database file elsewhere if necessary.
 #' @param target A `character` string specifying the path where to look for the database file.
-#' @return Returns a `logical` value indicating whether a copy of the database exists. It also returns
+#' @returns Returns a `logical` value indicating whether a copy of the database exists. It also returns
 #' a `files` attribute that lists which copies of the database are found.
 #' @rdname check_ecotox_availability
 #' @name check_ecotox_availability
@@ -79,7 +79,7 @@ check_ecotox_availability <- function(target = get_ecotox_path()) {
 #' @param version A `character` string referring to the release version of the database you wish to locate.
 #' It should have the same format as the date in the EPA download link, which is month, day, year, separated by
 #' underscores ("%m_%d_%Y"). When missing, the most recent available copy is selected automatically.
-#' @return Returns a `character` string of the path.
+#' @returns Returns a `character` string of the path.
 #' `get_ecotox_path` will return the default directory of the database.
 #' `get_ecotox_sqlite_file` will return the path to the sqlite file when it exists.
 #' @rdname get_path
@@ -128,7 +128,7 @@ get_ecotox_path <- function() {
 #' @param ... Arguments passed on to [httr::GET()]. When this function fails with the error: "Peer
 #' certificate cannot be authenticated with given CA certificates", you could try to rerun the function with
 #' the option `ssl_verifypeer = 0L`. Only do so when you trust the indicated URL.
-#' @return Returns `NULL` invisibly.
+#' @returns Returns `NULL` invisibly.
 #' @rdname download_ecotox_data
 #' @name download_ecotox_data
 #' @examples
@@ -251,7 +251,7 @@ download_ecotox_data <- function(target = get_ecotox_path(), write_log = TRUE, a
 #  after building the SQLite database. See \code{\link{build_ecotox_sqlite}()} for more details. Default is
 #' `TRUE`. The log contains information on the source and destination path, the version of this package,
 #' the creation date, and the operating system on which the database was created.
-#' @return Returns `NULL` invisibly.
+#' @returns Returns `NULL` invisibly.
 #' @rdname build_ecotox_sqlite
 #' @name build_ecotox_sqlite
 #' @examples
@@ -438,7 +438,7 @@ build_ecotox_sqlite <- function(source, destination = get_ecotox_path(), write_l
       paste(unexpected_fields, collapse = ", "),
       paste(incomplete_check, collapse = ", ")
     ),
-    con = logfile, )
+    con = logfile)
   }
   return(invisible(NULL))
 }

@@ -69,7 +69,7 @@
 #' converted into a `data.frame` (default is `TRUE`). When set to `FALSE` the data will be returned as a [`tbl_df()`][dplyr::tibble].
 #' @param ... Arguments passed to [dbConnectEcotox()] and other functions. You can use this when the database
 #' is not located at the default path ([get_ecotox_path()]).
-#' @return In case of `search_query_ecotox`, a `character` string containing an SQL
+#' @returns In case of `search_query_ecotox`, a `character` string containing an SQL
 #' query is returned. This query is built based on the provided search terms and options.
 #'
 #' In case of `search_ecotox` a `data.frame` is returned based on the search query built with
