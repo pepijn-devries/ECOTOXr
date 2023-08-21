@@ -19,7 +19,7 @@
 #' 
 #' In case of [websearch_ecotox()] the dots can be used to pass custom options to the underlying [httr::POST()] call. For available
 #' field names, use `names(list_ecotox_web_fields())`
-#' @return Returns named `list` of [dplyr::tibble]s with search results. Results are unpolished and `as is' returned by EPA's web service.
+#' @returns Returns named `list` of [dplyr::tibble]s with search results. Results are unpolished and `as is' returned by EPA's web service.
 #' 
 #' [list_ecotox_web_fields()] returns a named list with fields that can be used in a web search of EPA's ECOTOX database, using
 #' [websearch_ecotox()].
@@ -126,7 +126,7 @@ list_ecotox_web_fields <- function(...){
 #' @param massError Error tolerance when searching for substances based on their monoisotopic mass. Only used for `inputType = "MASS"`.
 #' @param timeout Time in seconds (default is 300 secs), that the routine will wait for the download link to get ready.
 #' It will throw an error if it takes longer than the specified `timeout`.
-#' @return Returns a named `list` of [dplyr::tibble]s containing the search results for the requested output tables and fields.
+#' @returns Returns a named `list` of [dplyr::tibble]s containing the search results for the requested output tables and fields.
 #' Results are unpolished and `as is' returned by EPA's web service.
 #' @param ... Arguments passed on to [httr::GET] requests.
 #' @rdname websearch_comptox

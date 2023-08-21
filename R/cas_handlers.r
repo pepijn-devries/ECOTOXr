@@ -19,7 +19,7 @@
 #' @param hyphenate A `logical` value indicating whether the formatted CAS number needs to be hyphenated.
 #' Default is `TRUE`.
 #' @param ... Arguments passed to other functions
-#' @return Functions `cas`, `c` and `as.cas` return S3 class 'cas' objects. Coercion functions
+#' @returns Functions `cas`, `c` and `as.cas` return S3 class 'cas' objects. Coercion functions
 #' (starting with 'as') return the object as specified by their respective function names (i.e., `integer`,
 #' `double`, `character`, `list` and `data.frame`). The `show.cas` and `print` functions
 #' also return formatted `charater`s. The function `is.cas` will return a single `logical` value,
