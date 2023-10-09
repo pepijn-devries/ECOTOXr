@@ -8,6 +8,7 @@
 websearch_ecotox(
   fields = list_ecotox_web_fields(),
   habitat = c("aquire", "terrestrial"),
+  verify_ssl = getOption("ECOTOXr_verify_ssl"),
   ...
 )
 
@@ -19,6 +20,10 @@ list_ecotox_web_fields(...)
 Use \code{\link[=list_ecotox_web_fields]{list_ecotox_web_fields()}} to construct a valid list.}
 
 \item{habitat}{Use \code{aquire} (default) to retrieve aquatic data, \code{terrestrial} for, you've guessed it, terrestrial data.}
+
+\item{verify_ssl}{When set to \code{FALSE} the SSL certificate of the host (EPA)
+is not verified. Can also be set as option:
+\code{options(ECOTOXr_verify_ssl = TRUE)}. Default is \code{TRUE}.}
 
 \item{...}{In case of \code{\link[=list_ecotox_web_fields]{list_ecotox_web_fields()}} the dots can be used as search field values used to update the returned list of fields.
 

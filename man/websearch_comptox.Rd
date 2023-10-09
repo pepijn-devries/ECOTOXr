@@ -41,6 +41,7 @@ websearch_comptox(
     "TOXCAST_NUMBER_OF_ASSAYS/TOTAL", "TOXCAST_PERCENT_ACTIVE"),
   massError = 0,
   timeout = 300,
+  verify_ssl = getOption("ECOTOXr_verify_ssl"),
   ...
 )
 }
@@ -58,6 +59,10 @@ wish to query.}
 
 \item{timeout}{Time in seconds (default is 300 secs), that the routine will wait for the download link to get ready.
 It will throw an error if it takes longer than the specified \code{timeout}.}
+
+\item{verify_ssl}{When set to \code{FALSE} the SSL certificate of the host (EPA)
+is not verified. Can also be set as option:
+\code{options(ECOTOXr_verify_ssl = TRUE)}. Default is \code{TRUE}.}
 
 \item{...}{Arguments passed on to \link[httr:GET]{httr::GET} requests.}
 }

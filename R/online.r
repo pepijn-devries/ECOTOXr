@@ -15,6 +15,7 @@
 #' <https://cfpub.epa.gov/ecotox/search.cfm>.
 #' Use [list_ecotox_web_fields()] to construct a valid list.
 #' @param habitat Use `aquire` (default) to retrieve aquatic data, `terrestrial` for, you've guessed it, terrestrial data.
+#' @inheritParams get_ecotox_url
 #' @param ... In case of [list_ecotox_web_fields()] the dots can be used as search field values used to update the returned list of fields.
 #' 
 #' In case of [websearch_ecotox()] the dots can be used to pass custom options to the underlying [httr::POST()] call. For available
@@ -39,13 +40,22 @@
 #' @family online-search-functions
 #' @family search-functions
 #' @export
-websearch_ecotox <- function(fields = list_ecotox_web_fields(), habitat = c("aquire", "terrestrial"), ...) {
+websearch_ecotox <- function(
+    fields = list_ecotox_web_fields(), habitat = c("aquire", "terrestrial"),
+    verify_ssl = getOption("ECOTOXr_verify_ssl"), ...) {
   habitat <- match.arg(habitat)
+  if (is.null(verify_ssl)) verify_ssl <- TRUE
   
+  search_post <- list(
+    url = sprintf("https://cfpub.epa.gov/ecotox/data/search_handler.cfm?sub=%s&type=", habitat),
+    body = fields, encode = "form",
+    ...
+  )
+  if (!verify_ssl) {
+    search_post[["config"]] <- httr::config(ssl_verifyhost = 0, ssl_verifypeer = 0)
+  }
   ## download preview
-  search_post <-
-    httr::POST(sprintf("https://cfpub.epa.gov/ecotox/data/search_handler.cfm?sub=%s&type=", habitat),
-               body = fields, encode = "form", ...)
+  search_post <- do.call(httr::POST, search_post)
   .check_http_status(search_post, "Failed to send search query")
   search_response <-  rvest::read_html(search_post)
   warnings <- search_response %>% rvest::html_element(xpath = "//div[@class='callout alert']") %>% rvest::html_text2()
@@ -54,10 +64,16 @@ websearch_ecotox <- function(fields = list_ecotox_web_fields(), habitat = c("aqu
   headers <- lapply(search_response$headers, `[[`, 1) %>% unlist()
   table_preview <- search_response$records %>% lapply(structure, names = headers) %>% lapply(dplyr::as_tibble) %>% dplyr::bind_rows()
   
+  httr_result <- list(
+    url = sprintf("https://cfpub.epa.gov/ecotox/data/search_handler.cfm?sub=%s&type=excel", habitat),
+    body = fields, encode = "form",
+    ...
+  )
+  if (!verify_ssl) {
+    httr_result[["config"]] <- httr::config(ssl_verifyhost = 0, ssl_verifypeer = 0)
+  }
   ## Download excel report
-  httr_result <-
-    httr::POST(sprintf("https://cfpub.epa.gov/ecotox/data/search_handler.cfm?sub=%s&type=excel", habitat),
-               body = fields, encode = "form", ...)
+  httr_result <- do.call(httr::POST, httr_result)
   
   .check_http_status(httr_result, "Failed to send search query")
   
@@ -91,7 +107,7 @@ websearch_ecotox <- function(fields = list_ecotox_web_fields(), habitat = c("aqu
 #' @rdname websearch
 #' @name list_ecotox_web_fields
 #' @export
-list_ecotox_web_fields <- function(...){
+list_ecotox_web_fields <- function(...) {
   # search FORM data as obtained from cfpub.epa.gov/ecotox/search.cfm :
   form_data <- "cbBCF=BCF+1+Value+Op+%7C+BCF+1+Value+%7C+BCF+1+Min+Op+%7C+BCF+1+Min+%7C+BCF+1+Max+Op+%7C+BCF+1+Max+%7C+BCF+1+Unit+%7C+BCF+2+Value+Op+%7C+BCF+2+Value+%7C+BCF+2+Min+Op+%7C+BCF+2+Min+%7C+BCF+2+Max+Op+%7C+BCF+2+Max+%7C+BCF+2+Unit+%7C+BCF+3+Value+Op+%7C+BCF+3+Value+%7C+BCF+3+Min+Op+%7C+BCF+3+Min+%7C+BCF+3+Max+Op+%7C+BCF+3+Max+%7C+BCF+3+Unit&cbCAS_number_name=CAS+Number+%7C+Chemical+Name&cbMethod=Chemical+Analysis&cbChemical_grade=Chemical+Grade&cbChemical_purity=Chemical+Purity+%7C+Chemical+Purity+Mean+Op+%7C+Chemical+Purity+Mean(%25)+%7C+Chemical+Purity+Min+Op+%7C+Chemical+Purity+Min(%25)+%7C+Chemical+Purity+Max+Op+%7C+Chemical+Purity+Max(%25)&cbConcentration_standard=Conc+1+Type+(Standardized)+%7C+Conc+1+Mean+Op+(Standardized)+%7C+Conc+1+Mean+(Standardized)+%7C+Conc+1+Min+Op+(Standardized)+%7C+Conc+Min+1+(Standardized)+%7C+Conc+1+Max+Op+(Standardized)+%7C+Conc+1+Max+(Standardized)+%7C+Conc+1+Units+(Standardized)+%7C+Conc+2+Type+(Standardized)+%7C+Conc+2+Mean+Op+(Standardized)+%7C+Conc+2+Mean+(Standardized)+%7C+Conc+2+Min+Op+(Standardized)+%7C+Conc+Min+2+(Standardized)+%7C+Conc+2+Max+Op+(Standardized)+%7C+Conc+2+Max+(Standardized)+%7C+Conc+2+Units+(Standardized)+%7C+Conc+3+Type+(Standardized)+%7C+Conc+3+Mean+Op+(Standardized)+%7C+Conc+3+Mean+(Standardized)+%7C+Conc+3+Min+Op+(Standardized)+%7C+Conc+Min+3+(Standardized)+%7C+Conc+3+Max+Op+(Standardized)+%7C+Conc+3+Max+(Standardized)+%7C+Conc+3+Units+(Standardized)&cbEffect=Effect&cbEffectMeas=Effect+Measurement&cbEndpoint=Endpoint&cbExposure_type=Exposure+Type&cbMediatype=Media+Type&cbNumDoses=Number+of+Doses&cbObserved_duration_std=Observed+Duration+(Days)+%7C+Observed+Duration+Mean+Op+(Days)+%7C+Observed+Duration+Mean+(Days)+%7C+Observed+Duration+Min+Op+(Days)+%7C+Observed+Duration+Min+(Days)+%7C+Observed+Duration+Max+Op+(Days)+%7C+Observed+Duration+Max+(Days)+%7C+Observed+Duration+Units+(Days)&cbOrganism_age=Organism+Age+%7C+Organism+Age+Mean+Op+%7C+Organism+Age+Mean+%7C+Organism+Age+Min+Op+%7C+Organism+Age+Min+%7C+Organism+Age+Max+Op+%7C+Organism+Age+Max+%7C+Age+Units&cbOrganism_lifestage=Organism+Lifestage&cbReference_Citation=Author+%7C+Reference+Number+%7C+Title+%7C+Source+%7C+Publication+Year&cbResponse_Site=Response+Site&cbSpecies_group=Species+Group&cbSpecies_latin_common_name=Species+Scientific+Name+%7C+Species+Common+Name&cbLocation_test=Test+Location&txAdvancedChemicalEntries=&RBCHEMSEARCHTYPE=CONTAINS&txAdvancedEffectEntries=&RBEFFECTSEARCHTYPE=CONTAINS&&txAdvancedSpecEntries=&RBSPECSEARCHTYPE=CONTAINS&rbSpecSearchKing=BOTH&rbSpecSearchGroup=SCIENTIFICNAME&specSelections=&txExposureDurationStd=&txExposureDurationMin=&txExposureDurationMax=&Starting_Publication_Year=1915&Ending_Publication_Year=2022&txAdvancedAuthorsEntries=&txAdvancedPublicationsEntries=&length=20&start=0"
   
@@ -126,6 +142,7 @@ list_ecotox_web_fields <- function(...){
 #' @param massError Error tolerance when searching for substances based on their monoisotopic mass. Only used for `inputType = "MASS"`.
 #' @param timeout Time in seconds (default is 300 secs), that the routine will wait for the download link to get ready.
 #' It will throw an error if it takes longer than the specified `timeout`.
+#' @inheritParams get_ecotox_url
 #' @returns Returns a named `list` of [dplyr::tibble]s containing the search results for the requested output tables and fields.
 #' Results are unpolished and `as is' returned by EPA's web service.
 #' @param ... Arguments passed on to [httr::GET] requests.
@@ -178,7 +195,9 @@ websearch_comptox <- function(
                         "NHANES", "TOXCAST_NUMBER_OF_ASSAYS/TOTAL", "TOXCAST_PERCENT_ACTIVE"),
     massError = 0,
     timeout   = 300,
+    verify_ssl = getOption("ECOTOXr_verify_ssl"),
     ...) {
+  if (is.null(verify_ssl)) verify_ssl <- TRUE
   search_form <-
     list(
       identifierTypes = match.arg(identifierTypes, several.ok = T),
@@ -188,19 +207,28 @@ websearch_comptox <- function(
       inputType       = match.arg(inputType),
       downloadType    = "EXCEL"
     )
-  post_result <- httr::POST(
-    "https://comptox.epa.gov/dashboard-api/batchsearch/export/?lb2ljny4",
+  post_result <- list(
+    url = "https://comptox.epa.gov/dashboard-api/batchsearch/export/?lb2ljny4",
     body   = search_form,
     encode = "json",
-    httr::content_type("application/json")
-  )
+    httr::content_type("application/json"),
+    ...)
+  if (!verify_ssl) {
+    post_result[["config"]] <- httr::config(ssl_verifyhost = 0, ssl_verifypeer = 0)
+  }
+  post_result <- do.call(httr::POST, post_result)
   .check_http_status(post_result, "Failed to post search query")
   
   ## Wait for download to get ready, by checking its status every second
   i <- 0
   repeat {
-    search_status <- httr::GET(
-      paste0("https://comptox.epa.gov/dashboard-api/batchsearch/export/status/", post_result$content %>% rawToChar()), ...)
+    search_status <- list(
+      url = paste0("https://comptox.epa.gov/dashboard-api/batchsearch/export/status/", post_result$content %>% rawToChar()),
+      ...
+    )
+    if (!verify_ssl)
+      search_status[["config"]] <- httr::config(ssl_verifyhost = 0, ssl_verifypeer = 0)
+    search_status <- do.call(httr::GET, search_status)
     .check_http_status(search_status, "Failed to check download status")
     if ((search_status$content %>% rawToChar()) == "true") break
     i <- i + 1
@@ -209,10 +237,15 @@ websearch_comptox <- function(
     Sys.sleep(1)
   }
 
+  search_result <- list(
+    url = paste0("https://comptox.epa.gov/dashboard-api/batchsearch/export/content/", post_result$content %>% rawToChar()),
+    httr::content_type("application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"),
+    ...
+  )
+  if (!verify_ssl)
+    search_result[["config"]] <- httr::config(ssl_verifyhost = 0, ssl_verifypeer = 0)
   ## Download is ready, so let's go get it
-  search_result <- httr::GET(
-    paste0("https://comptox.epa.gov/dashboard-api/batchsearch/export/content/", post_result$content %>% rawToChar()),
-    httr::content_type("application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"), ...)
+  search_result <- do.call(httr::GET, search_result)
   .check_http_status(search_result, "Failed to obtain search result")
   tab_file <- tempfile(fileext = ".xlsx")
   writeBin(search_result$content, tab_file)
