@@ -4,9 +4,13 @@
 \alias{get_ecotox_url}
 \title{Get ECOTOX download URL from EPA website}
 \usage{
-get_ecotox_url(...)
+get_ecotox_url(verify_ssl = getOption("ECOTOXr_verify_ssl"), ...)
 }
 \arguments{
+\item{verify_ssl}{When set to \code{FALSE} the SSL certificate of the host (EPA)
+is not verified. Can also be set as option:
+\code{options(ECOTOXr_verify_ssl = TRUE)}. Default is \code{TRUE}.}
+
 \item{...}{arguments passed on to \code{\link[httr:GET]{httr::GET()}}}
 }
 \value{
@@ -21,7 +25,7 @@ download link for the complete ECOTOX database and extract its URL.
 This function is called by \code{\link[=download_ecotox_data]{download_ecotox_data()}} which tries to download the file from the resulting
 URL. On some machines this fails due to issues with the SSL certificate. The user can try to download the file
 by using this URL in a different browser (or on a different machine). Alternatively, the user could try to use
-\verb{[download_ecotox_data](ssl_verifypeer = 0L)} when the download URL is trusted.
+\verb{[download_ecotox_data](verify_ssl = FALE)} when the download URL is trusted.
 }
 \examples{
 \dontrun{

@@ -6,7 +6,10 @@
 #' This function is called by [download_ecotox_data()] which tries to download the file from the resulting
 #' URL. On some machines this fails due to issues with the SSL certificate. The user can try to download the file
 #' by using this URL in a different browser (or on a different machine). Alternatively, the user could try to use
-#' `[download_ecotox_data](ssl_verifypeer = 0L)` when the download URL is trusted.
+#' `[download_ecotox_data](verify_ssl = FALE)` when the download URL is trusted.
+#' @param verify_ssl When set to `FALSE` the SSL certificate of the host (EPA)
+#' is not verified. Can also be set as option:
+#' `options(ECOTOXr_verify_ssl = TRUE)`. Default is `TRUE`.
 #' @param ... arguments passed on to [httr::GET()]
 #' @returns Returns a `character` string containing the download URL of the latest version of the EPA ECOTOX
 #' database.
@@ -18,14 +21,34 @@
 #' }
 #' @author Pepijn de Vries
 #' @export
-get_ecotox_url <- function(...) {
-  link <- httr::GET("https://cfpub.epa.gov/ecotox/index.cfm", ...) %>%
+get_ecotox_url <- function(verify_ssl = getOption("ECOTOXr_verify_ssl"), ...) {
+  if (is.null(verify_ssl)) verify_ssl <- TRUE
+  args <- list(...)
+  if (!verify_ssl)
+    args[["config"]] <- httr::config(ssl_verifyhost = 0, ssl_verifypeer = 0)
+  link <- tryCatch({
+    do.call(.get_ecotox_url, c(url = "https://cfpub.epa.gov/ecotox/index.cfm",
+                               args))
+  }, error = function(e) {
+    do.call(.get_ecotox_url, c(url = "https://gaftp.epa.gov/ecotox/",
+                               args))
+  })
+  return(link)
+}
+
+.get_ecotox_url <- function(url, ...) {
+  link <- 
+    httr::GET(url, ...) %>%
     rvest::read_html() %>%
-    rvest::html_elements("a.ascii-link") %>%
+    rvest::html_elements("a") %>%
     rvest::html_attr("href")
   link <- link[!is.na(link) & endsWith(link, ".zip")]
   if (length(link) == 0) stop("Could not find ASCII download link...")
-  return(link)
+  link[!startsWith(link, "http")] <- paste0(url, link[!startsWith(link, "http")])
+  link_dates <-
+    stringr::str_sub(link, -14, -5) %>%
+    as.Date(format = "%m_%d_%Y")
+  link[which(link_dates == max(link_dates))]
 }
 
 #' Check whether a ECOTOX database exists locally
@@ -115,7 +138,7 @@ get_ecotox_path <- function() {
 #' unzip the file manually using a different machine or browser that is less strict with SSL certificates. You can
 #' then call [build_ecotox_sqlite()] and point the `source` location to the manually extracted zip
 #' archive. For this purpose [get_ecotox_url()] can be used. Alternatively, one could try to call [download_ecotox_data()]
-#' by setting `ssl_verifypeer = 0L`; but only do so when you trust the download URL from [get_ecotox_URL()].
+#' by setting `verify_ssl = FALSE`; but only do so when you trust the download URL from [get_ecotox_URL()].
 #'
 #' @param target Target directory where the files will be downloaded and the database compiled. Default is
 #' [get_ecotox_path()].
@@ -125,9 +148,8 @@ get_ecotox_path <- function() {
 #' @param ask There are several steps in which files are (potentially) overwritten or deleted. In those cases
 #' the user is asked on the command line what to do in those cases. Set this parameter to `FALSE` in order
 #' to continue without warning and asking.
-#' @param ... Arguments passed on to [httr::GET()]. When this function fails with the error: "Peer
-#' certificate cannot be authenticated with given CA certificates", you could try to rerun the function with
-#' the option `ssl_verifypeer = 0L`. Only do so when you trust the indicated URL.
+#' @inheritParams get_ecotox_url
+#' @param ... Arguments passed on to [httr::GET()].
 #' @returns Returns `NULL` invisibly.
 #' @rdname download_ecotox_data
 #' @name download_ecotox_data
@@ -138,7 +160,11 @@ get_ecotox_path <- function() {
 #' }
 #' @author Pepijn de Vries
 #' @export
-download_ecotox_data <- function(target = get_ecotox_path(), write_log = TRUE, ask = TRUE, ...) {
+download_ecotox_data <- function(
+    target = get_ecotox_path(), write_log = TRUE, ask = TRUE,
+    verify_ssl = getOption("ECOTOXr_verify_ssl"), ...) {
+  if (is.null(verify_ssl)) verify_ssl <- TRUE
+  
   avail <- check_ecotox_availability()
   if (avail && ask) {
     cat(sprintf("A local database already exists (%s).", paste(attributes(avail)$file$database, collapse = ", ")))
@@ -151,7 +177,7 @@ download_ecotox_data <- function(target = get_ecotox_path(), write_log = TRUE, a
   if (!dir.exists(target)) dir.create(target, recursive = T)
   ## Obtain download link from EPA website:
   message(crayon::white("Obtaining download link from EPA website... "))
-  link <- get_ecotox_url(...)
+  link <- get_ecotox_url(verify_ssl, ...)
   dest_path <- file.path(target, utils::tail(unlist(strsplit(link, "/")), 1))
   message(crayon::green("Done\n"))
   proceed.download <- T
@@ -161,12 +187,22 @@ download_ecotox_data <- function(target = get_ecotox_path(), write_log = TRUE, a
   }
   if (proceed.download) {
     message(crayon::white(sprintf("Start downloading ECOTOX data from %s...\n", link)))
-    httr::GET(link, httr::config(
+    cfg <- list(
       noprogress = 0L,
       progressfunction = function(down, up) {
-        message(crayon::white(sprintf("\r%0.1f MB downloaded...", down[2]/(1024*1024))), appendLF = F)
+        message(crayon::white(sprintf("\r%0.1f MB downloaded...",
+                                      down[2]/(1024*1024))), appendLF = FALSE)
         TRUE
-      }), httr::write_disk(dest_path, overwrite = TRUE))
+      })
+    if (!verify_ssl) {
+      cfg[["ssl_verifyhost"]] <- 0
+      cfg[["ssl_verifypeer"]] <- 0
+      }
+    cfg <- do.call(httr::config, cfg)
+    
+    httr::GET(link, config = cfg,
+              httr::write_disk(dest_path, overwrite = TRUE), ...)
+
     message(crayon::green(" Done\n"))
   }
 

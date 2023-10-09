@@ -1,3 +1,17 @@
+ECOTOXr v1.0.5 (Release date: 2023-10-09)
+-------------
+
+  * Added verify_ssl argument to on-line
+    functions in order to make it easier to
+    try and avert failing certificate checks.
+    
+  * Minor fix in CAS handlers
+
+ECOTOXr v1.0.3 (Release date: 2023-08-21)
+-------------
+
+  * Adjustments to pass latest CRAN checks
+
 ECOTOXr v1.0.2 (Release date: 2023-06-18)
 -------------
 

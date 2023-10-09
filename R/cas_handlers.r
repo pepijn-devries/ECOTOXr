@@ -105,7 +105,7 @@ cas <- function(length = 0L) {
 #' @name is.cas
 #' @export
 is.cas <- function(x) {
-  if (!(class(x) %in% "cas")) return(F)
+  if (!inherits(x, "cas")) return(FALSE)
   checksums <- attributes(x)$checksum
   if (length(checksums) != length(x)) stop("Each CAS registry in the vector needs a checksum")
   validate <- outer(unclass(x), 0:9, function(x, y) {
@@ -122,6 +122,7 @@ is.cas <- function(x) {
 #' @export
 as.cas <- function(x) {
   if (is.cas(x)) return(x)
+
   x <- as.character(x)
   is_hyphenated    <- stringr::str_sub(x, -2, -2) == "-" & stringr::str_sub(x, -5, -5) == "-"
   x[is_hyphenated] <- paste0(
@@ -143,8 +144,8 @@ as.cas <- function(x) {
 #' @export
 `[[.cas` <- function(x, i) {
   attribs          <- attributes(x)
-  attribs$checksum <- attribs$checksum[[i]]
-  attribs$names    <- attribs$names[[i]]
+  attribs$checksum <- attribs$checksum[i]
+  attribs$names    <- attribs$names[i]
   x                <- unclass(x)
   x                <- x[[i]]
   attributes(x)    <- attribs

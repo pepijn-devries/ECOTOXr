@@ -8,6 +8,7 @@ download_ecotox_data(
   target = get_ecotox_path(),
   write_log = TRUE,
   ask = TRUE,
+  verify_ssl = getOption("ECOTOXr_verify_ssl"),
   ...
 )
 }
@@ -22,9 +23,11 @@ download_ecotox_data(
 the user is asked on the command line what to do in those cases. Set this parameter to \code{FALSE} in order
 to continue without warning and asking.}
 
-\item{...}{Arguments passed on to \code{\link[httr:GET]{httr::GET()}}. When this function fails with the error: "Peer
-certificate cannot be authenticated with given CA certificates", you could try to rerun the function with
-the option \code{ssl_verifypeer = 0L}. Only do so when you trust the indicated URL.}
+\item{verify_ssl}{When set to \code{FALSE} the SSL certificate of the host (EPA)
+is not verified. Can also be set as option:
+\code{options(ECOTOXr_verify_ssl = TRUE)}. Default is \code{TRUE}.}
+
+\item{...}{Arguments passed on to \code{\link[httr:GET]{httr::GET()}}.}
 }
 \value{
 Returns \code{NULL} invisibly.
@@ -49,7 +52,7 @@ SSL certificates. Unfortunately, there is no easy fix for this in this package. 
 unzip the file manually using a different machine or browser that is less strict with SSL certificates. You can
 then call \code{\link[=build_ecotox_sqlite]{build_ecotox_sqlite()}} and point the \code{source} location to the manually extracted zip
 archive. For this purpose \code{\link[=get_ecotox_url]{get_ecotox_url()}} can be used. Alternatively, one could try to call \code{\link[=download_ecotox_data]{download_ecotox_data()}}
-by setting \code{ssl_verifypeer = 0L}; but only do so when you trust the download URL from \link[=get_ecotox_url]{get_ecotox_URL()}.
+by setting \code{verify_ssl = FALSE}; but only do so when you trust the download URL from \link[=get_ecotox_url]{get_ecotox_URL()}.
 }
 
 \examples{
