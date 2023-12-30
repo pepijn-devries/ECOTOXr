@@ -1,3 +1,8 @@
+ECOTOXr v1.0.6 (Release date: 2023-12-30)
+-------------
+
+  * Fix in database build routine
+
 ECOTOXr v1.0.5 (Release date: 2023-10-09)
 -------------
 
