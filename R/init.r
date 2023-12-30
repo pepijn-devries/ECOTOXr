@@ -309,6 +309,7 @@ download_ecotox_data <- function(
 #' @author Pepijn de Vries
 #' @export
 build_ecotox_sqlite <- function(source, destination = get_ecotox_path(), write_log = TRUE) {
+  Sys.setenv("VROOM_CONNECTION_SIZE" = "41950304") # Increase the size for read_table
   dbname <- paste0(basename(source), ".sqlite")
   dbcon  <- RSQLite::dbConnect(RSQLite::SQLite(), file.path(destination, dbname))
   unexpected_fields <- character(0)
@@ -403,14 +404,14 @@ build_ecotox_sqlite <- function(source, destination = get_ecotox_path(), write_l
           unexpected_fields <<- union(unexpected_fields, paste(tab$table[[1]], unexpected_cols, sep = "."))
         if (length(missing_cols) > 0)
           missing_fields    <<- union(missing_fields, paste(tab$table[[1]], missing_cols, sep = "."))
-        
         if (RSQLite::dbExistsTable(dbcon, tab$table[[1]]) && ("PRIMARY KEY" %in% tab$primary_key)) {
           prim_key <- which(tab$primary_key == "PRIMARY KEY")
           RSQLite::dbWriteTable(dbcon, "temp",
                                 table.frag[,setdiff(tab$field_name, missing_cols), drop = FALSE], overwrite = TRUE)
           
           ## When the primary key is not unique, update the table using the last occurrence of the primary key.
-          updt <- dbplyr::sql_query_upsert(dbcon, tab$table[[1]], dplyr::tbl(dbcon, "temp"), by = names(table.frag)[prim_key],
+          updt <- dbplyr::sql_query_upsert(dbcon, tab$table[[1]], "temp",
+                                           by = names(table.frag)[prim_key],
                                            update_cols = names(table.frag)[-prim_key])
           written_len <- RSQLite::dbExecute(dbcon, updt)
           if (written_len < nrow(table.frag)) {
