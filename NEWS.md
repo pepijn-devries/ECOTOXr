@@ -1,7 +1,8 @@
-ECOTOXr v1.0.7 (Release date: 2023-12-31)
+ECOTOXr v1.0.8 (Release date: 2024-01-01)
 -------------
 
   * Fix in database build routine
+  * Fix in manual to pass CRAN checks
   * Explicit mentioning of required versions
     of dependencies
 

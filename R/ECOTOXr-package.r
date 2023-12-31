@@ -2,7 +2,7 @@
 #'
 #' Everything you need to know when you start using the ECOTOXr package. \if{html}{\figure{logo.png}}
 #'
-#' The ECOTOXr provides the means to efficiently search, extract and analyse [US EPA](https://www.epa.gov/)
+#' The ECOTOXr provides the means to efficiently search, extract and analyse US EPA
 #' [ECOTOX](https://cfpub.epa.gov/ecotox/) data, with a focus on reproducible results. Although the package
 #' creator/maintainer is confident in the quality of this software, it is the end users sole responsibility to
 #' assure the quality of his or her work while using this software. As per the provided license terms the package
@@ -47,7 +47,7 @@
 #' @section Why isn't the database included in the package?:
 #' This package doesn't come bundled with a copy of the database which needs to be downloaded the first time the
 #' package is used. Why is this? There are several reasons:
-#' * The database is maintained and updated by the [US EPA](https://www.epa.gov/). This process is and should be
+#' * The database is maintained and updated by the US EPA. This process is and should be
 #'   outside the sphere of influence of the package maintainer.
 #' * Packages on CRAN are not allowed to contain large amounts of data. Publication on CRAN is key to control
 #'   the quality of this package and therefore outweighs the convenience of having the data bundled with the package.
