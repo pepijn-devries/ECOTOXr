@@ -133,7 +133,7 @@ list_ecotox_web_fields <- function(...) {
 #' 
 #' The function described here to search and retrieve records from the on-line database is experimental. This is because this feature is
 #' not formally supported by the EPA, and it may break in future incarnations of the on-line database. The function forms an interface between
-#' R and the [CompTox](https://comptox.epa.gov) website and is therefore limited by the restrictions documented there.
+#' R and the [CompTox](https://comptox.epa.gov/dashboard) website and is therefore limited by the restrictions documented there.
 #' @param searchItems A `vector` of `character`s where each element is a substance descriptor (any of the selected `identifierType`s) you
 #' wish to query.
 #' @param identifierTypes Substance identifiers for searching CompTox. Only used when `inputType` is set to `"IDENTIFIER"`.
@@ -151,7 +151,7 @@ list_ecotox_web_fields <- function(...) {
 #' @examples
 #' \dontrun{
 #' ## search for substance name 'benzene' and CAS registration number 108-88-3
-#' ## on https://comptox.epa.gov/:
+#' ## on https://comptox.epa.gov/dashboard:
 #' comptox_results <- websearch_comptox(c("benzene", "108-88-3"))
 #' 
 #' ## search for substances with monoisotopic mass of 100+/-5:
