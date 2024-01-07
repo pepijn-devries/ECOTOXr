@@ -1,8 +1,8 @@
 Package: ECOTOXr
 Type: Package
 Title: Download and Extract Data from US EPA's ECOTOX Database
-Version: 1.0.8
-Date: 2024-01-01
+Version: 1.0.9
+Date: 2024-01-07
 Authors@R: c(person("Pepijn", "de Vries", role = c("aut", "cre", "dtc"),
     email = "pepijn.devries@outlook.com",
     comment = c(ORCID = "0000-0002-7961-6646")))
@@ -16,13 +16,13 @@ Description: The US EPA ECOTOX database is a freely available database
     in R. To this end, all raw tables are downloaded from the EPA website
     and stored in a local SQLite database.
 Depends:
-    R (>= 3.5.0),
+    R (>= 4.1.0),
     RSQLite (>= 2.3.4)
 Imports:
     crayon (>= 1.5.2),
     dbplyr (>= 2.4.0),
     dplyr (>= 1.1.4),
-    httr (>= 1.4.7),
+    httr2 (>= 1.0.0),
     jsonlite (>= 1.8.8),
     lifecycle (>= 1.0.4),
     purrr (>= 1.0.2),

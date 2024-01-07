@@ -27,7 +27,7 @@ to continue without warning and asking.}
 is not verified. Can also be set as option:
 \code{options(ECOTOXr_verify_ssl = TRUE)}. Default is \code{TRUE}.}
 
-\item{...}{Arguments passed on to \code{\link[httr:GET]{httr::GET()}}.}
+\item{...}{Arguments passed on to \code{\link[httr2:req_options]{httr2::req_options()}}.}
 }
 \value{
 Returns \code{NULL} invisibly.

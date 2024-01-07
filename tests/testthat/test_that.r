@@ -299,6 +299,6 @@ test_that("When multiple doses are linked to a result, no duplicates are returne
 #################################
 
 test_that("get_ecotox_info doesn't throw an error.", {
-  expect_false({ throws_errors(get_ecotox_info()) })
+  expect_false({ throws_errors(suppressMessages(get_ecotox_info())) })
 })
 

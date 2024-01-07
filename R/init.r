@@ -10,7 +10,7 @@
 #' @param verify_ssl When set to `FALSE` the SSL certificate of the host (EPA)
 #' is not verified. Can also be set as option:
 #' `options(ECOTOXr_verify_ssl = TRUE)`. Default is `TRUE`.
-#' @param ... arguments passed on to [httr::GET()]
+#' @param ... arguments passed on to [httr2::req_options()]
 #' @returns Returns a `character` string containing the download URL of the latest version of the EPA ECOTOX
 #' database.
 #' @rdname get_ecotox_url
@@ -24,8 +24,10 @@
 get_ecotox_url <- function(verify_ssl = getOption("ECOTOXr_verify_ssl"), ...) {
   if (is.null(verify_ssl)) verify_ssl <- TRUE
   args <- list(...)
-  if (!verify_ssl)
-    args[["config"]] <- httr::config(ssl_verifyhost = 0, ssl_verifypeer = 0)
+  if (!verify_ssl) {
+    args[["ssl_verifyhost"]] <- 0
+    args[["ssl_verifypeer"]] <- 0
+  }
   link <- tryCatch({
     do.call(.get_ecotox_url, c(url = "https://cfpub.epa.gov/ecotox/index.cfm",
                                args))
@@ -37,16 +39,18 @@ get_ecotox_url <- function(verify_ssl = getOption("ECOTOXr_verify_ssl"), ...) {
 }
 
 .get_ecotox_url <- function(url, ...) {
-  link <- 
-    httr::GET(url, ...) %>%
-    rvest::read_html() %>%
-    rvest::html_elements("a") %>%
+  link <-
+    httr2::request(url) |>
+    httr2::req_options(...) |>
+    httr2::req_perform() |>
+    httr2::resp_body_html() |>
+    rvest::html_elements("a") |>
     rvest::html_attr("href")
   link <- link[!is.na(link) & endsWith(link, ".zip")]
   if (length(link) == 0) stop("Could not find ASCII download link...")
   link[!startsWith(link, "http")] <- paste0(url, link[!startsWith(link, "http")])
   link_dates <-
-    stringr::str_sub(link, -14, -5) %>%
+    stringr::str_sub(link, -14, -5) |>
     as.Date(format = "%m_%d_%Y")
   link[which(link_dates == max(link_dates))]
 }
@@ -69,8 +73,7 @@ get_ecotox_url <- function(verify_ssl = getOption("ECOTOXr_verify_ssl"), ...) {
 #' @export
 check_ecotox_availability <- function(target = get_ecotox_path()) {
   files    <- list.files(target)
-  file_reg <- gregexpr("(?<=^ecotox_ascii_)(.*?)(?=\\.sqlite$)", files, perl = T)
-  file_reg <- regmatches(files, file_reg)
+  file_reg <- stringr::str_extract(files, "(?<=^ecotox_ascii_)(.*?)(?=\\.sqlite$)")
 
   files    <- files[unlist(lapply(file_reg, length)) > 0]
   file_reg <- unlist(file_reg[unlist(lapply(file_reg, length)) > 0])
@@ -149,7 +152,7 @@ get_ecotox_path <- function() {
 #' the user is asked on the command line what to do in those cases. Set this parameter to `FALSE` in order
 #' to continue without warning and asking.
 #' @inheritParams get_ecotox_url
-#' @param ... Arguments passed on to [httr::GET()].
+#' @param ... Arguments passed on to [httr2::req_options()].
 #' @returns Returns `NULL` invisibly.
 #' @rdname download_ecotox_data
 #' @name download_ecotox_data
@@ -187,23 +190,18 @@ download_ecotox_data <- function(
   }
   if (proceed.download) {
     message(crayon::white(sprintf("Start downloading ECOTOX data from %s...\n", link)))
-    cfg <- list(
-      noprogress = 0L,
-      progressfunction = function(down, up) {
-        message(crayon::white(sprintf("\r%0.1f MB downloaded...",
-                                      down[2]/(1024*1024))), appendLF = FALSE)
-        TRUE
-      })
+    cfg <- list(...)
     if (!verify_ssl) {
       cfg[["ssl_verifyhost"]] <- 0
       cfg[["ssl_verifypeer"]] <- 0
-      }
-    cfg <- do.call(httr::config, cfg)
-    
-    httr::GET(link, config = cfg,
-              httr::write_disk(dest_path, overwrite = TRUE), ...)
+    }
 
-    message(crayon::green(" Done\n"))
+    httr2::request(link) |>
+      httr2::req_options(!!!cfg) |>
+      httr2::req_progress() |>
+      httr2::req_perform(path = dest_path)
+    
+    message(crayon::green("Done\n"))
   }
 
   ## create bib-file for later reference
