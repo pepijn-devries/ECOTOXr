@@ -12,12 +12,12 @@
 ECOTOX database](https://cfpub.epa.gov/ecotox/). More specifically you
 can:
 
--   Build a local SQLite copy of the [US EPA ECOTOX
-    database](https://cfpub.epa.gov/ecotox/)
--   Search and extract data from the local database
--   Use experimental features to search the on-line dashboards:
-    [ECOTOX](https://cfpub.epa.gov/ecotox/search.cfm) and
-    [CompTox](https://comptox.epa.gov/dashboard/batch-search)
+- Build a local SQLite copy of the [US EPA ECOTOX
+  database](https://cfpub.epa.gov/ecotox/)
+- Search and extract data from the local database
+- Use experimental features to search the on-line dashboards:
+  [ECOTOX](https://cfpub.epa.gov/ecotox/search.cfm) and
+  [CompTox](https://comptox.epa.gov/dashboard/batch-search)
 
 ## Why use `{ECOTOXr}`?
 
@@ -97,17 +97,17 @@ search_ecotox(
 #> 'chemicals.cas_number' was renamed 'test_cas'
 #> 'chemicals.chemical_name' was renamed 'test_chemical'
 #> 'dose_responses.dose_resp_id' was renamed 'dose_link_dose_resp_id'
-#> # A tibble: 1 x 98
-#>   test_cas test_grade test_gra~1 test_~2 test_~3 test_~4 test_~5 test_~6 test_~7
-#> *    <int> <chr>      <chr>      <chr>   <chr>   <chr>   <chr>   <chr>   <chr>  
-#> 1    71432 NR         ""         ""      NR      <NA>    NR      <NA>    NR     
-#> # ... with 89 more variables: test_purity_comments <chr>,
-#> #   organism_lifestage <chr>, organism_age_mean_op <chr>,
-#> #   organism_age_mean <chr>, organism_age_min_op <chr>, organism_age_min <chr>,
+#> # A tibble: 1 × 98
+#>   test_cas test_grade test_grade_comments test_purity_mean_op test_purity_mean
+#> *    <int> <chr>      <chr>               <chr>               <chr>           
+#> 1    71432 NR         ""                  ""                  NR              
+#> # ℹ 93 more variables: test_purity_min_op <chr>, test_purity_min <chr>,
+#> #   test_purity_max_op <chr>, test_purity_max <chr>,
+#> #   test_purity_comments <chr>, organism_lifestage <chr>,
+#> #   organism_age_mean_op <chr>, organism_age_mean <chr>,
+#> #   organism_age_min_op <chr>, organism_age_min <chr>,
 #> #   organism_age_max_op <chr>, organism_age_max <chr>,
-#> #   exposure_duration_mean_op <chr>, exposure_duration_mean <chr>,
-#> #   exposure_duration_min_op <chr>, exposure_duration_min <chr>,
-#> #   exposure_duration_max_op <chr>, exposure_duration_max <chr>, ...
+#> #   exposure_duration_mean_op <chr>, exposure_duration_mean <chr>, …
 ```
 
 If you like to use [`{dplyr}`](https://dplyr.tidyverse.org/) verbs, you
@@ -121,20 +121,20 @@ structure.
 
 ``` r
 con <- dbConnectEcotox()
-dplyr::tbl(con, "results") %>%
-  dplyr::filter(result_id == "401386") %>%
+dplyr::tbl(con, "results") |>
+  dplyr::filter(result_id == "401386") |>
   dplyr::collect()
-#> # A tibble: 1 x 137
-#>   result_id test_id sample_siz~1 sampl~2 sampl~3 sampl~4 sampl~5 sampl~6 sampl~7
-#>       <int>   <int> <chr>        <chr>   <chr>   <chr>   <chr>   <chr>   <chr>  
-#> 1    401386 1020021 ""           NC      ""      NC      ""      NC      NC     
-#> # ... with 128 more variables: sample_size_comments <chr>,
+#> # A tibble: 1 × 137
+#>   result_id test_id sample_size_mean_op sample_size_mean sample_size_min_op
+#>       <int>   <int> <chr>               <chr>            <chr>             
+#> 1    401386 1020021 ""                  NC               ""                
+#> # ℹ 132 more variables: sample_size_min <chr>, sample_size_max_op <chr>,
+#> #   sample_size_max <chr>, sample_size_unit <chr>, sample_size_comments <chr>,
 #> #   obs_duration_mean_op <chr>, obs_duration_mean <chr>,
 #> #   obs_duration_min_op <chr>, obs_duration_min <chr>,
 #> #   obs_duration_max_op <chr>, obs_duration_max <chr>, obs_duration_unit <chr>,
 #> #   obs_duration_comments <chr>, endpoint <chr>, endpoint_comments <chr>,
-#> #   trend <chr>, effect <chr>, effect_comments <chr>, measurement <chr>,
-#> #   measurement_comments <chr>, response_site <chr>, ...
+#> #   trend <chr>, effect <chr>, effect_comments <chr>, measurement <chr>, …
 ```
 
 If you prefer working using `SQL` directly, that is fine too. The
@@ -146,19 +146,19 @@ the database structure in order to join additional data.
 > Using `SQL` syntax
 
 ``` r
-dbGetQuery(con, "SELECT * FROM results WHERE result_id='401386'") %>%
+dbGetQuery(con, "SELECT * FROM results WHERE result_id='401386'") |>
   dplyr::as_tibble()
-#> # A tibble: 1 x 137
-#>   result_id test_id sample_siz~1 sampl~2 sampl~3 sampl~4 sampl~5 sampl~6 sampl~7
-#>       <int>   <int> <chr>        <chr>   <chr>   <chr>   <chr>   <chr>   <chr>  
-#> 1    401386 1020021 ""           NC      ""      NC      ""      NC      NC     
-#> # ... with 128 more variables: sample_size_comments <chr>,
+#> # A tibble: 1 × 137
+#>   result_id test_id sample_size_mean_op sample_size_mean sample_size_min_op
+#>       <int>   <int> <chr>               <chr>            <chr>             
+#> 1    401386 1020021 ""                  NC               ""                
+#> # ℹ 132 more variables: sample_size_min <chr>, sample_size_max_op <chr>,
+#> #   sample_size_max <chr>, sample_size_unit <chr>, sample_size_comments <chr>,
 #> #   obs_duration_mean_op <chr>, obs_duration_mean <chr>,
 #> #   obs_duration_min_op <chr>, obs_duration_min <chr>,
 #> #   obs_duration_max_op <chr>, obs_duration_max <chr>, obs_duration_unit <chr>,
 #> #   obs_duration_comments <chr>, endpoint <chr>, endpoint_comments <chr>,
-#> #   trend <chr>, effect <chr>, effect_comments <chr>, measurement <chr>,
-#> #   measurement_comments <chr>, response_site <chr>, ...
+#> #   trend <chr>, effect <chr>, effect_comments <chr>, measurement <chr>, …
 ```
 
 ## Disclaimers
@@ -173,13 +173,13 @@ package is therefore **not** official US EPA software.
 
 ## Resources
 
--   [Manual of the CRAN
-    release](https://CRAN.R-project.org/package=ECOTOXr)
--   EPA ECOTOX help <https://cfpub.epa.gov/ecotox/help.cfm>
--   Olker, Jennifer H.; Elonen, Colleen M.; Pilli, Anne; Anderson, Arne;
-    Kinziger, Brian; Erickson, Stephen; Skopinski, Michael; Pomplun,
-    Anita; LaLone, Carlie A.; Russom, Christine L.; Hoff, Dale. (2022):
-    The ECOTOXicology Knowledgebase: A Curated Database of Ecologically
-    Relevant Toxicity Tests to Support Environmental Research and Risk
-    Assessment. *Environmental Toxicology and Chemistry* 41(6) 1520-1539
-    <!--https://doi.org/10.1002/etc.5324-->
+- [Manual of the CRAN
+  release](https://CRAN.R-project.org/package=ECOTOXr)
+- EPA ECOTOX help <https://cfpub.epa.gov/ecotox/help.cfm>
+- Olker, Jennifer H.; Elonen, Colleen M.; Pilli, Anne; Anderson, Arne;
+  Kinziger, Brian; Erickson, Stephen; Skopinski, Michael; Pomplun,
+  Anita; LaLone, Carlie A.; Russom, Christine L.; Hoff, Dale. (2022):
+  The ECOTOXicology Knowledgebase: A Curated Database of Ecologically
+  Relevant Toxicity Tests to Support Environmental Research and Risk
+  Assessment. *Environmental Toxicology and Chemistry* 41(6) 1520-1539
+  <!--https://doi.org/10.1002/etc.5324-->

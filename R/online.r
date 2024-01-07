@@ -18,7 +18,7 @@
 #' @inheritParams get_ecotox_url
 #' @param ... In case of [list_ecotox_web_fields()] the dots can be used as search field values used to update the returned list of fields.
 #' 
-#' In case of [websearch_ecotox()] the dots can be used to pass custom options to the underlying [httr::POST()] call. For available
+#' In case of [websearch_ecotox()] the dots can be used to pass custom options to the underlying [httr2::req_options()] call. For available
 #' field names, use `names(list_ecotox_web_fields())`
 #' @returns Returns named `list` of [dplyr::tibble]s with search results. Results are unpolished and `as is' returned by EPA's web service.
 #' 
@@ -45,41 +45,43 @@ websearch_ecotox <- function(
     verify_ssl = getOption("ECOTOXr_verify_ssl"), ...) {
   habitat <- match.arg(habitat)
   if (is.null(verify_ssl)) verify_ssl <- TRUE
-  
-  search_post <- list(
-    url = sprintf("https://cfpub.epa.gov/ecotox/data/search_handler.cfm?sub=%s&type=", habitat),
-    body = fields, encode = "form",
-    ...
-  )
+  cfg = list(...)
   if (!verify_ssl) {
-    search_post[["config"]] <- httr::config(ssl_verifyhost = 0, ssl_verifypeer = 0)
+    cfg[["ssl_verifyhost"]] <- 0
+    cfg[["ssl_verifypeer"]] <- 0
   }
   ## download preview
-  search_post <- do.call(httr::POST, search_post)
+  search_post <-
+    sprintf("https://cfpub.epa.gov/ecotox/data/search_handler.cfm?sub=%s&type=", habitat) |>
+    httr2::request() |>
+    httr2::req_method("POST") |>
+    httr2::req_body_form(!!!fields) |>
+    httr2::req_options(!!!cfg) |>
+    httr2::req_perform()
   .check_http_status(search_post, "Failed to send search query")
-  search_response <-  rvest::read_html(search_post)
-  warnings <- search_response %>% rvest::html_element(xpath = "//div[@class='callout alert']") %>% rvest::html_text2()
+  search_response <- search_post |> httr2::resp_body_html()
+  warnings <- search_response |> rvest::html_element(xpath = "//div[@class='callout alert']") |>
+    rvest::html_text2()
   if (!is.na(warnings)) stop(warnings)
-  search_response <- jsonlite::parse_json(search_post$content %>% rawToChar())
-  headers <- lapply(search_response$headers, `[[`, 1) %>% unlist()
-  table_preview <- search_response$records %>% lapply(structure, names = headers) %>% lapply(dplyr::as_tibble) %>% dplyr::bind_rows()
+  search_response <- jsonlite::parse_json(search_post |> httr2::resp_body_string())
+  headers <- lapply(search_response$headers, `[[`, 1) |> unlist()
+  table_preview <- search_response$records |> lapply(structure, names = headers) |> lapply(dplyr::as_tibble) |> dplyr::bind_rows()
   
-  httr_result <- list(
-    url = sprintf("https://cfpub.epa.gov/ecotox/data/search_handler.cfm?sub=%s&type=excel", habitat),
-    body = fields, encode = "form",
-    ...
-  )
-  if (!verify_ssl) {
-    httr_result[["config"]] <- httr::config(ssl_verifyhost = 0, ssl_verifypeer = 0)
-  }
   ## Download excel report
-  httr_result <- do.call(httr::POST, httr_result)
-  
+  httr_result <-
+    sprintf("https://cfpub.epa.gov/ecotox/data/search_handler.cfm?sub=%s&type=excel", habitat) |>
+    httr2::request() |>
+    httr2::req_method("POST") |>
+    httr2::req_body_form(!!!fields) |>
+    httr2::req_options(!!!cfg) |>
+    httr2::req_perform()
+
   .check_http_status(httr_result, "Failed to send search query")
   
   ## Return preview when Excel download has failed
   if (!grepl("spreadsheet", httr_result$headers$`content-type`)) {
-    warn_text <- httr_result %>% rvest::read_html() %>% rvest::html_text2() %>% stringr::str_replace("Warning", "") %>% trimws()
+    warn_text <- httr_result |> httr2::resp_body_html() |> rvest::html_text2() |>
+      stringr::str_replace("Warning", "") |> trimws()
     warn_text <- paste(warn_text, "Returning on-line preview data only")
     warning(warn_text)
     return(list(`On-line preview` = table_preview))
@@ -87,7 +89,7 @@ websearch_ecotox <- function(
   
   ## otherwise return full data
   tab_file <- tempfile(fileext = ".xlsx")
-  writeBin(httr_result$content, tab_file)
+  writeBin(httr_result$body, tab_file)
   sheet_names <- readxl::excel_sheets(tab_file)
   data_tables <-
     suppressMessages(
@@ -116,7 +118,7 @@ list_ecotox_web_fields <- function(...) {
   form_data <- do.call(c, lapply(form_data, function(x) {
     x <- strsplit(x[[1]], "=")[[1]]
     structure(ifelse(is.na(x[2]), "", gsub("[+]", " ", utils::URLdecode(x[2]))), names = x[1])
-  })) %>% as.list()
+  })) |> as.list()
   form_data$Ending_Publication_Year <- format(Sys.Date(), "%Y")
   form_data[names(c(...))] <- c(...)
   return(form_data)
@@ -145,7 +147,7 @@ list_ecotox_web_fields <- function(...) {
 #' @inheritParams get_ecotox_url
 #' @returns Returns a named `list` of [dplyr::tibble]s containing the search results for the requested output tables and fields.
 #' Results are unpolished and `as is' returned by EPA's web service.
-#' @param ... Arguments passed on to [httr::GET] requests.
+#' @param ... Arguments passed on to [httr2::req_options()] requests.
 #' @rdname websearch_comptox
 #' @name websearch_comptox
 #' @examples
@@ -198,6 +200,11 @@ websearch_comptox <- function(
     verify_ssl = getOption("ECOTOXr_verify_ssl"),
     ...) {
   if (is.null(verify_ssl)) verify_ssl <- TRUE
+  cfg <- list(...)
+  if (!verify_ssl) {
+    cfg[["ssl_verifyhost"]] <- 0
+    cfg[["ssl_verifypeer"]] <- 0
+  }
   search_form <-
     list(
       identifierTypes = match.arg(identifierTypes, several.ok = T),
@@ -207,48 +214,43 @@ websearch_comptox <- function(
       inputType       = match.arg(inputType),
       downloadType    = "EXCEL"
     )
-  post_result <- list(
-    url = "https://comptox.epa.gov/dashboard-api/batchsearch/export/?lb2ljny4",
-    body   = search_form,
-    encode = "json",
-    httr::content_type("application/json"),
-    ...)
-  if (!verify_ssl) {
-    post_result[["config"]] <- httr::config(ssl_verifyhost = 0, ssl_verifypeer = 0)
-  }
-  post_result <- do.call(httr::POST, post_result)
+
+  post_result <-
+    "https://comptox.epa.gov/dashboard-api/batchsearch/export/?lb2ljny4" |>
+    httr2::request() |>
+    httr2::req_body_json(search_form) |>
+    httr2::req_method("POST") |>
+    httr2::req_options(!!!cfg) |>
+    httr2::req_perform()
   .check_http_status(post_result, "Failed to post search query")
   
   ## Wait for download to get ready, by checking its status every second
   i <- 0
   repeat {
-    search_status <- list(
-      url = paste0("https://comptox.epa.gov/dashboard-api/batchsearch/export/status/", post_result$content %>% rawToChar()),
-      ...
-    )
-    if (!verify_ssl)
-      search_status[["config"]] <- httr::config(ssl_verifyhost = 0, ssl_verifypeer = 0)
-    search_status <- do.call(httr::GET, search_status)
+    search_status <-
+      "https://comptox.epa.gov/dashboard-api/batchsearch/export/status/" |>
+        paste0(post_result |> httr2::resp_body_string()) |>
+        httr2::request() |>
+        httr2::req_options(!!!cfg) |>
+        httr2::req_perform()
     .check_http_status(search_status, "Failed to check download status")
-    if ((search_status$content %>% rawToChar()) == "true") break
+    if ((search_status |> httr2::resp_body_string()) == "true") break
     i <- i + 1
     if (i == 30) warning("It is taking exceptionally long for preparing the download, you may wish to abort...")
     if (i == timeout) stop("Did not succeed before timeout, try again or increase the timeout...")
     Sys.sleep(1)
   }
 
-  search_result <- list(
-    url = paste0("https://comptox.epa.gov/dashboard-api/batchsearch/export/content/", post_result$content %>% rawToChar()),
-    httr::content_type("application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"),
-    ...
-  )
-  if (!verify_ssl)
-    search_result[["config"]] <- httr::config(ssl_verifyhost = 0, ssl_verifypeer = 0)
   ## Download is ready, so let's go get it
-  search_result <- do.call(httr::GET, search_result)
+  search_result <-
+    "https://comptox.epa.gov/dashboard-api/batchsearch/export/content/" |>
+    paste0(post_result |> httr2::resp_body_string()) |>
+    httr2::request() |>
+    httr2::req_options(!!!cfg) |>
+    httr2::req_perform()
   .check_http_status(search_result, "Failed to obtain search result")
   tab_file <- tempfile(fileext = ".xlsx")
-  writeBin(search_result$content, tab_file)
+  writeBin(search_result$body, tab_file)
   sheet_names <- readxl::excel_sheets(tab_file)
   data_tables <- structure(
     lapply(sheet_names, function(name) {
@@ -260,13 +262,12 @@ websearch_comptox <- function(
   return(data_tables)
 }
 
-.check_http_status <- function(httr_object, message = "") {
+.check_http_status <- function(httr2_response, message = "") {
   ## http status between 200 and 299 indicates success
-  if (!dplyr::between(as.numeric(httr_object$status), 200, 299)) {
-    stop(sprintf("%s. Http response %s status code %s\n\n%s",
+  if (!dplyr::between(as.numeric(httr2_response$status_code), 200, 299)) {
+    stop(sprintf("%s. Http response %s status code %s",
                  message,
-                 httr::content(httr_object)$title,
-                 httr::content(httr_object)$status,
-                 httr::content(httr_object)$detail))
+                 httr2::resp_status_desc(httr2_response),
+                 httr2::resp_status(httr2_response)))
   }
 }

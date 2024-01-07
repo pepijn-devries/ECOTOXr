@@ -27,7 +27,7 @@ is not verified. Can also be set as option:
 
 \item{...}{In case of \code{\link[=list_ecotox_web_fields]{list_ecotox_web_fields()}} the dots can be used as search field values used to update the returned list of fields.
 
-In case of \code{\link[=websearch_ecotox]{websearch_ecotox()}} the dots can be used to pass custom options to the underlying \code{\link[httr:POST]{httr::POST()}} call. For available
+In case of \code{\link[=websearch_ecotox]{websearch_ecotox()}} the dots can be used to pass custom options to the underlying \code{\link[httr2:req_options]{httr2::req_options()}} call. For available
 field names, use \code{names(list_ecotox_web_fields())}}
 }
 \value{

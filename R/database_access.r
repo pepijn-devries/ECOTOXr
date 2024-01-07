@@ -181,3 +181,129 @@ list_ecotox_fields <- function(which = c("default", "extended", "full", "all"), 
                              "dose_response_links", "dose_stat_method_codes"))]
   return(result)
 }
+
+#' Check the locally build database for validity
+#'
+#' `r lifecycle::badge('stable')` Performs some simple tests to check whether the
+#' locally built database is not corrupted.
+#'
+#' For now this function tests if all expected tables are present in the locally built
+#' database. Note that in later release of the database some tables were added. Therefore
+#' for older builds this function might return `FALSE` whereas it is actually just fine
+#' (just out-dated).
+#'
+#' Furthermore, this function tests if all tables contain one or more records. Obviously,
+#' this is no guarantee that the database is valid, but it is a start.
+#' 
+#' More tests may be added in future releases.
+#' @inheritParams dbConnectEcotox
+#' @returns Returns an indicative logical value whether the database is not corrupted.
+#' `TRUE` indicates the database is most likely OK. `FALSE` indicates that something might
+#' be wrong. Additional messages (when `FALSE`) are included as attributes containing hints
+#' on the outcoming of the tests. See also the 'details' section.
+#' @rdname check_ecotox_build
+#' @name check_ecotox_build
+#' @examples
+#' \dontrun{
+#' check_ecotox_build()
+#' }
+#' @author Pepijn de Vries
+#' @export
+check_ecotox_build <- function(path = get_ecotox_path(), version, ...) {
+  validity <- TRUE
+  con <- tryCatch({
+    dbConnectEcotox(path, version, ...)
+  }, error = function(e) NULL)
+  if (is.null(con)) {
+    validity <- FALSE
+    attr(validity, "reasons") <-
+      c(attr(validity, "reasons"), "Cannot connect with 'target' and 'version'.")
+  } else {
+    tables <- RSQLite::dbListTables(con)
+    missing_tables <- .db_specs$table[!.db_specs$table %in% tables]
+    if (length(missing_tables) > 0) {
+      validity <- FALSE
+      attr(validity, "reasons") <-
+        c(attr(validity, "reasons"),
+          sprintf("The following tables were missing: %s",
+                  paste0(missing_tables, collapse = "; ")))
+    } else {
+      for (tab in tables) {
+        n <- dplyr::tbl(con, tab) |> dplyr::summarise(n = dplyr::n()) |> dplyr::pull("n")
+        if (n == 0) {
+          validity <- FALSE
+          attr(validity, "reasons") <-
+            c(attr(validity, "reasons"),
+              "One or more tables have no records")
+          break
+        }
+      }
+    }
+    dbDisconnect(con)
+  }
+  return (validity)
+}
+
+#' Check if the locally build database is up to date
+#'
+#' `r lifecycle::badge('stable')` Checks the version of the database available on-line
+#' from the EPA against the specified version (latest by default) of the database build
+#' locally. Returns `TRUE` when they are the same.
+#'
+#' @inheritParams get_ecotox_sqlite_file
+#' @param verbose A `logical` value. If true messages are shown on the console reporting
+#' on the check.
+#' @returns Returns a `logical` value invisibly indicating whether the locally build
+#' is up to date with the latest release by the EPA.
+#' @rdname check_ecotox_version
+#' @name check_ecotox_version
+#' @examples
+#' \dontrun{
+#' check_ecotox_version()
+#' }
+#' @author Pepijn de Vries
+#' @export
+check_ecotox_version <- function(path = get_ecotox_path(), version, verbose = TRUE) {
+  u <-
+    get_ecotox_url() |>
+    basename() |>
+    stringr::str_extract("(?<=^ecotox_ascii_)(.*?)(?=\\.zip$)") |>
+    as.Date(format = "%m_%d_%Y")
+  
+  available <- check_ecotox_availability(path)
+  if (!available) {
+    if (verbose) {
+      message(crayon::red(
+        "No databased present at the specified path"
+      ))
+    }
+    return(invisible(FALSE))
+  }
+  f <-
+    get_ecotox_sqlite_file(path, version)  |>
+    basename() |>
+    stringr::str_extract("(?<=^ecotox_ascii_)(.*?)(?=\\.sqlite$)") |>
+    as.Date(format = "%m_%d_%Y")
+  result <- f == u
+  if (verbose) {
+    if (result) {
+      message(crayon::green(
+        paste("The locally build database represents",
+              "the latest available EPA release",
+              format(f, format = "(%Y-%m-%d). You are up to date."),
+              sep = "\n")))
+    } else if (f < u) {
+      message(crayon::red(
+        paste(format(f, "The locally build database (%Y-%m-%d) represents"),
+              format(u, "an older EPA release (%Y-%m-%d). Please download"),
+              "and build the latest relase if you.",
+              "wish to be up to date.", sep = "\n")))
+    } else if (f > u) {
+      message(crayon::red(
+        paste(format(f, "You have installed a future release (%Y-%m-%d)"),
+              format(u, "of the EPA database (%Y-%m-%d). Are you a time"),
+              "traveller?", sep = "\n")))
+    }
+  }
+  return(invisible(result))
+}

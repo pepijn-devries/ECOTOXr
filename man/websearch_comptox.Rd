@@ -64,7 +64,7 @@ It will throw an error if it takes longer than the specified \code{timeout}.}
 is not verified. Can also be set as option:
 \code{options(ECOTOXr_verify_ssl = TRUE)}. Default is \code{TRUE}.}
 
-\item{...}{Arguments passed on to \link[httr:GET]{httr::GET} requests.}
+\item{...}{Arguments passed on to \code{\link[httr2:req_options]{httr2::req_options()}} requests.}
 }
 \value{
 Returns a named \code{list} of \link[dplyr:reexports]{dplyr::tibble}s containing the search results for the requested output tables and fields.

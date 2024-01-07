@@ -103,8 +103,8 @@ If you like to use [`{dplyr}`](https://dplyr.tidyverse.org/) verbs, you are in l
 
 ```{r warning = FALSE}
 con <- dbConnectEcotox()
-dplyr::tbl(con, "results") %>%
-  dplyr::filter(result_id == "401386") %>%
+dplyr::tbl(con, "results") |>
+  dplyr::filter(result_id == "401386") |>
   dplyr::collect()
 ```
 
@@ -115,7 +115,7 @@ needs knowledge of the database structure in order to join additional data.
 > Using `SQL` syntax
 
 ```{r warning = FALSE}
-dbGetQuery(con, "SELECT * FROM results WHERE result_id='401386'") %>%
+dbGetQuery(con, "SELECT * FROM results WHERE result_id='401386'") |>
   dplyr::as_tibble()
 ```
 
