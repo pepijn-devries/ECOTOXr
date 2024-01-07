@@ -11,7 +11,7 @@ get_ecotox_url(verify_ssl = getOption("ECOTOXr_verify_ssl"), ...)
 is not verified. Can also be set as option:
 \code{options(ECOTOXr_verify_ssl = TRUE)}. Default is \code{TRUE}.}
 
-\item{...}{arguments passed on to \code{\link[httr:GET]{httr::GET()}}}
+\item{...}{arguments passed on to \code{\link[httr2:req_options]{httr2::req_options()}}}
 }
 \value{
 Returns a \code{character} string containing the download URL of the latest version of the EPA ECOTOX

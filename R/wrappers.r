@@ -117,7 +117,7 @@ search_ecotox <- function(search, output_fields = list_ecotox_fields("default"),
   search_result <- search_ecotox_lazy(search, c(output_fields, temp_field), compute, group_by_results = group_by_results)
   database_file <- attributes(search_result)$database_file
   dbcon         <- search_result[["src"]]$con
-  search_result <- search_result %>% collect()
+  search_result <- search_result |> collect()
   dbDisconnect(dbcon)
   ## group by result_id if requested
   
@@ -126,9 +126,9 @@ search_ecotox <- function(search, output_fields = list_ecotox_fields("default"),
   ## remove temporary fields
   if (!is.null(temp_field))
     search_result <-
-    search_result %>%
+    search_result |>
     select(!dplyr::any_of(gsub("^.*?[.]", "", temp_field)))
-  if (as_data_frame) search_result <- search_result %>% as.data.frame()
+  if (as_data_frame) search_result <- search_result |> as.data.frame()
   return(.add_tags(search_result, database_file))
 }
 
@@ -155,6 +155,6 @@ search_ecotox_lazy <- function(search, output_fields = list_ecotox_fields("defau
 search_query_ecotox <- function(search, output_fields = list_ecotox_fields("default"), ...) {
   search_result <- search_ecotox_lazy(search, output_fields, ...)
   database_file <- attributes(search_result)$database_file
-  search_result <- search_result %>% dbplyr::sql_render()
+  search_result <- search_result |> dbplyr::sql_render()
   return(.add_tags(search_result, database_file))
 }

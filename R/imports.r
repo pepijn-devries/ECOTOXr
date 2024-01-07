@@ -10,19 +10,6 @@
 
 #' @importFrom dplyr collect left_join inner_join select sql tbl
 #' @importFrom lifecycle badge
-#' @importFrom rlang :=
+#' @importFrom rlang := !!!
 #' @importFrom RSQLite dbExecute dbConnect dbDisconnect dbWriteTable
-NULL
-
-#' Objects exported from other packages
-#' 
-#' Objects imported and exported from other packages. See original documentation for more details.
-#' 
-#' \describe{
-#' \item{dplyr}{[`\%>\%()`][dplyr::reexports]}
-#' }
-#' @importFrom dplyr %>%
-#' @export %>%
-#' @name %>%
-#' @rdname reexports
 NULL
