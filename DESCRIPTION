@@ -41,7 +41,7 @@ Suggests:
     standartox,
     testthat (>= 3.0.0),
     webchem
-URL: https://github.com/pepijn-devries/ECOTOXr
+URL: https://github.com/pepijn-devries/ECOTOXr, https://pepijn-devries.github.io/ECOTOXr/
 BugReports: https://github.com/pepijn-devries/ECOTOXr/issues
 License: GPL (>= 3)
 Encoding: UTF-8
