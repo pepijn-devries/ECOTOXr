@@ -1,5 +1,5 @@
 
-> `{ECOTOXr}` Harness information from the [US EPA ECOTOXicology
+> `ECOTOXr` Harness information from the [US EPA ECOTOXicology
 > Knowledgebase](https://cfpub.epa.gov/ecotox/) [![R build
 > status](https://github.com/pepijn-devries/ECOTOXr/workflows/R-CMD-check/badge.svg)](https://github.com/pepijn-devries/ECOTOXr/actions)
 > [![version](https://www.r-pkg.org/badges/version/ECOTOXr)](https://CRAN.R-project.org/package=ECOTOXr)
@@ -7,8 +7,8 @@
 
 ## Overview
 
-<a href="https://github.com/pepijn-devries/ECOTOXr/"><img src="man/figures/logo.png" alt="ECOTOXr logo" align="right" /></a>
-`{ECOTOXr}` can be used to explore and analyse data from the [US EPA
+<a href="https://github.com/pepijn-devries/ECOTOXr/"><img src="man/figures/logo.png" alt="ECOTOXr logo" align="right" class="pkgdown-hide" /></a>
+`ECOTOXr` can be used to explore and analyse data from the [US EPA
 ECOTOX database](https://cfpub.epa.gov/ecotox/). More specifically you
 can:
 
@@ -19,9 +19,9 @@ can:
   [ECOTOX](https://cfpub.epa.gov/ecotox/search.cfm) and
   [CompTox](https://comptox.epa.gov/dashboard/batch-search)
 
-## Why use `{ECOTOXr}`?
+## Why use `ECOTOXr`?
 
-The `{ECOTOXr}` package allows you to search and extract data from the
+The `ECOTOXr` package allows you to search and extract data from the
 [ECOTOXicological Knowledgebase](https://cfpub.epa.gov/ecotox/) and
 import it directly into `R`. This will allow you to formalize and
 document the search- and extract-procedures in `R` code. This makes it
@@ -36,17 +36,17 @@ you can directly apply any statistical analysis offered in `R`.
 install.packages("ECOTOXr")
 ```
 
-> Get development version on github
+> Get development version from r-universe
 
 ``` r
-devtools::install_github('pepijn-devries/ECOTOXr')
+install.packages("ECOTOXr", repos = c("https://pepijn-devries.r-universe.dev", "https://cloud.r-project.org"))
 ```
 
 ## Usage
 
 ### Preparing the database
 
-Although `{ECOTOXr}` has experimental features to search the on-line
+Although `ECOTOXr` has experimental features to search the on-line
 database. The package will reach its full potential when you build a
 copy of the database on your local machine.
 
@@ -84,7 +84,7 @@ from any table in the database. Furthermore, all requested output fields
 are automatically joined to the result without the end-user needing to
 know anything about the database structure.
 
-> Using the prefab function `search_ecotox` packaged by `{ECOTOXr}`
+> Using the prefab function `search_ecotox` packaged by `ECOTOXr`
 
 ``` r
 search_ecotox(
@@ -110,14 +110,14 @@ search_ecotox(
 #> #   exposure_duration_mean_op <chr>, exposure_duration_mean <chr>, …
 ```
 
-If you like to use [`{dplyr}`](https://dplyr.tidyverse.org/) verbs, you
-are in luck. SQLite database can be approached using `{dplyr}` verbs.
-This approach will only return information from the `results` table. The
+If you like to use [`dplyr`](https://dplyr.tidyverse.org/) verbs, you
+are in luck. SQLite database can be approached using `dplyr` verbs. This
+approach will only return information from the `results` table. The
 end-user will have to join other information (like test species and test
 substance) manually. This does require knowledge of the database
 structure.
 
-> Using `{dplyr}` verbs
+> Using `dplyr` verbs
 
 ``` r
 con <- dbConnectEcotox()
@@ -138,7 +138,7 @@ dplyr::tbl(con, "results") |>
 ```
 
 If you prefer working using `SQL` directly, that is fine too. The
-[`{RSQLite}`](https://cran.r-project.org/package=RSQLite) package allows
+[`RSQLite`](https://cran.r-project.org/package=RSQLite) package allows
 you to get queries using `SQL` statements. The result is identical to
 that of the previous approach. Here too the end-user needs knowledge of
 the database structure in order to join additional data.

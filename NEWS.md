@@ -1,3 +1,8 @@
+ECOTOXr v1.1.0 (Release date: 2024-02-10)
+-------------
+
+  * Added `pkgdown` generated website
+
 ECOTOXr v1.0.9 (Release date: 2024-01-07)
 -------------
 
