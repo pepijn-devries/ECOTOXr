@@ -1,9 +1,17 @@
 
-> `ECOTOXr` Harness information from the [US EPA ECOTOXicology
-> Knowledgebase](https://cfpub.epa.gov/ecotox/) [![R build
-> status](https://github.com/pepijn-devries/ECOTOXr/workflows/R-CMD-check/badge.svg)](https://github.com/pepijn-devries/ECOTOXr/actions)
-> [![version](https://www.r-pkg.org/badges/version/ECOTOXr)](https://CRAN.R-project.org/package=ECOTOXr)
-> ![cranlogs](https://cranlogs.r-pkg.org/badges/ECOTOXr)
+# `ECOTOXr`
+
+> Harness information from the [US EPA ECOTOXicology
+> Knowledgebase](https://cfpub.epa.gov/ecotox/)
+
+<!-- badges: start -->
+
+[![R build
+status](https://github.com/pepijn-devries/ECOTOXr/workflows/R-CMD-check/badge.svg)](https://github.com/pepijn-devries/ECOTOXr/actions)
+[![version](https://www.r-pkg.org/badges/version/ECOTOXr)](https://CRAN.R-project.org/package=ECOTOXr)
+![cranlogs](https://cranlogs.r-pkg.org/badges/ECOTOXr)
+<!--[![Codecov test coverage](https://codecov.io/gh/pepijn-devries/ECOTOXr/branch/main/graph/badge.svg)](https://app.codecov.io/gh/pepijn-devries/ECOTOXr?branch=main)-->
+<!-- badges: end -->
 
 ## Overview
 
@@ -173,6 +181,10 @@ package is therefore **not** official US EPA software.
 
 ## Resources
 
+- De Vries, P. (2024) ECOTOXr: An R package for reproducible and
+  transparent retrieval of data from EPA’s ECOTOX database.
+  *Chemosphere* 364 143078
+  <https://doi.org/10.1016/j.chemosphere.2024.143078>
 - [Manual of the CRAN
   release](https://CRAN.R-project.org/package=ECOTOXr)
 - EPA ECOTOX help <https://cfpub.epa.gov/ecotox/help.cfm>
@@ -182,4 +194,4 @@ package is therefore **not** official US EPA software.
   The ECOTOXicology Knowledgebase: A Curated Database of Ecologically
   Relevant Toxicity Tests to Support Environmental Research and Risk
   Assessment. *Environmental Toxicology and Chemistry* 41(6) 1520-1539
-  <!--https://doi.org/10.1002/etc.5324-->
+  <https://doi.org/10.1002/etc.5324>

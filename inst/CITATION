@@ -1,0 +1,10 @@
+bibentry(
+  bibtype  = "Article",
+  title    = "ECOTOXr: An R package for reproducible and transparent retrieval of data from EPA's ECOTOX database",
+  author   = "P. de Vries",
+  journal  = "Chemosphere",
+  year     = "2024",
+  volume   = "364",
+  pages    = "143078",
+  doi      = "10.1016/j.chemosphere.2024.143078"
+)

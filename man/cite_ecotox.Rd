@@ -19,7 +19,8 @@ Returns a \code{vector} of \code{\link[=bibentry]{bibentry()}}'s, containing a r
 and this package.
 }
 \description{
-\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#stable}{\figure{lifecycle-stable.svg}{options: alt='[Stable]'}}}{\strong{[Stable]}} Cite the downloaded copy of the ECOTOX database and this package for reproducible results.
+\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#stable}{\figure{lifecycle-stable.svg}{options: alt='[Stable]'}}}{\strong{[Stable]}} Cite the downloaded copy of the ECOTOX database and this package
+(\code{citation("ECOTOXr")}) for reproducible results.
 }
 \details{
 When you download a copy of the EPA ECOTOX database using \code{\link[=download_ecotox_data]{download_ecotox_data()}},

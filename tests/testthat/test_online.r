@@ -1,4 +1,4 @@
-library(dplyr)
+library(dplyr, quietly = TRUE) |> suppressWarnings() |> suppressMessages()
 
 check_db <- function() {
   if (!check_ecotox_availability()) {
