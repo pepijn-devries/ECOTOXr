@@ -68,7 +68,8 @@ dbDisconnectEcotox <- function(conn, ...) {
 
 #' Cite the downloaded copy of the ECOTOX database
 #'
-#' `r lifecycle::badge('stable')` Cite the downloaded copy of the ECOTOX database and this package for reproducible results.
+#' `r lifecycle::badge('stable')` Cite the downloaded copy of the ECOTOX database and this package
+#' (`citation("ECOTOXr")`) for reproducible results.
 #'
 #' When you download a copy of the EPA ECOTOX database using [download_ecotox_data()],
 #' a BibTex file is stored that registers the database release version and the access (= download) date. Use this
