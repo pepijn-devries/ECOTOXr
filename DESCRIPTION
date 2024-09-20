@@ -13,7 +13,7 @@ Description: The US EPA ECOTOX database is a freely available database
     As the online search interface doesn't come with an API, this
     package provides the means to easily access and search the database
     in R. To this end, all raw tables are downloaded from the EPA website
-    and stored in a local SQLite database <10.1016/j.chemosphere.2024.143078>.
+    and stored in a local SQLite database <doi:10.1016/j.chemosphere.2024.143078>.
 Depends:
     R (>= 4.1.0),
     RSQLite (>= 2.3.4)
