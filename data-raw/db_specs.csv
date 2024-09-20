@@ -1,0 +1,686 @@
+table,field_name,data_type,primary_key,not_null,foreign_key,comment,default_output
+chemical_carriers,carrier_id,NUMERIC(10),PRIMARY KEY,NOT NULL,,Primary key. System generated.,FALSE
+chemical_carriers,test_id,NUMERIC(10),,NOT NULL,tests(test_id),Foreign key to TESTS parent table.,FALSE
+chemical_carriers,cas_number,NUMERIC(12),,NOT NULL,chemicals(cas_number),Foreign key to CHEMICAL lookup table.,FALSE
+chemical_carriers,chem_name,VARCHARS(500),,,,Chemical name.,FALSE
+chemical_carriers,purpose,VARCHARS(16),,,,Carrier or Positive Control. Was CHEMICAL_CARRIERS.Purpose.,FALSE
+chemical_carriers,grade,VARCHAR(16),,,chemical_grad_codes(code),Foreign key to CHEMICAL_GRADE_CODES lookup table. Was CHEMICALINFO.ChemicalGrade; CHEMICAL_CARRIERS.Grade.,FALSE
+chemical_carriers,grade_comments,VARCHAR(4000),,,,New field.,FALSE
+chemical_carriers,formulation,VARCHAR(20),,,chemical_formulation_codes(code),Foreign key to CHEMICAL_FORMULATION_CODES lookup table. Was CHEMICALINFO.Formulation; CHEMICAL_CARRIERS.Formulation.,FALSE
+chemical_carriers,formulation_comments,VARCHAR(4000),,,,New field.,FALSE
+chemical_carriers,radiolabel,VARCHAR(20),,,radio_label_codes(code),Foreign key to RADIO_LABEL_CODES lookup table. Was CHEMICALINFO.Radiolabel; CHEMICAL_CARRIERS.Radio Label.,FALSE
+chemical_carriers,radiolabel_comments,VARCHAR(4000),,,,New field.,FALSE
+chemical_carriers,purity_mean_op,VARCHAR(2),,,,Was CHEMICALINFO.Purity; CHEMICAL_CARRIERS.Purity.,FALSE
+chemical_carriers,purity_mean,VARCHARS(10),,,,Was CHEMICALINFO.Purity; CHEMICAL_CARRIERS.Purity.,FALSE
+chemical_carriers,purity_min_op,VARCHAR(2),,,,Was CHEMICALINFO.Purity; CHEMICAL_CARRIERS.Purity.,FALSE
+chemical_carriers,purity_min,VARCHARS(10),,,,Was CHEMICALINFO.Purity; CHEMICAL_CARRIERS.Purity.,FALSE
+chemical_carriers,purity_max_op,VARCHAR(2),,,,Was CHEMICALINFO.Purity; CHEMICAL_CARRIERS.Purity.,FALSE
+chemical_carriers,purity_max,VARCHARS(10),,,,Was CHEMICALINFO.Purity; CHEMICAL_CARRIERS.Purity.,FALSE
+chemical_carriers,purity_comments,VARCHAR(4000),,,,New field.,FALSE
+chemical_carriers,characteristics,VARCHARS(4000),,,,Was CHEMICALINFO.Characteristics; CHEMICAL_CARRIERS.Characteristics.,FALSE
+tests,test_id,NUMERIC(11),PRIMARY KEY,NOT NULL,,Primary key. Was TEST.Record Number; new ID generated for Aquatic.,FALSE
+tests,reference_number,NUMERIC(6),,NOT NULL,references(reference_number),Foreign key to REFERENCES lookup table. Was AQUIRE.ReferenceNumber; TEST.Reference Number.,FALSE
+tests,test_cas,NUMERIC(12),,NOT NULL,chemicals(cas_number),Foreign key to CHEMICALS lookup table. Was AQUIRE.TestCAS; TEST.Test CAS.,TRUE
+tests,test_grade,VARCHAR(20),,,chemical_grade_codes(code),Foreign key to CHEMICAL_GRADE_CODES lookup table. Was AQUIRE.TestGrade; TEST.Test; Grade.,TRUE
+tests,test_grade_comments,VARCHAR(4000),,,,New field.,TRUE
+tests,test_formulation,VARCHAR(20),,,chemical_formulation_codes(code),Foreign key to CHEMICAL_FORMULATION_CODES lookup table. Was AQUIRE.TestFormulation; TEST.Test. Formulation.,FALSE
+tests,test_formulation_comments,VARCHAR(4000),,,,New field.,FALSE
+tests,test_radiolabel,VARCHAR(20),,,radio_label_codes(code),Foreign key to RADIO_LABEL_CODES lookup table. Was AQUIRE.TestRadioLabel; TEST.Test Radio Label.,FALSE
+tests,test_radiolabel_comments,VARCHAR(4000),,,,New field.,FALSE
+tests,test_purity_mean_op,VARCHAR(2),,,,Was AQUIRE.TestPurity; TEST.Test Purity.,TRUE
+tests,test_purity_mean,VARCHAR(10),,,,Was AQUIRE.TestPurity; TEST.Test Purity.,TRUE
+tests,test_purity_min_op,VARCHAR(2),,,,Was AQUIRE.TestPurity; TEST.Test Purity.,TRUE
+tests,test_purity_min,VARCHAR(10),,,,Was AQUIRE.TestPurity; TEST.Test Purity.,TRUE
+tests,test_purity_max_op,VARCHAR(2),,,,Was AQUIRE.TestPurity; TEST.Test Purity.,TRUE
+tests,test_purity_max,VARCHAR(10),,,,Was AQUIRE.TestPurity; TEST.Test Purity.,TRUE
+tests,test_purity_comments,VARCHAR(4000),,,,New field.,TRUE
+tests,test_characteristics,VARCHAR(4000),,,,Was AQUIRE.TestCharacteristics; TEST.Test Characteristics,FALSE
+tests,species_number,NUMERIC(10),,NOT NULL,species(species_number),Foreign key to SPECIES lookup table. Was AQUIRE.SpeciesNumber; TEST.Species Number.,FALSE
+tests,organism_habitat,VARCHAR(11),,NOT NULL,,New field. Aquatic = Water; Terrestrial = Soil or NonSoil.,FALSE
+tests,organism_source,VARCHAR(20),,,organism_source_codes(code),Foreign key to ORGANISM_SOURCE_CODES lookup table. Was TEST.Organism Source.,FALSE
+tests,organism_source_comments,VARCHAR(4000),,,,New field.,FALSE
+tests,organism_lifestage,VARCHAR(20),,,lifestage_codes(code),Foreign key to LIFESTAGE_CODES lookup table. Was AQUIRE.Lifestage; TEST.Lifestage.,TRUE
+tests,organism_lifestage_comments,VARCHAR(4000),,,,New field.,FALSE
+tests,organism_age_mean_op,VARCHAR(2),,,,Was AQUIRE.Age; TEST.Age.,TRUE
+tests,organism_age_mean,VARCHAR(10),,,,Was AQUIRE.Age; TEST.Age.,TRUE
+tests,organism_age_min_op,VARCHAR(2),,,,Was AQUIRE.Age; TEST.Age.,TRUE
+tests,organism_age_min,VARCHAR(10),,,,Was AQUIRE.Age; TEST.Age.,TRUE
+tests,organism_age_max_op,VARCHAR(2),,,,Was AQUIRE.Age; TEST.Age.,TRUE
+tests,organism_age_max,VARCHAR(10),,,,Was AQUIRE.Age; TEST.Age.,TRUE
+tests,organism_age_unit,VARCHAR(20),,,duration_unit_codes(code),Foreign key to DURATION_UNIT_CODES lookup table. Was AQUIRE.AgeUnit; TEST.Age Units.,FALSE
+tests,organism_init_wt_mean_op,VARCHAR(2),,,,New field.,FALSE
+tests,organism_init_wt_mean,VARCHAR(10),,,,New field.,FALSE
+tests,organism_init_wt_min_op,VARCHAR(2),,,,New field.,FALSE
+tests,organism_init_wt_min,VARCHAR(10),,,,New field.,FALSE
+tests,organism_init_wt_max_op,VARCHAR(2),,,,New field.,FALSE
+tests,organism_init_wt_max,VARCHAR(10),,,,New field.,FALSE
+tests,organism_init_wt_unit,VARCHAR(20),,,weight_unit_codes(code),Foreign key to WEIGHT_UNIT_CODES lookup table. New field.,FALSE
+tests,organism_characteristics,VARCHAR(4000),,,,Was AQUIRE.OrganismCharacteristics; TEST.Organism Characteristics.,FALSE
+tests,organism_gender,VARCHAR(6),,,gender_codes(code),Foreign key to GENDER_CODES lookup table. Was EXPOSURE.Sex.,FALSE
+tests,organism_length_mean_op,VARCHAR(2),,,,Introduced 2023-06-15,FALSE
+tests,organism_length_mean,VARCHAR(10),,,,Introduced 2023-06-15,FALSE
+tests,organism_length_min_op,VARCHAR(2),,,,Introduced 2023-06-15,FALSE
+tests,organism_length_min,VARCHAR(10),,,,Introduced 2023-06-15,FALSE
+tests,organism_length_max_op,VARCHAR(2),,,,Introduced 2023-06-15,FALSE
+tests,organism_length_max,VARCHAR(10),,,,Introduced 2023-06-15,FALSE
+tests,organism_length_unit,VARCHAR(20),,,length_unit_codes(code),Introduced 2023-06-15,FALSE
+tests,organism_length_type,VARCHAR(20),,,length_type_codes(code),Introduced 2023-06-15,FALSE
+tests,organism_strain,VARCHAR(4000),,,,Introduced 2023-06-15,FALSE
+tests,experimental_design,VARCHAR(4000),,,,Was REMARKS.Remark (RemarkType = 2).,FALSE
+tests,study_duration_mean_op,VARCHAR(2),,,,Was TEST.Study Mean Op.,FALSE
+tests,study_duration_mean,VARCHAR(10),,,,Was TEST.Study Mean.,FALSE
+tests,study_duration_min_op,VARCHAR(2),,,,Was TEST.Study Min Op.,FALSE
+tests,study_duration_min,VARCHAR(10),,,,Was TEST.Study Min.,FALSE
+tests,study_duration_max_op,VARCHAR(2),,,,Was TEST.Study Max Op.,FALSE
+tests,study_duration_max,VARCHAR(10),,,,Was TEST.Study Max.,FALSE
+tests,study_duration_unit,VARCHAR(20),,,duration_unit_codes(code),Foreign key to DURATION_UNIT_CODES lookup table. Was TEST.Study Duration Unit.,FALSE
+tests,study_duration_comments,VARCHAR(4000),,,,New field.,FALSE
+tests,exposure_duration_mean_op,VARCHAR(2),,,,Was TEST.Exposure Mean Op.,TRUE
+tests,exposure_duration_mean,VARCHAR(10),,,,Was TEST.Exposure Mean.,TRUE
+tests,exposure_duration_min_op,VARCHAR(2),,,,Was TEST.Exposure Min Op.,TRUE
+tests,exposure_duration_min,VARCHAR(10),,,,Was TEST.Exposure Min.,TRUE
+tests,exposure_duration_max_op,VARCHAR(2),,,,Was TEST.Exposure Max Op.,TRUE
+tests,exposure_duration_max,VARCHAR(10),,,,Was TEST.Exposure Max.,TRUE
+tests,exposure_duration_unit,VARCHAR(20),,,duration_unit_codes(code),Foreign key to DURATION_UNIT_CODES lookup table. Was TEST.Exposure Duration Unit.,FALSE
+tests,exposure_duration_comments,VARCHAR(4000),,,,New field.,FALSE
+tests,study_type,VARCHAR(20),,,field_study_type_codes(code),Foreign key to FIELD_STUDY_TYPE_CODES lookup table. Was AQUIRE.StudyType.,FALSE
+tests,study_type_comments,VARCHAR(4000),,,,New field.,FALSE
+tests,test_type,VARCHAR(20),,,test_type_codes(code),Foreign key to TEST_TYPE_CODES lookup table. New field.,FALSE
+tests,test_type_comments,VARCHAR(4000),,,,New field.,FALSE
+tests,test_location,VARCHAR(20),,,test_location_codes(code),Foreign key to TEST_LOCATION_CODES lookup table. Was AQUIRE.TestLocation; TEST.Test Location.,TRUE
+tests,test_location_comments,VARCHAR(4000),,,,New field.,FALSE
+tests,test_method,VARCHAR(20),,,test_method_codes(code),Foreign key to TEST_METHOD_CODES lookup table. Was AQUIRE.TestMethod.,FALSE
+tests,test_method_comments,VARCHAR(4000),,,,New field.,FALSE
+tests,exposure_type,VARCHAR(20),,,exposure_type_codes(code),Foreign key to EXPOSURE_TYPE_CODES lookup table. Was AQUIRE.ExposureType; TEST.Exposure Type,TRUE
+tests,exposure_type_comments,VARCHAR(4000),,,,New field.,FALSE
+tests,control_type,VARCHAR(20),,,control_type_codes(code),Foreign key to CONTROL_TYPE_CODES lookup table. Was AQUIRE.StudyControl; TEST.Control Type.,FALSE
+tests,control_type_comments,VARCHAR(4000),,,,New field.,FALSE
+tests,media_type,VARCHAR(20),,,media_type_codes(code),Foreign key to MEDIA_TYPE_CODES lookup table. Was AQUIRE.WaterType; TEST.Media Type.,TRUE
+tests,media_type_comments,VARCHAR(4000),,,,New field.,FALSE
+tests,num_doses_mean_op,VARCHAR(2),,,,Was TEST.Dose Number.,TRUE
+tests,num_doses_mean,VARCHAR(10),,,,Was TEST.Dose Number.,TRUE
+tests,num_doses_min_op,VARCHAR(2),,,,Was TEST.Dose Number.,TRUE
+tests,num_doses_min,VARCHAR(10),,,,Was TEST.Dose Number.,TRUE
+tests,num_doses_max_op,VARCHAR(2),,,,Was TEST.Dose Number.,TRUE
+tests,num_doses_max,VARCHAR(10),,,,Was TEST.Dose Number.,TRUE
+tests,num_doses_comments,VARCHAR(4000),,,,New field.,FALSE
+tests,other_effect_comments,VARCHAR(4000),,,,Was REMARKS.Remark (RemarkType = 3).,FALSE
+tests,application_freq_mean_op,VARCHAR(2),,,,Was AQUIRE.ApplicationFrequencyValue; TEST.Application Freq Value.,FALSE
+tests,application_freq_mean,VARCHAR(10),,,,Was AQUIRE.ApplicationFrequencyValue; TEST.Application Freq Value.,FALSE
+tests,application_freq_min_op,VARCHAR(2),,,,Was AQUIRE.ApplicationFrequencyValue; TEST.Application Freq Value.,FALSE
+tests,application_freq_min,VARCHAR(10),,,,Was AQUIRE.ApplicationFrequencyValue; TEST.Application Freq Value.,FALSE
+tests,application_freq_max_op,VARCHAR(2),,,,Was AQUIRE.ApplicationFrequencyValue; TEST.Application Freq Value.,FALSE
+tests,application_freq_max,VARCHAR(10),,,,Was AQUIRE.ApplicationFrequencyValue; TEST.Application Freq Value.,FALSE
+tests,application_freq_unit,VARCHAR(20),,,application_frequency_codes(code),Foreign key to APPLICATION_FREQUENCY_CODES lookup table. Was AQUIRE.ApplicationFrequencyUnits; TEST.Application Freq Units.,FALSE
+tests,application_freq_comments,VARCHAR(4000),,,,New field.,FALSE
+tests,application_type,VARCHAR(20),,,application_type_codes(code),Foreign key to APPLICATION_TYPE_CODES lookup table. Was FIELDSTUDY.ApplicationType.,FALSE
+tests,application_type_comments,VARCHAR(4000),,,,New field.,FALSE
+tests,application_rate,VARCHAR(10),,,,Was FIELDSTUDY.ApplicationRate.,FALSE
+tests,application_rate_unit,VARCHAR(20),,,concentration_unit_codes(code),Foreign key to CONCENTRATION_UNIT_CODES lookup table. Was FIELDSTUDY.ApplicatonUnits.,FALSE
+tests,application_date,VARCHAR(15),,,,Was FIELDSTUDY.ApplicationDate.,FALSE
+tests,application_date_comments,VARCHAR(4000),,,,New field.,FALSE
+tests,application_season,VARCHAR(20),,,season_codes(code),Foreign key to SEASON_CODES lookup table. Was FIELDSTUDY.ApplicationSeason.,FALSE
+tests,application_season_comments,VARCHAR(4000),,,,New field.,FALSE
+tests,subhabitat,VARCHAR(20),,,habitat_codes(code),Foreign key to HABITAT_CODES lookup table. Was FIELDSTUDY.HabitatCode.,FALSE
+tests,subhabitat_description,VARCHAR(4000),,,,Was FIELDSTUDY.Habitat.,FALSE
+tests,substrate,VARCHAR(20),,,substrate_codes(code),Foreign key to SUBSTRATE_CODES lookup table. Was FIELDSTUDY.SubstrateCode.,FALSE
+tests,substrate_description,VARCHAR(4000),,,,Was FIELDSTUDY.SubstrateDescription.,FALSE
+tests,water_depth_mean_op,VARCHAR(2),,,,Was WATERCHARACTERISTICS.MeanValueOp (WaterCharcteristicType = 9).,FALSE
+tests,water_depth_mean,VARCHAR(10),,,,Was WATERCHARACTERISTICS.MeanValue (WaterCharcteristicType = 9).,FALSE
+tests,water_depth_min_op,VARCHAR(2),,,,Was WATERCHARACTERISTICS.MinValueOp (WaterCharcteristicType = 9).,FALSE
+tests,water_depth_min,VARCHAR(10),,,,Was WATERCHARACTERISTICS.MinValue (WaterCharcteristicType = 9).,FALSE
+tests,water_depth_max_op,VARCHAR(2),,,,Was WATERCHARACTERISTICS.MaxValueOp (WaterCharcteristicType = 9).,FALSE
+tests,water_depth_max,VARCHAR(10),,,,Was WATERCHARACTERISTICS.MaxValue (WaterCharcteristicType = 9).,FALSE
+tests,water_depth_unit,VARCHAR(20),,,media_char_unit_codes(code),Foreign key to MEDIA_CHAR_UNIT_CODES lookup table. Was WATERCHARACTERISTICS.Units (WaterCharcteristicType = 9).,FALSE
+tests,water_depth_comments,VARCHAR(4000),,,,New field.,FALSE
+tests,geographic_code,VARCHAR(20),,,geographic_codes(code),Foreign key to GEOGRAPHIC_CODES lookup table. Was FIELDSTUDY.Geocode.,FALSE
+tests,geographic_location,VARCHAR(4000),,,,New field.,FALSE
+tests,latitude,VARCHAR(30),,,,Was FIELDSTUDY.Latitude.,FALSE
+tests,longitude,VARCHAR(30),,,,Was FIELDSTUDY.Longitude.,FALSE
+tests,halflife_mean_op,VARCHAR(2),,,,Was FIELDSTUDY.HalflifeMean.,FALSE
+tests,halflife_mean,VARCHAR(10),,,,Was FIELDSTUDY.HalflifeMean.,FALSE
+tests,halflife_min_op,VARCHAR(2),,,,Was FIELDSTUDY.HalflifeMin.,FALSE
+tests,halflife_min,VARCHAR(10),,,,Was FIELDSTUDY.HalflifeMin.,FALSE
+tests,halflife_max_op,VARCHAR(2),,,,Was FIELDSTUDY.HalflifeMax.,FALSE
+tests,halflife_max,VARCHAR(10),,,,Was FIELDSTUDY.HalflifeMax.,FALSE
+tests,halflife_unit,VARCHAR(20),,,duration_unit_codes(code),Foreign key to DURATION_UNIT_CODES lookup table. Was FIELDSTUDY.HalflifeTimeUnit.,FALSE
+tests,halflife_comments,VARCHAR(4000),,,,New field.,FALSE
+tests,additional_comments,VARCHAR(4000),,,,Was TEST.Remark.,FALSE
+tests,created_date,DATE,,,,Was AQUIRE.CreationDate; TEST.Creation Date.,FALSE
+tests,modified_date,DATE,,,,Was AQUIRE.ModifyDate; TEST.Modify Date.,FALSE
+tests,published_date,DATE,,,,Was AQUIRE.DataPublishedDate; TEST.Date Published.,FALSE
+dose_response_details,dose_resp_detail_id,NUMERIC(10),PRIMARY KEY,NOT NULL,,Primary key - system generated.,FALSE
+dose_response_details,dose_resp_id,NUMERIC(10),,NOT NULL,dose_responses(dose_resp_id),Foreign key to DOSE_RESPONSES parent table.,FALSE
+dose_response_details,dose_id,NUMERIC(10),,NOT NULL,doses(dose_id),Foreign key to DOSES parent table.,FALSE
+dose_response_details,response_mean_op,VARCHAR(2),,,,Was RESULT.Response Mean Op.,FALSE
+dose_response_details,response_mean,VARCHAR(10),,,,Was RESULT.Observed Response Mean.,FALSE
+dose_response_details,response_min_op,VARCHAR(2),,,,Was RESULT.Response Min Op.,FALSE
+dose_response_details,response_min,VARCHAR(10),,,,Was RESULT.Observed Response Min.,FALSE
+dose_response_details,response_max_op,VARCHAR(2),,,,Was RESULT.Response Max Op.,FALSE
+dose_response_details,response_max,VARCHAR(10),,,,Was RESULT.Observed Response Max.,FALSE
+dose_response_details,statistical_method,VARCHAR(20),,,dose_stat_method_codes(code),Foreign key to DOSE_STAT_METHOD_CODES lookup table. Was RESULT.Statistical Method.,FALSE
+dose_response_details,statistical_method_comments,VARCHAR(4000),,,,New field.,FALSE
+dose_response_details,response_stat_value,VARCHAR(10),,,,Was RESULT.Observed Response Value.,FALSE
+dose_response_details,response_stat_value_comments,VARCHAR(4000),,,,New field.,FALSE
+dose_response_details,sample_size_mean_op,VARCHAR(2),,,,Was RESULT.Sample Number.,FALSE
+dose_response_details,sample_size_mean,VARCHAR(10),,,,Was RESULT.Sample Number.,FALSE
+dose_response_details,sample_size_min_op,VARCHAR(2),,,,Was RESULT.Sample Number.,FALSE
+dose_response_details,sample_size_min,VARCHAR(10),,,,Was RESULT.Sample Number.,FALSE
+dose_response_details,sample_size_max_op,VARCHAR(2),,,,Was RESULT.Sample Number.,FALSE
+dose_response_details,sample_size_max,VARCHAR(10),,,,Was RESULT.Sample Number.,FALSE
+dose_response_details,significance_code,VARCHAR(20),,,statistical_significance_codes(code),Foreign key to STATISTICAL_SIGNIFICANCE_CODES lookup table. Was RESULT.Significant.,FALSE
+dose_response_details,significance_type,VARCHAR(2),,,,"P, A, T, NA or NR. Derived from RESULT.Significance Level.",FALSE
+dose_response_details,significance_level_mean_op,VARCHAR(2),,,,Was RESULT.Significance Level.,FALSE
+dose_response_details,significance_level_mean,VARCHAR(10),,,,Was RESULT.Significance Level.,FALSE
+dose_response_details,significance_level_min_op,VARCHAR(2),,,,Was RESULT.Significance Level.,FALSE
+dose_response_details,significance_level_min,VARCHAR(10),,,,Was RESULT.Significance Level.,FALSE
+dose_response_details,significance_level_max_op,VARCHAR(2),,,,Was RESULT.Significance Level.,FALSE
+dose_response_details,significance_level_max,VARCHAR(10),,,,Was RESULT.Significance Level.,FALSE
+dose_response_details,significance_comments,VARCHAR(4000),,,,New field.,FALSE
+dose_response_details,chem_analysis_method,VARCHAR(20),,,chemical_analysis_codes(code),Foreign key to CHEMICAL_ANALYSIS_CODES lookup table. Was EXPOSURE.Method.,FALSE
+dose_response_details,chem_analysis_method_comments,VARCHAR(4000),,,,New field.,FALSE
+dose_response_details,dry_wet,VARCHAR(4),,,,D or W. Derived from RESULT.Dry Weight Percent.,FALSE
+dose_response_details,dry_wet_pct_mean_op,VARCHAR(2),,,,Was RESULT.Dry Weight Percent.,FALSE
+dose_response_details,dry_wet_pct_mean,VARCHAR(10),,,,Was RESULT.Dry Weight Percent.,FALSE
+dose_response_details,dry_wet_pct_min_op,VARCHAR(2),,,,Was RESULT.Dry Weight Percent.,FALSE
+dose_response_details,dry_wet_pct_min,VARCHAR(10),,,,Was RESULT.Dry Weight Percent.,FALSE
+dose_response_details,dry_wet_pct_max_op,VARCHAR(2),,,,Was RESULT.Dry Weight Percent.,FALSE
+dose_response_details,dry_wet_pct_max,VARCHAR(10),,,,Was RESULT.Dry Weight Percent.,FALSE
+dose_response_details,dry_wet_pct_comments,VARCHAR(4000),,,,New field.,FALSE
+dose_response_details,lipid_pct_mean_op,VARCHAR(2),,,,Was RESULT.Percent Lipid.,FALSE
+dose_response_details,lipid_pct_mean,VARCHAR(10),,,,Was RESULT.Percent Lipid.,FALSE
+dose_response_details,lipid_pct_min_op,VARCHAR(2),,,,Was RESULT.Percent Lipid.,FALSE
+dose_response_details,lipid_pct_min,VARCHAR(10),,,,Was RESULT.Percent Lipid.,FALSE
+dose_response_details,lipid_pct_max_op,VARCHAR(2),,,,Was RESULT.Percent Lipid.,FALSE
+dose_response_details,lipid_pct_max,VARCHAR(10),,,,Was RESULT.Percent Lipid.,FALSE
+dose_response_details,lipid_pct_comments,VARCHAR(4000),,,,New field.,FALSE
+dose_response_details,dose_resp_detail_comment,VARCHAR(4000),,,,New field.,FALSE
+dose_response_links,dose_resp_link_id,NUMERIC(10),PRIMARY KEY,NOT NULL,,Primary key - system generated.,FALSE
+dose_response_links,result_id,NUMERIC(10),,NOT NULL,results(result_id),Foreign key to RESULTS parent table. This links to a dose- response summary RESULT record with NR endpoint.,FALSE
+dose_response_links,dose_resp_id,NUMERIC(10),,NOT NULL,dose_responses(dose_resp_id),Foreign key to DOSE_RESPONSES parent table.,FALSE
+dose_responses,dose_resp_id,NUMERIC(10),PRIMARY KEY,NOT NULL,,"Primary key - system generated. Historical Dose Response records were selected from RESULTs linked to EXPOSUREs with Exposure Numbers ending in ""D"".",FALSE
+dose_responses,test_id,NUMERIC(11),,NOT NULL,tests(test_id),Foreign key to TESTS parent table.,FALSE
+dose_responses,sample_size_unit,VARCHAR(20),,,sample_size_units_codes(code),Foreign key to SAMPLE_SIZE_UNIT_CODES lookup table. Was RESULT.Sample Unit.,FALSE
+dose_responses,sample_size_comments,VARCHAR(4000),,,,New field.,FALSE
+dose_responses,effect_code,VARCHAR(20),,,effect_codes(code),Foreign key to EFFECT_CODES lookup table. Was RESULT.Effect.,FALSE
+dose_responses,measurement_code,VARCHAR(20),,,measurement_codes(code),Foreign key to MEASUREMENT_CODES lookup table. Was RESULT.Measurement.,FALSE
+dose_responses,measurement_comments,VARCHAR(4000),,,,New field.,FALSE
+dose_responses,response_site,VARCHAR(20),,,response_site_codes(code),Foreign key to RESPONSE_SITE_CODES lookup table. Was RESULT.Site.,TRUE
+dose_responses,response_site_comments,VARCHAR(4000),,,,New field.,FALSE
+dose_responses,obs_duration_mean_op,VARCHAR(2),,,,Was RESULT.Observation Mean Op.,FALSE
+dose_responses,obs_duration_mean,VARCHAR(10),,,,Was RESULT.Observation Duration Mean.,FALSE
+dose_responses,obs_duration_min_op,VARCHAR(2),,,,Was RESULT.Observation Min Op.,FALSE
+dose_responses,obs_duration_min,VARCHAR(10),,,,Was RESULT.Observation Duration Min.,FALSE
+dose_responses,obs_duration_max_op,VARCHAR(2),,,,Was RESULT.Observation Max Op.,FALSE
+dose_responses,obs_duration_max,VARCHAR(10),,,,Was RESULT.Observation Duration Max.,FALSE
+dose_responses,obs_duration_unit,VARCHAR(20),,,duration_unit_codes(code),Foreign key to DURATION_UNIT_CODES lookup table. Was RESULT.Observation Duration Unit.,FALSE
+dose_responses,obs_duration_comments,VARCHAR(4000),,,,New field.,FALSE
+dose_responses,response_unit,VARCHAR(20),,,concetration_unit_codes(code),Foreign key to CONCENTRATION_UNIT_CODES lookup table. Was RESULT.Observed Response Units.,FALSE
+dose_responses,response_comments,VARCHAR(4000),,,,New field.,FALSE
+dose_responses,additional_comments,VARCHAR(4000),,,,New field.,FALSE
+doses,dose_id,NUMERIC(10),PRIMARY KEY,NOT NULL,,Primary key - system generated.,FALSE
+doses,test_id,NUMERIC(11),,NOT NULL,tests(test_id),Foreign key to TESTS parent table.,FALSE
+doses,dose_number,NUMERIC(3),,,,"Was EXPOSURE.Exposure Number where ending in letter ""D"". Trailing ""D"" is dropped.",FALSE
+doses,dose_conc_unit,VARCHAR(20),,,concentration_unit_codes(code),Foreign key to CONCENTRATION_UNIT_CODES lookup table. Was EXPOSURE.Dose Units.,FALSE
+doses,dose_comments,VARCHAR(4000),,,,New field.,FALSE
+doses,control_type,VARCHAR(20),,,control_type_codes(code),Foreign key to CONTROL_TYPE_CODES lookup table.,FALSE
+doses,number_organisms_mean_op,VARCHAR(2),,,,Was EXPOSURE.Organism Number.,FALSE
+doses,number_organisms_mean,VARCHAR(10),,,,Was EXPOSURE.Organism Number.,FALSE
+doses,number_organisms_min_op,VARCHAR(2),,,,Was EXPOSURE.Organism Number.,FALSE
+doses,number_organisms_min,VARCHAR(10),,,,Was EXPOSURE.Organism Number.,FALSE
+doses,number_organisms_max_op,VARCHAR(2),,,,Was EXPOSURE.Organism Number.,FALSE
+doses,number_organisms_max,VARCHAR(10),,,,Was EXPOSURE.Organism Number.,FALSE
+doses,number_replicates,VARCHAR(10),,,,Introduced 2023-06-15,FALSE
+doses,dose1_conc_type,VARCHAR(20),,,concentration_type_codes(code),"Foreign key to CONCENTRATION_TYPE_CODES lookup table. Was AQUIRE.Concentration1Type; TEST.Remark LIKE 'CONCTYPE/""",FALSE
+doses,dose1_mean_op,VARCHAR(2),,,,Was EXPOSURE.Dose Mean Op.,FALSE
+doses,dose1_mean,VARCHAR(10),,,,Was EXPOSURE.Dose Mean.,FALSE
+doses,dose1_min_op,VARCHAR(2),,,,Was EXPOSURE.Dose Min Op.,FALSE
+doses,dose1_min,VARCHAR(10),,,,Was EXPOSURE.Dose Min.,FALSE
+doses,dose1_max_op,VARCHAR(2),,,,Was EXPOSURE.Dose Max Op.,FALSE
+doses,dose1_max,VARCHAR(10),,,,Was EXPOSURE.Dose Max.,FALSE
+doses,dose1_stat_method,VARCHAR(20),,,dose_stat_method_codes(code),Foreign key to DOSE_STAT_METHOD_CODES lookup table. Was EXPOSURE.Statistical Method.,FALSE
+doses,dose1_stat_value,VARCHAR(10),,,,Was EXPOSURE.Dose Value,FALSE
+doses,dose2_conc_type,VARCHAR(20),,,concentration_type_codes(code),"Foreign key to CONCENTRATION_TYPE_CODES lookup table. Was AQUIRE.Concentration2Type; TEST.Remark LIKE ""CONCTYPE/"".",FALSE
+doses,dose2_mean_op,VARCHAR(2),,,,Was EXPOSURE.Dose Mean Op.,FALSE
+doses,dose2_mean,VARCHAR(10),,,,Was EXPOSURE.Dose Mean.,FALSE
+doses,dose2_min_op,VARCHAR(2),,,,Was EXPOSURE.Dose Min Op.,FALSE
+doses,dose2_min,VARCHAR(10),,,,Was EXPOSURE.Dose Min.,FALSE
+doses,dose2_max_op,VARCHAR(2),,,,Was EXPOSURE.Dose Max Op.,FALSE
+doses,dose2_max,VARCHAR(10),,,,Was EXPOSURE.Dose Max.,FALSE
+doses,dose2_stat_method,VARCHAR(20),,,dose_stat_method_codes(code),Foreign key to DOSE_STAT_METHOD_CODES lookup table. Was EXPOSURE.Statistical Method.,FALSE
+doses,dose2_stat_value,VARCHAR(10),,,,Was EXPOSURE.Dose Value,FALSE
+doses,dose3_conc_type,VARCHAR(20),,,concentration_type_codes(code),Foreign key to CONCENTRATION_TYPE_CODES lookup table.,FALSE
+doses,dose3_mean_op,VARCHAR(2),,,,Was EXPOSURE.Dose Mean Op.,FALSE
+doses,dose3_mean,VARCHAR(10),,,,Was EXPOSURE.Dose Mean.,FALSE
+doses,dose3_min_op,VARCHAR(2),,,,Was EXPOSURE.Dose Min Op.,FALSE
+doses,dose3_min,VARCHAR(10),,,,Was EXPOSURE.Dose Min.,FALSE
+doses,dose3_max_op,VARCHAR(2),,,,Was EXPOSURE.Dose Max Op.,FALSE
+doses,dose3_max,VARCHAR(10),,,,Was EXPOSURE.Dose Max.,FALSE
+doses,dose3_stat_method,VARCHAR(20),,,dose_stat_method_codes(code),Foreign key to DOSE_STAT_METHOD_CODES lookup table. Was EXPOSURE.Statistical Method.,FALSE
+doses,dose3_stat_value,VARCHAR(10),,,,Was EXPOSURE.Dose Value,FALSE
+media_characteristics,result_id,NUMERIC(10),PRIMARY KEY,NOT NULL,results(result_id),Foreign key link to RESULTS table (1-1).,FALSE
+media_characteristics,soil_type,VARCHAR(40),,,,Was TEST.Soil Type.,FALSE
+media_characteristics,media_texture_sand_mean_op,VARCHAR(2),,,,Was TEST.Soil Texture SA Mean Op.,FALSE
+media_characteristics,media_texture_sand_mean,VARCHAR(10),,,,Was TEST.Soil Texture SA Mean.,FALSE
+media_characteristics,media_texture_sand_min_op,VARCHAR(2),,,,Was TEST.Soil Texture SA Min Op.,FALSE
+media_characteristics,media_texture_sand_min,VARCHAR(10),,,,Was TEST.Soil Texture SA Min.,FALSE
+media_characteristics,media_texture_sand_max_op,VARCHAR(2),,,,Was TEST.Soil Texture SA Max Op.,FALSE
+media_characteristics,media_texture_sand_max,VARCHAR(10),,,,Was TEST.Soil Texture SA Max.,FALSE
+media_characteristics,media_texture_silt_mean_op,VARCHAR(2),,,,Was TEST.Soil Texture SI Mean Op.,FALSE
+media_characteristics,media_texture_silt_mean,VARCHAR(10),,,,Was TEST.Soil Texture SI Mean.,FALSE
+media_characteristics,media_texture_silt_min_op,VARCHAR(2),,,,Was TEST.Soil Texture SI Min Op.,FALSE
+media_characteristics,media_texture_silt_min,VARCHAR(10),,,,Was TEST.Soil Texture SI Min.,FALSE
+media_characteristics,media_texture_silt_max_op,VARCHAR(2),,,,Was TEST.Soil Texture SI Max Op.,FALSE
+media_characteristics,media_texture_silt_max,VARCHAR(10),,,,Was TEST.Soil Texture SI Max.,FALSE
+media_characteristics,media_texture_clay_mean_op,VARCHAR(2),,,,Was TEST.Soil Texture CL Mean Op.,FALSE
+media_characteristics,media_texture_clay_mean,VARCHAR(10),,,,Was TEST.Soil Texture CL Mean.,FALSE
+media_characteristics,media_texture_clay_min_op,VARCHAR(2),,,,Was TEST.Soil Texture CL Min Op.,FALSE
+media_characteristics,media_texture_clay_min,VARCHAR(10),,,,Was TEST.Soil Texture CL Min.,FALSE
+media_characteristics,media_texture_clay_max_op,VARCHAR(2),,,,Was TEST.Soil Texture CL Max Op.,FALSE
+media_characteristics,media_texture_clay_max,VARCHAR(10),,,,Was TEST.Soil Texture CL Max.,FALSE
+media_characteristics,media_texture_comments,VARCHAR(4000),,,,New field.,FALSE
+media_characteristics,media_conc_measured,VARCHAR(2),,,,New field.,FALSE
+media_characteristics,media_conc_dry_wet,VARCHAR(3),,,,New field.,FALSE
+media_characteristics,media_conc_comments,VARCHAR(4000),,,,New field.,FALSE
+media_characteristics,media_moisture_pct_mean_op,VARCHAR(2),,,,Was TEST.Soil Moisture Mean Op.,FALSE
+media_characteristics,media_moisture_pct_mean,VARCHAR(10),,,,Was TEST.Soil Moisture Mean.,FALSE
+media_characteristics,media_moisture_pct_min_op,VARCHAR(2),,,,Was TEST.Soil Moisture Min Op.,FALSE
+media_characteristics,media_moisture_pct_min,VARCHAR(10),,,,Was TEST.Soil Moisture Min.,FALSE
+media_characteristics,media_moisture_pct_max_op,VARCHAR(2),,,,Was TEST.Soil Moisture Max Op.,FALSE
+media_characteristics,media_moisture_pct_max,VARCHAR(10),,,,Was TEST.Soil Moisture Max.,FALSE
+media_characteristics,media_moisture_comments,VARCHAR(4000),,,,New field.,FALSE
+media_characteristics,media_cec_mean_op,VARCHAR(2),,,,Was TEST.Soil CEC Mean Op.,FALSE
+media_characteristics,media_cec_mean,VARCHAR(10),,,,Was TEST.Soil CEC Mean.,FALSE
+media_characteristics,media_cec_min_op,VARCHAR(2),,,,Was TEST.Soil CEC Min Op.,FALSE
+media_characteristics,media_cec_min,VARCHAR(10),,,,Was TEST.Soil CEC Min.,FALSE
+media_characteristics,media_cec_max_op,VARCHAR(2),,,,Was TEST.Soil CEC Max Op.,FALSE
+media_characteristics,media_cec_max,VARCHAR(10),,,,Was TEST.Soil CEC Max.,FALSE
+media_characteristics,media_cec_unit,VARCHAR(20),,,media_char_unit_codes(code),Foreign key to MEDIA_CHAR_UNIT_CODES lookup table. Was TEST.Soil CEC Units.,FALSE
+media_characteristics,media_cec_comments,VARCHAR(4000),,,,New field.,FALSE
+media_characteristics,media_ph_mean_op,VARCHAR(2),,,,Was WATERCHARACTERISTICS.MeanValueOp (WaterCharacteristicType = 5); TEST.Soil pH Mean Op.,FALSE
+media_characteristics,media_ph_mean,VARCHAR(10),,,,Was WATERCHARACTERISTICS.MeanValue (WaterCharacteristicType = 5); TEST.Soil pH Mean.,FALSE
+media_characteristics,media_ph_min_op,VARCHAR(2),,,,Was WATERCHARACTERISTICS.MinValueOp (WaterCharacteristicType = 5); TEST.Soil pH Min Op.,FALSE
+media_characteristics,media_ph_min,VARCHAR(10),,,,Was WATERCHARACTERISTICS.MinValue (WaterCharacteristicType = 5); TEST.Soil pH Min.,FALSE
+media_characteristics,media_ph_max_op,VARCHAR(2),,,,Was WATERCHARACTERISTICS.MaxValueOp (WaterCharacteristicType = 5); TEST.Soil pH Max Op.,FALSE
+media_characteristics,media_ph_max,VARCHAR(10),,,,Was WATERCHARACTERISTICS.MaxValue (WaterCharacteristicType = 5); TEST.Soil pH Max.,FALSE
+media_characteristics,media_ph_comments,VARCHAR(4000),,,,New field.,FALSE
+media_characteristics,media_org_matter_mean_op,VARCHAR(2),,,,Was TEST.Soil Organic Matter Mean Op.,FALSE
+media_characteristics,media_org_matter_mean,VARCHAR(10),,,,Was TEST.Soil Organic Matter Mean.,FALSE
+media_characteristics,media_org_matter_min_op,VARCHAR(2),,,,Was TEST.Soil Organic Matter Min Op.,FALSE
+media_characteristics,media_org_matter_min,VARCHAR(10),,,,Was TEST.Soil Organic Matter Min.,FALSE
+media_characteristics,media_org_matter_max_op,VARCHAR(2),,,,Was TEST.Soil Organic Matter Max Op.,FALSE
+media_characteristics,media_org_matter_max,VARCHAR(10),,,,Was TEST.Soil Organic Matter Max.,FALSE
+media_characteristics,media_org_matter_unit,VARCHAR(20),,,media_char_unit_codes(code),Foreign key to MEDIA_CHAR_UNIT_CODES lookup table. Was TEST.Soil Organic Matter Units.,FALSE
+media_characteristics,media_org_matter_type,VARCHAR(20),,,organic_matter_type_codes(code),Foreign key to ORGANIC_MATTER_TYPE_CODES lookup table. Was AQUIRE.OrganicCarbonType; TEST.Soil Organic Matter Type.,FALSE
+media_characteristics,media_org_matter_comments,VARCHAR(4000),,,,New field.,FALSE
+media_characteristics,media_temperature_mean_op,VARCHAR(2),,,,Was WATERCHARACTERISTICS.MaxValueOp (WaterCharacteristicType = 2).,FALSE
+media_characteristics,media_temperature_mean,VARCHAR(10),,,,Was WATERCHARACTERISTICS.MeanValue (WaterCharacteristicType = 1).,FALSE
+media_characteristics,media_temperature_min_op,VARCHAR(2),,,,Was WATERCHARACTERISTICS.MinValueOp (WaterCharacteristicType = 1).,FALSE
+media_characteristics,media_temperature_min,VARCHAR(10),,,,Was WATERCHARACTERISTICS.MinValue (WaterCharacteristicType = 1).,FALSE
+media_characteristics,media_temperature_max_op,VARCHAR(2),,,,Was WATERCHARACTERISTICS.MaxValueOp (WaterCharacteristicType = 1).,FALSE
+media_characteristics,media_temperature_max,VARCHAR(10),,,,Was WATERCHARACTERISTICS.MaxValue (WaterCharacteristicType = 1).,FALSE
+media_characteristics,media_temperature_unit,VARCHAR(20),,,media_char_unit_codes(code),Foreign key to MEDIA_CHAR_UNIT_CODES lookup table. Was WATERCHARACTERISTICS.Units (WaterCharacteristicType = 1).,FALSE
+media_characteristics,media_temperature_comments,VARCHAR(4000),,,,New field.,FALSE
+media_characteristics,media_alkalinity_mean_op,VARCHAR(2),,,,Was WATERCHARACTERISTICS.MeanValueOp (WaterCharacteristicType = 3).,FALSE
+media_characteristics,media_alkalinity_mean,VARCHAR(10),,,,Was WATERCHARACTERISTICS.MeanValue (WaterCharacteristicType = 3).,FALSE
+media_characteristics,media_alkalinity_min_op,VARCHAR(2),,,,Was WATERCHARACTERISTICS.MinValueOp (WaterCharacteristicType = 3).,FALSE
+media_characteristics,media_alkalinity_min,VARCHAR(10),,,,Was WATERCHARACTERISTICS.MinValue (WaterCharacteristicType = 3).,FALSE
+media_characteristics,media_alkalinity_max_op,VARCHAR(2),,,,Was WATERCHARACTERISTICS.MaxValueOp (WaterCharacteristicType = 3).,FALSE
+media_characteristics,media_alkalinity_max,VARCHAR(10),,,,Was WATERCHARACTERISTICS.MaxValue (WaterCharacteristicType = 3).,FALSE
+media_characteristics,media_alkalinity_unit,VARCHAR(20),,,media_char_unit_codes(code),Foreign key to MEDIA_CHAR_UNIT_CODES lookup table. Was WATERCHARACTERISTICS.Units (WaterCharacteristicType = 3).,FALSE
+media_characteristics,media_alkalinity_comments,VARCHAR(4000),,,,New field.,FALSE
+media_characteristics,media_hardness_mean_op,VARCHAR(2),,,,Was WATERCHARACTERISTICS.MeanValueOp (WaterCharacteristicType = 2).,FALSE
+media_characteristics,media_hardness_mean,VARCHAR(10),,,,Was WATERCHARACTERISTICS.MeanValue (WaterCharacteristicType = 2).,FALSE
+media_characteristics,media_hardness_min_op,VARCHAR(2),,,,Was WATERCHARACTERISTICS.MinValueOp (WaterCharacteristicType = 2).,FALSE
+media_characteristics,media_hardness_min,VARCHAR(10),,,,Was WATERCHARACTERISTICS.MinValue (WaterCharacteristicType = 2).,FALSE
+media_characteristics,media_hardness_max_op,VARCHAR(2),,,,Was WATERCHARACTERISTICS.MaxValueOp (WaterCharacteristicType = 2).,FALSE
+media_characteristics,media_hardness_max,VARCHAR(10),,,,Was WATERCHARACTERISTICS.MaxValue (WaterCharacteristicType = 2).,FALSE
+media_characteristics,media_hardness_unit,VARCHAR(20),,,media_char_unit_codes(code),Foreign key to MEDIA_CHAR_UNIT_CODES lookup table. Was WATERCHARACTERISTICS.Units (WaterCharacteristicType = 2).,FALSE
+media_characteristics,media_hardness_comments,VARCHAR(4000),,,,New field.,FALSE
+media_characteristics,dissolved_oxygen_mean_op,VARCHAR(2),,,,Was WATERCHARACTERISTICS.MeanValueOp (WaterCharacteristicType = 4).,FALSE
+media_characteristics,dissolved_oxygen_mean,VARCHAR(10),,,,Was WATERCHARACTERISTICS.MeanValue (WaterCharacteristicType = 4).,FALSE
+media_characteristics,dissolved_oxygen_min_op,VARCHAR(2),,,,Was WATERCHARACTERISTICS.MinValueOp (WaterCharacteristicType = 4).,FALSE
+media_characteristics,dissolved_oxygen_min,VARCHAR(10),,,,Was WATERCHARACTERISTICS.MinValue (WaterCharacteristicType = 4).,FALSE
+media_characteristics,dissolved_oxygen_max_op,VARCHAR(2),,,,Was WATERCHARACTERISTICS.MaxValueOp (WaterCharacteristicType = 4).,FALSE
+media_characteristics,dissolved_oxygen_max,VARCHAR(10),,,,Was WATERCHARACTERISTICS.MaxValue (WaterCharacteristicType = 4).,FALSE
+media_characteristics,dissolved_oxygen_unit,VARCHAR(20),,,media_char_unit_codes(code),Foreign key to MEDIA_CHAR_UNIT_CODES lookup table. Was WATERCHARACTERISTICS.Units (WaterCharacteristicType = 4).,FALSE
+media_characteristics,dissolved_oxygen_comments,VARCHAR(4000),,,,New field.,FALSE
+media_characteristics,media_salinity_mean_op,VARCHAR(2),,,,Was WATERCHARACTERISTICS.MeanValueOp (WaterCharacteristicType = 6).,FALSE
+media_characteristics,media_salinity_mean,VARCHAR(10),,,,Was WATERCHARACTERISTICS.MeanValue (WaterCharacteristicType = 6).,FALSE
+media_characteristics,media_salinity_min_op,VARCHAR(2),,,,Was WATERCHARACTERISTICS.MinValueOp (WaterCharacteristicType = 6).,FALSE
+media_characteristics,media_salinity_min,VARCHAR(10),,,,Was WATERCHARACTERISTICS.MinValue (WaterCharacteristicType = 6).,FALSE
+media_characteristics,media_salinity_max_op,VARCHAR(2),,,,Was WATERCHARACTERISTICS.MaxValueOp (WaterCharacteristicType = 6).,FALSE
+media_characteristics,media_salinity_max,VARCHAR(10),,,,Was WATERCHARACTERISTICS.MaxValue (WaterCharacteristicType = 6).,FALSE
+media_characteristics,media_salinity_unit,VARCHAR(20),,,media_char_unit_codes(code),Foreign key to MEDIA_CHAR_UNIT_CODES lookup table. Was WATERCHARACTERISTICS.Units (WaterCharacteristicType = 6).,FALSE
+media_characteristics,media_salinity_comments,VARCHAR(4000),,,,New field.,FALSE
+media_characteristics,media_conductivity_mean_op,VARCHAR(2),,,,Was WATERCHARACTERISTICS.MeanValueOp (WaterCharacteristicType = 7).,FALSE
+media_characteristics,media_conductivity_mean,VARCHAR(10),,,,Was WATERCHARACTERISTICS.MeanValue (WaterCharacteristicType = 7).,FALSE
+media_characteristics,media_conductivity_min_op,VARCHAR(2),,,,Was WATERCHARACTERISTICS.MinValueOp (WaterCharacteristicType = 7).,FALSE
+media_characteristics,media_conductivity_min,VARCHAR(10),,,,Was WATERCHARACTERISTICS.MinValue (WaterCharacteristicType = 7).,FALSE
+media_characteristics,media_conductivity_max_op,VARCHAR(2),,,,Was WATERCHARACTERISTICS.MaxValueOp (WaterCharacteristicType = 7).,FALSE
+media_characteristics,media_conductivity_max,VARCHAR(10),,,,Was WATERCHARACTERISTICS.MaxValue (WaterCharacteristicType = 7).,FALSE
+media_characteristics,media_conductivity_unit,VARCHAR(20),,,media_char_unit_codes(code),Foreign key to MEDIA_CHAR_UNIT_CODES lookup table. Was WATERCHARACTERISTICS.Units (WaterCharacteristicType = 7).,FALSE
+media_characteristics,media_conductivity_comments,VARCHAR(4000),,,,New field.,FALSE
+media_characteristics,media_org_carbon_mean_op,VARCHAR(2),,,,Was WATERCHARACTERISTICS.MeanValueOp (WaterCharacteristicType = 8).,FALSE
+media_characteristics,media_org_carbon_mean,VARCHAR(10),,,,Was WATERCHARACTERISTICS.MeanValue (WaterCharacteristicType = 8).,FALSE
+media_characteristics,media_org_carbon_min_op,VARCHAR(2),,,,Was WATERCHARACTERISTICS.MinValueOp (WaterCharacteristicType = 8).,FALSE
+media_characteristics,media_org_carbon_min,VARCHAR(10),,,,Was WATERCHARACTERISTICS.MinValue (WaterCharacteristicType = 8).,FALSE
+media_characteristics,media_org_carbon_max_op,VARCHAR(2),,,,Was WATERCHARACTERISTICS.MaxValueOp (WaterCharacteristicType = 8).,FALSE
+media_characteristics,media_org_carbon_max,VARCHAR(10),,,,Was WATERCHARACTERISTICS.MaxValue (WaterCharacteristicType = 8).,FALSE
+media_characteristics,media_org_carbon_unit,VARCHAR(20),,,media_char_unit_codes(code),Foreign key to MEDIA_CHAR_UNIT_CODES lookup table. Was WATERCHARACTERISTICS.Units (WaterCharacteristicType = 8).,FALSE
+media_characteristics,media_org_carbon_comments,VARCHAR(4000),,,,New field.,FALSE
+media_characteristics,media_humic_acid_mean_op,VARCHAR(2),,,,New field.,FALSE
+media_characteristics,media_humic_acid_mean,VARCHAR(10),,,,New field.,FALSE
+media_characteristics,media_humic_acid_min_op,VARCHAR(2),,,,New field.,FALSE
+media_characteristics,media_humic_acid_min,VARCHAR(10),,,,New field.,FALSE
+media_characteristics,media_humic_acid_max_op,VARCHAR(2),,,,New field.,FALSE
+media_characteristics,media_humic_acid_max,VARCHAR(10),,,,New field.,FALSE
+media_characteristics,media_humic_acid_unit,VARCHAR(20),,,media_char_unit_codes(code),Foreign key to MEDIA_CHAR_UNIT_CODES lookup table. New field.,FALSE
+media_characteristics,media_humic_acid_comments,VARCHAR(4000),,,,New field.,FALSE
+media_characteristics,media_calcium_mean_op,VARCHAR(2),,,,New field.,FALSE
+media_characteristics,media_calcium_mean,VARCHAR(10),,,,New field.,FALSE
+media_characteristics,media_calcium_min_op,VARCHAR(2),,,,New field.,FALSE
+media_characteristics,media_calcium_min,VARCHAR(10),,,,New field.,FALSE
+media_characteristics,media_calcium_max_op,VARCHAR(2),,,,New field.,FALSE
+media_characteristics,media_calcium_max,VARCHAR(10),,,,New field.,FALSE
+media_characteristics,media_calcium_unit,VARCHAR(20),,,media_char_unit_codes(code),Foreign key to MEDIA_CHAR_UNIT_CODES lookup table. New field.,FALSE
+media_characteristics,media_calcium_comments,VARCHAR(4000),,,,New field.,FALSE
+media_characteristics,media_magnesium_mean_op,VARCHAR(2),,,,New field.,FALSE
+media_characteristics,media_magnesium_mean,VARCHAR(10),,,,New field.,FALSE
+media_characteristics,media_magnesium_min_op,VARCHAR(2),,,,New field.,FALSE
+media_characteristics,media_magnesium_min,VARCHAR(10),,,,New field.,FALSE
+media_characteristics,media_magnesium_max_op,VARCHAR(2),,,,New field.,FALSE
+media_characteristics,media_magnesium_max,VARCHAR(10),,,,New field.,FALSE
+media_characteristics,media_magnesium_unit,VARCHAR(20),,,media_char_unit_codes(code),Foreign key to MEDIA_CHAR_UNIT_CODES lookup table. New field.,FALSE
+media_characteristics,media_magnesium_comments,VARCHAR(4000),,,,New field.,FALSE
+media_characteristics,media_sodium_mean_op,VARCHAR(2),,,,New field.,FALSE
+media_characteristics,media_sodium_mean,VARCHAR(10),,,,New field.,FALSE
+media_characteristics,media_sodium_min_op,VARCHAR(2),,,,New field.,FALSE
+media_characteristics,media_sodium_min,VARCHAR(10),,,,New field.,FALSE
+media_characteristics,media_sodium_max_op,VARCHAR(2),,,,New field.,FALSE
+media_characteristics,media_sodium_max,VARCHAR(10),,,,New field.,FALSE
+media_characteristics,media_sodium_unit,VARCHAR(20),,,media_char_unit_codes(code),Foreign key to MEDIA_CHAR_UNIT_CODES lookup table. New field.,FALSE
+media_characteristics,media_sodium_comments,VARCHAR(4000),,,,New field.,FALSE
+media_characteristics,media_potassium_mean_op,VARCHAR(2),,,,New field.,FALSE
+media_characteristics,media_potassium_mean,VARCHAR(10),,,,New field.,FALSE
+media_characteristics,media_potassium_min_op,VARCHAR(2),,,,New field.,FALSE
+media_characteristics,media_potassium_min,VARCHAR(10),,,,New field.,FALSE
+media_characteristics,media_potassium_max_op,VARCHAR(2),,,,New field.,FALSE
+media_characteristics,media_potassium_max,VARCHAR(10),,,,New field.,FALSE
+media_characteristics,media_potassium_unit,VARCHAR(20),,,media_char_unit_codes(code),Foreign key to MEDIA_CHAR_UNIT_CODES lookup table. New field.,FALSE
+media_characteristics,media_potassium_comments,VARCHAR(4000),,,,New field.,FALSE
+media_characteristics,media_sulfate_mean_op,VARCHAR(2),,,,New field.,FALSE
+media_characteristics,media_sulfate_mean,VARCHAR(10),,,,New field.,FALSE
+media_characteristics,media_sulfate_min_op,VARCHAR(2),,,,New field.,FALSE
+media_characteristics,media_sulfate_min,VARCHAR(10),,,,New field.,FALSE
+media_characteristics,media_sulfate_max_op,VARCHAR(2),,,,New field.,FALSE
+media_characteristics,media_sulfate_max,VARCHAR(10),,,,New field.,FALSE
+media_characteristics,media_sulfate_unit,VARCHAR(20),,,media_char_unit_codes(code),Foreign key to MEDIA_CHAR_UNIT_CODES lookup table. New field.,FALSE
+media_characteristics,media_sulfate_comments,VARCHAR(4000),,,,New field.,FALSE
+media_characteristics,media_chlorine_mean_op,VARCHAR(2),,,,New field.,FALSE
+media_characteristics,media_chlorine_mean,VARCHAR(10),,,,New field.,FALSE
+media_characteristics,media_chlorine_min_op,VARCHAR(2),,,,New field.,FALSE
+media_characteristics,media_chlorine_min,VARCHAR(10),,,,New field.,FALSE
+media_characteristics,media_chlorine_max_op,VARCHAR(2),,,,New field.,FALSE
+media_characteristics,media_chlorine_max,VARCHAR(10),,,,New field.,FALSE
+media_characteristics,media_chlorine_unit,VARCHAR(20),,,media_char_unit_codes(code),Foreign key to MEDIA_CHAR_UNIT_CODES lookup table. New field.,FALSE
+media_characteristics,media_chlorine_comments,VARCHAR(4000),,,,New field.,FALSE
+media_characteristics,media_diss_carbon_mean_op,VARCHAR(2),,,,New field.,FALSE
+media_characteristics,media_diss_carbon_mean,VARCHAR(10),,,,New field.,FALSE
+media_characteristics,media_diss_carbon_min_op,VARCHAR(2),,,,New field.,FALSE
+media_characteristics,media_diss_carbon_min,VARCHAR(10),,,,New field.,FALSE
+media_characteristics,media_diss_carbon_max_op,VARCHAR(2),,,,New field.,FALSE
+media_characteristics,media_diss_carbon_max,VARCHAR(10),,,,New field.,FALSE
+media_characteristics,media_diss_carbon_unit,VARCHAR(20),,,media_char_unit_codes(code),Foreign key to MEDIA_CHAR_UNIT_CODES lookup table. New field.,FALSE
+media_characteristics,media_diss_carbon_comments,VARCHAR(4000),,,,New field.,FALSE
+media_characteristics,media_sulfur_mean_op,VARCHAR(2),,,,New field.,FALSE
+media_characteristics,media_sulfur_mean,VARCHAR(10),,,,New field.,FALSE
+media_characteristics,media_sulfur_min_op,VARCHAR(2),,,,New field.,FALSE
+media_characteristics,media_sulfur_min,VARCHAR(10),,,,New field.,FALSE
+media_characteristics,media_sulfur_max_op,VARCHAR(2),,,,New field.,FALSE
+media_characteristics,media_sulfur_max,VARCHAR(10),,,,New field.,FALSE
+media_characteristics,media_sulfur_unit,VARCHAR(20),,,media_char_unit_codes(code),Foreign key to MEDIA_CHAR_UNIT_CODES lookup table. New field.,FALSE
+media_characteristics,media_sulfur_comments,VARCHAR(4000),,,,New field.,FALSE
+references,reference_number,NUMERIC(6),PRIMARY KEY,NOT NULL,,Primary Key. Was REFERENCES.ReferenceNumber.,FALSE
+references,reference_db,VARCHAR(3),,,,Was REFERENCES.ReferenceDB.,FALSE
+references,reference_type,VARCHAR(10),,,,Was REFERENCES.ReferenceType.,TRUE
+references,author,VARCHAR(120),,,,Was REFERENCES.Author.,TRUE
+references,title,VARCHAR(220),,,,Was REFERENCES.Title.,TRUE
+references,source,VARCHAR(255),,,,Was REFERENCES.Source.,TRUE
+references,publication_year,VARCHAR(4),,,,Was REFERENCES.PublicationYear,TRUE
+references,doi,VARCHAR(1000),,,,New Field,TRUE
+results,result_id,NUMERIC(10),PRIMARY KEY,NOT NULL,,Primary key. Was AQUIRE.AquireLocation. Historical terrestrial results were renumbered on data conversion.- see old_terretox_result_number field below for cross-reference.,FALSE
+results,test_id,NUMERIC(11),,NOT NULL,tests(test_id),Foreign key to TESTS parent table. Was RESULT.Test Record.,FALSE
+results,sample_size_mean_op,VARCHAR(2),,,,Was RESULT.Sample Number.,FALSE
+results,sample_size_mean,VARCHAR(10),,,,Was RESULT.Sample Number.,FALSE
+results,sample_size_min_op,VARCHAR(2),,,,Was RESULT.Sample Number.,FALSE
+results,sample_size_min,VARCHAR(10),,,,Was RESULT.Sample Number.,FALSE
+results,sample_size_max_op,VARCHAR(2),,,,Was RESULT.Sample Number.,FALSE
+results,sample_size_max,VARCHAR(10),,,,Was RESULT.Sample Number.,FALSE
+results,sample_size_unit,VARCHAR(20),,,sample_size_unit_codes(code),Foreign key to SAMPLE_SIZE_UNIT_CODES lookup table. Was RESULT.Sample Unit.,FALSE
+results,sample_size_comments,VARCHAR(4000),,,,New field.,FALSE
+results,obs_duration_mean_op,VARCHAR(2),,,,Was AQUIRE.TestDurationOp; RESULT.Observation Mean Op.,FALSE
+results,obs_duration_mean,VARCHAR(10),,,,Was AQUIRE.TestDuration; RESULT.Observation Duration Mean.,FALSE
+results,obs_duration_min_op,VARCHAR(2),,,,Was AQUIRE.MinDurationOp; RESULT.Observation Min Op.,FALSE
+results,obs_duration_min,VARCHAR(10),,,,Was AQUIRE.MinDuration; RESULT.Observation Duration Min.,FALSE
+results,obs_duration_max_op,VARCHAR(2),,,,Was AQUIRE.MaxDurationOp; RESULT.Observation Max Op.,FALSE
+results,obs_duration_max,VARCHAR(10),,,,Was AQUIRE.MaxDuration; RESULT.Observation Duration Max.,FALSE
+results,obs_duration_unit,VARCHAR(20),,,duration_unit_codes(code),Foreign key to DURATION_UNIT_CODES lookup table. Was AQUIRE.DurationUnits; RESULT.Observation Duration Unit.,FALSE
+results,obs_duration_comments,VARCHAR(4000),,,,New field.,FALSE
+results,endpoint,VARCHAR(20),,,endpoint_codes(code),Foreign key to ENDPOINT_CODES lookup table. Was AQUIRE.Endpoint; RESULT.Endpoint.,TRUE
+results,endpoint_comments,VARCHAR(4000),,,,New field.,FALSE
+results,trend,VARCHAR(20),,,trend_codes(code),Foreign key to TREND_CODES lookup table. Was AQUIRE.Trend.,FALSE
+results,effect,VARCHAR(20),,,effect_codes(code),Foreign key to EFFECT_CODES lookup table. Was AQUIRE.Effect; RESULT.Effect.,TRUE
+results,effect_comments,VARCHAR(4000),,,,New field.,FALSE
+results,measurement,VARCHAR(20),,,measurement_codes(code),Foreign key to MEASUREMENT_CODES lookup table. Was AQUIRE.Measurement; RESULT.Measurement.,TRUE
+results,measurement_comments,VARCHAR(4000),,,,Was REMARKS.Remark (RemarkType = 8).,FALSE
+results,response_site,VARCHAR(20),,,response_site_codes(code),Foreign key to RESPONSE_SITE_CODES lookup table. Was AQUIRE.Tissue; RESULT.Site.,FALSE
+results,response_site_comments,VARCHAR(4000),,,,New field.,FALSE
+results,effect_pct_mean_op,VARCHAR(2),,,,Was AQUIRE.EffectPercentMean.,FALSE
+results,effect_pct_mean,VARCHAR(10),,,,Was AQUIRE.EffectPercentMean.,FALSE
+results,effect_pct_min_op,VARCHAR(2),,,,Was AQUIRE.EffectPercentMin.,FALSE
+results,effect_pct_min,VARCHAR(10),,,,Was AQUIRE.EffectPercentMin.,FALSE
+results,effect_pct_max_op,VARCHAR(2),,,,Was AQUIRE.EffectPercentMax.,FALSE
+results,effect_pct_max,VARCHAR(10),,,,Was AQUIRE.EffectPercentMax.,FALSE
+results,effect_pct_comments,VARCHAR(4000),,,,New field.,FALSE
+results,conc1_type,VARCHAR(20),,,concentration_type_codes(code),Foreign key to CONCENTRATION_TYPE_CODES lookup table. Was AQUIRE.Concentration1Type.,FALSE
+results,ion1,VARCHAR(20),,,ion_codes(code),Foreign key to ION_CODES lookup table. Was AQUIRE.Ion1.,FALSE
+results,conc1_mean_op,VARCHAR(2),,,,Was AQUIRE.Concentration1MeanOp; RESULT.Response Mean Op or EXPOSURE.Dose Mean Op (where endpoint is BCF/BAF).,TRUE
+results,conc1_mean,VARCHAR(20),,,,Was AQUIRE.Concentration1Mean; RESULT.Observed Response Mean or EXPOSURE.Dose Mean (where endpoint is BCF/BAF).,TRUE
+results,conc1_min_op,VARCHAR(2),,,,Was AQUIRE.Concentration1MinOp; RESULT.Response Min Op or EXPOSURE.Dose Min Op (where endpoint is BCF/BAF).,TRUE
+results,conc1_min,VARCHAR(20),,,,Was AQUIRE.Concentration1Min; RESULT.Observed Response Min or EXPOSURE.Dose Min (where endpoint is BCF/BAF).,TRUE
+results,conc1_max_op,VARCHAR(2),,,,Was AQUIRE.Concentration1MaxOp; RESULT.Response Max Op or EXPOSURE.Dose Max Op (where endpoint is BCF/BAF).,TRUE
+results,conc1_max,VARCHAR(20),,,,Was AQUIRE.Concentration1Max; RESULT.Observed Response Max or EXPOSURE.Dose Max (where endpoint is BCF/BAF).,TRUE
+results,conc1_unit,VARCHAR(20),,,concentration_unit_codes(code),Foreign key to CONCENTRATION_UNIT_CODES lookup table. Was AQUIRE.ConcentrationUnits; RESULT.Observed Response Units or Exposure.Dose Units (where endpoint is BCF/BAF).,TRUE
+results,conc1_comments,VARCHAR(4000),,,,New field.,TRUE
+results,conc2_type,VARCHAR(20),,,concentration_type_codes(code),Foreign key to CONCENTRATION_TYPE_CODES lookup table. Was AQUIRE.Concentration2Type.,TRUE
+results,ion2,VARCHAR(20),,,ion_codes(code),Foreign key to ION_CODES lookup table. Was AQUIRE.Ion2.,FALSE
+results,conc2_mean_op,VARCHAR(2),,,,Was AQUIRE.Concentration2MeanOp; RESULT.Response Mean Op or EXPOSURE.Dose Mean Op (where endpoint is BCF/BAF).,TRUE
+results,conc2_mean,VARCHAR(20),,,,Was AQUIRE.Concentration2Mean; RESULT.Observed Response Mean or EXPOSURE.Dose Mean (where endpoint is BCF/BAF).,TRUE
+results,conc2_min_op,VARCHAR(2),,,,Was AQUIRE.Concentration2MinOp; RESULT.Response Min Op or EXPOSURE.Dose Min Op (where endpoint is BCF/BAF).,TRUE
+results,conc2_min,VARCHAR(20),,,,Was AQUIRE.Concentration2Min; RESULT.Observed Response Min or EXPOSURE.Dose Min (where endpoint is BCF/BAF).,TRUE
+results,conc2_max_op,VARCHAR(2),,,,Was AQUIRE.Concentration2MaxOp; RESULT.Response Max Op or EXPOSURE.Dose Max Op (where endpoint is BCF/BAF).,TRUE
+results,conc2_max,VARCHAR(20),,,,Was AQUIRE.Concentration2Max; RESULT.Observed Response Max or EXPOSURE.Dose Max (where endpoint is BCF/BAF).,TRUE
+results,conc2_unit,VARCHAR(20),,,concentration_unit_codes(code),Foreign key to CONCENTRATION_UNIT_CODES lookup table. Was AQUIRE.ConcentrationUnits; RESULT.Observed Response Units or Exposure.Dose Units (where endpoint is BCF/BAF).,TRUE
+results,conc2_comments,VARCHAR(4000),,,,New field.,TRUE
+results,conc3_type,VARCHAR(20),,,concentration_type_codes(code),Foreign key to CONCENTRATION_TYPE_CODES lookup table.,TRUE
+results,ion3,VARCHAR(20),,,ion_codes(code),Foreign key to ION_CODES lookup table.,FALSE
+results,conc3_mean_op,VARCHAR(2),,,,Was RESULT.Response Mean Op or EXPOSURE.Dose Mean Op (where endpoint is BCF/BAF).,TRUE
+results,conc3_mean,VARCHAR(20),,,,Was RESULT.Observed Response Mean or EXPOSURE.Dose Mean (where endpoint is BCF/BAF).,TRUE
+results,conc3_min_op,VARCHAR(2),,,,Was RESULT.Response Min Op or EXPOSURE.Dose Min Op (where endpoint is BCF/BAF).,TRUE
+results,conc3_min,VARCHAR(20),,,,Was RESULT.Observed Response Min or EXPOSURE.Dose Min (where endpoint is BCF/BAF).,TRUE
+results,conc3_max_op,VARCHAR(2),,,,Was RESULT.Response Max Op or EXPOSURE.Dose Max Op (where endpoint is BCF/BAF).,TRUE
+results,conc3_max,VARCHAR(20),,,,Was RESULT.Observed Response Max or EXPOSURE.Dose Max (where endpoint is BCF/BAF).,TRUE
+results,conc3_unit,VARCHAR(20),,,concentration_unit_codes(code),Foreign key to CONCENTRATION_UNIT_CODES lookup table. Was RESULT.Observed Response Units or Exposure.Dose Units (where endpoint is BCF/BAF).,TRUE
+results,conc3_comments,VARCHAR(4000),,,,New field.,TRUE
+results,bcf1_mean_op,VARCHAR(2),,,,Was AQUIRE.BCF1MeanOp; RESULT.Response Mean Op (where endpoint is BCF/BAF).,TRUE
+results,bcf1_mean,VARCHAR(10),,,,Was AQUIRE.BCF1Mean; Was RESULT.Observed Response Mean (where endpoint is BCF/BAF).,TRUE
+results,bcf1_min_op,VARCHAR(2),,,,Was AQUIRE.BCF1MinOp; Was RESULT.Response Min Op (where endpoint is BCF/BAF).,TRUE
+results,bcf1_min,VARCHAR(10),,,,Was AQUIRE.BCF1Min; Was RESULT.Observed Response Min (where endpoint is BCF/BAF).,TRUE
+results,bcf1_max_op,VARCHAR(2),,,,Was AQUIRE.BCF1MaxOp; Was RESULT.Response Max Op (where endpoint is BCF/BAF).,TRUE
+results,bcf1_max,VARCHAR(10),,,,Was AQUIRE.BCF1Max; Was RESULT.Observed Response Max (where endpoint is BCF/BAF).,TRUE
+results,bcf1_unit,VARCHAR(20),,,concentration_unit_codes(code),Foreign key to CONCENTRATION_UNIT_CODES lookup table. Was RESULT.Observed Response Units.,TRUE
+results,bcf1_comments,VARCHAR(4000),,,,New field.,TRUE
+results,bcf2_mean_op,VARCHAR(2),,,,Was AQUIRE.BCF2MeanOp; RESULT.Response Mean Op (where endpoint is BCF/BAF).,TRUE
+results,bcf2_mean,VARCHAR(10),,,,Was AQUIRE.BCF2Mean; Was RESULT.Observed Response Mean (where endpoint is BCF/BAF).,TRUE
+results,bcf2_min_op,VARCHAR(2),,,,Was AQUIRE.BCF2MinOp; Was RESULT.Response Min Op (where endpoint is BCF/BAF).,TRUE
+results,bcf2_min,VARCHAR(10),,,,Was AQUIRE.BCF2Min; Was RESULT.Observed Response Min (where endpoint is BCF/BAF).,TRUE
+results,bcf2_max_op,VARCHAR(2),,,,Was AQUIRE.BCF2MaxOp; Was RESULT.Response Max Op (where endpoint is BCF/BAF).,TRUE
+results,bcf2_max,VARCHAR(10),,,,Was AQUIRE.BCF2Max; Was RESULT.Observed Response Max (where endpoint is BCF/BAF).,TRUE
+results,bcf2_unit,VARCHAR(20),,,concentration_unit_codes(code),Foreign key to CONCENTRATION_UNIT_CODES lookup table. Was RESULT.Observed Response Units.,TRUE
+results,bcf2_comments,VARCHAR(4000),,,,New field.,TRUE
+results,bcf3_mean_op,VARCHAR(2),,,,Was RESULT.Response Mean Op (where endpoint is BCF/BAF).,TRUE
+results,bcf3_mean,VARCHAR(10),,,,Was RESULT.Response Mean (where endpoint is BCF/BAF).,TRUE
+results,bcf3_min_op,VARCHAR(2),,,,Was RESULT.Response Min Op (where endpoint is BCF/BAF).,TRUE
+results,bcf3_min,VARCHAR(10),,,,Was RESULT.Response Min (where endpoint is BCF/BAF).,TRUE
+results,bcf3_max_op,VARCHAR(2),,,,Was RESULT.Response Max Op (where endpoint is BCF/BAF).,TRUE
+results,bcf3_max,VARCHAR(10),,,,Was RESULT.Response Max (where endpoint is BCF/BAF).,TRUE
+results,bcf3_unit,VARCHAR(2),,,concentration_unit_codes(code),Foreign key to CONCENTRATION_UNIT_CODES lookup table. Was RESULT.Observed Response Units.,TRUE
+results,bcf3_comments,VARCHAR(4000),,,,New field.,FALSE
+results,significance_code,VARCHAR(20),,,statistical_significance_codes(code),Foreign key to STATISTICAL_SIGNIFICANCE_CODES lookup table. Was AQUIRE.Significant; RESULT.Significant.,FALSE
+results,significance_type,VARCHAR(2),,,,"P, A, T, NA or NR. Derived from AQUIRE.StatisticalSignificance; RESULT.Significance Level.",FALSE
+results,significance_level_mean_op,VARCHAR(2),,,,Was AQUIRE.StatisticalSignificance; RESULT.Significance Level.,FALSE
+results,significance_level_mean,VARCHAR(15),,,,Was AQUIRE.StatisticalSignificance; RESULT.Significance Level.,FALSE
+results,significance_level_min_op,VARCHAR(2),,,,Was AQUIRE.StatisticalSignificance; RESULT.Significance Level.,FALSE
+results,significance_level_min,VARCHAR(15),,,,Was AQUIRE.StatisticalSignificance; RESULT.Significance Level.,FALSE
+results,significance_level_max_op,VARCHAR(2),,,,Was AQUIRE.StatisticalSignificance; RESULT.Significance Level.,FALSE
+results,significance_level_max,VARCHAR(15),,,,Was AQUIRE.StatisticalSignificance; RESULT.Significance Level.,FALSE
+results,significance_comments,VARCHAR(4000),,,,New field.,FALSE
+results,chem_analysis_method,VARCHAR(20),,,chemical_analysis_codes(code),Foreign key to CHEMICAL_ANALYSIS_CODES lookup table. Was AQUIRE.TestMethod; EXPOSURE.Method.,TRUE
+results,chem_analysis_method_comments,VARCHAR(4000),,,,New field.,TRUE
+results,endpoint_assigned,VARCHAR(2),,,endpoint_assigned_codes(code),Foreign key to ENDPOINT_ASSIGNED_CODES lookup table. Was AQUIRE.EndpointAssigned.,FALSE
+results,organism_final_wt_mean_op,VARCHAR(2),,,,New field.,FALSE
+results,organism_final_wt_mean,VARCHAR(10),,,,New field.,FALSE
+results,organism_final_wt_min_op,VARCHAR(2),,,,New field.,FALSE
+results,organism_final_wt_min,VARCHAR(10),,,,New field.,FALSE
+results,organism_final_wt_max_op,VARCHAR(2),,,,New field.,FALSE
+results,organism_final_wt_max,VARCHAR(10),,,,New field.,FALSE
+results,organism_final_wt_unit,VARCHAR(20),,,weight_unit_codes(code),Foreign key to WEIGHT_UNIT_CODES lookup table. New field.,FALSE
+results,organism_final_wt_comments,VARCHAR(4000),,,,New field.,FALSE
+results,intake_rate_mean_op,VARCHAR(2),,,,New field.,FALSE
+results,intake_rate_mean,VARCHAR(10),,,,New field.,FALSE
+results,intake_rate_min_op,VARCHAR(2),,,,New field.,FALSE
+results,intake_rate_min,VARCHAR(10),,,,New field.,FALSE
+results,intake_rate_max_op,VARCHAR(2),,,,New field.,FALSE
+results,intake_rate_max,VARCHAR(10),,,,New field.,FALSE
+results,intake_rate_unit,VARCHAR(20),,,concentration_unit_codes(code),Foreign key to CONCENTRATION_UNIT_CODES lookup table. New field.,FALSE
+results,intake_rate_comments,VARCHAR(4000),,,,New field.,FALSE
+results,lipid_pct_mean_op,VARCHAR(2),,,,Was RESULT.Percent Lipid,FALSE
+results,lipid_pct_mean,VARCHAR(10),,,,Was RESULT.Percent Lipid,FALSE
+results,lipid_pct_min_op,VARCHAR(2),,,,Was RESULT.Percent Lipid,FALSE
+results,lipid_pct_min,VARCHAR(10),,,,Was RESULT.Percent Lipid,FALSE
+results,lipid_pct_max_op,VARCHAR(2),,,,Was RESULT.Percent Lipid,FALSE
+results,lipid_pct_max,VARCHAR(10),,,,Was RESULT.Percent Lipid,FALSE
+results,lipid_pct_comments,VARCHAR(4000),,,,New field.,FALSE
+results,dry_wet,VARCHAR(4),,,,Derived from RESULT.Dry Weight Percent.,FALSE
+results,dry_wet_pct_mean_op,VARCHAR(2),,,,Was RESULT.Dry Weight Percent.,FALSE
+results,dry_wet_pct_mean,VARCHAR(10),,,,Was RESULT.Dry Weight Percent.,FALSE
+results,dry_wet_pct_min_op,VARCHAR(2),,,,Was RESULT.Dry Weight Percent.,FALSE
+results,dry_wet_pct_min,VARCHAR(10),,,,Was RESULT.Dry Weight Percent.,FALSE
+results,dry_wet_pct_max_op,VARCHAR(2),,,,Was RESULT.Dry Weight Percent.,FALSE
+results,dry_wet_pct_max,VARCHAR(10),,,,Was RESULT.Dry Weight Percent.,FALSE
+results,dry_wet_pct_comments,VARCHAR(4000),,,,New field.,FALSE
+results,steady_state,VARCHAR(2),,,,New field.,FALSE
+results,additional_comments,VARCHAR(4000),,,,Was REMARKS.Remark (RemarkType = 4); RESULT.Result Remark.,FALSE
+results,companion_tag,VARCHAR(4000),,,,New field.,FALSE
+results,old_terretox_result_number,NUMERIC(10),,,,Was RESULT.Record Number.,FALSE
+results,created_date,DATE,,,,Was AQUIRE.CreationDate; TEST.Creation Date.,FALSE
+results,modified_date,DATE,,,,Was AQUIRE.ModifyDate; TEST.Modify Date.,FALSE
+species,species_number,NUMERIC(10),PRIMARY KEY,NOT NULL,,Primary Key. Was SPECIES_DATA_FILE.SpeciesID; SPECIES_TAXONOMY.species_number.,TRUE
+species,common_name,VARCHAR(60),,,,Was SPECIES_DATA_FILE.CommonName; SPECIES_TAXONOMY.common_name.,TRUE
+species,latin_name,VARCHAR(100),,,,Was SPECIES_DATA_FILE.LatinName; SPECIES_TAXONOMY.latin_name.,TRUE
+species,kingdom,VARCHAR(10),,,,Was SPECIES_DATA_FILE.Kingdom; SPECIES_TAXONOMY.kingdom.,FALSE
+species,phylum_division,VARCHAR(35),,,,Was SPECIES_TAXONOMY.phylum_division.,FALSE
+species,subphylum_div,VARCHAR(35),,,,Was SPECIES_TAXONOMY.subphylum_div.,FALSE
+species,superclass,VARCHAR(35),,,,Was SPECIES_TAXONOMY.superclass.,FALSE
+species,class,VARCHAR(35),,,,Was SPECIES_TAXONOMY.class.,FALSE
+species,tax_order,VARCHAR(35),,,,Was SPECIES_TAXONOMY.tax_order.,FALSE
+species,family,VARCHAR(35),,,,Was SPECIES_TAXONOMY.family.,FALSE
+species,genus,VARCHAR(35),,,,Was SPECIES_TAXONOMY.genus.,FALSE
+species,species,VARCHAR(35),,,,Was SPECIES_TAXONOMY.species.,FALSE
+species,subspecies,VARCHAR(35),,,,Was SPECIES_TAXONOMY.subspecies.,FALSE
+species,variety,VARCHAR(35),,,,Was SPECIES_TAXONOMY.variety.,FALSE
+species,ecotox_group,VARCHAR(120),,,,Was SPECIES_GROUPS.species_group (now comma-separated list).,TRUE
+species,ncbi_taxid,VARCHAR(10),,,,,FALSE
+species_synonyms,species_number,NUMERIC(10),,NOT NULL,species(species_number),Foreign key to SPECIES parent table.,FALSE
+species_synonyms,latin_name,VARCHAR(100),,NOT NULL,,Was SPECIES_LATIN_NAMES (synonym = S).,FALSE
+chemicals,cas_number,NUMERIC(12),PRIMARY KEY,NOT NULL,,Was CHEMICALS.CAS.,TRUE
+chemicals,chemical_name,VARCHAR(500),,,,Was CHEMICALS.Chemical_Name.,TRUE
+chemicals,ecotox_group,VARCHAR(120),,,,New field. Not populated.,FALSE
+chemicals,dtxsid,VARCHAR(20),,,,EPA CompTox Chemicals Dashboard unique ID. New field June 2021.,FALSE
+application_frequency_codes,code,VARCHAR(20),PRIMARY KEY,NOT NULL,,,FALSE
+application_frequency_codes,description,VARCHAR(4000),,,,,FALSE
+application_type_codes,code,VARCHAR(20),PRIMARY KEY,NOT NULL,,,FALSE
+application_type_codes,description,VARCHAR(4000),,,,,FALSE
+chemical_analysis_codes,code,VARCHAR(20),PRIMARY KEY,NOT NULL,,,FALSE
+chemical_analysis_codes,description,VARCHAR(4000),,,,,FALSE
+chemical_formulation_codes,code,VARCHAR(20),PRIMARY KEY,NOT NULL,,,FALSE
+chemical_formulation_codes,description,VARCHAR(4000),,,,,FALSE
+chemical_grade_codes,code,VARCHAR(20),PRIMARY KEY,NOT NULL,,,FALSE
+chemical_grade_codes,description,VARCHAR(4000),,,,,FALSE
+concentration_type_codes,code,VARCHAR(20),PRIMARY KEY,,,,FALSE
+concentration_type_codes,description,VARCHAR(4000),,,,,FALSE
+concentration_unit_codes,code,VARCHAR(20),PRIMARY KEY,,,,FALSE
+concentration_unit_codes,description,VARCHAR(4000),,,,,FALSE
+control_type_codes,code,VARCHAR(20),PRIMARY KEY,,,,FALSE
+control_type_codes,description,VARCHAR(4000),,,,,FALSE
+dose_stat_method_codes,code,VARCHAR(20),PRIMARY KEY,NOT NULL,,,FALSE
+dose_stat_method_codes,description,VARCHAR(4000),,,,,FALSE
+duration_unit_codes,code,VARCHAR(20),PRIMARY KEY,,,,FALSE
+duration_unit_codes,description,VARCHAR(4000),,,,,FALSE
+effect_codes,code,VARCHAR(20),PRIMARY KEY,NOT NULL,,,FALSE
+effect_codes,description,VARCHAR(4000),,,,,FALSE
+endpoint_assigned_codes,code,VARCHAR(20),PRIMARY KEY,NOT NULL,,,FALSE
+endpoint_assigned_codes,description,VARCHAR(4000),,,,,FALSE
+endpoint_codes,code,VARCHAR(20),PRIMARY KEY,NOT NULL,,,FALSE
+endpoint_codes,description,VARCHAR(4000),,,,,FALSE
+exposure_type_codes,code,VARCHAR(20),PRIMARY KEY,NOT NULL,,,FALSE
+exposure_type_codes,description,VARCHAR(4000),,,,,FALSE
+field_study_type_codes,code,VARCHAR(20),PRIMARY KEY,NOT NULL,,,FALSE
+field_study_type_codes,description,VARCHAR(4000),,,,,FALSE
+gender_codes,code,VARCHAR(20),PRIMARY KEY,NOT NULL,,,FALSE
+gender_codes,description,VARCHAR(4000),,,,,FALSE
+geographic_codes,code,VARCHAR(20),PRIMARY KEY,NOT NULL,,,FALSE
+geographic_codes,description,VARCHAR(4000),,,,,FALSE
+habitat_codes,code,VARCHAR(20),PRIMARY KEY,NOT NULL,,,FALSE
+habitat_codes,description,VARCHAR(4000),,,,,FALSE
+ion_codes,code,VARCHAR(20),PRIMARY KEY,NOT NULL,,,FALSE
+ion_codes,description,VARCHAR(4000),,,,,FALSE
+lifestage_codes,code,VARCHAR(20),PRIMARY KEY,NOT NULL,,,FALSE
+lifestage_codes,description,VARCHAR(4000),,,,,FALSE
+measurement_codes,code,VARCHAR(20),PRIMARY KEY,NOT NULL,,,FALSE
+measurement_codes,description,VARCHAR(4000),,,,,FALSE
+media_char_unit_codes,code,VARCHAR(20),PRIMARY KEY,,,,FALSE
+media_char_unit_codes,description,VARCHAR(4000),,,,,FALSE
+media_type_codes,code,VARCHAR(20),PRIMARY KEY,NOT NULL,,,FALSE
+media_type_codes,description,VARCHAR(4000),,,,,FALSE
+organic_matter_type_codes,code,VARCHAR(20),PRIMARY KEY,NOT NULL,,,FALSE
+organic_matter_type_codes,description,VARCHAR(4000),,,,,FALSE
+organism_source_codes,code,VARCHAR(20),PRIMARY KEY,NOT NULL,,,FALSE
+organism_source_codes,description,VARCHAR(4000),,,,,FALSE
+radio_label_codes,code,VARCHAR(20),PRIMARY KEY,NOT NULL,,,FALSE
+radio_label_codes,description,VARCHAR(4000),,,,,FALSE
+response_site_codes,code,VARCHAR(20),PRIMARY KEY,NOT NULL,,,FALSE
+response_site_codes,description,VARCHAR(4000),,,,,FALSE
+sample_size_unit_codes,code,VARCHAR(20),PRIMARY KEY,NOT NULL,,,FALSE
+sample_size_unit_codes,description,VARCHAR(4000),,,,,FALSE
+season_codes,code,VARCHAR(20),PRIMARY KEY,NOT NULL,,,FALSE
+season_codes,description,VARCHAR(4000),,,,,FALSE
+statistical_significance_codes,code,VARCHAR(20),PRIMARY KEY,,,,FALSE
+statistical_significance_codes,description,VARCHAR(4000),,,,,FALSE
+substrate_codes,code,VARCHAR(20),PRIMARY KEY,NOT NULL,,,FALSE
+substrate_codes,description,VARCHAR(4000),,,,,FALSE
+test_location_codes,code,VARCHAR(20),PRIMARY KEY,NOT NULL,,,FALSE
+test_location_codes,description,VARCHAR(4000),,,,,FALSE
+test_method_codes,code,VARCHAR(20),PRIMARY KEY,NOT NULL,,,FALSE
+test_method_codes,description,VARCHAR(4000),,,,,FALSE
+test_type_codes,code,VARCHAR(20),PRIMARY KEY,NOT NULL,,,FALSE
+test_type_codes,description,VARCHAR(4000),,,,,FALSE
+trend_codes,code,VARCHAR(20),PRIMARY KEY,NOT NULL,,,FALSE
+trend_codes,description,VARCHAR(4000),,,,,FALSE
+weight_unit_codes,code,VARCHAR(20),PRIMARY KEY,NOT NULL,,,FALSE
+weight_unit_codes,description,VARCHAR(4000),,,,,FALSE
+length_unit_codes,code,VARCHAR(20),PRIMARY KEY,NOT NULL,,Introduced 2023-06-15,FALSE
+length_unit_codes,description,VARCHAR(4000),,,,Introduced 2023-06-15,FALSE
+length_type_codes,code,VARCHAR(20),PRIMARY KEY,NOT NULL,,Introduced 2023-06-15,FALSE
+length_type_codes,description,VARCHAR(4000),,,,Introduced 2023-06-15,FALSE

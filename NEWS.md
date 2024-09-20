@@ -1,8 +1,10 @@
-ECOTOXr v1.1.0.0001
+ECOTOXr v1.1.1
 -------------
 
   * Added `pkgdown` generated website
   * Updated documentation
+  * Updated database specifications for
+    2024-09-12 release of ECOTOX
 
 ECOTOXr v1.0.9
 -------------
