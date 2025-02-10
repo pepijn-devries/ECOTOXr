@@ -1,3 +1,8 @@
+ECOTOXr v1.1.1.0001
+-------------
+
+  * Fixed check upon attach
+
 ECOTOXr v1.1.1
 -------------
 
