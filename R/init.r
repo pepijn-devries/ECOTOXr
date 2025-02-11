@@ -74,9 +74,10 @@ get_ecotox_url <- function(verify_ssl = getOption("ECOTOXr_verify_ssl"), ...) {
 check_ecotox_availability <- function(target = get_ecotox_path()) {
   files    <- list.files(target)
   file_reg <- stringr::str_extract(files, "(?<=^ecotox_ascii_)(.*?)(?=\\.sqlite$)")
-
-  files    <- files[unlist(lapply(file_reg, length)) > 0]
-  file_reg <- unlist(file_reg[unlist(lapply(file_reg, length)) > 0])
+  
+  sel      <- lengths(file_reg) > 0 & !is.na(file_reg)
+  files    <- files[sel]
+  file_reg <- unlist(file_reg[sel])
   if (any(nchar(file_reg) > 0)) {
     file_reg <- as.Date(file_reg, format = "%m_%d_%Y")
     files    <- files[!is.na(file_reg)]
@@ -195,7 +196,7 @@ download_ecotox_data <- function(
       cfg[["ssl_verifyhost"]] <- 0
       cfg[["ssl_verifypeer"]] <- 0
     }
-
+    
     httr2::request(link) |>
       httr2::req_options(!!!cfg) |>
       httr2::req_progress() |>
@@ -203,7 +204,7 @@ download_ecotox_data <- function(
     
     message(crayon::green("Done\n"))
   }
-
+  
   ## create bib-file for later reference
   con <- file(gsub(".zip", "_cit.txt", dest_path), "w+")
   release <- as.Date(stringr::str_sub(link, -15, -1), format = "_%m_%d_%Y.zip")
@@ -314,10 +315,10 @@ build_ecotox_sqlite <- function(source, destination = get_ecotox_path(), write_l
   missing_fields    <- character(0)
   missing_tables    <- character(0)
   incomplete_check  <- character(0)
-
+  
   ## Loop the text file tables and add them to the sqlite database 1 by 1
   i <- 0
-
+  
   by(.db_specs, .db_specs$table, function(tab) {
     i <<- i + 1
     message(crayon::white(sprintf("Adding '%s' table (%i/%i) to database:\n",
@@ -327,7 +328,7 @@ build_ecotox_sqlite <- function(source, destination = get_ecotox_path(), write_l
     if (!file.exists(filename)) {
       missing_tables <<- c(missing_tables, tab$table[[1]])
       message(stringr::str_pad(sprintf("\r File for table '%s' does not exist. This may occur for older ECOTOX releases\n",
-                                    tab$table[[1]]),
+                                       tab$table[[1]]),
                                width = 80, "right"))
       message(stringr::str_pad("\r Will try to continue without this table\n", width = 80, "right"))
       return(NULL)
@@ -335,7 +336,7 @@ build_ecotox_sqlite <- function(source, destination = get_ecotox_path(), write_l
     
     ## Remove table from database if it already exists
     RSQLite::dbExecute(dbcon, sprintf("DROP TABLE IF EXISTS [%s];", tab$table[[1]]))
-
+    
     ## specify query to create the table in the sqlite database
     foreign_keys <- tab[tab$foreign_key != "",, drop = F]
     if (nrow(foreign_keys) > 0) {
@@ -351,7 +352,7 @@ build_ecotox_sqlite <- function(source, destination = get_ecotox_path(), write_l
     if (foreign_keys != "") query <- paste0(query, ",\n", foreign_keys)
     query <- sprintf("CREATE TABLE [%s](\n%s\n);", tab$table[[1]], query)
     RSQLite::dbExecute(dbcon, query)
-
+    
     head  <- NULL
     lines.read <- 1
     ## Copy tables in 50000 line fragments to database, to avoid memory issues
@@ -379,9 +380,9 @@ build_ecotox_sqlite <- function(source, destination = get_ecotox_path(), write_l
           if (grepl("[\\(/]", x) || grepl("||", x, fixed = T)) return(x)
           gsub("[|]", "-", x)
         })
-
+        
         lines.read <- lines.read + length(body)
-
+        
         ## Join lines when number of pipes is to small (probably caused by unintended linefeed)
         repeat{
           count_pipes <- unlist(lapply(regmatches(body, gregexpr("[|]", body)), length))
@@ -390,12 +391,12 @@ build_ecotox_sqlite <- function(source, destination = get_ecotox_path(), write_l
             body        <- c(body[-join_lines], paste(body[join_lines], collapse = " "))
           } else break
         }
-
+        
         ## strip.white is set to F, as they occur in primary keys!
         table.frag <- utils::read.table(text = c(head, body),
                                         sep = "|", header = TRUE, quote = "", comment.char = "",
                                         stringsAsFactors = FALSE, strip.white = FALSE)
-
+        
         missing_cols    <- tab$field_name[!tab$field_name %in% colnames(table.frag)]
         unexpected_cols <- colnames(table.frag)[!colnames(table.frag) %in% tab$field_name]
         if (length(unexpected_cols) > 0)
@@ -426,7 +427,7 @@ build_ecotox_sqlite <- function(source, destination = get_ecotox_path(), write_l
           RSQLite::dbWriteTable(dbcon, tab$table[[1]],
                                 table.frag[,setdiff(tab$field_name, missing_cols), drop = FALSE], append = TRUE)
         }
-
+        
         message(crayon::white(sprintf("\r %i lines (incl. header) of '%s' added to database", lines.read, tab$table[[1]])),
                 appendLF = F)
         if (length(body) < testsize) break
