@@ -1,7 +1,8 @@
-ECOTOXr v1.1.1.0001
+ECOTOXr v1.1.1.0002
 -------------
 
   * Fixed check upon attach
+  * Improved test coverage
 
 ECOTOXr v1.1.1
 -------------
