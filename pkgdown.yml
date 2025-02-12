@@ -1,8 +1,9 @@
 pandoc: 3.1.11
 pkgdown: 2.1.1
 pkgdown_sha: ~
-articles: {}
-last_built: 2025-02-11T23:36Z
+articles:
+  searching-ecotox: searching-ecotox.html
+last_built: 2025-02-12T22:58Z
 urls:
   reference: https://pepijn-devries.github.io/ECOTOXr/reference
   article: https://pepijn-devries.github.io/ECOTOXr/articles

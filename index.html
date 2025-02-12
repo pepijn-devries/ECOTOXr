@@ -23,7 +23,7 @@
 
     <a class="navbar-brand me-2" href="index.html">ECOTOXr</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.1.1.0002</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.1.1.0003</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -33,6 +33,12 @@
     <div id="navbar" class="collapse navbar-collapse ms-3">
       <ul class="navbar-nav me-auto">
 <li class="nav-item"><a class="nav-link" href="reference/index.html">Reference</a></li>
+<li class="nav-item dropdown">
+  <button class="nav-link dropdown-toggle" type="button" id="dropdown-articles" data-bs-toggle="dropdown" aria-expanded="false" aria-haspopup="true">Articles</button>
+  <ul class="dropdown-menu" aria-labelledby="dropdown-articles">
+<li><a class="dropdown-item" href="articles/searching-ecotox.html">Searching ecotox</a></li>
+  </ul>
+</li>
 <li class="nav-item"><a class="nav-link" href="news/index.html">Changelog</a></li>
       </ul>
 <ul class="navbar-nav">
@@ -73,7 +79,10 @@
 <div class="section level2">
 <h2 id="why-use-ecotoxr">Why use <code>ECOTOXr</code>?<a class="anchor" aria-label="anchor" href="#why-use-ecotoxr"></a>
 </h2>
-<p>The <code>ECOTOXr</code> package allows you to search and extract data from the <a href="https://cfpub.epa.gov/ecotox/" class="external-link">ECOTOXicological Knowledgebase</a> and import it directly into <code>R</code>. This will allow you to formalize and document the search- and extract-procedures in <code>R</code> code. This makes it easier to share and reproduce such procedures and its results. Moreover, you can directly apply any statistical analysis offered in <code>R</code>.</p>
+<p>The <code>ECOTOXr</code> package allows you to search and extract data from the <a href="https://cfpub.epa.gov/ecotox/" class="external-link">ECOTOXicological Knowledgebase</a> and import it directly into <code>R</code>. This will allow you to formalize and document the search- and extract-procedures in <code>R</code> code. This makes it easier to share and reproduce such procedures and its results. As illustrated in the graphical abstract below. Moreover, you can directly apply any statistical analysis offered in <code>R</code>.</p>
+<figure><img src="reference/figures/graphical-abstract.png" alt="From De Vries et al. (2024); Creative commons (https://creativecommons.org/licenses/by/4.0/)"><figcaption aria-hidden="true">
+From De Vries et al. (2024); Creative commons (<a href="https://creativecommons.org/licenses/by/4.0/" class="external-link uri">https://creativecommons.org/licenses/by/4.0/</a>)
+</figcaption></figure>
 </div>
 <div class="section level2">
 <h2 id="installation">Installation<a class="anchor" aria-label="anchor" href="#installation"></a>
@@ -105,85 +114,51 @@
 <div class="section level3">
 <h3 id="searching-the-local-database-for-species-and-substances">Searching the local database for species and substances<a class="anchor" aria-label="anchor" href="#searching-the-local-database-for-species-and-substances"></a>
 </h3>
-<p>Obviously, searching the local database is only possible after the download and build is ready (see previous section).</p>
-<blockquote>
-<p>Search the local database for tests of water flea Daphnia magna exposed to benzene</p>
-</blockquote>
-<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="reference/search_ecotox.html">search_ecotox</a></span><span class="op">(</span></span>
-<span>  <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span></span>
-<span>    latin_name    <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>terms <span class="op">=</span> <span class="st">"Daphnia magna"</span>, method <span class="op">=</span> <span class="st">"exact"</span><span class="op">)</span>,</span>
-<span>    chemical_name <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>terms <span class="op">=</span> <span class="st">"benzene"</span>,       method <span class="op">=</span> <span class="st">"exact"</span><span class="op">)</span></span>
-<span>  <span class="op">)</span></span>
-<span><span class="op">)</span></span></code></pre></div>
-</div>
-<div class="section level3">
-<h3 id="three-ways-of-querying-the-local-database">Three ways of querying the local database<a class="anchor" aria-label="anchor" href="#three-ways-of-querying-the-local-database"></a>
-</h3>
-<p>Let’s have a look at 3 different approaches for retrieving a specific record from the local database, using the unique identifier <code>result_id</code>. The first option is to use the build in <code>search_ecotox</code> function. It uses simple <code>R</code> syntax and allows you to search and collect any field from any table in the database. Furthermore, all requested output fields are automatically joined to the result without the end-user needing to know anything about the database structure.</p>
-<blockquote>
-<p>Using the prefab function <code>search_ecotox</code> packaged by <code>ECOTOXr</code></p>
-</blockquote>
-<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="reference/search_ecotox.html">search_ecotox</a></span><span class="op">(</span></span>
-<span>  <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span></span>
-<span>    result_id <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>terms <span class="op">=</span> <span class="st">"401386"</span>, method <span class="op">=</span> <span class="st">"exact"</span><span class="op">)</span></span>
-<span>  <span class="op">)</span>,</span>
-<span>  as_data_frame <span class="op">=</span> <span class="cn">F</span></span>
-<span><span class="op">)</span></span>
-<span><span class="co">#&gt; 'dose_responses.response_site' was renamed 'dose_link_response_site'</span></span>
-<span><span class="co">#&gt; 'chemicals.cas_number' was renamed 'test_cas'</span></span>
-<span><span class="co">#&gt; 'chemicals.chemical_name' was renamed 'test_chemical'</span></span>
-<span><span class="co">#&gt; 'dose_responses.dose_resp_id' was renamed 'dose_link_dose_resp_id'</span></span>
-<span><span class="co">#&gt; # A tibble: 1 × 98</span></span>
-<span><span class="co">#&gt;   test_cas test_grade test_grade_comments test_purity_mean_op test_purity_mean</span></span>
-<span><span class="co">#&gt; *    &lt;int&gt; &lt;chr&gt;      &lt;chr&gt;               &lt;chr&gt;               &lt;chr&gt;           </span></span>
-<span><span class="co">#&gt; 1    71432 NR         ""                  ""                  NR              </span></span>
-<span><span class="co">#&gt; # ℹ 93 more variables: test_purity_min_op &lt;chr&gt;, test_purity_min &lt;chr&gt;,</span></span>
-<span><span class="co">#&gt; #   test_purity_max_op &lt;chr&gt;, test_purity_max &lt;chr&gt;,</span></span>
-<span><span class="co">#&gt; #   test_purity_comments &lt;chr&gt;, organism_lifestage &lt;chr&gt;,</span></span>
-<span><span class="co">#&gt; #   organism_age_mean_op &lt;chr&gt;, organism_age_mean &lt;chr&gt;,</span></span>
-<span><span class="co">#&gt; #   organism_age_min_op &lt;chr&gt;, organism_age_min &lt;chr&gt;,</span></span>
-<span><span class="co">#&gt; #   organism_age_max_op &lt;chr&gt;, organism_age_max &lt;chr&gt;,</span></span>
-<span><span class="co">#&gt; #   exposure_duration_mean_op &lt;chr&gt;, exposure_duration_mean &lt;chr&gt;, …</span></span></code></pre></div>
-<p>If you like to use <a href="https://dplyr.tidyverse.org/" class="external-link"><code>dplyr</code></a> verbs, you are in luck. SQLite database can be approached using <code>dplyr</code> verbs. This approach will only return information from the <code>results</code> table. The end-user will have to join other information (like test species and test substance) manually. This does require knowledge of the database structure.</p>
-<blockquote>
-<p>Using <code>dplyr</code> verbs</p>
-</blockquote>
-<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">con</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/dbConnectEcotox.html">dbConnectEcotox</a></span><span class="op">(</span><span class="op">)</span></span>
-<span><span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/tbl.html" class="external-link">tbl</a></span><span class="op">(</span><span class="va">con</span>, <span class="st">"results"</span><span class="op">)</span> <span class="op">|&gt;</span></span>
-<span>  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html" class="external-link">filter</a></span><span class="op">(</span><span class="va">result_id</span> <span class="op">==</span> <span class="st">"401386"</span><span class="op">)</span> <span class="op">|&gt;</span></span>
-<span>  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/compute.html" class="external-link">collect</a></span><span class="op">(</span><span class="op">)</span></span>
-<span><span class="co">#&gt; # A tibble: 1 × 137</span></span>
-<span><span class="co">#&gt;   result_id test_id sample_size_mean_op sample_size_mean sample_size_min_op</span></span>
-<span><span class="co">#&gt;       &lt;int&gt;   &lt;int&gt; &lt;chr&gt;               &lt;chr&gt;            &lt;chr&gt;             </span></span>
-<span><span class="co">#&gt; 1    401386 1020021 ""                  NC               ""                </span></span>
-<span><span class="co">#&gt; # ℹ 132 more variables: sample_size_min &lt;chr&gt;, sample_size_max_op &lt;chr&gt;,</span></span>
-<span><span class="co">#&gt; #   sample_size_max &lt;chr&gt;, sample_size_unit &lt;chr&gt;, sample_size_comments &lt;chr&gt;,</span></span>
-<span><span class="co">#&gt; #   obs_duration_mean_op &lt;chr&gt;, obs_duration_mean &lt;chr&gt;,</span></span>
-<span><span class="co">#&gt; #   obs_duration_min_op &lt;chr&gt;, obs_duration_min &lt;chr&gt;,</span></span>
-<span><span class="co">#&gt; #   obs_duration_max_op &lt;chr&gt;, obs_duration_max &lt;chr&gt;, obs_duration_unit &lt;chr&gt;,</span></span>
-<span><span class="co">#&gt; #   obs_duration_comments &lt;chr&gt;, endpoint &lt;chr&gt;, endpoint_comments &lt;chr&gt;,</span></span>
-<span><span class="co">#&gt; #   trend &lt;chr&gt;, effect &lt;chr&gt;, effect_comments &lt;chr&gt;, measurement &lt;chr&gt;, …</span></span></code></pre></div>
-<p>If you prefer working using <code>SQL</code> directly, that is fine too. The <a href="https://cran.r-project.org/package=RSQLite" class="external-link"><code>RSQLite</code></a> package allows you to get queries using <code>SQL</code> statements. The result is identical to that of the previous approach. Here too the end-user needs knowledge of the database structure in order to join additional data.</p>
-<blockquote>
-<p>Using <code>SQL</code> syntax</p>
-</blockquote>
-<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu">dbGetQuery</span><span class="op">(</span><span class="va">con</span>, <span class="st">"SELECT * FROM results WHERE result_id='401386'"</span><span class="op">)</span> <span class="op">|&gt;</span></span>
-<span>  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://tibble.tidyverse.org/reference/as_tibble.html" class="external-link">as_tibble</a></span><span class="op">(</span><span class="op">)</span></span>
-<span><span class="co">#&gt; # A tibble: 1 × 137</span></span>
-<span><span class="co">#&gt;   result_id test_id sample_size_mean_op sample_size_mean sample_size_min_op</span></span>
-<span><span class="co">#&gt;       &lt;int&gt;   &lt;int&gt; &lt;chr&gt;               &lt;chr&gt;            &lt;chr&gt;             </span></span>
-<span><span class="co">#&gt; 1    401386 1020021 ""                  NC               ""                </span></span>
-<span><span class="co">#&gt; # ℹ 132 more variables: sample_size_min &lt;chr&gt;, sample_size_max_op &lt;chr&gt;,</span></span>
-<span><span class="co">#&gt; #   sample_size_max &lt;chr&gt;, sample_size_unit &lt;chr&gt;, sample_size_comments &lt;chr&gt;,</span></span>
-<span><span class="co">#&gt; #   obs_duration_mean_op &lt;chr&gt;, obs_duration_mean &lt;chr&gt;,</span></span>
-<span><span class="co">#&gt; #   obs_duration_min_op &lt;chr&gt;, obs_duration_min &lt;chr&gt;,</span></span>
-<span><span class="co">#&gt; #   obs_duration_max_op &lt;chr&gt;, obs_duration_max &lt;chr&gt;, obs_duration_unit &lt;chr&gt;,</span></span>
-<span><span class="co">#&gt; #   obs_duration_comments &lt;chr&gt;, endpoint &lt;chr&gt;, endpoint_comments &lt;chr&gt;,</span></span>
-<span><span class="co">#&gt; #   trend &lt;chr&gt;, effect &lt;chr&gt;, effect_comments &lt;chr&gt;, measurement &lt;chr&gt;, …</span></span></code></pre></div>
+<p>Once built, you can search the local database for species and substances using different strategies. You can use the build-in search function of this package, or you can write custom queries using either the simple query language (SQL) or <code>dplyr</code> verbs. More details in the following vignette: <code><a href="articles/searching-ecotox.html">vignette("searching-ecotox")</a></code>.</p>
+<!-- Obviously, searching the local database is only possible after the download and build is -->
+<!-- ready (see previous section). -->
+<!-- > Search the local database for tests of water flea Daphnia magna exposed to benzene -->
+<!-- ```{r eval=FALSE} -->
+<!-- search_ecotox( -->
+<!--   list( -->
+<!--     latin_name    = list(terms = "Daphnia magna", method = "exact"), -->
+<!--     chemical_name = list(terms = "benzene",       method = "exact") -->
+<!--   ) -->
+<!-- ) -->
+<!-- ``` -->
+<!-- ### Three ways of querying the local database -->
+<!-- Let's have a look at 3 different approaches for retrieving a specific record from the local database, using the -->
+<!-- unique identifier `result_id`. The first option is to use the build in `search_ecotox` function. It uses -->
+<!-- simple `R` syntax and allows you to search and collect any field from any table in the database. Furthermore, -->
+<!-- all requested output fields are automatically joined to the result without the end-user needing to know anything -->
+<!-- about the database structure. -->
+<!-- > Using the prefab function `search_ecotox` packaged by `ECOTOXr` -->
+<!-- ```{r warning = FALSE} -->
+<!-- search_ecotox( -->
+<!--   list( -->
+<!--     result_id = list(terms = "401386", method = "exact") -->
+<!--   ), -->
+<!--   as_data_frame = F -->
+<!-- ) -->
+<!-- ``` -->
+<!-- If you like to use [`dplyr`](https://dplyr.tidyverse.org/) verbs, you are in luck. SQLite database can be approached using -->
+<!-- `dplyr` verbs. This approach will only return information from the `results` table. The end-user will have to join other information -->
+<!-- (like test species and test substance) manually. This does require knowledge of the database structure. -->
+<!-- > Using `dplyr` verbs -->
+<!-- ```{r warning = FALSE} -->
+<!-- con <- dbConnectEcotox() -->
+<!-- dplyr::tbl(con, "results") |> -->
+<!--   dplyr::filter(result_id == "401386") |> -->
+<!--   dplyr::collect() -->
+<!-- ``` -->
+<!-- If you prefer working using `SQL` directly, that is fine too. The [`RSQLite`](https://cran.r-project.org/package=RSQLite) package -->
+<!-- allows you to get queries using `SQL` statements. The result is identical to that of the previous approach. Here too the end-user -->
+<!-- needs knowledge of the database structure in order to join additional data. -->
+<!-- > Using `SQL` syntax -->
+<!-- ```{r warning = FALSE} -->
+<!-- dbGetQuery(con, "SELECT * FROM results WHERE result_id='401386'") |> -->
+<!--   dplyr::as_tibble() -->
+<!-- ``` -->
 </div>
 </div>
 <div class="section level2">
@@ -243,6 +218,7 @@
 <ul class="list-unstyled">
 <li><a href="https://github.com/pepijn-devries/ECOTOXr/actions" class="external-link"><img src="https://github.com/pepijn-devries/ECOTOXr/workflows/R-CMD-check/badge.svg" alt="R build status"></a></li>
 <li><a href="https://CRAN.R-project.org/package=ECOTOXr" class="external-link"><img src="https://www.r-pkg.org/badges/version/ECOTOXr" alt="version"></a></li>
+<li><a href="https://app.codecov.io/gh/pepijn-devries/ECOTOXr?branch=main" class="external-link"><img src="https://codecov.io/gh/pepijn-devries/ECOTOXr/branch/main/graph/badge.svg" alt="Codecov test coverage"></a></li>
 </ul>
 </div>
 
