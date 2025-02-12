@@ -100,7 +100,8 @@ search_fields <-
     txAdvancedChemicalEntries = "benzene",
     RBCHEMSEARCHTYPE          = "EXACT")
 
-search_results <- websearch_ecotox(search_fields)
+search_results <- websearch_ecotox(
+  search_fields, ssl_verifypeer = FALSE, ssl_verifyhost = FALSE)
 
 search_results$`Aquatic-Export`
 ```
