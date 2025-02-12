@@ -26,7 +26,7 @@ be queried with `?search_ecotox`.
 
 > Search the local database for tests of water flea Daphnia magna exposed to benzene
 
-```{r eval = FALSE}
+```{r, eval = FALSE}
 search_ecotox(
   list(
     latin_name    = list(terms = "Daphnia magna", method = "exact"),
@@ -45,7 +45,7 @@ about the database structure.
 
 > Using the prefab function `search_ecotox` packaged by `ECOTOXr`
 
-```{r eval = FALSE warning = FALSE}
+```{r, eval = FALSE, warning = FALSE}
 search_ecotox(
   list(
     result_id = list(terms = "401386", method = "exact")
@@ -66,7 +66,7 @@ If you like to use [`dplyr`](https://dplyr.tidyverse.org/) verbs, you are in luc
 
 > Using `dplyr` verbs
 
-```{r eval = FALSE warning = FALSE}
+```{r, eval = FALSE, warning = FALSE}
 con <- dbConnectEcotox()
 dplyr::tbl(con, "results") |>
   dplyr::filter(result_id == "401386") |>
@@ -79,7 +79,7 @@ needs knowledge of the database structure in order to join additional data.
 
 > Using `SQL` syntax
 
-```{r eval = FALSE warning = FALSE}
+```{r, eval = FALSE, warning = FALSE}
 dbGetQuery(con, "SELECT * FROM results WHERE result_id='401386'") |>
   dplyr::as_tibble()
 ```
