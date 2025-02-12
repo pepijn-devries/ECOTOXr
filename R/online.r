@@ -43,6 +43,7 @@
 websearch_ecotox <- function(
     fields = list_ecotox_web_fields(), habitat = c("aquire", "terrestrial"),
     verify_ssl = getOption("ECOTOXr_verify_ssl"), ...) {
+  Sys.setenv(OPENSSL_CONF = system.file("openssl.cnf", package = "ECOTOXr"))
   habitat <- match.arg(habitat)
   if (is.null(verify_ssl)) verify_ssl <- TRUE
   cfg = list(...)
@@ -199,6 +200,7 @@ websearch_comptox <- function(
     timeout   = 300,
     verify_ssl = getOption("ECOTOXr_verify_ssl"),
     ...) {
+  Sys.setenv(c(OPENSSL_CONF = system.file("openssl.cnf", package = "ECOTOXr")))
   if (is.null(verify_ssl)) verify_ssl <- TRUE
   cfg <- list(...)
   if (!verify_ssl) {

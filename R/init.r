@@ -168,7 +168,7 @@ download_ecotox_data <- function(
     target = get_ecotox_path(), write_log = TRUE, ask = TRUE,
     verify_ssl = getOption("ECOTOXr_verify_ssl"), ...) {
   if (is.null(verify_ssl)) verify_ssl <- TRUE
-  
+  Sys.setenv(OPENSSL_CONF = system.file("openssl.cnf", package = "ECOTOXr"))
   avail <- check_ecotox_availability(target)
   if (avail && ask) {
     cat(sprintf("A local database already exists (%s).", paste(attributes(avail)$file$database, collapse = ", ")))

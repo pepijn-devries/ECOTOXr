@@ -122,8 +122,7 @@ test_that("Download from EPA ECOTOX starts", {
     tryCatch({
       ## 'maxfilesize' is set such that it can obtain the download link, but
       ## the database itself cannot be downloaded
-      download_ecotox_data(tempdir(), ask = FALSE, maxfilesize = 10000,
-                           ssl_verifypeer = FALSE, ssl_verifyhost = FALSE) |>
+      download_ecotox_data(tempdir(), ask = FALSE, maxfilesize = 10000) |>
         suppressMessages()
       TRUE
     }, error = function(e) {
