@@ -23,6 +23,7 @@
 #' @export
 get_ecotox_url <- function(verify_ssl = getOption("ECOTOXr_verify_ssl"), ...) {
   if (is.null(verify_ssl)) verify_ssl <- TRUE
+  Sys.setenv(OPENSSL_CONF = system.file("openssl.cnf", package = "ECOTOXr"))
   args <- list(...)
   if (!verify_ssl) {
     args[["ssl_verifyhost"]] <- 0
