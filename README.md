@@ -9,8 +9,9 @@
 [![R build
 status](https://github.com/pepijn-devries/ECOTOXr/workflows/R-CMD-check/badge.svg)](https://github.com/pepijn-devries/ECOTOXr/actions)
 [![version](https://www.r-pkg.org/badges/version/ECOTOXr)](https://CRAN.R-project.org/package=ECOTOXr)
+![cranlogs](https://cranlogs.r-pkg.org/badges/ECOTOXr) [![Codecov test
+coverage](https://codecov.io/gh/pepijn-devries/ECOTOXr/branch/main/graph/badge.svg)](https://app.codecov.io/gh/pepijn-devries/ECOTOXr?branch=main)
 ![cranlogs](https://cranlogs.r-pkg.org/badges/ECOTOXr)
-<!--[![Codecov test coverage](https://codecov.io/gh/pepijn-devries/ECOTOXr/branch/main/graph/badge.svg)](https://app.codecov.io/gh/pepijn-devries/ECOTOXr?branch=main)-->
 <!-- badges: end -->
 
 ## Overview
@@ -33,8 +34,17 @@ The `ECOTOXr` package allows you to search and extract data from the
 [ECOTOXicological Knowledgebase](https://cfpub.epa.gov/ecotox/) and
 import it directly into `R`. This will allow you to formalize and
 document the search- and extract-procedures in `R` code. This makes it
-easier to share and reproduce such procedures and its results. Moreover,
-you can directly apply any statistical analysis offered in `R`.
+easier to share and reproduce such procedures and its results. As
+illustrated in the graphical abstract below. Moreover, you can directly
+apply any statistical analysis offered in `R`.
+
+<figure>
+<img src="man/figures/graphical-abstract.png"
+alt="From De Vries et al. (2024); Creative commons (https://creativecommons.org/licenses/by/4.0/)" />
+<figcaption aria-hidden="true">From De Vries et al. (2024); Creative
+commons (<a href="https://creativecommons.org/licenses/by/4.0/"
+class="uri">https://creativecommons.org/licenses/by/4.0/</a>)</figcaption>
+</figure>
 
 ## Installation
 
@@ -67,107 +77,56 @@ download_ecotox_data()
 
 ### Searching the local database for species and substances
 
-Obviously, searching the local database is only possible after the
-download and build is ready (see previous section).
+Once built, you can search the local database for species and substances
+using different strategies. You can use the build-in search function of
+this package, or you can write custom queries using either the simple
+query language (SQL) or `dplyr` verbs. More details in the following
+vignette: `vignette("searching-ecotox")`.
 
-> Search the local database for tests of water flea Daphnia magna
-> exposed to benzene
-
-``` r
-search_ecotox(
-  list(
-    latin_name    = list(terms = "Daphnia magna", method = "exact"),
-    chemical_name = list(terms = "benzene",       method = "exact")
-  )
-)
-```
-
-### Three ways of querying the local database
-
-Let’s have a look at 3 different approaches for retrieving a specific
-record from the local database, using the unique identifier `result_id`.
-The first option is to use the build in `search_ecotox` function. It
-uses simple `R` syntax and allows you to search and collect any field
-from any table in the database. Furthermore, all requested output fields
-are automatically joined to the result without the end-user needing to
-know anything about the database structure.
-
-> Using the prefab function `search_ecotox` packaged by `ECOTOXr`
-
-``` r
-search_ecotox(
-  list(
-    result_id = list(terms = "401386", method = "exact")
-  ),
-  as_data_frame = F
-)
-#> 'dose_responses.response_site' was renamed 'dose_link_response_site'
-#> 'chemicals.cas_number' was renamed 'test_cas'
-#> 'chemicals.chemical_name' was renamed 'test_chemical'
-#> 'dose_responses.dose_resp_id' was renamed 'dose_link_dose_resp_id'
-#> # A tibble: 1 × 98
-#>   test_cas test_grade test_grade_comments test_purity_mean_op test_purity_mean
-#> *    <int> <chr>      <chr>               <chr>               <chr>           
-#> 1    71432 NR         ""                  ""                  NR              
-#> # ℹ 93 more variables: test_purity_min_op <chr>, test_purity_min <chr>,
-#> #   test_purity_max_op <chr>, test_purity_max <chr>,
-#> #   test_purity_comments <chr>, organism_lifestage <chr>,
-#> #   organism_age_mean_op <chr>, organism_age_mean <chr>,
-#> #   organism_age_min_op <chr>, organism_age_min <chr>,
-#> #   organism_age_max_op <chr>, organism_age_max <chr>,
-#> #   exposure_duration_mean_op <chr>, exposure_duration_mean <chr>, …
-```
-
-If you like to use [`dplyr`](https://dplyr.tidyverse.org/) verbs, you
-are in luck. SQLite database can be approached using `dplyr` verbs. This
-approach will only return information from the `results` table. The
-end-user will have to join other information (like test species and test
-substance) manually. This does require knowledge of the database
-structure.
-
-> Using `dplyr` verbs
-
-``` r
-con <- dbConnectEcotox()
-dplyr::tbl(con, "results") |>
-  dplyr::filter(result_id == "401386") |>
-  dplyr::collect()
-#> # A tibble: 1 × 137
-#>   result_id test_id sample_size_mean_op sample_size_mean sample_size_min_op
-#>       <int>   <int> <chr>               <chr>            <chr>             
-#> 1    401386 1020021 ""                  NC               ""                
-#> # ℹ 132 more variables: sample_size_min <chr>, sample_size_max_op <chr>,
-#> #   sample_size_max <chr>, sample_size_unit <chr>, sample_size_comments <chr>,
-#> #   obs_duration_mean_op <chr>, obs_duration_mean <chr>,
-#> #   obs_duration_min_op <chr>, obs_duration_min <chr>,
-#> #   obs_duration_max_op <chr>, obs_duration_max <chr>, obs_duration_unit <chr>,
-#> #   obs_duration_comments <chr>, endpoint <chr>, endpoint_comments <chr>,
-#> #   trend <chr>, effect <chr>, effect_comments <chr>, measurement <chr>, …
-```
-
-If you prefer working using `SQL` directly, that is fine too. The
-[`RSQLite`](https://cran.r-project.org/package=RSQLite) package allows
-you to get queries using `SQL` statements. The result is identical to
-that of the previous approach. Here too the end-user needs knowledge of
-the database structure in order to join additional data.
-
-> Using `SQL` syntax
-
-``` r
-dbGetQuery(con, "SELECT * FROM results WHERE result_id='401386'") |>
-  dplyr::as_tibble()
-#> # A tibble: 1 × 137
-#>   result_id test_id sample_size_mean_op sample_size_mean sample_size_min_op
-#>       <int>   <int> <chr>               <chr>            <chr>             
-#> 1    401386 1020021 ""                  NC               ""                
-#> # ℹ 132 more variables: sample_size_min <chr>, sample_size_max_op <chr>,
-#> #   sample_size_max <chr>, sample_size_unit <chr>, sample_size_comments <chr>,
-#> #   obs_duration_mean_op <chr>, obs_duration_mean <chr>,
-#> #   obs_duration_min_op <chr>, obs_duration_min <chr>,
-#> #   obs_duration_max_op <chr>, obs_duration_max <chr>, obs_duration_unit <chr>,
-#> #   obs_duration_comments <chr>, endpoint <chr>, endpoint_comments <chr>,
-#> #   trend <chr>, effect <chr>, effect_comments <chr>, measurement <chr>, …
-```
+<!-- Obviously, searching the local database is only possible after the download and build is -->
+<!-- ready (see previous section). -->
+<!-- > Search the local database for tests of water flea Daphnia magna exposed to benzene -->
+<!-- ```{r eval=FALSE} -->
+<!-- search_ecotox( -->
+<!--   list( -->
+<!--     latin_name    = list(terms = "Daphnia magna", method = "exact"), -->
+<!--     chemical_name = list(terms = "benzene",       method = "exact") -->
+<!--   ) -->
+<!-- ) -->
+<!-- ``` -->
+<!-- ### Three ways of querying the local database -->
+<!-- Let's have a look at 3 different approaches for retrieving a specific record from the local database, using the -->
+<!-- unique identifier `result_id`. The first option is to use the build in `search_ecotox` function. It uses -->
+<!-- simple `R` syntax and allows you to search and collect any field from any table in the database. Furthermore, -->
+<!-- all requested output fields are automatically joined to the result without the end-user needing to know anything -->
+<!-- about the database structure. -->
+<!-- > Using the prefab function `search_ecotox` packaged by `ECOTOXr` -->
+<!-- ```{r warning = FALSE} -->
+<!-- search_ecotox( -->
+<!--   list( -->
+<!--     result_id = list(terms = "401386", method = "exact") -->
+<!--   ), -->
+<!--   as_data_frame = F -->
+<!-- ) -->
+<!-- ``` -->
+<!-- If you like to use [`dplyr`](https://dplyr.tidyverse.org/) verbs, you are in luck. SQLite database can be approached using -->
+<!-- `dplyr` verbs. This approach will only return information from the `results` table. The end-user will have to join other information -->
+<!-- (like test species and test substance) manually. This does require knowledge of the database structure. -->
+<!-- > Using `dplyr` verbs -->
+<!-- ```{r warning = FALSE} -->
+<!-- con <- dbConnectEcotox() -->
+<!-- dplyr::tbl(con, "results") |> -->
+<!--   dplyr::filter(result_id == "401386") |> -->
+<!--   dplyr::collect() -->
+<!-- ``` -->
+<!-- If you prefer working using `SQL` directly, that is fine too. The [`RSQLite`](https://cran.r-project.org/package=RSQLite) package -->
+<!-- allows you to get queries using `SQL` statements. The result is identical to that of the previous approach. Here too the end-user -->
+<!-- needs knowledge of the database structure in order to join additional data. -->
+<!-- > Using `SQL` syntax -->
+<!-- ```{r warning = FALSE} -->
+<!-- dbGetQuery(con, "SELECT * FROM results WHERE result_id='401386'") |> -->
+<!--   dplyr::as_tibble() -->
+<!-- ``` -->
 
 ## Disclaimers
 

@@ -47,6 +47,7 @@ websearch_ecotox <- function(
   if (is.null(verify_ssl)) verify_ssl <- TRUE
   cfg = list(...)
   if (!verify_ssl) {
+    Sys.setenv(OPENSSL_CONF = system.file("openssl.cnf", package = "ECOTOXr"))
     cfg[["ssl_verifyhost"]] <- 0
     cfg[["ssl_verifypeer"]] <- 0
   }
@@ -199,6 +200,7 @@ websearch_comptox <- function(
     timeout   = 300,
     verify_ssl = getOption("ECOTOXr_verify_ssl"),
     ...) {
+  Sys.setenv(c(OPENSSL_CONF = system.file("openssl.cnf", package = "ECOTOXr")))
   if (is.null(verify_ssl)) verify_ssl <- TRUE
   cfg <- list(...)
   if (!verify_ssl) {

@@ -115,3 +115,25 @@ test_that("Online and local search yield the same results", {
     result
   })
 })
+
+test_that("Can get download URL", {
+  skip_if_offline()
+  expect_true({
+    get_ecotox_url(verify_ssl = FALSE) |> endsWith(".zip")
+  })
+})
+
+test_that("Download from EPA ECOTOX starts", {
+  skip_if_offline()
+  expect_true({
+    tryCatch({
+      ## 'maxfilesize' is set such that it can obtain the download link, but
+      ## the database itself cannot be downloaded
+      download_ecotox_data(tempdir(), verify_ssl = FALSE, ask = FALSE, maxfilesize = 10000) |>
+        suppressMessages()
+      TRUE
+    }, error = function(e) {
+      endsWith(e$request$url, ".zip")
+    })
+  })
+})
