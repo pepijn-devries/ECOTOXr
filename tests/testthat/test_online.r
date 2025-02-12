@@ -119,6 +119,7 @@ test_that("Online and local search yield the same results", {
 test_that("Download from EPA ECOTOX starts", {
   skip_if_offline()
   expect_true({
+    download_ecotox_data(tempdir(), ask = FALSE, maxfilesize = 10000)
     tryCatch({
       ## 'maxfilesize' is set such that it can obtain the download link, but
       ## the database itself cannot be downloaded
