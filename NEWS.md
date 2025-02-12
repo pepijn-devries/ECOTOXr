@@ -1,6 +1,7 @@
-ECOTOXr v1.1.1.0002
+ECOTOXr v1.1.1.0003
 -------------
 
+  * Expanded the documentation with vignettes
   * Fixed check upon attach
   * Improved test coverage
 

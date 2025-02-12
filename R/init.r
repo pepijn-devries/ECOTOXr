@@ -169,7 +169,7 @@ download_ecotox_data <- function(
     verify_ssl = getOption("ECOTOXr_verify_ssl"), ...) {
   if (is.null(verify_ssl)) verify_ssl <- TRUE
   
-  avail <- check_ecotox_availability()
+  avail <- check_ecotox_availability(target)
   if (avail && ask) {
     cat(sprintf("A local database already exists (%s).", paste(attributes(avail)$file$database, collapse = ", ")))
     prompt <- readline(prompt = "Do you wish to continue and potentially overwrite the existing database? (y/n) ")
