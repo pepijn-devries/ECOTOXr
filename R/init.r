@@ -23,18 +23,16 @@
 #' @export
 get_ecotox_url <- function(verify_ssl = getOption("ECOTOXr_verify_ssl"), ...) {
   if (is.null(verify_ssl)) verify_ssl <- TRUE
-  Sys.setenv(OPENSSL_CONF = system.file("openssl.cnf", package = "ECOTOXr"))
   args <- list(...)
   if (!verify_ssl) {
+    Sys.setenv(OPENSSL_CONF = system.file("openssl.cnf", package = "ECOTOXr"))
     args[["ssl_verifyhost"]] <- 0
     args[["ssl_verifypeer"]] <- 0
   }
   link <- tryCatch({
-    do.call(.get_ecotox_url, c(url = "https://cfpub.epa.gov/ecotox/index.cfm",
-                               args))
+    .get_ecotox_url("https://cfpub.epa.gov/ecotox/index.cfm", !!!args)
   }, error = function(e) {
-    do.call(.get_ecotox_url, c(url = "https://gaftp.epa.gov/ecotox/",
-                               args))
+    .get_ecotox_url("https://gaftp.epa.gov/ecotox/", !!!args)
   })
   return(link)
 }
@@ -169,7 +167,6 @@ download_ecotox_data <- function(
     target = get_ecotox_path(), write_log = TRUE, ask = TRUE,
     verify_ssl = getOption("ECOTOXr_verify_ssl"), ...) {
   if (is.null(verify_ssl)) verify_ssl <- TRUE
-  Sys.setenv(OPENSSL_CONF = system.file("openssl.cnf", package = "ECOTOXr"))
   avail <- check_ecotox_availability(target)
   if (avail && ask) {
     cat(sprintf("A local database already exists (%s).", paste(attributes(avail)$file$database, collapse = ", ")))
@@ -194,6 +191,7 @@ download_ecotox_data <- function(
     message(crayon::white(sprintf("Start downloading ECOTOX data from %s...\n", link)))
     cfg <- list(...)
     if (!verify_ssl) {
+      Sys.setenv(OPENSSL_CONF = system.file("openssl.cnf", package = "ECOTOXr"))
       cfg[["ssl_verifyhost"]] <- 0
       cfg[["ssl_verifypeer"]] <- 0
     }

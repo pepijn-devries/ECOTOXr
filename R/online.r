@@ -43,11 +43,11 @@
 websearch_ecotox <- function(
     fields = list_ecotox_web_fields(), habitat = c("aquire", "terrestrial"),
     verify_ssl = getOption("ECOTOXr_verify_ssl"), ...) {
-  Sys.setenv(OPENSSL_CONF = system.file("openssl.cnf", package = "ECOTOXr"))
   habitat <- match.arg(habitat)
   if (is.null(verify_ssl)) verify_ssl <- TRUE
   cfg = list(...)
   if (!verify_ssl) {
+    Sys.setenv(OPENSSL_CONF = system.file("openssl.cnf", package = "ECOTOXr"))
     cfg[["ssl_verifyhost"]] <- 0
     cfg[["ssl_verifypeer"]] <- 0
   }
