@@ -1,0 +1,744 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN"
+ "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<svg id="ecotoxschema"width="1506pt" height="1014pt"
+ viewBox="0.00 0.00 3012.00 2028.00" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 1010)">
+<polygon fill="#ffffff" stroke="transparent" points="-4,4 -4,-1010 1502,-1010 1502,4 -4,4"/>
+<g id="edge1" class="edge schema_any schema_01 schema_02">
+<path fill="none" stroke="#cccccc" d="M856.1291,-797.3767C847.6233,-753.846 819.8848,-611.8866 810.0622,-561.6167"/>
+<polygon fill="#cccccc" stroke="#cccccc" points="811.7381,-561.0676 809.0617,-556.496 808.3031,-561.7388 811.7381,-561.0676"/>
+<text text-anchor="middle" x="821.3141" y="-681.8967" font-family="Helvetica,sans-Serif" font-size="8.00" fill="#000000">test_id</text>
+</g>
+<g id="edge2" class="edge schema_any schema_01 schema_12">
+<path fill="none" stroke="#cccccc" d="M896.6296,-797.5901C926.0862,-787.7906 966.8971,-774.2137 997.4228,-764.0585"/>
+<polygon fill="#cccccc" stroke="#cccccc" points="998.0384,-765.698 1002.2304,-762.4591 996.9336,-762.377 998.0384,-765.698"/>
+<text text-anchor="middle" x="925.0214" y="-783.2243" font-family="Helvetica,sans-Serif" font-size="8.00" fill="#000000">cas_number</text>
+</g>
+<g id="edge4" class="edge schema_any schema_01 schema_16">
+<path fill="none" stroke="#cccccc" d="M836.308,-822.8119C830.3641,-826.1611 823.8763,-829.8168 817.7007,-833.2966"/>
+<polygon fill="#cccccc" stroke="#cccccc" points="816.5501,-831.9362 813.0531,-835.9154 818.2683,-834.9854 816.5501,-831.9362"/>
+<text text-anchor="middle" x="835.6751" y="-830.4542" font-family="Helvetica,sans-Serif" font-size="8.00" fill="#000000">code</text>
+</g>
+<g id="edge3" class="edge schema_any schema_01 schema_17">
+<path fill="none" stroke="#cccccc" d="M868.4842,-797.6595C884.5557,-777.1392 916.434,-736.4366 934.3834,-713.5186"/>
+<polygon fill="#cccccc" stroke="#cccccc" points="935.8606,-714.4706 937.5659,-709.4551 933.1051,-712.3125 935.8606,-714.4706"/>
+<text text-anchor="middle" x="892.763" y="-748.389" font-family="Helvetica,sans-Serif" font-size="8.00" fill="#000000">code</text>
+</g>
+<g id="edge5" class="edge schema_any schema_01 schema_38">
+<path fill="none" stroke="#cccccc" d="M874.3061,-822.7564C877.918,-825.6448 881.8092,-828.7566 885.5806,-831.7726"/>
+<polygon fill="#cccccc" stroke="#cccccc" points="884.9311,-833.494 889.929,-835.2501 887.1171,-830.7605 884.9311,-833.494"/>
+<text text-anchor="middle" x="871.2725" y="-829.6645" font-family="Helvetica,sans-Serif" font-size="8.00" fill="#000000">code</text>
+</g>
+<g id="edge6" class="edge schema_any schema_02 schema_08">
+<path fill="none" stroke="#cccccc" d="M834.0909,-531.1615C886.4572,-507.1591 1000.1932,-455.0274 1055.998,-429.4489"/>
+<polygon fill="#cccccc" stroke="#cccccc" points="1056.7483,-431.0301 1060.5644,-427.3559 1055.2899,-427.8484 1056.7483,-431.0301"/>
+<text text-anchor="middle" x="912.3705" y="-473.1052" font-family="Helvetica,sans-Serif" font-size="8.00" fill="#000000">reference_number</text>
+</g>
+<g id="edge11" class="edge schema_any schema_02 schema_10">
+<path fill="none" stroke="#cccccc" d="M860.8121,-550.2535C930.4764,-558.5771 1050.9675,-572.9736 1123.0067,-581.581"/>
+<polygon fill="#cccccc" stroke="#cccccc" points="1122.9361,-583.3349 1128.1085,-582.1905 1123.3514,-579.8596 1122.9361,-583.3349"/>
+<text text-anchor="middle" x="962.5698" y="-558.7172" font-family="Helvetica,sans-Serif" font-size="8.00" fill="#000000">species_number</text>
+</g>
+<g id="edge7" class="edge schema_any schema_02 schema_12">
+<path fill="none" stroke="#cccccc" d="M820.8174,-556.3596C861.2444,-592.0876 976.6837,-694.1088 1021.6338,-733.8342"/>
+<polygon fill="#cccccc" stroke="#cccccc" points="1020.6017,-735.2575 1025.5071,-737.2573 1022.9195,-732.6349 1020.6017,-735.2575"/>
+<text text-anchor="middle" x="899.2208" y="-647.4969" font-family="Helvetica,sans-Serif" font-size="8.00" fill="#000000">cas_number</text>
+</g>
+<g id="edge26" class="edge schema_any schema_02 schema_13">
+<path fill="none" stroke="#cccccc" d="M797.0683,-556.2762C772.3483,-588.7848 706.03,-675.998 677.9107,-712.9769"/>
+<polygon fill="#cccccc" stroke="#cccccc" points="676.3097,-712.1911 674.6762,-717.2305 679.0957,-714.3097 676.3097,-712.1911"/>
+<text text-anchor="middle" x="728.8187" y="-637.0265" font-family="Helvetica,sans-Serif" font-size="8.00" fill="#000000">code</text>
+</g>
+<g id="edge27" class="edge schema_any schema_02 schema_14">
+<path fill="none" stroke="#cccccc" d="M821.9838,-531.1485C850.3795,-507.8821 910.902,-458.2924 942.0156,-432.7992"/>
+<polygon fill="#cccccc" stroke="#cccccc" points="943.2645,-434.0383 946.023,-429.5157 941.0463,-431.331 943.2645,-434.0383"/>
+<text text-anchor="middle" x="873.3289" y="-484.3738" font-family="Helvetica,sans-Serif" font-size="8.00" fill="#000000">code</text>
+</g>
+<g id="edge9" class="edge schema_any schema_02 schema_16">
+<path fill="none" stroke="#cccccc" d="M805.9028,-556.4856C803.36,-604.5236 794.332,-775.0784 791.3793,-830.8601"/>
+<polygon fill="#cccccc" stroke="#cccccc" points="789.6298,-830.8065 791.1129,-835.8921 793.1249,-830.9916 789.6298,-830.8065"/>
+<text text-anchor="middle" x="789.9702" y="-696.0729" font-family="Helvetica,sans-Serif" font-size="8.00" fill="#000000">code</text>
+</g>
+<g id="edge8" class="edge schema_any schema_02 schema_17">
+<path fill="none" stroke="#cccccc" d="M818.1044,-556.2985C843.3865,-583.7662 903.7084,-649.3027 932.1359,-680.1877"/>
+<polygon fill="#cccccc" stroke="#cccccc" points="931.0922,-681.6379 935.766,-684.1316 933.6674,-679.2675 931.0922,-681.6379"/>
+<text text-anchor="middle" x="866.4493" y="-620.6431" font-family="Helvetica,sans-Serif" font-size="8.00" fill="#000000">code</text>
+</g>
+<g id="edge28" class="edge schema_any schema_02 schema_19">
+<path fill="none" stroke="#cccccc" d="M752.4629,-540.4155C701.495,-537.2529 625.3172,-532.526 572.7179,-529.2622"/>
+<polygon fill="#cccccc" stroke="#cccccc" points="572.8017,-527.5141 567.7029,-528.951 572.5849,-531.0074 572.8017,-527.5141"/>
+<text text-anchor="middle" x="653.9196" y="-537.2388" font-family="Helvetica,sans-Serif" font-size="8.00" fill="#000000">code</text>
+</g>
+<g id="edge24" class="edge schema_any schema_02 schema_20">
+<path fill="none" stroke="#cccccc" d="M801.6335,-531.1005C786.2647,-491.6923 739.2824,-371.221 721.5363,-325.7169"/>
+<polygon fill="#cccccc" stroke="#cccccc" points="723.0654,-324.8212 719.6183,-320.7987 719.8046,-326.0929 723.0654,-324.8212"/>
+<text text-anchor="middle" x="752.9141" y="-430.8087" font-family="Helvetica,sans-Serif" font-size="8.00" fill="#000000">code</text>
+</g>
+<g id="edge14" class="edge schema_any schema_02 schema_22">
+<path fill="none" stroke="#cccccc" d="M758.9632,-531.1533C730.8452,-523.7005 695.212,-514.2558 666.3062,-506.5941"/>
+<polygon fill="#cccccc" stroke="#cccccc" points="666.6413,-504.8726 661.3598,-505.2831 665.7445,-508.2558 666.6413,-504.8726"/>
+<text text-anchor="middle" x="703.9639" y="-521.2737" font-family="Helvetica,sans-Serif" font-size="8.00" fill="#000000">code</text>
+</g>
+<g id="edge23" class="edge schema_any schema_02 schema_26">
+<path fill="none" stroke="#cccccc" d="M800.362,-556.4301C778.7992,-600.3522 707.1726,-746.2511 682.5004,-796.507"/>
+<polygon fill="#cccccc" stroke="#cccccc" points="680.8952,-795.8057 680.2626,-801.0653 684.037,-797.3482 680.8952,-795.8057"/>
+<text text-anchor="middle" x="732.7604" y="-678.8685" font-family="Helvetica,sans-Serif" font-size="8.00" fill="#000000">code</text>
+</g>
+<g id="edge19" class="edge schema_any schema_02 schema_27">
+<path fill="none" stroke="#cccccc" d="M860.8117,-550.4766C895.1552,-554.7214 939.5781,-560.2119 974.8628,-564.573"/>
+<polygon fill="#cccccc" stroke="#cccccc" points="974.8232,-566.3313 980.0001,-565.208 975.2526,-562.8578 974.8232,-566.3313"/>
+<text text-anchor="middle" x="909.1664" y="-559.9248" font-family="Helvetica,sans-Serif" font-size="8.00" fill="#000000">code</text>
+</g>
+<g id="edge16" class="edge schema_any schema_02 schema_28">
+<path fill="none" stroke="#cccccc" d="M805.691,-530.9305C802.4916,-484.4849 791.5165,-325.1627 787.8163,-271.4468"/>
+<polygon fill="#cccccc" stroke="#cccccc" points="789.5509,-271.1629 787.4614,-266.295 786.0592,-271.4035 789.5509,-271.1629"/>
+<text text-anchor="middle" x="788.0828" y="-403.5887" font-family="Helvetica,sans-Serif" font-size="8.00" fill="#000000">code</text>
+</g>
+<g id="edge33" class="edge schema_any schema_02 schema_29">
+<path fill="none" stroke="#cccccc" d="M811.991,-556.3833C827.8246,-593.2535 874.0663,-700.9319 892.2933,-743.3751"/>
+<polygon fill="#cccccc" stroke="#cccccc" points="890.7922,-744.3149 894.3733,-748.2186 894.0082,-742.9338 890.7922,-744.3149"/>
+<text text-anchor="middle" x="843.4713" y="-652.2792" font-family="Helvetica,sans-Serif" font-size="8.00" fill="#000000">code</text>
+</g>
+<g id="edge30" class="edge schema_any schema_02 schema_30">
+<path fill="none" stroke="#cccccc" d="M860.8136,-541.5434C913.3158,-539.3848 992.7006,-536.1211 1046.8345,-533.8954"/>
+<polygon fill="#cccccc" stroke="#cccccc" points="1047.0688,-535.6374 1051.9927,-533.6834 1046.925,-532.1403 1047.0688,-535.6374"/>
+<text text-anchor="middle" x="945.1532" y="-540.1194" font-family="Helvetica,sans-Serif" font-size="8.00" fill="#000000">code</text>
+</g>
+<g id="edge13" class="edge schema_any schema_02 schema_32">
+<path fill="none" stroke="#cccccc" d="M847.7042,-556.2798C901.9292,-572.7687 997.0776,-601.7017 1053.7926,-618.9478"/>
+<polygon fill="#cccccc" stroke="#cccccc" points="1053.5277,-620.6963 1058.8206,-620.4768 1054.546,-617.3477 1053.5277,-620.6963"/>
+<text text-anchor="middle" x="942.0776" y="-590.0138" font-family="Helvetica,sans-Serif" font-size="8.00" fill="#000000">code</text>
+</g>
+<g id="edge32" class="edge schema_any schema_02 schema_34">
+<path fill="none" stroke="#cccccc" d="M788.0575,-556.3851C742.052,-587.7171 622.643,-669.0406 572.1586,-703.4231"/>
+<polygon fill="#cccccc" stroke="#cccccc" points="570.9273,-702.1443 567.7798,-706.4052 572.8975,-705.0371 570.9273,-702.1443"/>
+<text text-anchor="middle" x="671.4372" y="-632.3041" font-family="Helvetica,sans-Serif" font-size="8.00" fill="#000000">code</text>
+</g>
+<g id="edge25" class="edge schema_any schema_02 schema_35">
+<path fill="none" stroke="#cccccc" d="M814.9869,-531.2515C839.6801,-494.4906 911.9887,-386.8444 940.0576,-345.058"/>
+<polygon fill="#cccccc" stroke="#cccccc" points="941.6098,-345.8856 942.9452,-340.7592 938.7044,-343.934 941.6098,-345.8856"/>
+<text text-anchor="middle" x="868.8514" y="-440.5548" font-family="Helvetica,sans-Serif" font-size="8.00" fill="#000000">code</text>
+</g>
+<g id="edge12" class="edge schema_any schema_02 schema_37">
+<path fill="none" stroke="#cccccc" d="M804.3095,-556.4242C797.5411,-594.2087 777.4633,-706.2931 769.6853,-749.7137"/>
+<polygon fill="#cccccc" stroke="#cccccc" points="767.9586,-749.4287 768.7995,-754.6589 771.4038,-750.0459 767.9586,-749.4287"/>
+<text text-anchor="middle" x="778.3266" y="-655.469" font-family="Helvetica,sans-Serif" font-size="8.00" fill="#000000">code</text>
+</g>
+<g id="edge10" class="edge schema_any schema_02 schema_38">
+<path fill="none" stroke="#cccccc" d="M810.7082,-556.452C826.3242,-604.3628 881.7676,-774.4661 899.9009,-830.1001"/>
+<polygon fill="#cccccc" stroke="#cccccc" points="898.3233,-830.9073 901.5367,-835.1188 901.651,-829.8226 898.3233,-830.9073"/>
+<text text-anchor="middle" x="846.6338" y="-695.6761" font-family="Helvetica,sans-Serif" font-size="8.00" fill="#000000">code</text>
+</g>
+<g id="edge29" class="edge schema_any schema_02 schema_41">
+<path fill="none" stroke="#cccccc" d="M817.0274,-531.2189C851.8586,-489.3804 964.0043,-354.6734 1003.4534,-307.288"/>
+<polygon fill="#cccccc" stroke="#cccccc" points="1004.9683,-308.2035 1006.8225,-303.2411 1002.2785,-305.9641 1004.9683,-308.2035"/>
+<text text-anchor="middle" x="901.5696" y="-421.6535" font-family="Helvetica,sans-Serif" font-size="8.00" fill="#000000">code</text>
+</g>
+<g id="edge31" class="edge schema_any schema_02 schema_43">
+<path fill="none" stroke="#cccccc" d="M816.1778,-556.5617C848.2519,-599.2788 951.6853,-737.0341 987.7011,-785.001"/>
+<polygon fill="#cccccc" stroke="#cccccc" points="986.3723,-786.146 990.774,-789.0936 989.1712,-784.0444 986.3723,-786.146"/>
+<text text-anchor="middle" x="893.2686" y="-673.1813" font-family="Helvetica,sans-Serif" font-size="8.00" fill="#000000">code</text>
+</g>
+<g id="edge21" class="edge schema_any schema_02 schema_44">
+<path fill="none" stroke="#cccccc" d="M811.9085,-530.9785C831.2335,-484.6133 897.6189,-325.3391 919.791,-272.1429"/>
+<polygon fill="#cccccc" stroke="#cccccc" points="921.4872,-272.6219 921.7956,-267.3334 918.2566,-271.2753 921.4872,-272.6219"/>
+<text text-anchor="middle" x="857.1789" y="-403.9607" font-family="Helvetica,sans-Serif" font-size="8.00" fill="#000000">code</text>
+</g>
+<g id="edge22" class="edge schema_any schema_02 schema_45">
+<path fill="none" stroke="#cccccc" d="M829.8772,-556.3817C880.9455,-584.0147 1002.5527,-649.8163 1057.5915,-679.5977"/>
+<polygon fill="#cccccc" stroke="#cccccc" points="1056.8421,-681.182 1062.0725,-682.0224 1058.5078,-678.1037 1056.8421,-681.182"/>
+<text text-anchor="middle" x="935.0635" y="-620.3897" font-family="Helvetica,sans-Serif" font-size="8.00" fill="#000000">code</text>
+</g>
+<g id="edge20" class="edge schema_any schema_02 schema_46">
+<path fill="none" stroke="#cccccc" d="M823.177,-531.0722C867.6794,-497.025 989.585,-403.7595 1038.6895,-366.1915"/>
+<polygon fill="#cccccc" stroke="#cccccc" points="1040.0247,-367.3734 1042.9325,-362.9453 1037.898,-364.5936 1040.0247,-367.3734"/>
+<text text-anchor="middle" x="922.2624" y="-451.0319" font-family="Helvetica,sans-Serif" font-size="8.00" fill="#000000">code</text>
+</g>
+<g id="edge15" class="edge schema_any schema_02 schema_48">
+<path fill="none" stroke="#cccccc" d="M782.1904,-531.236C742.1197,-510.6344 662.512,-469.7054 619.5133,-447.5984"/>
+<polygon fill="#cccccc" stroke="#cccccc" points="620.2094,-445.9887 614.9625,-445.2588 618.6091,-449.1014 620.2094,-445.9887"/>
+<text text-anchor="middle" x="692.1811" y="-491.8172" font-family="Helvetica,sans-Serif" font-size="8.00" fill="#000000">code</text>
+</g>
+<g id="edge17" class="edge schema_any schema_02 schema_49">
+<path fill="none" stroke="#cccccc" d="M809.0164,-531.1562C816.9268,-490.2646 841.8742,-361.3019 851.0425,-313.9077"/>
+<polygon fill="#cccccc" stroke="#cccccc" points="852.7988,-314.0426 852.0304,-308.8012 849.3625,-313.3778 852.7988,-314.0426"/>
+<text text-anchor="middle" x="821.3587" y="-424.9319" font-family="Helvetica,sans-Serif" font-size="8.00" fill="#000000">code</text>
+</g>
+<g id="edge18" class="edge schema_any schema_02 schema_50">
+<path fill="none" stroke="#cccccc" d="M856.176,-531.2534C913.1034,-516.8841 1006.177,-493.391 1065.0916,-478.5201"/>
+<polygon fill="#cccccc" stroke="#cccccc" points="1065.5582,-480.2073 1069.9778,-477.2868 1064.7015,-476.8137 1065.5582,-480.2073"/>
+<text text-anchor="middle" x="951.963" y="-507.2868" font-family="Helvetica,sans-Serif" font-size="8.00" fill="#000000">code</text>
+</g>
+<g id="edge34" class="edge schema_any schema_03 schema_05">
+<path fill="none" stroke="#cccccc" d="M362.5983,-171.6708C377.2932,-215.7761 426.0373,-362.0769 442.98,-412.9287"/>
+<polygon fill="#cccccc" stroke="#cccccc" points="441.3696,-413.6318 444.6104,-417.8222 444.6901,-412.5254 441.3696,-413.6318"/>
+<text text-anchor="middle" x="378.7811" y="-294.6998" font-family="Helvetica,sans-Serif" font-size="8.00" fill="#000000">dose_resp_id</text>
+</g>
+<g id="edge35" class="edge schema_any schema_03 schema_06">
+<path fill="none" stroke="#cccccc" d="M378.7912,-171.4911C418.0973,-195.6402 504.0967,-248.4769 546.6403,-274.6149"/>
+<polygon fill="#cccccc" stroke="#cccccc" points="545.937,-276.2368 551.1133,-277.3631 547.7692,-273.2546 545.937,-276.2368"/>
+<text text-anchor="middle" x="448.7101" y="-225.453" font-family="Helvetica,sans-Serif" font-size="8.00" fill="#000000">dose_id</text>
+</g>
+<g id="edge38" class="edge schema_any schema_03 schema_15">
+<path fill="none" stroke="#cccccc" d="M331.8809,-171.5624C291.7908,-190.6833 215.8587,-226.8989 173.3161,-247.1895"/>
+<polygon fill="#cccccc" stroke="#cccccc" points="172.5616,-245.6104 168.802,-249.3425 174.0683,-248.7695 172.5616,-245.6104"/>
+<text text-anchor="middle" x="261.2693" y="-202.176" font-family="Helvetica,sans-Serif" font-size="8.00" fill="#000000">code</text>
+</g>
+<g id="edge36" class="edge schema_any schema_03 schema_21">
+<path fill="none" stroke="#cccccc" d="M369.3983,-146.202C392.3741,-119.7091 445.308,-58.6721 470.9098,-29.1511"/>
+<polygon fill="#cccccc" stroke="#cccccc" points="472.2339,-30.2953 474.1878,-25.3714 469.5897,-28.0022 472.2339,-30.2953"/>
+<text text-anchor="middle" x="411.4832" y="-90.0766" font-family="Helvetica,sans-Serif" font-size="8.00" fill="#000000">code</text>
+</g>
+<g id="edge37" class="edge schema_any schema_03 schema_42">
+<path fill="none" stroke="#cccccc" d="M316.3345,-171.4813C291.2864,-178.9596 259.434,-188.4695 233.5571,-196.1952"/>
+<polygon fill="#cccccc" stroke="#cccccc" points="232.7556,-194.6082 228.4652,-197.7155 233.7569,-197.9619 232.7556,-194.6082"/>
+<text text-anchor="middle" x="266.275" y="-186.2383" font-family="Helvetica,sans-Serif" font-size="8.00" fill="#000000">code</text>
+</g>
+<g id="edge40" class="edge schema_any schema_04 schema_05">
+<path fill="none" stroke="#cccccc" d="M245.5682,-408.2568C287.6945,-412.8726 346.0179,-419.2632 389.3919,-424.0157"/>
+<polygon fill="#cccccc" stroke="#cccccc" points="389.4444,-425.7818 394.6053,-424.5869 389.8257,-422.3027 389.4444,-425.7818"/>
+<text text-anchor="middle" x="293.4721" y="-418.5362" font-family="Helvetica,sans-Serif" font-size="8.00" fill="#000000">dose_resp_id</text>
+</g>
+<g id="edge39" class="edge schema_any schema_04 schema_09">
+<path fill="none" stroke="#cccccc" d="M220.1963,-414.921C250.7101,-428.2219 298.7174,-449.148 330.8037,-463.1342"/>
+<polygon fill="#cccccc" stroke="#cccccc" points="330.1355,-464.7519 335.4183,-465.1457 331.5341,-461.5435 330.1355,-464.7519"/>
+<text text-anchor="middle" x="260.3872" y="-441.4276" font-family="Helvetica,sans-Serif" font-size="8.00" fill="#000000">result_id</text>
+</g>
+<g id="edge41" class="edge schema_any schema_05 schema_02">
+<path fill="none" stroke="#cccccc" d="M488.4947,-443.0817C555.7352,-464.3673 691.6687,-507.3983 762.0672,-529.6836"/>
+<polygon fill="#cccccc" stroke="#cccccc" points="761.7257,-531.4111 767.0207,-531.2518 762.7821,-528.0743 761.7257,-531.4111"/>
+<text text-anchor="middle" x="637.0625" y="-479.1827" font-family="Helvetica,sans-Serif" font-size="8.00" fill="#000000">test_id</text>
+</g>
+<g id="edge47" class="edge schema_any schema_05 schema_19">
+<path fill="none" stroke="#cccccc" d="M457.5519,-443.3491C468.9754,-460.1666 489.0585,-489.7327 501.7754,-508.4543"/>
+<polygon fill="#cccccc" stroke="#cccccc" points="500.5829,-509.8133 504.84,-512.966 503.4781,-507.8466 500.5829,-509.8133"/>
+<text text-anchor="middle" x="470.9928" y="-478.3017" font-family="Helvetica,sans-Serif" font-size="8.00" fill="#000000">code</text>
+</g>
+<g id="edge46" class="edge schema_any schema_05 schema_22">
+<path fill="none" stroke="#cccccc" d="M482.2583,-443.115C509.3387,-453.3147 547.5109,-467.6919 575.7924,-478.3438"/>
+<polygon fill="#cccccc" stroke="#cccccc" points="575.3014,-480.0289 580.5974,-480.1536 576.5351,-476.7535 575.3014,-480.0289"/>
+<text text-anchor="middle" x="520.3545" y="-463.1294" font-family="Helvetica,sans-Serif" font-size="8.00" fill="#000000">code</text>
+</g>
+<g id="edge43" class="edge schema_any schema_05 schema_23">
+<path fill="none" stroke="#cccccc" d="M445.6403,-417.7803C437.9915,-387.3439 418.6465,-310.3649 409.8055,-275.1844"/>
+<polygon fill="#cccccc" stroke="#cccccc" points="411.3961,-274.3332 408.4802,-269.9105 408.0016,-275.1863 411.3961,-274.3332"/>
+<text text-anchor="middle" x="419.0521" y="-348.8824" font-family="Helvetica,sans-Serif" font-size="8.00" fill="#000000">code</text>
+</g>
+<g id="edge44" class="edge schema_any schema_05 schema_33">
+<path fill="none" stroke="#cccccc" d="M423.7781,-417.8646C383.1096,-397.3157 302.9524,-356.8142 259.6843,-334.9518"/>
+<polygon fill="#cccccc" stroke="#cccccc" points="260.3572,-333.3311 255.1053,-332.6381 258.7787,-336.455 260.3572,-333.3311"/>
+<text text-anchor="middle" x="333.0604" y="-378.8082" font-family="Helvetica,sans-Serif" font-size="8.00" fill="#000000">code</text>
+</g>
+<g id="edge45" class="edge schema_any schema_05 schema_39">
+<path fill="none" stroke="#cccccc" d="M436.5416,-443.0485C404.4237,-475.7299 318.0389,-563.6305 281.9096,-600.3938"/>
+<polygon fill="#cccccc" stroke="#cccccc" points="280.422,-599.4108 278.1654,-604.2036 282.9183,-601.8641 280.422,-599.4108"/>
+<text text-anchor="middle" x="350.5548" y="-524.1211" font-family="Helvetica,sans-Serif" font-size="8.00" fill="#000000">code</text>
+</g>
+<g id="edge42" class="edge schema_any schema_05 schema_40">
+<path fill="none" stroke="#cccccc" d="M408.5628,-443.036C363.9426,-456.889 292.1525,-479.1773 245.4881,-493.665"/>
+<polygon fill="#cccccc" stroke="#cccccc" points="244.746,-492.0629 240.4898,-495.2168 245.7839,-495.4055 244.746,-492.0629"/>
+<text text-anchor="middle" x="318.3547" y="-461.1505" font-family="Helvetica,sans-Serif" font-size="8.00" fill="#000000">code</text>
+</g>
+<g id="edge48" class="edge schema_any schema_06 schema_02">
+<path fill="none" stroke="#cccccc" d="M583.1455,-302.4713C622.0752,-344.5148 747.5906,-480.07 791.354,-527.3339"/>
+<polygon fill="#cccccc" stroke="#cccccc" points="790.1661,-528.6269 794.8473,-531.1067 792.7343,-526.2489 790.1661,-528.6269"/>
+<text text-anchor="middle" x="675.4681" y="-417.3026" font-family="Helvetica,sans-Serif" font-size="8.00" fill="#000000">test_id</text>
+</g>
+<g id="edge51" class="edge schema_any schema_06 schema_18">
+<path fill="none" stroke="#cccccc" d="M517.8345,-277.3129C475.4101,-267.3753 416.2629,-253.5205 372.6143,-243.2961"/>
+<polygon fill="#cccccc" stroke="#cccccc" points="372.9059,-241.5671 367.6386,-242.1306 372.1076,-244.9749 372.9059,-241.5671"/>
+<text text-anchor="middle" x="453.8952" y="-262.7045" font-family="Helvetica,sans-Serif" font-size="8.00" fill="#000000">code</text>
+</g>
+<g id="edge49" class="edge schema_any schema_06 schema_19">
+<path fill="none" stroke="#cccccc" d="M568.365,-302.553C558.655,-341.9598 528.9714,-462.4266 517.7594,-507.9291"/>
+<polygon fill="#cccccc" stroke="#cccccc" points="516.0447,-507.5736 516.5476,-512.8471 519.4431,-508.411 516.0447,-507.5736"/>
+<text text-anchor="middle" x="534.3914" y="-407.641" font-family="Helvetica,sans-Serif" font-size="8.00" fill="#000000">code</text>
+</g>
+<g id="edge50" class="edge schema_any schema_06 schema_20">
+<path fill="none" stroke="#cccccc" d="M625.6117,-296.7547C635.3215,-297.9879 645.4877,-299.2791 655.3347,-300.5297"/>
+<polygon fill="#cccccc" stroke="#cccccc" points="655.2702,-302.2855 660.4508,-301.1795 655.7112,-298.8134 655.2702,-302.2855"/>
+<text text-anchor="middle" x="649.144" y="-301.0422" font-family="Helvetica,sans-Serif" font-size="8.00" fill="#000000">code</text>
+</g>
+<g id="edge52" class="edge schema_any schema_06 schema_21">
+<path fill="none" stroke="#cccccc" d="M567.56,-277.2443C553.678,-232.5797 506.8948,-82.057 490.794,-30.2534"/>
+<polygon fill="#cccccc" stroke="#cccccc" points="492.4014,-29.5289 489.2462,-25.2736 489.0591,-30.5678 492.4014,-29.5289"/>
+<text text-anchor="middle" x="520.5062" y="-156.1488" font-family="Helvetica,sans-Serif" font-size="8.00" fill="#000000">code</text>
+</g>
+<g id="edge53" class="edge schema_any schema_07 schema_09">
+<path fill="none" stroke="#cccccc" d="M270.9827,-778.8944C286.1765,-729.78 341.1297,-552.1418 358.7139,-495.3005"/>
+<polygon fill="#cccccc" stroke="#cccccc" points="360.4904,-495.479 360.2963,-490.1852 357.1467,-494.4446 360.4904,-495.479"/>
+<text text-anchor="middle" x="299.7355" y="-639.4974" font-family="Helvetica,sans-Serif" font-size="8.00" fill="#000000">result_id</text>
+</g>
+<g id="edge54" class="edge schema_any schema_07 schema_34">
+<path fill="none" stroke="#cccccc" d="M315.8591,-779.0517C365.9544,-766.1827 443.6975,-746.2112 495.4773,-732.9094"/>
+<polygon fill="#cccccc" stroke="#cccccc" points="495.9981,-734.5825 500.4054,-731.6434 495.1272,-731.1925 495.9981,-734.5825"/>
+<text text-anchor="middle" x="396.9974" y="-758.3805" font-family="Helvetica,sans-Serif" font-size="8.00" fill="#000000">code</text>
+</g>
+<g id="edge55" class="edge schema_any schema_07 schema_36">
+<path fill="none" stroke="#cccccc" d="M256.726,-804.1909C228.1134,-839.0977 147.8213,-937.0525 115.5795,-976.3871"/>
+<polygon fill="#cccccc" stroke="#cccccc" points="114.0675,-975.4711 112.2513,-980.4474 116.7744,-977.6899 114.0675,-975.4711"/>
+<text text-anchor="middle" x="177.4819" y="-892.689" font-family="Helvetica,sans-Serif" font-size="8.00" fill="#000000">code</text>
+</g>
+<g id="edge56" class="edge schema_any schema_09 schema_02">
+<path fill="none" stroke="#cccccc" d="M418.414,-485.7814C501.7791,-498.2362 660.7804,-521.9912 747.1563,-534.8959"/>
+<polygon fill="#cccccc" stroke="#cccccc" points="747.0269,-536.6459 752.2306,-535.654 747.5441,-533.1843 747.0269,-536.6459"/>
+<text text-anchor="middle" x="594.5668" y="-512.7386" font-family="Helvetica,sans-Serif" font-size="8.00" fill="#000000">test_id</text>
+</g>
+<g id="edge68" class="edge schema_any schema_09 schema_15">
+<path fill="none" stroke="#cccccc" d="M351.2871,-465.1435C313.2485,-428.126 201.4152,-319.2946 159.0094,-278.0271"/>
+<polygon fill="#cccccc" stroke="#cccccc" points="160.1673,-276.712 155.3635,-274.479 157.7263,-279.2204 160.1673,-276.712"/>
+<text text-anchor="middle" x="246.4775" y="-373.9853" font-family="Helvetica,sans-Serif" font-size="8.00" fill="#000000">code</text>
+</g>
+<g id="edge64" class="edge schema_any schema_09 schema_18">
+<path fill="none" stroke="#cccccc" d="M361.612,-465.0323C353.3348,-424.0525 327.2305,-294.8117 317.6371,-247.3153"/>
+<polygon fill="#cccccc" stroke="#cccccc" points="319.3088,-246.7523 316.6034,-242.1977 315.8781,-247.4453 319.3088,-246.7523"/>
+<text text-anchor="middle" x="330.9537" y="-358.5738" font-family="Helvetica,sans-Serif" font-size="8.00" fill="#000000">code</text>
+</g>
+<g id="edge66" class="edge schema_any schema_09 schema_19">
+<path fill="none" stroke="#cccccc" d="M403.3779,-490.2632C423.6863,-496.7819 448.5497,-504.7628 469.5005,-511.4877"/>
+<polygon fill="#cccccc" stroke="#cccccc" points="469.1638,-513.2176 474.4595,-513.0795 470.2336,-509.885 469.1638,-513.2176"/>
+<text text-anchor="middle" x="427.7684" y="-503.2755" font-family="Helvetica,sans-Serif" font-size="8.00" fill="#000000">code</text>
+</g>
+<g id="edge58" class="edge schema_any schema_09 schema_22">
+<path fill="none" stroke="#cccccc" d="M418.3678,-480.9408C458.5484,-483.3606 513.2843,-486.6569 554.6354,-489.1472"/>
+<polygon fill="#cccccc" stroke="#cccccc" points="554.7693,-490.9083 559.8655,-489.4621 554.9797,-487.4147 554.7693,-490.9083"/>
+<text text-anchor="middle" x="477.8308" y="-487.444" font-family="Helvetica,sans-Serif" font-size="8.00" fill="#000000">code</text>
+</g>
+<g id="edge61" class="edge schema_any schema_09 schema_23">
+<path fill="none" stroke="#cccccc" d="M366.5536,-464.8665C373.5371,-427.3993 393.9366,-317.9543 401.9678,-274.8665"/>
+<polygon fill="#cccccc" stroke="#cccccc" points="403.7325,-274.9489 402.9284,-269.7129 400.2918,-274.3075 403.7325,-274.9489"/>
+<text text-anchor="middle" x="375.5899" y="-372.2665" font-family="Helvetica,sans-Serif" font-size="8.00" fill="#000000">code</text>
+</g>
+<g id="edge69" class="edge schema_any schema_09 schema_24">
+<path fill="none" stroke="#cccccc" d="M330.8153,-490.279C277.0088,-510.6112 171.336,-550.5424 114.4032,-572.056"/>
+<polygon fill="#cccccc" stroke="#cccccc" points="113.4429,-570.548 109.3843,-573.9525 114.6801,-573.8221 113.4429,-570.548"/>
+<text text-anchor="middle" x="213.9384" y="-533.5675" font-family="Helvetica,sans-Serif" font-size="8.00" fill="#000000">code</text>
+</g>
+<g id="edge59" class="edge schema_any schema_09 schema_25">
+<path fill="none" stroke="#cccccc" d="M310.15,-481.1533C255.1528,-484.6932 170.1168,-490.1665 113.3045,-493.8233"/>
+<polygon fill="#cccccc" stroke="#cccccc" points="113.1165,-492.0816 108.2392,-494.1493 113.3413,-495.5744 113.1165,-492.0816"/>
+<text text-anchor="middle" x="203.0565" y="-480.2883" font-family="Helvetica,sans-Serif" font-size="8.00" fill="#000000">code</text>
+</g>
+<g id="edge65" class="edge schema_any schema_09 schema_31">
+<path fill="none" stroke="#cccccc" d="M348.6192,-490.204C306.9438,-523.7857 192.7824,-615.776 146.7973,-652.8303"/>
+<polygon fill="#cccccc" stroke="#cccccc" points="145.6192,-651.5322 142.8239,-656.0321 147.8152,-654.2575 145.6192,-651.5322"/>
+<text text-anchor="middle" x="239.0375" y="-573.9172" font-family="Helvetica,sans-Serif" font-size="8.00" fill="#000000">code</text>
+</g>
+<g id="edge62" class="edge schema_any schema_09 schema_33">
+<path fill="none" stroke="#cccccc" d="M353.4399,-465.0495C329.4573,-436.816 271.4918,-368.5763 244.5446,-336.8529"/>
+<polygon fill="#cccccc" stroke="#cccccc" points="245.6793,-335.4855 241.1085,-332.8077 243.0117,-337.7514 245.6793,-335.4855"/>
+<text text-anchor="middle" x="290.3215" y="-403.3512" font-family="Helvetica,sans-Serif" font-size="8.00" fill="#000000">code</text>
+</g>
+<g id="edge63" class="edge schema_any schema_09 schema_39">
+<path fill="none" stroke="#cccccc" d="M355.0767,-490.5261C337.2666,-515.7042 297.7741,-571.5348 277.778,-599.8033"/>
+<polygon fill="#cccccc" stroke="#cccccc" points="276.2012,-599.002 274.7424,-604.0947 279.0586,-601.0233 276.2012,-599.002"/>
+<text text-anchor="middle" x="307.7565" y="-547.5647" font-family="Helvetica,sans-Serif" font-size="8.00" fill="#000000">code</text>
+</g>
+<g id="edge57" class="edge schema_any schema_09 schema_40">
+<path fill="none" stroke="#cccccc" d="M309.9082,-487.6346C293.643,-490.6197 275.7223,-493.9087 259.1499,-496.9503"/>
+<polygon fill="#cccccc" stroke="#cccccc" points="258.6553,-495.2618 254.0534,-497.8857 259.2872,-498.7043 258.6553,-495.2618"/>
+<text text-anchor="middle" x="275.8583" y="-494.6924" font-family="Helvetica,sans-Serif" font-size="8.00" fill="#000000">code</text>
+</g>
+<g id="edge67" class="edge schema_any schema_09 schema_42">
+<path fill="none" stroke="#cccccc" d="M355.8388,-465.1354C326.8836,-421.5267 230.5657,-276.4647 197.6898,-226.9511"/>
+<polygon fill="#cccccc" stroke="#cccccc" points="199.1137,-225.9319 194.89,-222.7345 196.1979,-227.868 199.1137,-225.9319"/>
+<text text-anchor="middle" x="268.0935" y="-348.4433" font-family="Helvetica,sans-Serif" font-size="8.00" fill="#000000">code</text>
+</g>
+<g id="edge60" class="edge schema_any schema_09 schema_47">
+<path fill="none" stroke="#cccccc" d="M314.0782,-465.1764C259.051,-451.4434 170.9349,-429.4526 113.9586,-415.2332"/>
+<polygon fill="#cccccc" stroke="#cccccc" points="114.1616,-413.4803 108.8866,-413.9674 113.314,-416.8761 114.1616,-413.4803"/>
+<text text-anchor="middle" x="205.3476" y="-442.6048" font-family="Helvetica,sans-Serif" font-size="8.00" fill="#000000">code</text>
+</g>
+<g id="edge70" class="edge schema_any schema_09 schema_48">
+<path fill="none" stroke="#cccccc" d="M418.3389,-466.8789C452.3432,-460.1011 496.2074,-451.3582 531.1272,-444.398"/>
+<polygon fill="#cccccc" stroke="#cccccc" points="531.6507,-446.0781 536.2121,-443.3844 530.9665,-442.6456 531.6507,-446.0781"/>
+<text text-anchor="middle" x="466.0622" y="-458.0384" font-family="Helvetica,sans-Serif" font-size="8.00" fill="#000000">code</text>
+</g>
+<g id="edge71" class="edge schema_any schema_11 schema_10">
+<path fill="none" stroke="#cccccc" d="M1389.6643,-613.4717C1346.4459,-608.3016 1285.9966,-601.0703 1241.5165,-595.7493"/>
+<polygon fill="#cccccc" stroke="#cccccc" points="1241.6194,-593.9992 1236.4469,-595.1428 1241.2036,-597.4744 1241.6194,-593.9992"/>
+<text text-anchor="middle" x="1286.2508" y="-607.0105" font-family="Helvetica,sans-Serif" font-size="8.00" fill="#000000">species_number</text>
+</g>
+<g id="node1" class="node schema_any schema_01 eco_Data zoomTarget">
+<g id="a_node1"><a xlink:href="#ec_chemical_carriers" xlink:title="chemical_carriers">
+<polygon fill="#ffffe0" stroke="#b3b3b3" points="912.6403,-822.7284 804.6403,-822.7284 804.6403,-797.7284 912.6403,-797.7284 912.6403,-822.7284"/>
+<text text-anchor="middle" x="858.6403" y="-807.2284" font-family="Helvetica,sans-Serif" font-size="10.00" fill="#000000">chemical_carriers</text>
+</a>
+</g>
+</g>
+<g id="node2" class="node schema_any schema_02 eco_Data zoomTarget">
+<g id="a_node2"><a xlink:href="#ec_tests" xlink:title="tests">
+<polygon fill="#ffffe0" stroke="#b3b3b3" points="860.5757,-556.2733 752.5757,-556.2733 752.5757,-531.2733 860.5757,-531.2733 860.5757,-556.2733"/>
+<text text-anchor="middle" x="806.5757" y="-540.7733" font-family="Helvetica,sans-Serif" font-size="10.00" fill="#000000">tests</text>
+</a>
+</g>
+</g>
+<g id="node3" class="node schema_any schema_03 eco_Data zoomTarget">
+<g id="a_node3"><a xlink:href="#ec_dose_response_details" xlink:title="dose_response_&#10;details">
+<polygon fill="#ffffe0" stroke="#b3b3b3" points="412.3552,-171.4356 304.3552,-171.4356 304.3552,-146.4356 412.3552,-146.4356 412.3552,-171.4356"/>
+<text text-anchor="middle" x="358.3552" y="-161.9356" font-family="Helvetica,sans-Serif" font-size="10.00" fill="#000000">dose_response_</text>
+<text text-anchor="middle" x="358.3552" y="-149.9356" font-family="Helvetica,sans-Serif" font-size="10.00" fill="#000000">details</text>
+</a>
+</g>
+</g>
+<g id="node4" class="node schema_any schema_04 eco_Data zoomTarget">
+<g id="a_node4"><a xlink:href="#ec_dose_response_links" xlink:title="dose_response_&#10;links">
+<polygon fill="#ffffe0" stroke="#b3b3b3" points="245.2548,-414.8056 137.2548,-414.8056 137.2548,-389.8056 245.2548,-389.8056 245.2548,-414.8056"/>
+<text text-anchor="middle" x="191.2548" y="-405.3056" font-family="Helvetica,sans-Serif" font-size="10.00" fill="#000000">dose_response_</text>
+<text text-anchor="middle" x="191.2548" y="-393.3056" font-family="Helvetica,sans-Serif" font-size="10.00" fill="#000000">links</text>
+</a>
+</g>
+</g>
+<g id="node5" class="node schema_any schema_05 eco_Data zoomTarget">
+<g id="a_node5"><a xlink:href="#ec_dose_responses" xlink:title="dose_responses">
+<polygon fill="#ffffe0" stroke="#b3b3b3" points="502.8443,-443.03 394.8443,-443.03 394.8443,-418.03 502.8443,-418.03 502.8443,-443.03"/>
+<text text-anchor="middle" x="448.8443" y="-427.53" font-family="Helvetica,sans-Serif" font-size="10.00" fill="#000000">dose_responses</text>
+</a>
+</g>
+</g>
+<g id="node6" class="node schema_any schema_06 eco_Data zoomTarget">
+<g id="a_node6"><a xlink:href="#ec_doses" xlink:title="doses">
+<polygon fill="#ffffe0" stroke="#b3b3b3" points="625.4875,-302.3807 517.4875,-302.3807 517.4875,-277.3807 625.4875,-277.3807 625.4875,-302.3807"/>
+<text text-anchor="middle" x="571.4875" y="-286.8807" font-family="Helvetica,sans-Serif" font-size="10.00" fill="#000000">doses</text>
+</a>
+</g>
+</g>
+<g id="node7" class="node schema_any schema_07 eco_Data zoomTarget">
+<g id="a_node7"><a xlink:href="#ec_media_characteristics" xlink:title="media_characteristics">
+<polygon fill="#ffffe0" stroke="#b3b3b3" points="321.0556,-804.0889 213.0556,-804.0889 213.0556,-779.0889 321.0556,-779.0889 321.0556,-804.0889"/>
+<text text-anchor="middle" x="267.0556" y="-788.5889" font-family="Helvetica,sans-Serif" font-size="10.00" fill="#000000">media_characteristics</text>
+</a>
+</g>
+</g>
+<g id="node8" class="node schema_any schema_08 eco_Data zoomTarget">
+<g id="a_node8"><a xlink:href="#ec_references" xlink:title="references">
+<polygon fill="#ffffe0" stroke="#b3b3b3" points="1142.1913,-427.1929 1034.1913,-427.1929 1034.1913,-402.1929 1142.1913,-402.1929 1142.1913,-427.1929"/>
+<text text-anchor="middle" x="1088.1913" y="-411.6929" font-family="Helvetica,sans-Serif" font-size="10.00" fill="#000000">references</text>
+</a>
+</g>
+</g>
+<g id="node9" class="node schema_any schema_09 eco_Data zoomTarget">
+<g id="a_node9"><a xlink:href="#ec_results" xlink:title="results">
+<polygon fill="#ffffe0" stroke="#b3b3b3" points="418.1659,-490.1766 310.1659,-490.1766 310.1659,-465.1766 418.1659,-465.1766 418.1659,-490.1766"/>
+<text text-anchor="middle" x="364.1659" y="-474.6766" font-family="Helvetica,sans-Serif" font-size="10.00" fill="#000000">results</text>
+</a>
+</g>
+</g>
+<g id="node10" class="node schema_any schema_10 eco_Data zoomTarget">
+<g id="a_node10"><a xlink:href="#ec_species" xlink:title="species">
+<polygon fill="#ffffe0" stroke="#b3b3b3" points="1236.3284,-601.1688 1128.3284,-601.1688 1128.3284,-576.1688 1236.3284,-576.1688 1236.3284,-601.1688"/>
+<text text-anchor="middle" x="1182.3284" y="-585.6688" font-family="Helvetica,sans-Serif" font-size="10.00" fill="#000000">species</text>
+</a>
+</g>
+</g>
+<g id="node11" class="node schema_any schema_11 eco_Data zoomTarget">
+<g id="a_node11"><a xlink:href="#ec_species_synonyms" xlink:title="species_synonyms">
+<polygon fill="#ffffe0" stroke="#b3b3b3" points="1497.8521,-632.4539 1389.8521,-632.4539 1389.8521,-607.4539 1497.8521,-607.4539 1497.8521,-632.4539"/>
+<text text-anchor="middle" x="1443.8521" y="-616.9539" font-family="Helvetica,sans-Serif" font-size="10.00" fill="#000000">species_synonyms</text>
+</a>
+</g>
+</g>
+<g id="node12" class="node schema_any schema_12 eco_Data zoomTarget">
+<g id="a_node12"><a xlink:href="#ec_chemicals" xlink:title="chemicals">
+<polygon fill="#ffffe0" stroke="#b3b3b3" points="1093.8589,-762.4409 985.8589,-762.4409 985.8589,-737.4409 1093.8589,-737.4409 1093.8589,-762.4409"/>
+<text text-anchor="middle" x="1039.8589" y="-746.9409" font-family="Helvetica,sans-Serif" font-size="10.00" fill="#000000">chemicals</text>
+</a>
+</g>
+</g>
+<g id="node13" class="node schema_any schema_13 eco_Lookup zoomTarget">
+<g id="a_node13"><a xlink:href="#ec_application_frequency_codes" xlink:title="application_frequency_&#10;codes">
+<polygon fill="#add8e6" stroke="#b3b3b3" points="719.0238,-742.4241 611.0238,-742.4241 611.0238,-717.4241 719.0238,-717.4241 719.0238,-742.4241"/>
+<text text-anchor="middle" x="665.0238" y="-732.9241" font-family="Helvetica,sans-Serif" font-size="10.00" fill="#000000">application_frequency_</text>
+<text text-anchor="middle" x="665.0238" y="-720.9241" font-family="Helvetica,sans-Serif" font-size="10.00" fill="#000000">codes</text>
+</a>
+</g>
+</g>
+<g id="node14" class="node schema_any schema_14 eco_Lookup zoomTarget">
+<g id="a_node14"><a xlink:href="#ec_application_type_codes" xlink:title="application_type_&#10;codes">
+<polygon fill="#add8e6" stroke="#b3b3b3" points="1015.3687,-429.442 907.3687,-429.442 907.3687,-404.442 1015.3687,-404.442 1015.3687,-429.442"/>
+<text text-anchor="middle" x="961.3687" y="-419.942" font-family="Helvetica,sans-Serif" font-size="10.00" fill="#000000">application_type_</text>
+<text text-anchor="middle" x="961.3687" y="-407.942" font-family="Helvetica,sans-Serif" font-size="10.00" fill="#000000">codes</text>
+</a>
+</g>
+</g>
+<g id="node15" class="node schema_any schema_15 eco_Lookup zoomTarget">
+<g id="a_node15"><a xlink:href="#ec_chemical_analysis_codes" xlink:title="chemical_analysis_&#10;codes">
+<polygon fill="#add8e6" stroke="#b3b3b3" points="196.4492,-274.4114 88.4492,-274.4114 88.4492,-249.4114 196.4492,-249.4114 196.4492,-274.4114"/>
+<text text-anchor="middle" x="142.4492" y="-264.9114" font-family="Helvetica,sans-Serif" font-size="10.00" fill="#000000">chemical_analysis_</text>
+<text text-anchor="middle" x="142.4492" y="-252.9114" font-family="Helvetica,sans-Serif" font-size="10.00" fill="#000000">codes</text>
+</a>
+</g>
+</g>
+<g id="node16" class="node schema_any schema_16 eco_Lookup zoomTarget">
+<g id="a_node16"><a xlink:href="#ec_chemical_formulation_codes" xlink:title="chemical_formulation_&#10;codes">
+<polygon fill="#add8e6" stroke="#b3b3b3" points="844.4372,-861.1587 736.4372,-861.1587 736.4372,-836.1587 844.4372,-836.1587 844.4372,-861.1587"/>
+<text text-anchor="middle" x="790.4372" y="-851.6587" font-family="Helvetica,sans-Serif" font-size="10.00" fill="#000000">chemical_formulation_</text>
+<text text-anchor="middle" x="790.4372" y="-839.6587" font-family="Helvetica,sans-Serif" font-size="10.00" fill="#000000">codes</text>
+</a>
+</g>
+</g>
+<g id="node17" class="node schema_any schema_17 eco_Lookup zoomTarget">
+<g id="a_node17"><a xlink:href="#ec_chemical_grade_codes" xlink:title="chemical_grade_&#10;codes">
+<polygon fill="#add8e6" stroke="#b3b3b3" points="1001.454,-709.3299 893.454,-709.3299 893.454,-684.3299 1001.454,-684.3299 1001.454,-709.3299"/>
+<text text-anchor="middle" x="947.454" y="-699.8299" font-family="Helvetica,sans-Serif" font-size="10.00" fill="#000000">chemical_grade_</text>
+<text text-anchor="middle" x="947.454" y="-687.8299" font-family="Helvetica,sans-Serif" font-size="10.00" fill="#000000">codes</text>
+</a>
+</g>
+</g>
+<g id="node18" class="node schema_any schema_18 eco_Lookup zoomTarget">
+<g id="a_node18"><a xlink:href="#ec_concentration_type_codes" xlink:title="concentration_type_&#10;codes">
+<polygon fill="#add8e6" stroke="#b3b3b3" points="368.0546,-242.0789 260.0546,-242.0789 260.0546,-217.0789 368.0546,-217.0789 368.0546,-242.0789"/>
+<text text-anchor="middle" x="314.0546" y="-232.5789" font-family="Helvetica,sans-Serif" font-size="10.00" fill="#000000">concentration_type_</text>
+<text text-anchor="middle" x="314.0546" y="-220.5789" font-family="Helvetica,sans-Serif" font-size="10.00" fill="#000000">codes</text>
+</a>
+</g>
+</g>
+<g id="node19" class="node schema_any schema_19 eco_Lookup zoomTarget">
+<g id="a_node19"><a xlink:href="#ec_concentration_unit_codes" xlink:title="concentration_unit_&#10;codes">
+<polygon fill="#add8e6" stroke="#b3b3b3" points="567.4096,-538.082 459.4096,-538.082 459.4096,-513.082 567.4096,-513.082 567.4096,-538.082"/>
+<text text-anchor="middle" x="513.4096" y="-528.582" font-family="Helvetica,sans-Serif" font-size="10.00" fill="#000000">concentration_unit_</text>
+<text text-anchor="middle" x="513.4096" y="-516.582" font-family="Helvetica,sans-Serif" font-size="10.00" fill="#000000">codes</text>
+</a>
+</g>
+</g>
+<g id="node20" class="node schema_any schema_20 eco_Lookup zoomTarget">
+<g id="a_node20"><a xlink:href="#ec_control_type_codes" xlink:title="control_type_&#10;codes">
+<polygon fill="#add8e6" stroke="#b3b3b3" points="768.6516,-320.5633 660.6516,-320.5633 660.6516,-295.5633 768.6516,-295.5633 768.6516,-320.5633"/>
+<text text-anchor="middle" x="714.6516" y="-311.0633" font-family="Helvetica,sans-Serif" font-size="10.00" fill="#000000">control_type_</text>
+<text text-anchor="middle" x="714.6516" y="-299.0633" font-family="Helvetica,sans-Serif" font-size="10.00" fill="#000000">codes</text>
+</a>
+</g>
+</g>
+<g id="node21" class="node schema_any schema_21 eco_Lookup zoomTarget">
+<g id="a_node21"><a xlink:href="#ec_dose_stat_method_codes" xlink:title="dose_stat_&#10;method_codes">
+<polygon fill="#add8e6" stroke="#b3b3b3" points="539.2957,-25.063 431.2957,-25.063 431.2957,-.063 539.2957,-.063 539.2957,-25.063"/>
+<text text-anchor="middle" x="485.2957" y="-15.563" font-family="Helvetica,sans-Serif" font-size="10.00" fill="#000000">dose_stat_</text>
+<text text-anchor="middle" x="485.2957" y="-3.563" font-family="Helvetica,sans-Serif" font-size="10.00" fill="#000000">method_codes</text>
+</a>
+</g>
+</g>
+<g id="node22" class="node schema_any schema_22 eco_Lookup zoomTarget">
+<g id="a_node22"><a xlink:href="#ec_duration_unit_codes" xlink:title="duration_unit_&#10;codes">
+<polygon fill="#add8e6" stroke="#b3b3b3" points="667.9616,-505.22 559.9616,-505.22 559.9616,-480.22 667.9616,-480.22 667.9616,-505.22"/>
+<text text-anchor="middle" x="613.9616" y="-495.72" font-family="Helvetica,sans-Serif" font-size="10.00" fill="#000000">duration_unit_</text>
+<text text-anchor="middle" x="613.9616" y="-483.72" font-family="Helvetica,sans-Serif" font-size="10.00" fill="#000000">codes</text>
+</a>
+</g>
+</g>
+<g id="node23" class="node schema_any schema_23 eco_Lookup zoomTarget">
+<g id="a_node23"><a xlink:href="#ec_effect_codes" xlink:title="effect_codes">
+<polygon fill="#add8e6" stroke="#b3b3b3" points="459.2715,-269.6422 351.2715,-269.6422 351.2715,-244.6422 459.2715,-244.6422 459.2715,-269.6422"/>
+<text text-anchor="middle" x="405.2715" y="-254.1422" font-family="Helvetica,sans-Serif" font-size="10.00" fill="#000000">effect_codes</text>
+</a>
+</g>
+</g>
+<g id="node24" class="node schema_any schema_24 eco_Lookup zoomTarget">
+<g id="a_node24"><a xlink:href="#ec_endpoint_assigned_codes" xlink:title="endpoint_assigned_&#10;codes">
+<polygon fill="#add8e6" stroke="#b3b3b3" points="129.8892,-599.1095 21.8892,-599.1095 21.8892,-574.1095 129.8892,-574.1095 129.8892,-599.1095"/>
+<text text-anchor="middle" x="75.8892" y="-589.6095" font-family="Helvetica,sans-Serif" font-size="10.00" fill="#000000">endpoint_assigned_</text>
+<text text-anchor="middle" x="75.8892" y="-577.6095" font-family="Helvetica,sans-Serif" font-size="10.00" fill="#000000">codes</text>
+</a>
+</g>
+</g>
+<g id="node25" class="node schema_any schema_25 eco_Lookup zoomTarget">
+<g id="a_node25"><a xlink:href="#ec_endpoint_codes" xlink:title="endpoint_codes">
+<polygon fill="#add8e6" stroke="#b3b3b3" points="108.0627,-510.1363 .0627,-510.1363 .0627,-485.1363 108.0627,-485.1363 108.0627,-510.1363"/>
+<text text-anchor="middle" x="54.0627" y="-494.6363" font-family="Helvetica,sans-Serif" font-size="10.00" fill="#000000">endpoint_codes</text>
+</a>
+</g>
+</g>
+<g id="node26" class="node schema_any schema_26 eco_Lookup zoomTarget">
+<g id="a_node26"><a xlink:href="#ec_exposure_type_codes" xlink:title="exposure_type_&#10;codes">
+<polygon fill="#add8e6" stroke="#b3b3b3" points="728.0624,-826.1947 620.0624,-826.1947 620.0624,-801.1947 728.0624,-801.1947 728.0624,-826.1947"/>
+<text text-anchor="middle" x="674.0624" y="-816.6947" font-family="Helvetica,sans-Serif" font-size="10.00" fill="#000000">exposure_type_</text>
+<text text-anchor="middle" x="674.0624" y="-804.6947" font-family="Helvetica,sans-Serif" font-size="10.00" fill="#000000">codes</text>
+</a>
+</g>
+</g>
+<g id="node27" class="node schema_any schema_27 eco_Lookup zoomTarget">
+<g id="a_node27"><a xlink:href="#ec_field_study_type_codes" xlink:title="field_study_&#10;type_codes">
+<polygon fill="#add8e6" stroke="#b3b3b3" points="1088.2147,-584.4087 980.2147,-584.4087 980.2147,-559.4087 1088.2147,-559.4087 1088.2147,-584.4087"/>
+<text text-anchor="middle" x="1034.2147" y="-574.9087" font-family="Helvetica,sans-Serif" font-size="10.00" fill="#000000">field_study_</text>
+<text text-anchor="middle" x="1034.2147" y="-562.9087" font-family="Helvetica,sans-Serif" font-size="10.00" fill="#000000">type_codes</text>
+</a>
+</g>
+</g>
+<g id="node28" class="node schema_any schema_28 eco_Lookup zoomTarget">
+<g id="a_node28"><a xlink:href="#ec_gender_codes" xlink:title="gender_codes">
+<polygon fill="#add8e6" stroke="#b3b3b3" points="840.5869,-266.1005 732.5869,-266.1005 732.5869,-241.1005 840.5869,-241.1005 840.5869,-266.1005"/>
+<text text-anchor="middle" x="786.5869" y="-250.6005" font-family="Helvetica,sans-Serif" font-size="10.00" fill="#000000">gender_codes</text>
+</a>
+</g>
+</g>
+<g id="node29" class="node schema_any schema_29 eco_Lookup zoomTarget">
+<g id="a_node29"><a xlink:href="#ec_geographic_codes" xlink:title="geographic_codes">
+<polygon fill="#add8e6" stroke="#b3b3b3" points="953.8035,-773.3634 845.8035,-773.3634 845.8035,-748.3634 953.8035,-748.3634 953.8035,-773.3634"/>
+<text text-anchor="middle" x="899.8035" y="-757.8634" font-family="Helvetica,sans-Serif" font-size="10.00" fill="#000000">geographic_codes</text>
+</a>
+</g>
+</g>
+<g id="node30" class="node schema_any schema_30 eco_Lookup zoomTarget">
+<g id="a_node30"><a xlink:href="#ec_habitat_codes" xlink:title="habitat_codes">
+<polygon fill="#add8e6" stroke="#b3b3b3" points="1160.0795,-543.9597 1052.0795,-543.9597 1052.0795,-518.9597 1160.0795,-518.9597 1160.0795,-543.9597"/>
+<text text-anchor="middle" x="1106.0795" y="-528.4597" font-family="Helvetica,sans-Serif" font-size="10.00" fill="#000000">habitat_codes</text>
+</a>
+</g>
+</g>
+<g id="node31" class="node schema_any schema_31 eco_Lookup zoomTarget">
+<g id="a_node31"><a xlink:href="#ec_ion_codes" xlink:title="ion_codes">
+<polygon fill="#add8e6" stroke="#b3b3b3" points="181.2199,-681.1056 73.2199,-681.1056 73.2199,-656.1056 181.2199,-656.1056 181.2199,-681.1056"/>
+<text text-anchor="middle" x="127.2199" y="-665.6056" font-family="Helvetica,sans-Serif" font-size="10.00" fill="#000000">ion_codes</text>
+</a>
+</g>
+</g>
+<g id="node32" class="node schema_any schema_32 eco_Lookup zoomTarget">
+<g id="a_node32"><a xlink:href="#ec_lifestage_codes" xlink:title="lifestage_codes">
+<polygon fill="#add8e6" stroke="#b3b3b3" points="1154.144,-645.5425 1046.144,-645.5425 1046.144,-620.5425 1154.144,-620.5425 1154.144,-645.5425"/>
+<text text-anchor="middle" x="1100.144" y="-630.0425" font-family="Helvetica,sans-Serif" font-size="10.00" fill="#000000">lifestage_codes</text>
+</a>
+</g>
+</g>
+<g id="node33" class="node schema_any schema_33 eco_Lookup zoomTarget">
+<g id="a_node33"><a xlink:href="#ec_measurement_codes" xlink:title="measurement_codes">
+<polygon fill="#add8e6" stroke="#b3b3b3" points="284.3314,-332.6204 176.3314,-332.6204 176.3314,-307.6204 284.3314,-307.6204 284.3314,-332.6204"/>
+<text text-anchor="middle" x="230.3314" y="-317.1204" font-family="Helvetica,sans-Serif" font-size="10.00" fill="#000000">measurement_codes</text>
+</a>
+</g>
+</g>
+<g id="node34" class="node schema_any schema_34 eco_Lookup zoomTarget">
+<g id="a_node34"><a xlink:href="#ec_media_char_unit_codes" xlink:title="media_char_&#10;unit_codes">
+<polygon fill="#add8e6" stroke="#b3b3b3" points="603.0834,-731.6384 495.0834,-731.6384 495.0834,-706.6384 603.0834,-706.6384 603.0834,-731.6384"/>
+<text text-anchor="middle" x="549.0834" y="-722.1384" font-family="Helvetica,sans-Serif" font-size="10.00" fill="#000000">media_char_</text>
+<text text-anchor="middle" x="549.0834" y="-710.1384" font-family="Helvetica,sans-Serif" font-size="10.00" fill="#000000">unit_codes</text>
+</a>
+</g>
+</g>
+<g id="node35" class="node schema_any schema_35 eco_Lookup zoomTarget">
+<g id="a_node35"><a xlink:href="#ec_media_type_codes" xlink:title="media_type_&#10;codes">
+<polygon fill="#add8e6" stroke="#b3b3b3" points="1005.3796,-340.7029 897.3796,-340.7029 897.3796,-315.7029 1005.3796,-315.7029 1005.3796,-340.7029"/>
+<text text-anchor="middle" x="951.3796" y="-331.2029" font-family="Helvetica,sans-Serif" font-size="10.00" fill="#000000">media_type_</text>
+<text text-anchor="middle" x="951.3796" y="-319.2029" font-family="Helvetica,sans-Serif" font-size="10.00" fill="#000000">codes</text>
+</a>
+</g>
+</g>
+<g id="node36" class="node schema_any schema_36 eco_Lookup zoomTarget">
+<g id="a_node36"><a xlink:href="#ec_organic_matter_type_codes" xlink:title="organic_matter_&#10;type_codes">
+<polygon fill="#add8e6" stroke="#b3b3b3" points="155.9255,-1005.5446 47.9255,-1005.5446 47.9255,-980.5446 155.9255,-980.5446 155.9255,-1005.5446"/>
+<text text-anchor="middle" x="101.9255" y="-996.0446" font-family="Helvetica,sans-Serif" font-size="10.00" fill="#000000">organic_matter_</text>
+<text text-anchor="middle" x="101.9255" y="-984.0446" font-family="Helvetica,sans-Serif" font-size="10.00" fill="#000000">type_codes</text>
+</a>
+</g>
+</g>
+<g id="node37" class="node schema_any schema_37 eco_Lookup zoomTarget">
+<g id="a_node37"><a xlink:href="#ec_organism_source_codes" xlink:title="organism_source_&#10;codes">
+<polygon fill="#add8e6" stroke="#b3b3b3" points="820.5582,-779.6711 712.5582,-779.6711 712.5582,-754.6711 820.5582,-754.6711 820.5582,-779.6711"/>
+<text text-anchor="middle" x="766.5582" y="-770.1711" font-family="Helvetica,sans-Serif" font-size="10.00" fill="#000000">organism_source_</text>
+<text text-anchor="middle" x="766.5582" y="-758.1711" font-family="Helvetica,sans-Serif" font-size="10.00" fill="#000000">codes</text>
+</a>
+</g>
+</g>
+<g id="node38" class="node schema_any schema_38 eco_Lookup zoomTarget">
+<g id="a_node38"><a xlink:href="#ec_radio_label_codes" xlink:title="radio_label_&#10;codes">
+<polygon fill="#add8e6" stroke="#b3b3b3" points="959.6868,-860.3517 851.6868,-860.3517 851.6868,-835.3517 959.6868,-835.3517 959.6868,-860.3517"/>
+<text text-anchor="middle" x="905.6868" y="-850.8517" font-family="Helvetica,sans-Serif" font-size="10.00" fill="#000000">radio_label_</text>
+<text text-anchor="middle" x="905.6868" y="-838.8517" font-family="Helvetica,sans-Serif" font-size="10.00" fill="#000000">codes</text>
+</a>
+</g>
+</g>
+<g id="node39" class="node schema_any schema_39 eco_Lookup zoomTarget">
+<g id="a_node39"><a xlink:href="#ec_response_site_codes" xlink:title="response_site_&#10;codes">
+<polygon fill="#add8e6" stroke="#b3b3b3" points="319.6751,-629.4131 211.6751,-629.4131 211.6751,-604.4131 319.6751,-604.4131 319.6751,-629.4131"/>
+<text text-anchor="middle" x="265.6751" y="-619.9131" font-family="Helvetica,sans-Serif" font-size="10.00" fill="#000000">response_site_</text>
+<text text-anchor="middle" x="265.6751" y="-607.9131" font-family="Helvetica,sans-Serif" font-size="10.00" fill="#000000">codes</text>
+</a>
+</g>
+</g>
+<g id="node40" class="node schema_any schema_40 eco_Lookup zoomTarget">
+<g id="a_node40"><a xlink:href="#ec_sample_size_unit_codes" xlink:title="sample_size_&#10;unit_codes">
+<polygon fill="#add8e6" stroke="#b3b3b3" points="253.8527,-520.3332 145.8527,-520.3332 145.8527,-495.3332 253.8527,-495.3332 253.8527,-520.3332"/>
+<text text-anchor="middle" x="199.8527" y="-510.8332" font-family="Helvetica,sans-Serif" font-size="10.00" fill="#000000">sample_size_</text>
+<text text-anchor="middle" x="199.8527" y="-498.8332" font-family="Helvetica,sans-Serif" font-size="10.00" fill="#000000">unit_codes</text>
+</a>
+</g>
+</g>
+<g id="node41" class="node schema_any schema_41 eco_Lookup zoomTarget">
+<g id="a_node41"><a xlink:href="#ec_season_codes" xlink:title="season_codes">
+<polygon fill="#add8e6" stroke="#b3b3b3" points="1071.3373,-303.111 963.3373,-303.111 963.3373,-278.111 1071.3373,-278.111 1071.3373,-303.111"/>
+<text text-anchor="middle" x="1017.3373" y="-287.611" font-family="Helvetica,sans-Serif" font-size="10.00" fill="#000000">season_codes</text>
+</a>
+</g>
+</g>
+<g id="node42" class="node schema_any schema_42 eco_Lookup zoomTarget">
+<g id="a_node42"><a xlink:href="#ec_statistical_significance_codes" xlink:title="statistical_significance_&#10;codes">
+<polygon fill="#add8e6" stroke="#b3b3b3" points="240.581,-222.7204 132.581,-222.7204 132.581,-197.7204 240.581,-197.7204 240.581,-222.7204"/>
+<text text-anchor="middle" x="186.581" y="-213.2204" font-family="Helvetica,sans-Serif" font-size="10.00" fill="#000000">statistical_significance_</text>
+<text text-anchor="middle" x="186.581" y="-201.2204" font-family="Helvetica,sans-Serif" font-size="10.00" fill="#000000">codes</text>
+</a>
+</g>
+</g>
+<g id="node43" class="node schema_any schema_43 eco_Lookup zoomTarget">
+<g id="a_node43"><a xlink:href="#ec_substrate_codes" xlink:title="substrate_codes">
+<polygon fill="#add8e6" stroke="#b3b3b3" points="1054.2058,-814.1551 946.2058,-814.1551 946.2058,-789.1551 1054.2058,-789.1551 1054.2058,-814.1551"/>
+<text text-anchor="middle" x="1000.2058" y="-798.6551" font-family="Helvetica,sans-Serif" font-size="10.00" fill="#000000">substrate_codes</text>
+</a>
+</g>
+</g>
+<g id="node44" class="node schema_any schema_44 eco_Lookup zoomTarget">
+<g id="a_node44"><a xlink:href="#ec_test_location_codes" xlink:title="test_location_&#10;codes">
+<polygon fill="#add8e6" stroke="#b3b3b3" points="981.0668,-267.1865 873.0668,-267.1865 873.0668,-242.1865 981.0668,-242.1865 981.0668,-267.1865"/>
+<text text-anchor="middle" x="927.0668" y="-257.6865" font-family="Helvetica,sans-Serif" font-size="10.00" fill="#000000">test_location_</text>
+<text text-anchor="middle" x="927.0668" y="-245.6865" font-family="Helvetica,sans-Serif" font-size="10.00" fill="#000000">codes</text>
+</a>
+</g>
+</g>
+<g id="node45" class="node schema_any schema_45 eco_Lookup zoomTarget">
+<g id="a_node45"><a xlink:href="#ec_test_method_codes" xlink:title="test_method_&#10;codes">
+<polygon fill="#add8e6" stroke="#b3b3b3" points="1139.5038,-707.201 1031.5038,-707.201 1031.5038,-682.201 1139.5038,-682.201 1139.5038,-707.201"/>
+<text text-anchor="middle" x="1085.5038" y="-697.701" font-family="Helvetica,sans-Serif" font-size="10.00" fill="#000000">test_method_</text>
+<text text-anchor="middle" x="1085.5038" y="-685.701" font-family="Helvetica,sans-Serif" font-size="10.00" fill="#000000">codes</text>
+</a>
+</g>
+</g>
+<g id="node46" class="node schema_any schema_46 eco_Lookup zoomTarget">
+<g id="a_node46"><a xlink:href="#ec_test_type_codes" xlink:title="test_type_&#10;codes">
+<polygon fill="#add8e6" stroke="#b3b3b3" points="1113.5949,-362.6975 1005.5949,-362.6975 1005.5949,-337.6975 1113.5949,-337.6975 1113.5949,-362.6975"/>
+<text text-anchor="middle" x="1059.5949" y="-353.1975" font-family="Helvetica,sans-Serif" font-size="10.00" fill="#000000">test_type_</text>
+<text text-anchor="middle" x="1059.5949" y="-341.1975" font-family="Helvetica,sans-Serif" font-size="10.00" fill="#000000">codes</text>
+</a>
+</g>
+</g>
+<g id="node47" class="node schema_any schema_47 eco_Lookup zoomTarget">
+<g id="a_node47"><a xlink:href="#ec_trend_codes" xlink:title="trend_codes">
+<polygon fill="#add8e6" stroke="#b3b3b3" points="112.7716,-413.9604 4.7716,-413.9604 4.7716,-388.9604 112.7716,-388.9604 112.7716,-413.9604"/>
+<text text-anchor="middle" x="58.7716" y="-398.4604" font-family="Helvetica,sans-Serif" font-size="10.00" fill="#000000">trend_codes</text>
+</a>
+</g>
+</g>
+<g id="node48" class="node schema_any schema_48 eco_Lookup zoomTarget">
+<g id="a_node48"><a xlink:href="#ec_weight_unit_codes" xlink:title="weight_unit_&#10;codes">
+<polygon fill="#add8e6" stroke="#b3b3b3" points="644.3346,-445.0967 536.3346,-445.0967 536.3346,-420.0967 644.3346,-420.0967 644.3346,-445.0967"/>
+<text text-anchor="middle" x="590.3346" y="-435.5967" font-family="Helvetica,sans-Serif" font-size="10.00" fill="#000000">weight_unit_</text>
+<text text-anchor="middle" x="590.3346" y="-423.5967" font-family="Helvetica,sans-Serif" font-size="10.00" fill="#000000">codes</text>
+</a>
+</g>
+</g>
+<g id="node49" class="node schema_any schema_49 eco_Lookup zoomTarget">
+<g id="a_node49"><a xlink:href="#ec_length_unit_codes" xlink:title="length_unit_&#10;codes">
+<polygon fill="#add8e6" stroke="#b3b3b3" points="908.4662,-308.7095 800.4662,-308.7095 800.4662,-283.7095 908.4662,-283.7095 908.4662,-308.7095"/>
+<text text-anchor="middle" x="854.4662" y="-299.2095" font-family="Helvetica,sans-Serif" font-size="10.00" fill="#000000">length_unit_</text>
+<text text-anchor="middle" x="854.4662" y="-287.2095" font-family="Helvetica,sans-Serif" font-size="10.00" fill="#000000">codes</text>
+</a>
+</g>
+</g>
+<g id="node50" class="node schema_any schema_50 eco_Lookup zoomTarget">
+<g id="a_node50"><a xlink:href="#ec_length_type_codes" xlink:title="length_type_&#10;codes">
+<polygon fill="#add8e6" stroke="#b3b3b3" points="1173.6045,-477.2603 1065.6045,-477.2603 1065.6045,-452.2603 1173.6045,-452.2603 1173.6045,-477.2603"/>
+<text text-anchor="middle" x="1119.6045" y="-467.7603" font-family="Helvetica,sans-Serif" font-size="10.00" fill="#000000">length_type_</text>
+<text text-anchor="middle" x="1119.6045" y="-455.7603" font-family="Helvetica,sans-Serif" font-size="10.00" fill="#000000">codes</text>
+</a>
+</g>
+</g>
+</g>
+</svg>
+
