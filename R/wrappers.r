@@ -82,7 +82,6 @@
 #' @rdname search_ecotox
 #' @name search_ecotox
 #' @examples
-#' \dontrun{
 #' ## let's find the ids of all ecotox tests on species
 #' ## where Latin names contain either of 2 specific genus names and
 #' ## where they were exposed to the chemical benzene
@@ -105,7 +104,6 @@
 #' } else {
 #'   print("Sorry, you need to use 'download_ecotox_data()' first in order for this to work.")
 #' }
-#' }
 #' @author Pepijn de Vries
 #' @family search-functions
 #' @export
@@ -114,7 +112,8 @@ search_ecotox <- function(search, output_fields = list_ecotox_fields("default"),
   temp_field <- if (!"results.result_id" %in% output_fields) "results.result_id" else NULL
   if (any(startsWith(output_fields, "dose_responses.")) && !"dose_responses.dose_resp_id" %in% output_fields)
     temp_field <- c(temp_field, "dose_responses.dose_resp_id")
-  search_result <- search_ecotox_lazy(search, c(output_fields, temp_field), compute, group_by_results = group_by_results)
+  search_result <- search_ecotox_lazy(search, c(output_fields, temp_field), compute,
+                                      group_by_results = group_by_results, ...)
   database_file <- attributes(search_result)$database_file
   dbcon         <- search_result[["src"]]$con
   search_result <- search_result |> collect()

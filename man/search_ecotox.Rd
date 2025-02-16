@@ -114,7 +114,6 @@ CRAN and document the package and database version that are used to generate spe
 \code{\link[=cite_ecotox]{cite_ecotox()}}).
 }
 \examples{
-\dontrun{
 ## let's find the ids of all ecotox tests on species
 ## where Latin names contain either of 2 specific genus names and
 ## where they were exposed to the chemical benzene
@@ -136,7 +135,6 @@ if (check_ecotox_availability()) {
   cat(query)
 } else {
   print("Sorry, you need to use 'download_ecotox_data()' first in order for this to work.")
-}
 }
 }
 \seealso{

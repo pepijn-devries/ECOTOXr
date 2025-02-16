@@ -28,8 +28,8 @@ by using this URL in a different browser (or on a different machine). Alternativ
 \verb{[download_ecotox_data](verify_ssl = FALE)} when the download URL is trusted.
 }
 \examples{
-\dontrun{
-get_ecotox_url()
+if (interactive()) {
+  get_ecotox_url()
 }
 }
 \author{

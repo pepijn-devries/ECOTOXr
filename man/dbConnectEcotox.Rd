@@ -38,15 +38,15 @@ to send custom queries to the database. For most searches the \code{\link[=searc
 will be adequate.
 }
 \examples{
-\dontrun{
 ## This will only work when a copy of the database exists:
-con <- dbConnectEcotox()
+if (check_ecotox_availability()) {
+  con <- dbConnectEcotox()
 
-## check if the connection works by listing the tables in the database:
-dbListTables(con)
+  ## check if the connection works by listing the tables in the database:
+  dbListTables(con)
 
-## Let's be a good boy/girl and close the connection to the database when we're done:
-dbDisconnectEcotox(con)
+  ## Let's be a good boy/girl and close the connection to the database when we're done:
+  dbDisconnectEcotox(con)
 }
 }
 \author{
