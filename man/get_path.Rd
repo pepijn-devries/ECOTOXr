@@ -34,9 +34,9 @@ specified by you using \code{options(ECOTOXr_path = "mypath")}.
 \examples{
 get_ecotox_path()
 
-\dontrun{
-## This will only work if a local database exists:
-get_ecotox_sqlite_file()
+if (check_ecotox_availability()) {
+  ## This will only work if a local database exists:
+  get_ecotox_sqlite_file()
 }
 }
 \author{

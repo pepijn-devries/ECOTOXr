@@ -4,7 +4,7 @@ chemical_carriers,test_id,NUMERIC(10),,NOT NULL,tests(test_id),Foreign key to TE
 chemical_carriers,cas_number,NUMERIC(12),,NOT NULL,chemicals(cas_number),Foreign key to CHEMICAL lookup table.,FALSE
 chemical_carriers,chem_name,VARCHARS(500),,,,Chemical name.,FALSE
 chemical_carriers,purpose,VARCHARS(16),,,,Carrier or Positive Control. Was CHEMICAL_CARRIERS.Purpose.,FALSE
-chemical_carriers,grade,VARCHAR(16),,,chemical_grad_codes(code),Foreign key to CHEMICAL_GRADE_CODES lookup table. Was CHEMICALINFO.ChemicalGrade; CHEMICAL_CARRIERS.Grade.,FALSE
+chemical_carriers,grade,VARCHAR(16),,,chemical_grade_codes(code),Foreign key to CHEMICAL_GRADE_CODES lookup table. Was CHEMICALINFO.ChemicalGrade; CHEMICAL_CARRIERS.Grade.,FALSE
 chemical_carriers,grade_comments,VARCHAR(4000),,,,New field.,FALSE
 chemical_carriers,formulation,VARCHAR(20),,,chemical_formulation_codes(code),Foreign key to CHEMICAL_FORMULATION_CODES lookup table. Was CHEMICALINFO.Formulation; CHEMICAL_CARRIERS.Formulation.,FALSE
 chemical_carriers,formulation_comments,VARCHAR(4000),,,,New field.,FALSE
@@ -200,7 +200,7 @@ dose_response_links,result_id,NUMERIC(10),,NOT NULL,results(result_id),Foreign k
 dose_response_links,dose_resp_id,NUMERIC(10),,NOT NULL,dose_responses(dose_resp_id),Foreign key to DOSE_RESPONSES parent table.,FALSE
 dose_responses,dose_resp_id,NUMERIC(10),PRIMARY KEY,NOT NULL,,"Primary key - system generated. Historical Dose Response records were selected from RESULTs linked to EXPOSUREs with Exposure Numbers ending in ""D"".",FALSE
 dose_responses,test_id,NUMERIC(11),,NOT NULL,tests(test_id),Foreign key to TESTS parent table.,FALSE
-dose_responses,sample_size_unit,VARCHAR(20),,,sample_size_units_codes(code),Foreign key to SAMPLE_SIZE_UNIT_CODES lookup table. Was RESULT.Sample Unit.,FALSE
+dose_responses,sample_size_unit,VARCHAR(20),,,sample_size_unit_codes(code),Foreign key to SAMPLE_SIZE_UNIT_CODES lookup table. Was RESULT.Sample Unit.,FALSE
 dose_responses,sample_size_comments,VARCHAR(4000),,,,New field.,FALSE
 dose_responses,effect_code,VARCHAR(20),,,effect_codes(code),Foreign key to EFFECT_CODES lookup table. Was RESULT.Effect.,FALSE
 dose_responses,measurement_code,VARCHAR(20),,,measurement_codes(code),Foreign key to MEASUREMENT_CODES lookup table. Was RESULT.Measurement.,FALSE
@@ -215,7 +215,7 @@ dose_responses,obs_duration_max_op,VARCHAR(2),,,,Was RESULT.Observation Max Op.,
 dose_responses,obs_duration_max,VARCHAR(10),,,,Was RESULT.Observation Duration Max.,FALSE
 dose_responses,obs_duration_unit,VARCHAR(20),,,duration_unit_codes(code),Foreign key to DURATION_UNIT_CODES lookup table. Was RESULT.Observation Duration Unit.,FALSE
 dose_responses,obs_duration_comments,VARCHAR(4000),,,,New field.,FALSE
-dose_responses,response_unit,VARCHAR(20),,,concetration_unit_codes(code),Foreign key to CONCENTRATION_UNIT_CODES lookup table. Was RESULT.Observed Response Units.,FALSE
+dose_responses,response_unit,VARCHAR(20),,,concentration_unit_codes(code),Foreign key to CONCENTRATION_UNIT_CODES lookup table. Was RESULT.Observed Response Units.,FALSE
 dose_responses,response_comments,VARCHAR(4000),,,,New field.,FALSE
 dose_responses,additional_comments,VARCHAR(4000),,,,New field.,FALSE
 doses,dose_id,NUMERIC(10),PRIMARY KEY,NOT NULL,,Primary key - system generated.,FALSE

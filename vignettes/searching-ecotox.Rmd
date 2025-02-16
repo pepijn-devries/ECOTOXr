@@ -1,8 +1,8 @@
 ---
-title: "Searching ecotox"
+title: "Searching ECOTOX"
 output: rmarkdown::html_vignette
 vignette: >
-  %\VignetteIndexEntry{searching-ecotox}
+  %\VignetteIndexEntry{Searching ECOTOX}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---
@@ -14,7 +14,7 @@ knitr::opts_chunk$set(
 )
 ```
 
-```{r setup}
+```{r setup, warning=FALSE, message=FALSE}
 library(ECOTOXr)
 ```
 
@@ -40,7 +40,7 @@ search_ecotox(
 Let's have a look at 3 different approaches for retrieving a specific record from the local database, using the
 unique identifier `result_id`. The first option is to use the build in `search_ecotox` function. It uses
 simple `R` syntax and allows you to search and collect any field from any table in the database. Furthermore,
-all requested output fields are automatically joined to the result without the end-user needing to know anything
+all requested output fields are automatically joined to the result without the end-user needing to know much
 about the database structure.
 
 > Using the prefab function `search_ecotox` packaged by `ECOTOXr`
@@ -60,9 +60,11 @@ you have nails, but less effective when you have screws. In most cases it is mor
 to create a custom query for you specific needs. In those cases you can use two different
 strategies, involving either `tidyverse` verbs or the simple query language (SQL).
 
-If you like to use [`dplyr`](https://dplyr.tidyverse.org/) verbs, you are in luck. SQLite database can be approached using
-`dplyr` verbs. This approach will only return information from the `results` table. The end-user will have to join other information
-(like test species and test substance) manually. This does require knowledge of the database structure.
+If you like to use [`dplyr`](https://dplyr.tidyverse.org/) verbs, you are in luck. SQLite
+database can be approached using `dplyr` verbs. This approach will only return information
+from the `results` table. The end-user will have to join other information (like test
+species and test substance) manually. This does require knowledge of the database structure
+(see `vignette("ecotox-schema")`).
 
 > Using `dplyr` verbs
 
@@ -76,6 +78,8 @@ dplyr::tbl(con, "results") |>
 If you prefer working using `SQL` directly, that is fine too. The [`RSQLite`](https://cran.r-project.org/package=RSQLite) package
 allows you to get queries using `SQL` statements. The result is identical to that of the previous approach. Here too the end-user
 needs knowledge of the database structure in order to join additional data.
+For more details see `vignette("ecotox-schema")`, it shows the database structure and provides
+clues on how to construct custom queries with `dplyr`.
 
 > Using `SQL` syntax
 
@@ -106,5 +110,5 @@ search_results$`Aquatic-Export`
 ```
 
 When aiming for reproducibility it is better to query the local database, as the online
-tool may be able to search and export all fields; data may change and is beyond your control;
+tool may not be able to search and export all fields; data may change and is beyond your control;
 and it is processed on the server which forms a black box.

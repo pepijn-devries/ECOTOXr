@@ -84,13 +84,13 @@ not formally supported by the EPA, and it may break in future incarnations of th
 R and the \href{https://comptox.epa.gov/dashboard}{CompTox} website and is therefore limited by the restrictions documented there.
 }
 \examples{
-\dontrun{
-## search for substance name 'benzene' and CAS registration number 108-88-3
-## on https://comptox.epa.gov/dashboard:
-comptox_results <- websearch_comptox(c("benzene", "108-88-3"))
+if (interactive()){
+  ## search for substance name 'benzene' and CAS registration number 108-88-3
+  ## on https://comptox.epa.gov/dashboard:
+  comptox_results <- websearch_comptox(c("benzene", "108-88-3"))
 
-## search for substances with monoisotopic mass of 100+/-5:
-comptox_results2 <- websearch_comptox("100", inputType = "MASS", massError = 5)
+  ## search for substances with monoisotopic mass of 100+/-5:
+  comptox_results2 <- websearch_comptox("100", inputType = "MASS", massError = 5)
 }
 }
 \references{

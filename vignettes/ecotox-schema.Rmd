@@ -1,0 +1,287 @@
+---
+title: "ECOTOX database schema"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{ECOTOX database schema}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+Writing your own queries for the local ECOTOX database is often much more effective
+than applying the one-size-fits-all function `search_ecotox()`. But writing custom
+queries requires your to understand the structure of the ECOTOX database.
+
+## The database's relational structure
+
+The diagram below shows which tables are available in the ECOTOX database and how they
+are related. The arrows are labelled with the key field that connects the two tables.
+The structure may seem a bit intimidating but once you realise which tables are most
+relevant, you can screen the diagram with more focus. First of all, tables containing
+actual data are coloured light yellow. All other tables (coloured light blue) contain
+lookup information. In general most users will be interested in the 'tests' table
+(describing test setup) and the 'results' table (describing the test results).
+
+<button onclick="diagzoom('0.00 0.00 3012.00 2028.00')" class="bt">Overview</button>
+<button onclick="diagzoom('0.00 0.00 1506.00 1014.00')" class="bt">Magnified</button>
+
+```{r, echo=FALSE, results='asis'}
+htmltools::tags$div(
+  htmltools::includeHTML("../man/figures/ecotox-schema.svg"),
+  onmousemove = "mousemove_schema();",
+  style = "position: relative; width: 100%; height: 400px; overflow: scroll;"
+)
+```
+
+```{js, echo=FALSE}
+function findAncestor (el, cls) {
+  if (el.classList.contains(cls)) return el;
+  while ((el = el.parentElement) && !el.classList.contains(cls));
+  return el;
+}
+
+function mousemove_schema() {
+  var e = window.event;
+  var posX = e.clientX;
+  var posY = e.clientY;
+  var el = document.elementFromPoint(posX, posY);
+  var ancest = findAncestor(el, "schema_any");
+  if (ancest) {
+    var cl = ancest.classList;
+    for (i = 0; i < cl.length; i ++) {
+      if (cl[i].startsWith("schema_") && cl[i] != "schema_any") {
+        var pols_all = document.getElementById("ecotoxschema").getElementsByClassName("node");
+        if (pols_all) {
+          for (j = 0; j < pols_all.length; j++) {
+            if (pols_all[j].classList.contains(cl[i])) {
+              pols_all[j].getElementsByTagName("polygon")[0].setAttribute("fill", "pink");
+            } else {
+              if (pols_all[j].classList.contains("eco_Data")) {
+                pols_all[j].getElementsByTagName("polygon")[0].setAttribute("fill", "lightyellow");
+              } else {
+                pols_all[j].getElementsByTagName("polygon")[0].setAttribute("fill", "lightblue");
+              }
+            }
+          }
+        }
+        var edge_all = document.getElementById("ecotoxschema").getElementsByClassName("edge");
+        if (edge_all) {
+          for (j = 0; j < edge_all.length; j++) {
+            if (edge_all[j].classList.contains(cl[i])) {
+              edge_all[j].getElementsByTagName("path")[0].setAttribute("stroke", "red");
+              edge_all[j].getElementsByTagName("polygon")[0].setAttribute("fill", "red");
+            } else {
+              edge_all[j].getElementsByTagName("path")[0].setAttribute("stroke", "#DDDDDD");
+              edge_all[j].getElementsByTagName("polygon")[0].setAttribute("fill", "#DDDDDD");
+            }
+          }
+        }
+      }
+    }
+  }
+}
+
+const svgImage=document.getElementById("ecotoxschema");
+function diagzoom(val){
+  svgImage.setAttribute("viewBox",val);
+}
+```
+
+You can also list the tables in the database using `DBI::dbListTables()`. To list table fields,
+you can use `list_ecotox_fields("all", FALSE)`.
+
+When constructing a query, you should ask yourself what information do I wish to retrieve,
+and how do I restrict/filter the data to the scope of your research? For that purpose,
+first focus on the yellow coloured tables, then join information from the lookup tables
+if required for your purpose.
+
+## Setting up queries: some examples
+
+For setting up custom queries, I recommend to use [tidyverse](https://www.tidyverse.org/)
+packages like [dplyr](https://dplyr.tidyverse.org/). This is why in the following examples
+the `dplyr` package is used to construct queries. The examples intend to show how the
+diagram above can be used to collect information from the database.
+
+### All test results for tests carried out with Insecta
+
+In this case you want to restrict your data to species that are in the class of Insecta.
+
+```{r, eval = FALSE}
+library(dplyr)
+
+if (check_ecotox_availability()) {
+  con <- dbConnectEcotox()
+  
+  insects <-
+    tbl(con, "species") |>
+    filter(class == "Insecta") |>
+    ## Specify which fields you want from the table.
+    ## Make sure to include the key that links with
+    ## other tables ('species_number')
+    select(species_number, common_name, latin_name)
+  
+}
+```
+
+As you can see in the diagram of the database schema, the table 'species'
+is not directly linked to results. Instead, it is linked to the table
+'tests' which in turn is linked to 'results'. This means you have to join
+the data to these tables in this order, using the appropriate keys.
+
+```{r, eval = FALSE}
+if (check_ecotox_availability()) {
+  results <-
+    insects |>
+    
+    ## First join the 'tests' table
+    
+    left_join(
+      tbl(con, "tests") |> select(test_id, species_number),
+      by = "species_number"
+    ) |>
+    
+    ## Then join the 'results' table
+
+    left_join(
+      tbl(con, "results"),
+      by = "test_id"
+    ) |>
+    
+    ## dplyr performs queries lazily, call
+    ## 'collect' to actually get the results
+    
+    collect()
+
+  close(con)
+}
+```
+
+### A random substance and random species
+
+Although not a very realistic case, this example shows how you can
+pick a chemical and a species and see if there are any test results
+available for their combination. Note that the chance that any
+random chemical is tested with any random species is very small.
+Therefore, in most cases the example will yield zero test results.
+
+The point of this example is that you can elegantly use the different
+join types (like left, right, inner and anti; see `?dplyr::join`) to
+efficiently join tables from the database. Note that `search_ecotox()`
+creates a query based on the provided search terms and output fields,
+and 'blindly' uses many left joins to get the information from the
+database. For complex queries, this not a very efficient method to
+obtain data from the database.
+
+```{r eval = FALSE}
+if (check_ecotox_availability()) {
+  con <- dbConnectEcotox()
+  
+  ## pick a random species
+  species <-
+    tbl(con, "species") |>
+    mutate(random = runif(n())) |>
+    slice_min(n = 1, order_by = random) |>
+    select(!random)
+  
+  ## pick a random chemical
+  chem <-
+    tbl(con, "chemicals") |>
+    rename(test_cas = "cas_number") |>
+    mutate(random = runif(n())) |>
+    slice_min(n = 1, order_by = random) |>
+    select(!random)
+
+  ## join the randomly picked species and test chemical
+  ## with the 'tests' and 'results' table  
+  results <-
+    tbl(con, "tests") |>
+    select(test_id, test_cas, species_number) |>
+    right_join(species,
+               by = "species_number") |>
+    right_join(chem,
+               by = "test_cas") |>
+    inner_join(tbl(con, "results") |>
+                 select(1:10),
+               by = "test_id") |>
+    collect()
+  
+  close(con)
+}
+```
+
+### Dose information
+
+Not all information has one-to-one or many-to-one relationship. In the case of dose
+There is a many-to-many relationship with tests and therewith test results. This means
+if the dose information from one test is joined with test results, like in the example
+below.
+
+```{r eval = FALSE}
+if (check_ecotox_availability()) {
+  con <- dbConnectEcotox()
+  
+  dose_info <-
+    tbl(con, "doses") |>
+    ## Let's select the dose information for the first test in the database
+    filter(test_id == 1) |>
+    left_join(tbl(con, "dose_response_details"), by = "dose_id") |>
+    left_join(tbl(con, "dose_responses"), by = c("dose_resp_id", "test_id")) |>
+    left_join(tbl(con, "dose_response_links"), by = "dose_resp_id") |>
+    left_join(tbl(con, "results"), by = c("result_id", "test_id")) |>
+    collect()
+
+  close(con)
+}
+```
+
+Indeed, the query below yields multiple doses for a single test result. Depending
+on how you wish to further process the data, you may want to: aggregate; nest; or pivot
+the dose information to single test results. When using `search_ecotox()`, the dose
+information is automatically nested:
+
+```{r, eval = FALSE}
+## In this example dose information is automatically nested
+if (check_ecotox_availability()) {
+  doses <-
+    search_ecotox(
+      list(
+        result_id = list(
+          terms = 1182449,
+          method = "exact")),
+      output_fields = c("results.result_id", "doses.dose_number"))
+}
+```
+
+## Automatically generating queries
+
+With a call to `search_query_ecotox()` you can retrieve the SQL query
+underpinning a search using `search_ecotox()`. As pointed out earlier,
+this method is very generic and may not provide the most elegant query.
+But it can be used for inspiration and understanding the database.
+
+## Overview of tables and fields
+
+The table below lists all tables in the database and its fields. Primary and foreign
+keys are in **bold** face. Use the [diagram](#ecotoxschema) to see how the tables are linked with these
+keys. The table below only lists the available fields in each table. Use the EPA ECOTOX
+documentation provided with the downloaded data for detailed information on the fields.
+
+```{r tab-dif, echo=FALSE, message=FALSE, warning=FALSE}
+library(kableExtra)
+library(dplyr)
+ECOTOXr:::.db_specs |>
+  mutate(
+    table = sprintf("<div id='ec_%s'>%s</div>", .data$table, .data$table),
+    field_name = ifelse(.data$primary_key != "" | .data$foreign_key != "",
+                        sprintf("**%s**", .data$field_name), .data$field_name)
+  ) |>
+  select(table, fields = "field_name") |>
+  kbl(escape = FALSE) |>
+  collapse_rows(valign = "top")
+```

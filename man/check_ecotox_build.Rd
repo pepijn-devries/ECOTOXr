@@ -39,8 +39,8 @@ this is no guarantee that the database is valid, but it is a start.
 More tests may be added in future releases.
 }
 \examples{
-\dontrun{
-check_ecotox_build()
+if (check_ecotox_availability()) {
+  check_ecotox_build()
 }
 }
 \author{

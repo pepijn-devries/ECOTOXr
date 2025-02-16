@@ -47,21 +47,17 @@ reproducibility.
 Use '\code{\link[=suppressMessages]{suppressMessages()}}' to suppress the progress report.
 }
 \examples{
-\dontrun{
-## This example will only work properly if 'dir' points to an existing directory
-## with the raw tables from the ECOTOX database. This function will be called
-## automatically after a call to 'download_ecotox_data()'.
-test <- check_ecotox_availability()
-if (test) {
-  files   <- attributes(test)$files[1,]
-  dir     <- gsub(".sqlite", "", files$database, fixed = T)
-  path    <- files$path
-  if (dir.exists(file.path(path, dir))) {
-    ## This will build the database in your temp directory:
-    build_ecotox_sqlite(source = file.path(path, dir), destination = tempdir())
-  }
-}
-}
+source_path <- tempfile()
+dir.create(source_path)
+
+## This is a small mockup file resembling the larger zip
+## files that can be downloaded with `download_ecotox_data()`:
+
+source_file <- system.file("ecotox-test.zip", package = "ECOTOXr")
+
+unzip(source_file, exdir = source_path)
+
+build_ecotox_sqlite(source_path, tempdir())
 }
 \author{
 Pepijn de Vries

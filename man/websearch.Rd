@@ -51,14 +51,14 @@ functions should therefore be used with caution.
 This to avoid overloading the server and getting your IP address banned from the server.
 }
 \examples{
-\dontrun{
-search_fields <-
-  list_ecotox_web_fields(
-    txAdvancedSpecEntries     = "daphnia magna",
-    RBSPECSEARCHTYPE          = "EXACT",
-    txAdvancedChemicalEntries = "benzene",
-    RBCHEMSEARCHTYPE          = "EXACT")
-search_results <- websearch_ecotox(search_fields)
+if (interactive()) {
+  search_fields <-
+    list_ecotox_web_fields(
+      txAdvancedSpecEntries     = "daphnia magna",
+      RBSPECSEARCHTYPE          = "EXACT",
+      txAdvancedChemicalEntries = "benzene",
+      RBCHEMSEARCHTYPE          = "EXACT")
+  search_results <- websearch_ecotox(search_fields)
 }
 }
 \seealso{

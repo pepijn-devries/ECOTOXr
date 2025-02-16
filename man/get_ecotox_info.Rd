@@ -26,9 +26,9 @@ from the log-file that is (optionally) stored with the local database when calli
 or \code{\link[=build_ecotox_sqlite]{build_ecotox_sqlite()}}.
 }
 \examples{
-\dontrun{
-## Show info on the current database (only works when one is downloaded and build):
-get_ecotox_info()
+if (check_ecotox_availability()) {
+  ## Show info on the current database (only works when one is downloaded and build):
+  get_ecotox_info()
 }
 }
 \author{

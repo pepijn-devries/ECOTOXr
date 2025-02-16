@@ -4,7 +4,7 @@
 \alias{check_ecotox_version}
 \title{Check if the locally build database is up to date}
 \usage{
-check_ecotox_version(path = get_ecotox_path(), version, verbose = TRUE)
+check_ecotox_version(path = get_ecotox_path(), version, verbose = TRUE, ...)
 }
 \arguments{
 \item{path}{When you have a copy of the database somewhere other than the default
@@ -16,6 +16,8 @@ underscores ("\%m_\%d_\%Y"). When missing, the most recent available copy is sel
 
 \item{verbose}{A \code{logical} value. If true messages are shown on the console reporting
 on the check.}
+
+\item{...}{Arguments passed to \code{get_ecotox_url()}}
 }
 \value{
 Returns a \code{logical} value invisibly indicating whether the locally build
@@ -27,8 +29,8 @@ from the EPA against the specified version (latest by default) of the database b
 locally. Returns \code{TRUE} when they are the same.
 }
 \examples{
-\dontrun{
-check_ecotox_version()
+if (check_ecotox_availability()) {
+  check_ecotox_version()
 }
 }
 \author{

@@ -72,7 +72,7 @@ if (check_ecotox_availability()) {
     close(con_out)
   }
   
-  target_file <- file.path("tests", "testthat", "test_data", "ecotox-test.zip")
+  target_file <- file.path("inst", "ecotox-test.zip")
   if (file.exists(target_file)) unlink(target_file)
   wd <- getwd()
   setwd(nd1)

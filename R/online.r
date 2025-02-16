@@ -27,14 +27,14 @@
 #' @rdname websearch
 #' @name websearch_ecotox
 #' @examples
-#' \dontrun{
-#' search_fields <-
-#'   list_ecotox_web_fields(
-#'     txAdvancedSpecEntries     = "daphnia magna",
-#'     RBSPECSEARCHTYPE          = "EXACT",
-#'     txAdvancedChemicalEntries = "benzene",
-#'     RBCHEMSEARCHTYPE          = "EXACT")
-#' search_results <- websearch_ecotox(search_fields)
+#' if (interactive()) {
+#'   search_fields <-
+#'     list_ecotox_web_fields(
+#'       txAdvancedSpecEntries     = "daphnia magna",
+#'       RBSPECSEARCHTYPE          = "EXACT",
+#'       txAdvancedChemicalEntries = "benzene",
+#'       RBCHEMSEARCHTYPE          = "EXACT")
+#'   search_results <- websearch_ecotox(search_fields)
 #' }
 #' @author Pepijn de Vries
 #' @family online-search-functions
@@ -152,13 +152,13 @@ list_ecotox_web_fields <- function(...) {
 #' @rdname websearch_comptox
 #' @name websearch_comptox
 #' @examples
-#' \dontrun{
-#' ## search for substance name 'benzene' and CAS registration number 108-88-3
-#' ## on https://comptox.epa.gov/dashboard:
-#' comptox_results <- websearch_comptox(c("benzene", "108-88-3"))
+#' if (interactive()){
+#'   ## search for substance name 'benzene' and CAS registration number 108-88-3
+#'   ## on https://comptox.epa.gov/dashboard:
+#'   comptox_results <- websearch_comptox(c("benzene", "108-88-3"))
 #' 
-#' ## search for substances with monoisotopic mass of 100+/-5:
-#' comptox_results2 <- websearch_comptox("100", inputType = "MASS", massError = 5)
+#'   ## search for substances with monoisotopic mass of 100+/-5:
+#'   comptox_results2 <- websearch_comptox("100", inputType = "MASS", massError = 5)
 #' }
 #' @author Pepijn de Vries
 #' @family onlinesearch-functions

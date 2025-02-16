@@ -30,9 +30,9 @@ function to obtain a citation to that specific download.
 In order for others to reproduce your results, it is key to cite the data source as accurately as possible.
 }
 \examples{
-\dontrun{
-## In order to cite downloaded database and this package:
-cite_ecotox()
+if (check_ecotox_availability()) {
+  ## In order to cite downloaded database and this package:
+  cite_ecotox()
 }
 }
 \author{
