@@ -1,20 +1,18 @@
 
 # `ECOTOXr`
 
-> Harness information from the [US EPA ECOTOXicology
-> Knowledgebase](https://cfpub.epa.gov/ecotox/)
-
 <!-- badges: start -->
 
 [![R build
 status](https://github.com/pepijn-devries/ECOTOXr/workflows/R-CMD-check/badge.svg)](https://github.com/pepijn-devries/ECOTOXr/actions)
-[![version](https://www.r-pkg.org/badges/version/ECOTOXr)](https://CRAN.R-project.org/package=ECOTOXr)
+[![CRAN
+version](https://www.r-pkg.org/badges/version/ECOTOXr)](https://CRAN.R-project.org/package=ECOTOXr)
+[![R-universe
+version](https://pepijn-devries.r-universe.dev/ECOTOXr/badges/version)](https://pepijn-devries.r-universe.dev/ECOTOXr)
 ![cranlogs](https://cranlogs.r-pkg.org/badges/ECOTOXr) [![Codecov test
 coverage](https://codecov.io/gh/pepijn-devries/ECOTOXr/branch/main/graph/badge.svg)](https://app.codecov.io/gh/pepijn-devries/ECOTOXr?branch=main)
 ![cranlogs](https://cranlogs.r-pkg.org/badges/ECOTOXr)
 <!-- badges: end -->
-
-## Overview
 
 <a href="https://github.com/pepijn-devries/ECOTOXr/"><img src="man/figures/logo.png" alt="ECOTOXr logo" align="right" class="pkgdown-hide" /></a>
 `ECOTOXr` can be used to explore and analyse data from the [US EPA
@@ -40,10 +38,12 @@ apply any statistical analysis offered in `R`.
 
 <figure>
 <img src="man/figures/graphical-abstract.png"
-alt="From De Vries et al. (2024); Creative commons (https://creativecommons.org/licenses/by/4.0/)" />
-<figcaption aria-hidden="true">From De Vries et al. (2024); Creative
-commons (<a href="https://creativecommons.org/licenses/by/4.0/"
-class="uri">https://creativecommons.org/licenses/by/4.0/</a>)</figcaption>
+alt="From De Vries et al. (2024); Creative commons" />
+<figcaption aria-hidden="true">From
+<a href="https://doi.org/10.1016/j.chemosphere.2024.143078">De Vries et
+al. (2024)</a>;
+<a href="https://creativecommons.org/licenses/by/4.0/">Creative
+commons</a></figcaption>
 </figure>
 
 ## Installation
@@ -81,52 +81,8 @@ Once built, you can search the local database for species and substances
 using different strategies. You can use the build-in search function of
 this package, or you can write custom queries using either the simple
 query language (SQL) or `dplyr` verbs. More details in the following
-vignette: `vignette("searching-ecotox")`.
-
-<!-- Obviously, searching the local database is only possible after the download and build is -->
-<!-- ready (see previous section). -->
-<!-- > Search the local database for tests of water flea Daphnia magna exposed to benzene -->
-<!-- ```{r eval=FALSE} -->
-<!-- search_ecotox( -->
-<!--   list( -->
-<!--     latin_name    = list(terms = "Daphnia magna", method = "exact"), -->
-<!--     chemical_name = list(terms = "benzene",       method = "exact") -->
-<!--   ) -->
-<!-- ) -->
-<!-- ``` -->
-<!-- ### Three ways of querying the local database -->
-<!-- Let's have a look at 3 different approaches for retrieving a specific record from the local database, using the -->
-<!-- unique identifier `result_id`. The first option is to use the build in `search_ecotox` function. It uses -->
-<!-- simple `R` syntax and allows you to search and collect any field from any table in the database. Furthermore, -->
-<!-- all requested output fields are automatically joined to the result without the end-user needing to know anything -->
-<!-- about the database structure. -->
-<!-- > Using the prefab function `search_ecotox` packaged by `ECOTOXr` -->
-<!-- ```{r warning = FALSE} -->
-<!-- search_ecotox( -->
-<!--   list( -->
-<!--     result_id = list(terms = "401386", method = "exact") -->
-<!--   ), -->
-<!--   as_data_frame = F -->
-<!-- ) -->
-<!-- ``` -->
-<!-- If you like to use [`dplyr`](https://dplyr.tidyverse.org/) verbs, you are in luck. SQLite database can be approached using -->
-<!-- `dplyr` verbs. This approach will only return information from the `results` table. The end-user will have to join other information -->
-<!-- (like test species and test substance) manually. This does require knowledge of the database structure. -->
-<!-- > Using `dplyr` verbs -->
-<!-- ```{r warning = FALSE} -->
-<!-- con <- dbConnectEcotox() -->
-<!-- dplyr::tbl(con, "results") |> -->
-<!--   dplyr::filter(result_id == "401386") |> -->
-<!--   dplyr::collect() -->
-<!-- ``` -->
-<!-- If you prefer working using `SQL` directly, that is fine too. The [`RSQLite`](https://cran.r-project.org/package=RSQLite) package -->
-<!-- allows you to get queries using `SQL` statements. The result is identical to that of the previous approach. Here too the end-user -->
-<!-- needs knowledge of the database structure in order to join additional data. -->
-<!-- > Using `SQL` syntax -->
-<!-- ```{r warning = FALSE} -->
-<!-- dbGetQuery(con, "SELECT * FROM results WHERE result_id='401386'") |> -->
-<!--   dplyr::as_tibble() -->
-<!-- ``` -->
+vignettes: `vignette("searching-ecotox")` and
+`vignette("ecotox-schema")`.
 
 ## Disclaimers
 
