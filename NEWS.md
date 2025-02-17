@@ -1,4 +1,4 @@
-ECOTOXr v1.1.1.0004
+ECOTOXr v1.1.1.0005
 -------------
 
   * Expanded the documentation with vignettes
