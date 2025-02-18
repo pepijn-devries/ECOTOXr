@@ -75,6 +75,8 @@
 #' In case of `search_ecotox` a `data.frame` is returned based on the search query built with
 #' `search_query_ecotox`. The `data.frame` is unmodified as returned by SQLite, meaning that all
 #' fields are returned as `character`s (even where the field types are 'date' or 'numeric').
+#' Therefore, retrieved search results may need some post-processing with `process_ecotox_numerics()`
+#' `as_numeric_ecotox()`
 #'
 #' The results are tagged with: a time stamp; the package version used; and the
 #' file path of the SQLite database used in the search (when applicable). These tags are added as attributes

@@ -47,17 +47,30 @@ test_that("Newly build database can be queried", {
 
 test_that("The newly build database can be checked", {
   expect_no_error({
-    check_ecotox_build(tempdir())
+    check_ecotox_build(tempdir()) |> suppressMessages()
   })
 })
 
-test_that("Newly build version is faulty as it is not from EPA", {
+test_that("Newly build version is faulty as it is a mockup", {
+  skip_if_offline()
   expect_false({
     check_ecotox_version(tempdir(), verify_ssl = FALSE) |>
       suppressMessages()
   })
 })
 
-check_ecotox_version(tempdir(), verify_ssl = FALSE)
+test_that("Numerics in search results can be processed", {
+  expect_no_error({
+    search_ecotox(
+        search = list(
+          result_id = (list(terms = 1, method = "contains"))
+        ),
+        path = tempdir()
+      ) |>
+      suppressMessages() |>
+      process_ecotox_numerics(warn = FALSE)
+  })
+})
+
 unlink(sprintf("%s.sqlite", source_path))
 unlink(source_path, recursive = TRUE)
