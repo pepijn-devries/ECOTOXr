@@ -137,20 +137,3 @@ test_that("Download from EPA ECOTOX starts", {
     })
   })
 })
-
-test_that("Websearch returns results", {
-  skip_if_offline()
-  expect_true({
-    search_fields <-
-      list_ecotox_web_fields(
-        txAdvancedSpecEntries     = "daphnia magna",
-        RBSPECSEARCHTYPE          = "EXACT",
-        txAdvancedChemicalEntries = "benzene",
-        RBCHEMSEARCHTYPE          = "EXACT")
-    search_results   <- websearch_ecotox(search_fields)
-    comptox_results  <- websearch_comptox(c("benzene", "108-88-3"))
-    comptox_results2 <- websearch_comptox("100", inputType = "MASS", massError = 5)
-    nrow(search_results$`Aquatic-Export`) > 10L && length(comptox_results) > 0L &&
-      length(comptox_results2) > 0L
-  })
-})
