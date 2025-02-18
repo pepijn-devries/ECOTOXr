@@ -217,8 +217,8 @@ if (check_ecotox_availability()) {
 
 ### Dose information
 
-Not all information has one-to-one or many-to-one relationship. In the case of dose
-There is a many-to-many relationship with tests and therewith test results. This means
+Not all information has one-to-one or many-to-one relationship. In the case of dose,
+there is a many-to-many relationship with tests and therewith test results. This means
 if the dose information from one test is joined with test results, like in the example
 below.
 
