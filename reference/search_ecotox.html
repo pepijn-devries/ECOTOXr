@@ -9,7 +9,7 @@ options. This allows you to search the database, without having to understand SQ
 
     <a class="navbar-brand me-2" href="../index.html">ECOTOXr</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.1.1.0005</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.1.1.0006</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -134,7 +134,9 @@ is not located at the default path (<code><a href="get_path.html">get_ecotox_pat
 query is returned. This query is built based on the provided search terms and options.</p>
 <p>In case of <code>search_ecotox</code> a <code>data.frame</code> is returned based on the search query built with
 <code>search_query_ecotox</code>. The <code>data.frame</code> is unmodified as returned by SQLite, meaning that all
-fields are returned as <code>character</code>s (even where the field types are 'date' or 'numeric').</p>
+fields are returned as <code>character</code>s (even where the field types are 'date' or 'numeric').
+Therefore, retrieved search results may need some post-processing with <code><a href="process_ecotox_numerics.html">process_ecotox_numerics()</a></code>
+<code><a href="as_numeric_ecotox.html">as_numeric_ecotox()</a></code></p>
 <p>The results are tagged with: a time stamp; the package version used; and the
 file path of the SQLite database used in the search (when applicable). These tags are added as attributes
 to the output table or query.</p>
