@@ -9,7 +9,7 @@ performs some text sanitising before coercing text to numerics."><meta property=
 
     <a class="navbar-brand me-2" href="../index.html">ECOTOXr</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.1.1.0006</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.1.1.0007</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -21,6 +21,7 @@ performs some text sanitising before coercing text to numerics."><meta property=
 <li class="nav-item dropdown">
   <button class="nav-link dropdown-toggle" type="button" id="dropdown-articles" data-bs-toggle="dropdown" aria-expanded="false" aria-haspopup="true">Articles</button>
   <ul class="dropdown-menu" aria-labelledby="dropdown-articles"><li><a class="dropdown-item" href="../articles/ecotox-schema.html">ECOTOX database schema</a></li>
+    <li><a class="dropdown-item" href="../articles/reproducibility.html">Reproducibility</a></li>
     <li><a class="dropdown-item" href="../articles/searching-ecotox.html">Searching ECOTOX</a></li>
   </ul></li>
 <li class="nav-item"><a class="nav-link" href="../news/index.html">Changelog</a></li>
@@ -81,13 +82,15 @@ returned as <code>NA</code></p></dd>
 <li><p>Operators (<code>"&gt;"</code>, <code>"&gt;="</code>, <code>"&lt;"</code>, <code>"&lt;="</code>, <code>"~"</code>, <code>"="</code>, <code>"ca"</code>, <code>"er"</code>)
 are removed.</p></li>
 <li><p>Text between brackets (<code>"()"</code>) is removed (including the brackets)</p></li>
-<li><p>If comma's are it is considered to be a thousand separator when it is located
+<li><p>Comma's are considered to be a thousand separator when they are located
 at any fourth character (from the right) and removed. Comma's at any other location
 is assumed to be a decimal separator and is replaced by a period.</p></li>
 <li><p>If there is a hyphen present (not preceded by an "<code>"e"</code> or <code>"E"</code>) it is probably
 representing a range of values. When <code>range_fun</code> is <code>NULL</code> it will result in a <code>NA</code>.
 Otherwise, the numbers are split at the hyphen and aggregated with <code>range_fun</code></p></li>
-</ul></div>
+</ul><p>It is your own responsibility to check if the sanitising steps are appropriate for
+your analyses.</p>
+    </div>
     <div class="section level2">
     <h2 id="author">Author<a class="anchor" aria-label="anchor" href="#author"></a></h2>
     <p>Pepijn de Vries</p>

@@ -20,7 +20,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">ECOTOXr</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.1.1.0006</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.1.1.0007</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -34,6 +34,7 @@
   <button class="nav-link dropdown-toggle" type="button" id="dropdown-articles" data-bs-toggle="dropdown" aria-expanded="false" aria-haspopup="true">Articles</button>
   <ul class="dropdown-menu" aria-labelledby="dropdown-articles">
 <li><a class="dropdown-item" href="../articles/ecotox-schema.html">ECOTOX database schema</a></li>
+    <li><a class="dropdown-item" href="../articles/reproducibility.html">Reproducibility</a></li>
     <li><a class="dropdown-item" href="../articles/searching-ecotox.html">Searching ECOTOX</a></li>
   </ul>
 </li>
@@ -353,7 +354,8 @@ join types (like left, right, inner and anti; see
 Note that <code><a href="../reference/search_ecotox.html">search_ecotox()</a></code> creates a query based on the
 provided search terms and output fields, and ‘blindly’ uses many left
 joins to get the information from the database. For complex queries,
-this not a very efficient method to obtain data from the database.</p>
+this is not a very efficient method to obtain data from the
+database.</p>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw">if</span> <span class="op">(</span><span class="fu"><a href="../reference/check_ecotox_availability.html">check_ecotox_availability</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span> <span class="op">{</span></span>
 <span>  <span class="va">con</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/dbConnectEcotox.html">dbConnectEcotox</a></span><span class="op">(</span><span class="op">)</span></span>

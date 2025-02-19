@@ -3,8 +3,9 @@ pkgdown: 2.1.1
 pkgdown_sha: ~
 articles:
   ecotox-schema: ecotox-schema.html
+  reproducibility: reproducibility.html
   searching-ecotox: searching-ecotox.html
-last_built: 2025-02-18T23:35Z
+last_built: 2025-02-19T21:41Z
 urls:
   reference: https://pepijn-devries.github.io/ECOTOXr/reference
   article: https://pepijn-devries.github.io/ECOTOXr/articles
