@@ -75,12 +75,12 @@ Results are unpolished and `as is' returned by EPA's web service.
 and meta-information.
 }
 \details{
-The \href{https://comptox.epa.gov/dashboard}{CompTox Chemicals Dashboard} is a freely accessible on-line U.S. EPA database.
+The \href{https://comptox.epa.gov/dashboard}{CompTox Chemicals Dashboard} is a freely accessible online U.S. EPA database.
 It contains information on physico-chemical properties, environmental fate and transport, exposure, usage, \emph{in vivo} toxicity,
 and \emph{in vitro} bioassay of a wide range of substances.
 
-The function described here to search and retrieve records from the on-line database is experimental. This is because this feature is
-not formally supported by the EPA, and it may break in future incarnations of the on-line database. The function forms an interface between
+The function described here to search and retrieve records from the online database is experimental. This is because this feature is
+not formally supported by the EPA, and it may break in future incarnations of the online database. The function forms an interface between
 R and the \href{https://comptox.epa.gov/dashboard}{CompTox} website and is therefore limited by the restrictions documented there.
 }
 \examples{

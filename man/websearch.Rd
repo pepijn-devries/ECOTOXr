@@ -3,7 +3,7 @@
 \name{websearch_ecotox}
 \alias{websearch_ecotox}
 \alias{list_ecotox_web_fields}
-\title{Search and retrieve toxicity records from the on-line database}
+\title{Search and retrieve toxicity records from the online database}
 \usage{
 websearch_ecotox(
   fields = list_ecotox_web_fields(),
@@ -15,7 +15,7 @@ websearch_ecotox(
 list_ecotox_web_fields(...)
 }
 \arguments{
-\item{fields}{A named \code{list} of \code{character}s, used to build a search for for the on-line search query of
+\item{fields}{A named \code{list} of \code{character}s, used to build a search for for the online search query of
 \url{https://cfpub.epa.gov/ecotox/search.cfm}.
 Use \code{\link[=list_ecotox_web_fields]{list_ecotox_web_fields()}} to construct a valid list.}
 
@@ -37,12 +37,12 @@ Returns named \code{list} of \link[dplyr:reexports]{dplyr::tibble}s with search 
 \code{\link[=websearch_ecotox]{websearch_ecotox()}}.
 }
 \description{
-\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#experimental}{\figure{lifecycle-experimental.svg}{options: alt='[Experimental]'}}}{\strong{[Experimental]}} Functions to search and retrieve records from the on-line database at
+\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#experimental}{\figure{lifecycle-experimental.svg}{options: alt='[Experimental]'}}}{\strong{[Experimental]}} Functions to search and retrieve records from the online database at
 \url{https://cfpub.epa.gov/ecotox/search.cfm}.
 }
 \details{
-The functions described here to search and retrieve records from the on-line database are experimental. This is because this feature is
-not formally supported by the EPA, and it may break in future iterations of the on-line database. The functions form an interface between
+The functions described here to search and retrieve records from the online database are experimental. This is because this feature is
+not formally supported by the EPA, and it may break in future iterations of the online database. The functions form an interface between
 R and the ECOTOX website and is therefore limited by its restrictions as described in the package documentation: \link{ECOTOXr}. The
 functions should therefore be used with caution.
 }

@@ -70,13 +70,15 @@ process_ecotox_numerics <- function(x, .fns = as_numeric_ecotox, ..., .names = N
 #'  * Operators (`">"`, `">="`, `"<"`, `"<="`, `"~"`, `"="`, `"ca"`, `"er"`)
 #'    are removed.
 #'  * Text between brackets (`"()"`) is removed (including the brackets)
-#'  * If comma's are it is considered to be a thousand separator when it is located
+#'  * Comma's are considered to be a thousand separator when they are located
 #'    at any fourth character (from the right) and removed. Comma's at any other location
 #'    is assumed to be a decimal separator and is replaced by a period.
 #'  * If there is a hyphen present (not preceded by an "`"e"` or `"E"`) it is probably
 #'    representing a range of values. When `range_fun` is `NULL` it will result in a `NA`.
 #'    Otherwise, the numbers are split at the hyphen and aggregated with `range_fun`
-#'  
+#' 
+#' It is your own responsibility to check if the sanitising steps are appropriate for
+#' your analyses.
 #' @param x A vector of `character` strings. It expects fields as commonly returned
 #' from the ECOTOX database.
 #' @param range_fun Function to summarise range values. If `NULL` range values are

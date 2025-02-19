@@ -22,7 +22,7 @@ can:
 - Build a local SQLite copy of the [US EPA ECOTOX
   database](https://cfpub.epa.gov/ecotox/)
 - Search and extract data from the local database
-- Use experimental features to search the on-line dashboards:
+- Use experimental features to search the online dashboards:
   [ECOTOX](https://cfpub.epa.gov/ecotox/search.cfm) and
   [CompTox](https://comptox.epa.gov/dashboard/batch-search)
 
@@ -64,7 +64,7 @@ install.packages("ECOTOXr", repos = c("https://pepijn-devries.r-universe.dev", "
 
 ### Preparing the database
 
-Although `ECOTOXr` has experimental features to search the on-line
+Although `ECOTOXr` has experimental features to search the online
 database. The package will reach its full potential when you build a
 copy of the database on your local machine.
 

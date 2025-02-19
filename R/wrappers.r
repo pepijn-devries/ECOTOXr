@@ -155,6 +155,8 @@ search_ecotox_lazy <- function(search, output_fields = list_ecotox_fields("defau
 #' @export
 search_query_ecotox <- function(search, output_fields = list_ecotox_fields("default"), ...) {
   search_result <- search_ecotox_lazy(search, output_fields, ...)
+  dbcon         <- search_result[["src"]]$con
+  dbDisconnect(dbcon)
   database_file <- attributes(search_result)$database_file
   search_result <- search_result |> dbplyr::sql_render()
   return(.add_tags(search_result, database_file))

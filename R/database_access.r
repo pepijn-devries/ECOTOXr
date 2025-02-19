@@ -250,7 +250,7 @@ check_ecotox_build <- function(path = get_ecotox_path(), version, ...) {
 
 #' Check if the locally build database is up to date
 #'
-#' `r lifecycle::badge('stable')` Checks the version of the database available on-line
+#' `r lifecycle::badge('stable')` Checks the version of the database available online
 #' from the EPA against the specified version (latest by default) of the database build
 #' locally. Returns `TRUE` when they are the same.
 #'

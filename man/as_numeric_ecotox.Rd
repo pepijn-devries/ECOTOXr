@@ -31,13 +31,16 @@ The following steps are performed to sanitise text before coercing it to numeric
 \item Operators (\code{">"}, \code{">="}, \code{"<"}, \code{"<="}, \code{"~"}, \code{"="}, \code{"ca"}, \code{"er"})
 are removed.
 \item Text between brackets (\code{"()"}) is removed (including the brackets)
-\item If comma's are it is considered to be a thousand separator when it is located
+\item Comma's are considered to be a thousand separator when they are located
 at any fourth character (from the right) and removed. Comma's at any other location
 is assumed to be a decimal separator and is replaced by a period.
 \item If there is a hyphen present (not preceded by an "\code{"e"} or \code{"E"}) it is probably
 representing a range of values. When \code{range_fun} is \code{NULL} it will result in a \code{NA}.
 Otherwise, the numbers are split at the hyphen and aggregated with \code{range_fun}
 }
+
+It is your own responsibility to check if the sanitising steps are appropriate for
+your analyses.
 }
 \examples{
 ## a vector of commonly used notations in the database to represent

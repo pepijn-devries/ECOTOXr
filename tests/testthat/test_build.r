@@ -72,5 +72,29 @@ test_that("Numerics in search results can be processed", {
   })
 })
 
+test_that("A SQL query can be obtained from a search", {
+  expect_no_error({
+    search_query_ecotox (
+      search = list(
+        result_id = (list(terms = 1, method = "contains"))
+      ),
+      path = tempdir()
+    )
+  })
+})
+
+test_that("Unknownfields are ignored", {
+  expect_warning({
+    search_ecotox(
+      search = list(
+        result_id = (list(terms = 1, method = "contains"))
+      ),
+      output_fields = "foobar",
+      path = tempdir()
+    ) |>
+      suppressMessages()
+  })
+})
+
 unlink(sprintf("%s.sqlite", source_path))
 unlink(source_path, recursive = TRUE)
