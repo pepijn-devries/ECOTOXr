@@ -33,3 +33,9 @@ test_that("Without a build, no citation can be returned", {
     }
   })
 })
+
+test_that("Can only convert characters to ECOTOX numerics", {
+  expect_error({
+    as_numeric_ecotox(1L)
+  })
+})

@@ -91,7 +91,8 @@ test_that("Unknownfields are ignored", {
       ),
       output_fields = "foobar",
       path = tempdir()
-    )
+    ) |>
+      suppressMessages()
   })
 })
 
