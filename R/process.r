@@ -70,7 +70,7 @@ process_ecotox_numerics <- function(x, .fns = as_numeric_ecotox, ..., .names = N
 #'  * Operators (`">"`, `">="`, `"<"`, `"<="`, `"~"`, `"="`, `"ca"`, `"er"`)
 #'    are removed.
 #'  * Text between brackets (`"()"`) is removed (including the brackets)
-#'  * If comma's are it is considered to be a thousand separator when it is located
+#'  * Comma's are considered to be a thousand separator when they are located
 #'    at any fourth character (from the right) and removed. Comma's at any other location
 #'    is assumed to be a decimal separator and is replaced by a period.
 #'  * If there is a hyphen present (not preceded by an "`"e"` or `"E"`) it is probably

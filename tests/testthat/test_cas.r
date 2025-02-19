@@ -18,7 +18,7 @@ test_that("is.cas doesn't throw errors", {
   expect_true(is.cas(c(as.cas(71432L), "71432")))
 })
 
-test_that("EXtract and replace methods don't throw errors for cas objects", {
+test_that("Extract and replace methods don't throw errors for cas objects", {
    expect_true({
      cas_data <- cas(100)
      cas_data[4:10]
@@ -53,4 +53,20 @@ test_that("as.list.cas returns a list", {
 
 test_that("as.cas returns a cas", {
   expect_s3_class(as.cas("71432"), "cas")
+})
+
+test_that("Huge CAS to integer returns NA", {
+  expect_true({
+    huge_cas <- as.cas("9999999-99-5")
+    my_int   <- as.integer(huge_cas) |> suppressWarnings()
+    is.na(my_int)
+  })
+})
+
+test_that("Simple S3 functions work", {
+  expect_no_error({
+    my_cas <- as.cas("71432")
+    print.cas(my_cas)
+    show.cas(my_cas)
+  })
 })
