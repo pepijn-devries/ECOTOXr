@@ -24,7 +24,7 @@ Returns a \code{logical} value invisibly indicating whether the locally build
 is up to date with the latest release by the EPA.
 }
 \description{
-\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#stable}{\figure{lifecycle-stable.svg}{options: alt='[Stable]'}}}{\strong{[Stable]}} Checks the version of the database available on-line
+\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#stable}{\figure{lifecycle-stable.svg}{options: alt='[Stable]'}}}{\strong{[Stable]}} Checks the version of the database available online
 from the EPA against the specified version (latest by default) of the database build
 locally. Returns \code{TRUE} when they are the same.
 }

@@ -111,4 +111,4 @@ search_results$`Aquatic-Export`
 
 When aiming for reproducibility it is better to query the local database, as the online
 tool may not be able to search and export all fields; data may change and is beyond your control;
-and it is processed on the server which forms a black box.
+and it is processed on the server which forms a black box. See also `vignette("reproducibility")`.

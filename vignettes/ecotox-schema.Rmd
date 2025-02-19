@@ -175,7 +175,7 @@ join types (like left, right, inner and anti; see `?dplyr::join`) to
 efficiently join tables from the database. Note that `search_ecotox()`
 creates a query based on the provided search terms and output fields,
 and 'blindly' uses many left joins to get the information from the
-database. For complex queries, this not a very efficient method to
+database. For complex queries, this is not a very efficient method to
 obtain data from the database.
 
 ```{r eval = FALSE}

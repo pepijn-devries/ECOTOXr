@@ -58,7 +58,9 @@ by setting \code{verify_ssl = FALSE}; but only do so when you trust the download
 \examples{
 \dontrun{
 ## This will download and build the database in your temp dir:
-download_ecotox_data(tempdir())
+if (interactive()) {
+  download_ecotox_data(tempdir())
+}
 }
 }
 \author{

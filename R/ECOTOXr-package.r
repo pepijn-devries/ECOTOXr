@@ -54,13 +54,13 @@
 #' * The user has full control over the release version of the database that is being used.
 #'
 #' @section Why does this package promotes using a local copy of the ECOTOX database?:
-#' Although this package offers experimental features for searching on-line, there are several reasons why we
+#' Although this package offers experimental features for searching online, there are several reasons why we
 #' opted for creating a local copy:
 #' * The user would be restricted to the search options provided on the website ([ECOTOX](https://cfpub.epa.gov/ecotox/)).
-#' * The on-line database doesn't come with an API that would allow for convenient interface. This is why
+#' * The online database doesn't come with an API that would allow for convenient interface. This is why
 #'   features implemented in this package are experimental.
 #' * The user is not limited by an internet connection and its bandwidth.
-#' * Not all database fields, and only a limited number of records, can be retrieved from the on-line interface.
+#' * Not all database fields, and only a limited number of records, can be retrieved from the online interface.
 #' @references
 #' Official US EPA ECOTOX website:
 #' <https://cfpub.epa.gov/ecotox/>

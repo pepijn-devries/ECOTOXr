@@ -159,13 +159,17 @@ get_ecotox_path <- function() {
 #' @examples
 #' \dontrun{
 #' ## This will download and build the database in your temp dir:
-#' download_ecotox_data(tempdir())
+#' if (interactive()) {
+#'   download_ecotox_data(tempdir())
+#' }
 #' }
 #' @author Pepijn de Vries
 #' @export
 download_ecotox_data <- function(
     target = get_ecotox_path(), write_log = TRUE, ask = TRUE,
     verify_ssl = getOption("ECOTOXr_verify_ssl"), ...) {
+  if (!interactive() && ask)
+    stop("I cannot 'ask' if the session is not interactive")
   if (is.null(verify_ssl)) verify_ssl <- TRUE
   avail <- check_ecotox_availability(target)
   if (avail && ask) {

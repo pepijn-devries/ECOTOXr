@@ -32,7 +32,7 @@ ECOTOXr v1.0.9
 ECOTOXr v1.0.5
 -------------
 
-  * Added verify_ssl argument to on-line
+  * Added verify_ssl argument to online
     functions in order to make it easier to
     try and avert failing certificate checks.
     
@@ -65,7 +65,7 @@ ECOTOXr v1.0.2
 ECOTOXr v1.0.1
 -------------
 
-  * Experimental features for on-line searching of
+  * Experimental features for online searching of
     ECOTOX and CompTox
 
   * Switched to roxygen2md for documentation and

@@ -18,6 +18,15 @@ test_that("Faulty checksum in CAS throws error", {
   })
 })
 
+test_that("Cannot ask in a non-interactive session", {
+  expect_error({
+    if (interactive()) {
+      stop("this test doesn't work in an interactive environment")
+    } else {
+      download_ecotox_data(tempdir(), ask = TRUE)
+    }
+  })
+})
 test_that("Cannot pass multiple versions to get_ecotox_sqlite_file", {
   expect_error({
     get_ecotox_sqlite_file(version = c("2024-06-13", "2024-12-12"))

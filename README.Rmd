@@ -28,7 +28,7 @@ More specifically you can:
 
  * Build a local SQLite copy of the [US EPA ECOTOX database](https://cfpub.epa.gov/ecotox/)
  * Search and extract data from the local database
- * Use experimental features to search the on-line dashboards: [ECOTOX](https://cfpub.epa.gov/ecotox/search.cfm) and
+ * Use experimental features to search the online dashboards: [ECOTOX](https://cfpub.epa.gov/ecotox/search.cfm) and
    [CompTox](https://comptox.epa.gov/dashboard/batch-search)
 
 ## Why use `ECOTOXr`?
@@ -57,7 +57,7 @@ install.packages("ECOTOXr", repos = c("https://pepijn-devries.r-universe.dev", "
 
 ### Preparing the database
 
-Although `ECOTOXr` has experimental features to search the on-line database. The package will
+Although `ECOTOXr` has experimental features to search the online database. The package will
 reach its full potential when you build a copy of the database on your local machine.
 
 > Download and build a local copy of the latest ASCII export of the US EPA ECOTOX database
