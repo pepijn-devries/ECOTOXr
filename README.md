@@ -9,7 +9,7 @@ status](https://github.com/pepijn-devries/ECOTOXr/workflows/R-CMD-check/badge.sv
 version](https://www.r-pkg.org/badges/version/ECOTOXr)](https://CRAN.R-project.org/package=ECOTOXr)
 [![R-universe
 version](https://pepijn-devries.r-universe.dev/ECOTOXr/badges/version)](https://pepijn-devries.r-universe.dev/ECOTOXr)
-![cranlogs](https://cranlogs.r-pkg.org/badges/ECOTOXr) [![Codecov test
+[![Codecov test
 coverage](https://codecov.io/gh/pepijn-devries/ECOTOXr/branch/main/graph/badge.svg)](https://app.codecov.io/gh/pepijn-devries/ECOTOXr?branch=main)
 ![cranlogs](https://cranlogs.r-pkg.org/badges/ECOTOXr)
 <!-- badges: end -->

@@ -1,4 +1,4 @@
-ECOTOXr v1.1.1.0007
+ECOTOXr v1.1.1.0008
 -------------
 
   * Added data sanitisers `process_ecotox_numerics()`

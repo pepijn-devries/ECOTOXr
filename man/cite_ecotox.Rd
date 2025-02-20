@@ -7,8 +7,8 @@
 cite_ecotox(path = get_ecotox_path(), version)
 }
 \arguments{
-\item{path}{A \code{character} string with the path to the location of the local database \(default is
-\code{\link[=get_ecotox_path]{get_ecotox_path()}}\).}
+\item{path}{A \code{character} string with the path to the location of the local database (default is
+\code{\link[=get_ecotox_path]{get_ecotox_path()}}).}
 
 \item{version}{A \code{character} string referring to the release version of the database you wish to locate.
 It should have the same format as the date in the EPA download link, which is month, day, year, separated by

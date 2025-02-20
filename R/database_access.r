@@ -76,8 +76,8 @@ dbDisconnectEcotox <- function(conn, ...) {
 #' function to obtain a citation to that specific download.
 #'
 #' In order for others to reproduce your results, it is key to cite the data source as accurately as possible.
-#' @param path A `character` string with the path to the location of the local database \(default is
-#' [get_ecotox_path()]\).
+#' @param path A `character` string with the path to the location of the local database (default is
+#' [get_ecotox_path()]).
 #' @param version A `character` string referring to the release version of the database you wish to locate.
 #' It should have the same format as the date in the EPA download link, which is month, day, year, separated by
 #' underscores ("%m_%d_%Y"). When missing, the most recent available copy is selected automatically.
