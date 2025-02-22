@@ -308,3 +308,14 @@ test_that("Listing fields works for different scopes", {
     all(list_ecotox_fields("extended") %in% list_ecotox_fields("full"))
   })
 })
+
+test_that("Citation file is created correctly", {
+  expect_no_error({
+    dest_path <- file.path(tempdir(), "ecotox_ascii_12_12_2024.zip")
+    dummy_file <- file.path(tempdir(), "ecotox_ascii_12_12_2024.sqlite")
+    file.create(dummy_file)
+    ECOTOXr:::.write_citation(dest_path, "foobar_12_12_2024.zip")
+    cite_ecotox(tempdir(), "12_12_2024")
+    file.remove(gsub(".zip", "_cit.txt", dest_path), dummy_file)
+  })
+})

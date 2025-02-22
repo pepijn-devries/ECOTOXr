@@ -48,3 +48,9 @@ test_that("Can only convert characters to ECOTOX numerics", {
     as_numeric_ecotox(1L)
   })
 })
+
+test_that("Can only convert characters to ECOTOX dates", {
+  expect_error({
+    as_date_ecotox(1L)
+  })
+})
