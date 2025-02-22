@@ -20,6 +20,8 @@
 #'   get_ecotox_url()
 #' }
 #' @author Pepijn de Vries
+#' @family database-build-functions
+#' @family online-functions
 #' @export
 get_ecotox_url <- function(verify_ssl = getOption("ECOTOXr_verify_ssl"), ...) {
   if (is.null(verify_ssl)) verify_ssl <- TRUE
@@ -69,6 +71,7 @@ get_ecotox_url <- function(verify_ssl = getOption("ECOTOXr_verify_ssl"), ...) {
 #' @examples
 #' check_ecotox_availability()
 #' @author Pepijn de Vries
+#' @family database-access-functions
 #' @export
 check_ecotox_availability <- function(target = get_ecotox_path()) {
   files    <- list.files(target)
@@ -118,6 +121,7 @@ check_ecotox_availability <- function(target = get_ecotox_path()) {
 #'   get_ecotox_sqlite_file()
 #' }
 #' @author Pepijn de Vries
+#' @family database-access-functions
 #' @export
 get_ecotox_path <- function() {
   getOption("ECOTOXr_path", rappdirs::app_dir("ECOTOXr")$cache())
@@ -164,6 +168,8 @@ get_ecotox_path <- function() {
 #' }
 #' }
 #' @author Pepijn de Vries
+#' @family database-build-functions
+#' @family online-functions
 #' @export
 download_ecotox_data <- function(
     target = get_ecotox_path(), write_log = TRUE, ask = TRUE,
@@ -307,6 +313,7 @@ download_ecotox_data <- function(
 #' 
 #' build_ecotox_sqlite(source_path, tempdir())
 #' @author Pepijn de Vries
+#' @family database-build-functions
 #' @export
 build_ecotox_sqlite <- function(source, destination = get_ecotox_path(), write_log = TRUE) {
   Sys.setenv("VROOM_CONNECTION_SIZE" = "41950304") # Increase the size for read_table

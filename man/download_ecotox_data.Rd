@@ -63,6 +63,19 @@ if (interactive()) {
 }
 }
 }
+\seealso{
+Other database-build-functions: 
+\code{\link{build_ecotox_sqlite}()},
+\code{\link{check_ecotox_build}()},
+\code{\link{check_ecotox_version}()},
+\code{\link{get_ecotox_url}()}
+
+Other online-functions: 
+\code{\link{get_ecotox_url}()},
+\code{\link{websearch_ecotox}()}
+}
 \author{
 Pepijn de Vries
 }
+\concept{database-build-functions}
+\concept{online-functions}

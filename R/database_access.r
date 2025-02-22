@@ -53,6 +53,7 @@ get_ecotox_sqlite_file <- function(path = get_ecotox_path(), version) {
 #'   dbDisconnectEcotox(con)
 #' }
 #' @author Pepijn de Vries
+#' @family database-access-functions
 #' @export
 dbConnectEcotox <- function(path = get_ecotox_path(), version, ...) {
   f <- get_ecotox_sqlite_file(path, version)
@@ -76,8 +77,8 @@ dbDisconnectEcotox <- function(conn, ...) {
 #' function to obtain a citation to that specific download.
 #'
 #' In order for others to reproduce your results, it is key to cite the data source as accurately as possible.
-#' @param path A `character` string with the path to the location of the local database \(default is
-#' [get_ecotox_path()]\).
+#' @param path A `character` string with the path to the location of the local database (default is
+#' [get_ecotox_path()]).
 #' @param version A `character` string referring to the release version of the database you wish to locate.
 #' It should have the same format as the date in the EPA download link, which is month, day, year, separated by
 #' underscores ("%m_%d_%Y"). When missing, the most recent available copy is selected automatically.
@@ -91,6 +92,7 @@ dbDisconnectEcotox <- function(conn, ...) {
 #'   cite_ecotox()
 #' }
 #' @author Pepijn de Vries
+#' @family database-access-functions
 #' @export
 cite_ecotox <- function(path = get_ecotox_path(), version) {
   db  <- get_ecotox_sqlite_file(path, version)
@@ -124,6 +126,7 @@ cite_ecotox <- function(path = get_ecotox_path(), version) {
 #'   get_ecotox_info()
 #' }
 #' @author Pepijn de Vries
+#' @family database-access-functions
 #' @export
 get_ecotox_info <- function(path = get_ecotox_path(), version) {
   default <- "No information available\n"
@@ -173,6 +176,7 @@ get_ecotox_info <- function(path = get_ecotox_path(), version) {
 #' ## 'dose_stat_method_codes' that are available from the ECOTOX database:
 #' list_ecotox_fields("full")
 #' @author Pepijn de Vries
+#' @family database-access-functions
 #' @export
 list_ecotox_fields <- function(which = c("default", "extended", "full", "all"), include_table = TRUE) {
   which <- match.arg(which)
@@ -212,6 +216,8 @@ list_ecotox_fields <- function(which = c("default", "extended", "full", "all"), 
 #'   check_ecotox_build()
 #' }
 #' @author Pepijn de Vries
+#' @family database-access-functions
+#' @family database-build-functions
 #' @export
 check_ecotox_build <- function(path = get_ecotox_path(), version, ...) {
   validity <- TRUE
@@ -267,6 +273,8 @@ check_ecotox_build <- function(path = get_ecotox_path(), version, ...) {
 #'   check_ecotox_version()
 #' }
 #' @author Pepijn de Vries
+#' @family database-access-functions
+#' @family database-build-functions
 #' @export
 check_ecotox_version <- function(path = get_ecotox_path(), version, verbose = TRUE, ...) {
   u <-

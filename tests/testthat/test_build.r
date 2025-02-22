@@ -72,6 +72,19 @@ test_that("Numerics in search results can be processed", {
   })
 })
 
+test_that("Dates in search results can be processed", {
+  expect_no_error({
+    search_ecotox(
+      search = list(
+        result_id = (list(terms = 1, method = "contains"))
+      ),
+      path = tempdir()
+    ) |>
+      suppressMessages() |>
+      process_ecotox_dates(warn = FALSE)
+  })
+})
+
 test_that("A SQL query can be obtained from a search", {
   expect_no_error({
     search_query_ecotox (
@@ -79,7 +92,8 @@ test_that("A SQL query can be obtained from a search", {
         result_id = (list(terms = 1, method = "contains"))
       ),
       path = tempdir()
-    )
+    ) |>
+      suppressMessages()
   })
 })
 

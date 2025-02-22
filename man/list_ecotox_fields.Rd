@@ -46,6 +46,17 @@ list_ecotox_fields("all")
 ## 'dose_stat_method_codes' that are available from the ECOTOX database:
 list_ecotox_fields("full")
 }
+\seealso{
+Other database-access-functions: 
+\code{\link{check_ecotox_availability}()},
+\code{\link{check_ecotox_build}()},
+\code{\link{check_ecotox_version}()},
+\code{\link{cite_ecotox}()},
+\code{\link{dbConnectEcotox}()},
+\code{\link{get_ecotox_info}()},
+\code{\link{get_ecotox_sqlite_file}()}
+}
 \author{
 Pepijn de Vries
 }
+\concept{database-access-functions}

@@ -7,8 +7,8 @@
 cite_ecotox(path = get_ecotox_path(), version)
 }
 \arguments{
-\item{path}{A \code{character} string with the path to the location of the local database \(default is
-\code{\link[=get_ecotox_path]{get_ecotox_path()}}\).}
+\item{path}{A \code{character} string with the path to the location of the local database (default is
+\code{\link[=get_ecotox_path]{get_ecotox_path()}}).}
 
 \item{version}{A \code{character} string referring to the release version of the database you wish to locate.
 It should have the same format as the date in the EPA download link, which is month, day, year, separated by
@@ -35,6 +35,17 @@ if (check_ecotox_availability()) {
   cite_ecotox()
 }
 }
+\seealso{
+Other database-access-functions: 
+\code{\link{check_ecotox_availability}()},
+\code{\link{check_ecotox_build}()},
+\code{\link{check_ecotox_version}()},
+\code{\link{dbConnectEcotox}()},
+\code{\link{get_ecotox_info}()},
+\code{\link{get_ecotox_sqlite_file}()},
+\code{\link{list_ecotox_fields}()}
+}
 \author{
 Pepijn de Vries
 }
+\concept{database-access-functions}

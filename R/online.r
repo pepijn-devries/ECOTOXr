@@ -37,7 +37,7 @@
 #'   search_results <- websearch_ecotox(search_fields)
 #' }
 #' @author Pepijn de Vries
-#' @family online-search-functions
+#' @family online-functions
 #' @family search-functions
 #' @export
 websearch_ecotox <- function(
@@ -161,8 +161,6 @@ list_ecotox_web_fields <- function(...) {
 #'   comptox_results2 <- websearch_comptox("100", inputType = "MASS", massError = 5)
 #' }
 #' @author Pepijn de Vries
-#' @family onlinesearch-functions
-#' @family search-functions
 #' @references
 #' Official US EPA CompTox website:
 #' <https://comptox.epa.gov/dashboard/>
