@@ -1,8 +1,9 @@
 ECOTOXr v1.1.1.0008
 -------------
 
-  * Added data sanitisers `process_ecotox_numerics()`
-    and `as_numeric_ecotox()`
+  * Added data sanitisers `process_ecotox_numerics()`,
+    `as_numeric_ecotox()`, `process_ecotox_dates()`
+    and `as_date_ecotox()`
   * Expanded the documentation with vignettes
   * Fixed check upon attach
   * Correction in database specifications
