@@ -65,8 +65,12 @@ test_that("Huge CAS to integer returns NA", {
 
 test_that("Simple S3 functions work", {
   expect_no_error({
+    mysink <- tempfile()
+    sink(mysink)
     my_cas <- as.cas("71432")
     print.cas(my_cas)
     show.cas(my_cas)
+    sink()
+    file.remove(mysink)
   })
 })

@@ -54,6 +54,13 @@ as_numeric_ecotox(char_num, warn = FALSE)
 ## Text fields reported as ranges are processed with `range_fun`
 as_numeric_ecotox(char_num, range_fun = median)
 }
+\seealso{
+Other ecotox-sanitisers: 
+\code{\link{as_date_ecotox}()},
+\code{\link{process_ecotox_dates}()},
+\code{\link{process_ecotox_numerics}()}
+}
 \author{
 Pepijn de Vries
 }
+\concept{ecotox-sanitisers}

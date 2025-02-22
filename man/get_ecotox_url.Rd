@@ -32,6 +32,19 @@ if (interactive()) {
   get_ecotox_url()
 }
 }
+\seealso{
+Other database-build-functions: 
+\code{\link{build_ecotox_sqlite}()},
+\code{\link{check_ecotox_build}()},
+\code{\link{check_ecotox_version}()},
+\code{\link{download_ecotox_data}()}
+
+Other online-functions: 
+\code{\link{download_ecotox_data}()},
+\code{\link{websearch_ecotox}()}
+}
 \author{
 Pepijn de Vries
 }
+\concept{database-build-functions}
+\concept{online-functions}

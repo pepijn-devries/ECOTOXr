@@ -92,6 +92,7 @@
 #' ## This will create a list:
 #' as.list(cas_data)
 #' @author Pepijn de Vries
+#' @family cas-handlers
 #' @export
 cas <- function(length = 0L) {
   structure (
@@ -103,6 +104,7 @@ cas <- function(length = 0L) {
 
 #' @rdname cas
 #' @name is.cas
+#' @family cas-handlers
 #' @export
 is.cas <- function(x) {
   if (!inherits(x, "cas")) return(FALSE)
@@ -119,6 +121,7 @@ is.cas <- function(x) {
 
 #' @rdname cas
 #' @name as.cas
+#' @family cas-handlers
 #' @export
 as.cas <- function(x) {
   if (is.cas(x)) return(x)
@@ -141,6 +144,7 @@ as.cas <- function(x) {
 
 #' @rdname cas
 #' @name [[.cas
+#' @family cas-handlers
 #' @export
 `[[.cas` <- function(x, i) {
   attribs          <- attributes(x)
@@ -154,6 +158,7 @@ as.cas <- function(x) {
 
 #' @rdname cas
 #' @name [.cas
+#' @family cas-handlers
 #' @export
 `[.cas` <- function(x, i) {
   attribs          <- attributes(x)
@@ -167,6 +172,7 @@ as.cas <- function(x) {
 
 #' @rdname cas
 #' @name [[<-.cas
+#' @family cas-handlers
 #' @export
 `[[<-.cas` <- function(x, i, value) {
   value            <- as.cas(value)
@@ -181,6 +187,7 @@ as.cas <- function(x) {
 
 #' @rdname cas
 #' @name [<-.cas
+#' @family cas-handlers
 #' @export
 `[<-.cas` <- function(x, i, value) {
   value            <- as.cas(value)
@@ -195,6 +202,7 @@ as.cas <- function(x) {
 
 #' @rdname cas
 #' @name format.cas
+#' @family cas-handlers
 #' @export
 format.cas <- function(x, hyphenate = TRUE, ...) {
   checksums <- attributes(x)$checksum
@@ -215,6 +223,7 @@ format.cas <- function(x, hyphenate = TRUE, ...) {
 
 #' @rdname cas
 #' @name as.character.cas
+#' @family cas-handlers
 #' @export
 as.character.cas <- function(x, ...) {
   format(x, ...)
@@ -222,6 +231,7 @@ as.character.cas <- function(x, ...) {
 
 #' @rdname cas
 #' @name show.cas
+#' @family cas-handlers
 #' @export
 show.cas <- function(x, ...) {
   format(x, ...)
@@ -229,6 +239,7 @@ show.cas <- function(x, ...) {
 
 #' @rdname cas
 #' @name print.cas
+#' @family cas-handlers
 #' @export
 print.cas <- function(x, ...) {
   if (length(x) == 0)
@@ -237,6 +248,7 @@ print.cas <- function(x, ...) {
 
 #' @rdname cas
 #' @name as.list.cas
+#' @family cas-handlers
 #' @export
 as.list.cas <- function(x, ...) {
   lapply(seq_along(x), function(i) x[i])
@@ -244,6 +256,7 @@ as.list.cas <- function(x, ...) {
 
 #' @rdname cas
 #' @name as.double.cas
+#' @family cas-handlers
 #' @export
 as.double.cas <- function(x, ...) {
   as.double(as.integer.cas(x, ...), ...)
@@ -251,6 +264,7 @@ as.double.cas <- function(x, ...) {
 
 #' @rdname cas
 #' @name as.integer.cas
+#' @family cas-handlers
 #' @export
 as.integer.cas <- function(x, ...) {
   checksums <- as.integer(attributes(x)$checksum, ...)
@@ -261,6 +275,7 @@ as.integer.cas <- function(x, ...) {
 
 #' @rdname cas
 #' @name c.cas
+#' @family cas-handlers
 #' @export
 c.cas <- function(...) {
   result        <- list(...)
@@ -274,6 +289,7 @@ c.cas <- function(...) {
 
 #' @rdname cas
 #' @name as.data.frame.cas
+#' @family cas-handlers
 #' @export
 as.data.frame.cas <- function(...) {
   as.data.frame(tibble::tibble(...))

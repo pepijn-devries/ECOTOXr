@@ -35,6 +35,17 @@ if (check_ecotox_availability()) {
   cite_ecotox()
 }
 }
+\seealso{
+Other database-access-functions: 
+\code{\link{check_ecotox_availability}()},
+\code{\link{check_ecotox_build}()},
+\code{\link{check_ecotox_version}()},
+\code{\link{dbConnectEcotox}()},
+\code{\link{get_ecotox_info}()},
+\code{\link{get_ecotox_sqlite_file}()},
+\code{\link{list_ecotox_fields}()}
+}
 \author{
 Pepijn de Vries
 }
+\concept{database-access-functions}

@@ -62,12 +62,15 @@ if (interactive()) {
 }
 }
 \seealso{
+Other online-functions: 
+\code{\link{download_ecotox_data}()},
+\code{\link{get_ecotox_url}()}
+
 Other search-functions: 
-\code{\link{search_ecotox}()},
-\code{\link{websearch_comptox}()}
+\code{\link{search_ecotox}()}
 }
 \author{
 Pepijn de Vries
 }
-\concept{online-search-functions}
+\concept{online-functions}
 \concept{search-functions}

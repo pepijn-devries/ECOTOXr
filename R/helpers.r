@@ -45,7 +45,9 @@
     dplyr::group_by(table) |>
     dplyr::group_map(~{
       dplyr::tibble(
-        tbl   = list(tbl(dbcon, .x$table[[1]]) |> dplyr::filter(!!sql(paste(sprintf("(%s)", .x$where), collapse = " AND ")))),
+        tbl   = list(
+          tbl(dbcon, .x$table[[1]]) |>
+            dplyr::filter(!!sql(paste(sprintf("(%s)", .x$where), collapse = " AND ")))),
         table = .x$table[[1]]
       )}, .keep = T) |>
     dplyr::bind_rows() |>

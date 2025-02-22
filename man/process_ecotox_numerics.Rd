@@ -51,6 +51,13 @@ if (check_ecotox_availability()) {
     process_ecotox_numerics(df, warn = FALSE)
 }
 }
+\seealso{
+Other ecotox-sanitisers: 
+\code{\link{as_date_ecotox}()},
+\code{\link{as_numeric_ecotox}()},
+\code{\link{process_ecotox_dates}()}
+}
 \author{
 Pepijn de Vries
 }
+\concept{ecotox-sanitisers}

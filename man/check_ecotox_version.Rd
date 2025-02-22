@@ -33,6 +33,24 @@ if (check_ecotox_availability()) {
   check_ecotox_version()
 }
 }
+\seealso{
+Other database-access-functions: 
+\code{\link{check_ecotox_availability}()},
+\code{\link{check_ecotox_build}()},
+\code{\link{cite_ecotox}()},
+\code{\link{dbConnectEcotox}()},
+\code{\link{get_ecotox_info}()},
+\code{\link{get_ecotox_sqlite_file}()},
+\code{\link{list_ecotox_fields}()}
+
+Other database-build-functions: 
+\code{\link{build_ecotox_sqlite}()},
+\code{\link{check_ecotox_build}()},
+\code{\link{download_ecotox_data}()},
+\code{\link{get_ecotox_url}()}
+}
 \author{
 Pepijn de Vries
 }
+\concept{database-access-functions}
+\concept{database-build-functions}
