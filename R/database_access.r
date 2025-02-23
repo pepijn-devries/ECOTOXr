@@ -277,6 +277,7 @@ check_ecotox_build <- function(path = get_ecotox_path(), version, ...) {
 #' @family database-build-functions
 #' @export
 check_ecotox_version <- function(path = get_ecotox_path(), version, verbose = TRUE, ...) {
+  browser() #TODO
   u <-
     get_ecotox_url(...) |>
     basename() |>
@@ -287,7 +288,7 @@ check_ecotox_version <- function(path = get_ecotox_path(), version, verbose = TR
   if (!available) {
     if (verbose) {
       message(crayon::red(
-        "No databased present at the specified path"
+        "No database present at the specified path"
       ))
     }
     return(invisible(FALSE))

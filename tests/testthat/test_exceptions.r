@@ -33,6 +33,16 @@ test_that("Cannot pass multiple versions to get_ecotox_sqlite_file", {
   })
 })
 
+test_that("Message when database is not available", {
+  expect_message({
+    if (check_ecotox_availability()) {
+      message("db available")
+    } else {
+      check_ecotox_version(tempdir())
+    }
+  })
+})
+
 test_that("Can only convert characters to ECOTOX numerics", {
   expect_error({
     as_numeric_ecotox(1L)
