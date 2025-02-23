@@ -228,26 +228,9 @@ download_ecotox_data <- function(
       proceed.unzip <- startsWith("Y", toupper(prompt))
     }
   }
-  if (proceed.unzip) {
-    message(crayon::white("Extracting downloaded zip file... "))
-    exdir     <- gsub(".zip", "", basename(link))
-    file_list <- utils::unzip(file.path(target, utils::tail(unlist(strsplit(link, "/")), 1)),
-                              list = TRUE)$Name
-    if (all(startsWith(file_list, exdir))) exdir <- ""
-    utils::unzip(file.path(target, utils::tail(unlist(strsplit(link, "/")), 1)),
-                 exdir = file.path(target, exdir))
-    message(crayon::green("Done\n"))
-    if (ask &&
-        startsWith("Y", toupper(readline(prompt = "Done extracting zip file, remove it to save disk space (y/n)? ")))) {
-      message(crayon::white("Trying to delete zip file... "))
-      tryCatch({
-        file.remove(file.path(target, utils::tail(unlist(strsplit(link, "/")), 1)))
-        message(crayon::green("Done\n"))
-      }, error = function(e) {
-        message(crayon::red("Failed to delete the file, continuing with next step"))
-      })
-    }
-  }
+  
+  if (proceed.unzip) .unzip_ecotox(ask, link, target)
+  
   message(crayon::white("Start constructing SQLite database from downloaded tables...\n"))
   message(crayon::white("Note that this may take some time...\n"))
   build_ecotox_sqlite(extr.path, target, write_log)
@@ -266,6 +249,27 @@ download_ecotox_data <- function(
     howpublished = link,
     note         = format(Sys.Date(), "Accessed: %Y-%m-%d")), "R"), con)
   close(con)
+}
+
+.unzip_ecotox <- function(ask, link, target, remove = TRUE) {
+  message(crayon::white("Extracting downloaded zip file... "))
+  exdir     <- gsub(".zip", "", basename(link))
+  file_list <- utils::unzip(file.path(target, utils::tail(unlist(strsplit(link, "/")), 1)),
+                            list = TRUE)$Name
+  if (all(startsWith(file_list, exdir))) exdir <- ""
+  utils::unzip(file.path(target, utils::tail(unlist(strsplit(link, "/")), 1)),
+               exdir = file.path(target, exdir))
+  message(crayon::green("Done\n"))
+  if ((ask &&
+       startsWith("Y", toupper(readline(prompt = "Done extracting zip file, remove it to save disk space (y/n)? ")))) || remove) {
+    message(crayon::white("Trying to delete zip file... "))
+    tryCatch({
+      file.remove(file.path(target, utils::tail(unlist(strsplit(link, "/")), 1)))
+      message(crayon::green("Done\n"))
+    }, error = function(e) {
+      message(crayon::red("Failed to delete the file, continuing with next step"))
+    })
+  }
 }
 
 #' Build an SQLite database from zip archived tables downloaded from EPA website

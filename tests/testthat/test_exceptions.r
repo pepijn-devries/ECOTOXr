@@ -45,7 +45,8 @@ test_that("Message when database is not available", {
 
 test_that("Error for unsupported method", {
   expect_error({
-    search_ecotox(list(latin_name = list(terms = "foobar", method = "foobar")))
+    search_ecotox(list(latin_name = list(terms = "foobar", method = "foobar"))) |>
+      suppressWarnings()
   })
 })
 
