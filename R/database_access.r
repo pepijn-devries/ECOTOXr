@@ -277,11 +277,6 @@ check_ecotox_build <- function(path = get_ecotox_path(), version, ...) {
 #' @family database-build-functions
 #' @export
 check_ecotox_version <- function(path = get_ecotox_path(), version, verbose = TRUE, ...) {
-  u <-
-    get_ecotox_url(...) |>
-    basename() |>
-    stringr::str_extract("(?<=^ecotox_ascii_)(.*?)(?=\\.zip$)") |>
-    as.Date(format = "%m_%d_%Y")
   
   available <- check_ecotox_availability(path)
   if (!available) {
@@ -292,6 +287,13 @@ check_ecotox_version <- function(path = get_ecotox_path(), version, verbose = TR
     }
     return(invisible(FALSE))
   }
+  
+  u <-
+    get_ecotox_url(...) |>
+    basename() |>
+    stringr::str_extract("(?<=^ecotox_ascii_)(.*?)(?=\\.zip$)") |>
+    as.Date(format = "%m_%d_%Y")
+  
   f <-
     get_ecotox_sqlite_file(path, version)  |>
     basename() |>
