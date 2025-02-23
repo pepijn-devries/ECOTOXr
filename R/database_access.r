@@ -277,7 +277,6 @@ check_ecotox_build <- function(path = get_ecotox_path(), version, ...) {
 #' @family database-build-functions
 #' @export
 check_ecotox_version <- function(path = get_ecotox_path(), version, verbose = TRUE, ...) {
-  browser() #TODO
   u <-
     get_ecotox_url(...) |>
     basename() |>
