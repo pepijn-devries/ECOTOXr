@@ -319,3 +319,11 @@ test_that("Citation file is created correctly", {
     file.remove(gsub(".zip", "_cit.txt", dest_path), dummy_file)
   })
 })
+
+test_that("Can request citation", {
+  expect_no_error({
+    cite_ecotox() |>
+      suppressMessages() |>
+      suppressWarnings()
+  })
+})

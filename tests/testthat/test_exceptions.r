@@ -33,16 +33,6 @@ test_that("Cannot pass multiple versions to get_ecotox_sqlite_file", {
   })
 })
 
-test_that("Without a build, no citation can be returned", {
-  expect_error({
-    if (check_ecotox_availability()) {
-      stop("database is build")
-    } else{
-      cite_ecotox()
-    }
-  })
-})
-
 test_that("Can only convert characters to ECOTOX numerics", {
   expect_error({
     as_numeric_ecotox(1L)
