@@ -38,7 +38,7 @@ test_that("Message when database is not available", {
     if (check_ecotox_availability()) {
       message("db available")
     } else {
-      check_ecotox_version(tempdir())
+      check_ecotox_version()
     }
   })
 })
