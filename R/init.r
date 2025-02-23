@@ -215,17 +215,8 @@ download_ecotox_data <- function(
   }
   
   ## create bib-file for later reference
-  con <- file(gsub(".zip", "_cit.txt", dest_path), "w+")
-  release <- as.Date(stringr::str_sub(link, -15, -1), format = "_%m_%d_%Y.zip")
-  writeLines(format(utils::bibentry(
-    "misc",
-    title        = format(release, "US EPA ECOTOXicology Database System Version 5.0 release %Y-%m-%d"),
-    author       = utils::person(family = "US EPA", role = "aut"),
-    year         = format(release, "%Y"),
-    url          = link,
-    howpublished = link,
-    note         = format(Sys.Date(), "Accessed: %Y-%m-%d")), "R"), con)
-  close(con)
+  .write_citation(dest_path, link)
+  
   extr.path <- gsub(".zip", "", dest_path)
   proceed.unzip <- TRUE
   
@@ -261,6 +252,20 @@ download_ecotox_data <- function(
   message(crayon::white("Note that this may take some time...\n"))
   build_ecotox_sqlite(extr.path, target, write_log)
   return(invisible(NULL))
+}
+
+.write_citation <- function(dest_path, link) {
+  con <- file(gsub(".zip", "_cit.txt", dest_path), "w+")
+  release <- as.Date(stringr::str_sub(link, -15, -1), format = "_%m_%d_%Y.zip")
+  writeLines(format(utils::bibentry(
+    "misc",
+    title        = format(release, "US EPA ECOTOXicology Database System Version 5.0 release %Y-%m-%d"),
+    author       = utils::person(family = "US EPA", role = "aut"),
+    year         = format(release, "%Y"),
+    url          = link,
+    howpublished = link,
+    note         = format(Sys.Date(), "Accessed: %Y-%m-%d")), "R"), con)
+  close(con)
 }
 
 #' Build an SQLite database from zip archived tables downloaded from EPA website

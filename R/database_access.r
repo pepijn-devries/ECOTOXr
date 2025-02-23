@@ -95,7 +95,7 @@ dbDisconnectEcotox <- function(conn, ...) {
 #' @family database-access-functions
 #' @export
 cite_ecotox <- function(path = get_ecotox_path(), version) {
-  db  <- get_ecotox_sqlite_file(path, version)
+  db  <- tryCatch({ get_ecotox_sqlite_file(path, version) }, error = \(x) "")
   bib <- gsub(".sqlite", "_cit.txt", db, fixed = T)
   if (!file.exists(bib)) {
     message("No bibentry reference to database download found!")
@@ -277,21 +277,23 @@ check_ecotox_build <- function(path = get_ecotox_path(), version, ...) {
 #' @family database-build-functions
 #' @export
 check_ecotox_version <- function(path = get_ecotox_path(), version, verbose = TRUE, ...) {
+  
+  available <- check_ecotox_availability(path)
+  if (!available) {
+    if (verbose) {
+      message(crayon::red(
+        "No database present at the specified path"
+      ))
+    }
+    return(invisible(FALSE))
+  }
+  
   u <-
     get_ecotox_url(...) |>
     basename() |>
     stringr::str_extract("(?<=^ecotox_ascii_)(.*?)(?=\\.zip$)") |>
     as.Date(format = "%m_%d_%Y")
   
-  available <- check_ecotox_availability(path)
-  if (!available) {
-    if (verbose) {
-      message(crayon::red(
-        "No databased present at the specified path"
-      ))
-    }
-    return(invisible(FALSE))
-  }
   f <-
     get_ecotox_sqlite_file(path, version)  |>
     basename() |>

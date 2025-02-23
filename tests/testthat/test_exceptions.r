@@ -33,18 +33,30 @@ test_that("Cannot pass multiple versions to get_ecotox_sqlite_file", {
   })
 })
 
-test_that("Without a build, no citation can be returned", {
-  expect_error({
+test_that("Message when database is not available", {
+  expect_message({
     if (check_ecotox_availability()) {
-      stop("database is build")
-    } else{
-      cite_ecotox()
+      message("db available")
+    } else {
+      check_ecotox_version()
     }
+  })
+})
+
+test_that("Error for unsupported method", {
+  expect_error({
+    search_ecotox(list(latin_name = list(terms = "foobar", method = "foobar")))
   })
 })
 
 test_that("Can only convert characters to ECOTOX numerics", {
   expect_error({
     as_numeric_ecotox(1L)
+  })
+})
+
+test_that("Can only convert characters to ECOTOX dates", {
+  expect_error({
+    as_date_ecotox(1L)
   })
 })
