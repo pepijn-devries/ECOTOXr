@@ -1,9 +1,17 @@
 source_path <- tempfile()
 dir.create(source_path)
-source_path <- file.path(source_path, format(Sys.Date(), "ecotox_ascii_%m_%d_%Y"))
-dir.create(source_path)
-source_file <- system.file("ecotox-test.zip", package = "ECOTOXr")
-unzip(source_file, exdir = source_path)
+source_file <- file.path(source_path, "ecotox_ascii_01_01_2024.zip")
+file.copy(system.file("ecotox-test.zip", package = "ECOTOXr"),
+          source_file)
+
+test_that("Ecotox zip file can be unzipped", {
+  expect_no_error({
+    ECOTOXr:::.unzip_ecotox(FALSE, source_file, source_path, remove = TRUE) |>
+      suppressMessages()
+  })
+})
+
+source_path <- file.path(source_path, "ecotox_ascii_01_01_2024")
 
 test_that("Local build can be created from a small mockup file", {
   expect_no_error({
@@ -111,4 +119,4 @@ test_that("Unknownfields are ignored", {
 })
 
 unlink(sprintf("%s.sqlite", source_path))
-unlink(source_path, recursive = TRUE)
+unlink(file.path(source_path, "ecotox_12_12_20224"), recursive = TRUE)
