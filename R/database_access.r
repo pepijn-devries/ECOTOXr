@@ -95,7 +95,7 @@ dbDisconnectEcotox <- function(conn, ...) {
 #' @family database-access-functions
 #' @export
 cite_ecotox <- function(path = get_ecotox_path(), version) {
-  db  <- get_ecotox_sqlite_file(path, version)
+  db  <- tryCatch({ get_ecotox_sqlite_file(path, version) }, error = \(x) "")
   bib <- gsub(".sqlite", "_cit.txt", db, fixed = T)
   if (!file.exists(bib)) {
     message("No bibentry reference to database download found!")
