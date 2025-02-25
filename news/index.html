@@ -7,7 +7,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">ECOTOXr</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.1.1.0010</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.1.1.0011</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -38,7 +38,7 @@
     </div>
 
     <div class="section level2">
-<h2 class="pkg-version" data-toc-text="1.1.1.0010" id="ecotoxr-v1110010">ECOTOXr v1.1.1.0010<a class="anchor" aria-label="anchor" href="#ecotoxr-v1110010"></a></h2>
+<h2 class="pkg-version" data-toc-text="1.1.1.0011" id="ecotoxr-v1110011">ECOTOXr v1.1.1.0011<a class="anchor" aria-label="anchor" href="#ecotoxr-v1110011"></a></h2>
 <ul><li>Added data sanitisers <code><a href="../reference/process_ecotox_numerics.html">process_ecotox_numerics()</a></code>, <code><a href="../reference/as_numeric_ecotox.html">as_numeric_ecotox()</a></code>, <code><a href="../reference/process_ecotox_dates.html">process_ecotox_dates()</a></code> and <code><a href="../reference/as_date_ecotox.html">as_date_ecotox()</a></code>
 </li>
 <li>Expanded the documentation with vignettes</li>
@@ -54,7 +54,7 @@
 </ul></div>
     <div class="section level2">
 <h2 class="pkg-version" data-toc-text="1.0.9" id="ecotoxr-v109">ECOTOXr v1.0.9<a class="anchor" aria-label="anchor" href="#ecotoxr-v109"></a></h2><p class="text-muted">CRAN release: 2024-01-08</p>
-<ul><li>switched from the ‘magrittr’ pipe operator (‘%&gt;%’) to R’s native pipe operator (‘|&gt;’)</li>
+<ul><li>switched from the ‘magrittr’ pipe operator (<code>%&gt;%</code>) to R’s native pipe operator (<code>|&gt;</code>)</li>
 <li>switched from ‘httr’ to ‘httr2’ dependency</li>
 <li>Added functions to check the local build and its version</li>
 <li>Fix in database build routine</li>
@@ -63,8 +63,8 @@
 </ul></div>
     <div class="section level2">
 <h2 class="pkg-version" data-toc-text="1.0.5" id="ecotoxr-v105">ECOTOXr v1.0.5<a class="anchor" aria-label="anchor" href="#ecotoxr-v105"></a></h2><p class="text-muted">CRAN release: 2023-10-09</p>
-<ul><li><p>Added verify_ssl argument to online functions in order to make it easier to try and avert failing certificate checks.</p></li>
-<li><p>Minor fix in CAS handlers</p></li>
+<ul><li>Added verify_ssl argument to online functions in order to make it easier to try and avert failing certificate checks.</li>
+<li>Minor fix in CAS handlers</li>
 </ul></div>
     <div class="section level2">
 <h2 class="pkg-version" data-toc-text="1.0.3" id="ecotoxr-v103">ECOTOXr v1.0.3<a class="anchor" aria-label="anchor" href="#ecotoxr-v103"></a></h2><p class="text-muted">CRAN release: 2023-08-21</p>
@@ -72,39 +72,36 @@
 </ul></div>
     <div class="section level2">
 <h2 class="pkg-version" data-toc-text="1.0.2" id="ecotoxr-v102">ECOTOXr v1.0.2<a class="anchor" aria-label="anchor" href="#ecotoxr-v102"></a></h2><p class="text-muted">CRAN release: 2023-06-18</p>
-<ul><li>
-<p>Fixes for 2023 June release of the database:</p>
-<ul><li><p>Handling of new fields and tables introduced in the new release.</p></li>
-<li><p>Better handler unintended line-feed characters in source material, when building SQLite file.</p></li>
-<li><p>When table primary key is not unique, update table with latest occurrence of the key. This is also reported to EPA.</p></li>
+<ul><li>Fixes for 2023 June release of the database:
+<ul><li>Handling of new fields and tables introduced in the new release.</li>
+<li>Better handler unintended line-feed characters in source material, when building SQLite file.</li>
+<li>When table primary key is not unique, update table with latest occurrence of the key. This is also reported to EPA.</li>
 </ul></li>
-<li><p>Keeping track of missing tables and fields, and occurrence of unexpected fields while building. These are added to the build log file.</p></li>
+<li>Keeping track of missing tables and fields, and occurrence of unexpected fields while building. These are added to the build log file.</li>
 </ul></div>
     <div class="section level2">
 <h2 class="pkg-version" data-toc-text="1.0.1" id="ecotoxr-v101">ECOTOXr v1.0.1<a class="anchor" aria-label="anchor" href="#ecotoxr-v101"></a></h2><p class="text-muted">CRAN release: 2023-01-08</p>
-<ul><li><p>Experimental features for online searching of ECOTOX and CompTox</p></li>
-<li><p>Switched to roxygen2md for documentation and markdown format for NEWS</p></li>
-<li><p>Added life-cycle badges</p></li>
-<li><p>Some minor fixes in the SQLite building routine after the December 2022 release of ECOTOX</p></li>
+<ul><li>Experimental features for online searching of ECOTOX and CompTox</li>
+<li>Switched to roxygen2md for documentation and markdown format for NEWS</li>
+<li>Added life-cycle badges</li>
+<li>Some minor fixes in the SQLite building routine after the December 2022 release of ECOTOX</li>
 </ul></div>
     <div class="section level2">
 <h2 class="pkg-version" data-toc-text="0.2.0" id="ecotoxr-v020">ECOTOXr v0.2.0<a class="anchor" aria-label="anchor" href="#ecotoxr-v020"></a></h2><p class="text-muted">CRAN release: 2022-11-17</p>
-<ul><li>
-<p>Major changes:</p>
+<ul><li>Major changes:
 <ul><li>Modified searching routines to make advantage of the sql parser and optimisers implemented in the package ‘dplyr’. Performance (i.e. speed) of the search routines have improved considerably.</li>
 <li>Added support for handling Chemical Abstracts Service (CAS) numbers.</li>
 </ul></li>
-<li><p>Several minor adjustments and corrections to code and manual. These include fixes to address notes from CRAN checks.</p></li>
+<li>Several minor adjustments and corrections to code and manual. These include fixes to address notes from CRAN checks.</li>
 </ul></div>
     <div class="section level2">
 <h2 class="pkg-version" data-toc-text="0.1.1" id="ecotoxr-v011">ECOTOXr v0.1.1<a class="anchor" aria-label="anchor" href="#ecotoxr-v011"></a></h2><p class="text-muted">CRAN release: 2021-10-05</p>
-<ul><li><p>Updates to DESCRIPTION file and manual in order to comply with CRAN policies.</p></li>
-<li><p>Function progress reports are now shown with ‘message’ instead of ‘cat’, such that they can be suppressed.</p></li>
+<ul><li>Updates to DESCRIPTION file and manual in order to comply with CRAN policies.</li>
+<li>Function progress reports are now shown with ‘message’ instead of ‘cat’, such that they can be suppressed.</li>
 </ul></div>
     <div class="section level2">
 <h2 class="pkg-version" data-toc-text="0.1.0" id="ecotoxr-v010">ECOTOXr v0.1.0<a class="anchor" aria-label="anchor" href="#ecotoxr-v010"></a></h2>
-<ul><li>
-<p>Initial release which can:</p>
+<ul><li>Initial release which can:
 <ul><li>Download raw ECOTOX database tables from the EPA website</li>
 <li>Build an SQLite database from those files</li>
 <li>Search and extract data from the created local database</li>
