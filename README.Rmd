@@ -27,6 +27,7 @@ More specifically you can:
 
  * Build a local SQLite copy of the [US EPA ECOTOX database](https://cfpub.epa.gov/ecotox/)
  * Search and extract data from the local database
+ * Sanitise raw data from the local database
  * Use experimental features to search the online dashboards: [ECOTOX](https://cfpub.epa.gov/ecotox/search.cfm) and
    [CompTox](https://comptox.epa.gov/dashboard/batch-search)
 
