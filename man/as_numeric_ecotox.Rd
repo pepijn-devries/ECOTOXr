@@ -57,8 +57,10 @@ as_numeric_ecotox(char_num, range_fun = median)
 \seealso{
 Other ecotox-sanitisers: 
 \code{\link{as_date_ecotox}()},
+\code{\link{as_unit_ecotox}()},
 \code{\link{process_ecotox_dates}()},
-\code{\link{process_ecotox_numerics}()}
+\code{\link{process_ecotox_numerics}()},
+\code{\link{process_ecotox_units}()}
 }
 \author{
 Pepijn de Vries

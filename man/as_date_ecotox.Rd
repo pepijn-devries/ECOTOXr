@@ -22,7 +22,7 @@ use \code{nr = -1L}.}
 
 \item{...}{Passed to \code{as.Date()}.}
 
-\item{warn}{If set to \code{FALSE} warnings while converting text to numerics are suppressed.}
+\item{warn}{If set to \code{FALSE} warnings while converting text to dates are suppressed.}
 }
 \value{
 A vector of \code{Date} class objects with the same length as \code{x}.
@@ -77,8 +77,10 @@ as_date_ecotox(char_date, nr = 6L)
 \seealso{
 Other ecotox-sanitisers: 
 \code{\link{as_numeric_ecotox}()},
+\code{\link{as_unit_ecotox}()},
 \code{\link{process_ecotox_dates}()},
-\code{\link{process_ecotox_numerics}()}
+\code{\link{process_ecotox_numerics}()},
+\code{\link{process_ecotox_units}()}
 }
 \author{
 Pepijn de Vries

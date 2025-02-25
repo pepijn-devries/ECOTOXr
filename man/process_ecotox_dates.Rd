@@ -18,7 +18,7 @@ want the sanitation step. You can also write a custom function.}
 
 \item{.names}{A 'glue' specification used to rename the date columns. By default
 it is \code{"{.col}"}, which will overwrite existing text columns with date columns.
-You can for instance add a suffix with \code{"{.col}_num"} if you want to
+You can for instance add a suffix with \code{"{.col}_date"} if you want to
 rename the resulting date columns.}
 }
 \value{
@@ -58,7 +58,9 @@ if (check_ecotox_availability()) {
 Other ecotox-sanitisers: 
 \code{\link{as_date_ecotox}()},
 \code{\link{as_numeric_ecotox}()},
-\code{\link{process_ecotox_numerics}()}
+\code{\link{as_unit_ecotox}()},
+\code{\link{process_ecotox_numerics}()},
+\code{\link{process_ecotox_units}()}
 }
 \author{
 Pepijn de Vries

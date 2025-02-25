@@ -55,7 +55,9 @@ if (check_ecotox_availability()) {
 Other ecotox-sanitisers: 
 \code{\link{as_date_ecotox}()},
 \code{\link{as_numeric_ecotox}()},
-\code{\link{process_ecotox_dates}()}
+\code{\link{as_unit_ecotox}()},
+\code{\link{process_ecotox_dates}()},
+\code{\link{process_ecotox_units}()}
 }
 \author{
 Pepijn de Vries
