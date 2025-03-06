@@ -31,7 +31,7 @@ from the ECOTOX database as is. Fields that represent units are not standardised
 the database. Therefore, this format is not consistently used throughout the
 database. \code{process_ecotox_units()} takes a \code{data.frame} returned by
 \code{search_ecotox()}, locates unit columns, represented by text, sanitises the text
-and converts them to \code{?units::units} objects. It will sanitise the unit fields as
+and converts them to \code{units::mixed_units()} objects. It will sanitise the unit fields as
 much as possible. \emph{TODO} \code{NA}
 }
 \examples{
