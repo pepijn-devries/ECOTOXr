@@ -1,15 +1,16 @@
-.ut_sep0 <- "[ :/*^]"                      ## separator characters of unit fragment
-                                           ## Essential maths operators and spaces
+.ut_sep0 <- "[ :/*^]"                      ## separator characters of unit fragment;
+                                           ## essentially maths operators and spaces
 .ut_sep1 <- sprintf("(?<=^|%s)", .ut_sep0) ## separator indicating start of unit fragment
 .ut_sep2 <- sprintf("(?=$|%s)",  .ut_sep0) ## separator indicating end of unit fragment
 
 ## Commonly occurring annotations in units:
 
-.ut_annot <- 
-  c("act", "AE", "arb", "ash", "bdwt", "BO", "bt", "BW", "C", "C2H4", "canopy", "cap",
+.ut_suffix <- 
+  c("act", "AE", "ae", "arb", "ash", "B-nap", "bdwt", "BO", "bt", "BW", "C", "C2H4",
+    "caliper", "canopy", "cap",
     "CCT", "CEC", "change", "clay", "clitellate", "CNTL", "CO2", "com", "corn", "cortex",
     "CREA", "dev", "diet", "DNA", "dose", "dry", "DT", "earliness", "egg", "eu", "EU",
-    "FATL", "fertile", "fl", "fluid", "GAIN", "H20", "Hb", "Hg", "in", "ingested",
+    "FATL", "fertile", "fl", "fluid", "GAIN", "H20", "Hb", "Hg", "ht", "in", "ingested",
     "INHIB", "initial", "intake", "lit", "litter", "max", "media", "min", "MIT", "N",
     "NH3", "node", "O2", "OC", "of", "oil", "OM", "org", "P", "PC", "PLIPD", "plt",
     "pod", "pro", "prod", "PRTL", "ret", "RI", "RNA", "S", "sat", "sd", "sed", "seed",
@@ -23,9 +24,31 @@
     "dpel", "dpes", "dpf", "dpfg", "dpfl", "dpgm", "dph", "dph", "dphv", "dpm", "dpmm",
     "dpn", "dpo", "dpp", "dpr", "dpref", "dps", "dpu", "dpw", "dpys", "dws", "hd")
 
+## Unit fragments representing counts
+.ut_counts <- c("beat", "bees", "(egg(s?))", "(cell(s?))", "no", "org")
+
+## Straight forward replacements to make units more explicit
+.ut_explicit <-
+  data.frame(
+    pattern     = c("lbs", "Nm", "ac",   sprintf("%s", paste(.ut_counts, collapse = "|")),
+                    "0/00", "wk",   "u(g?)-atoms"),
+    replacement = c("lb",  "nm", "acre", "count",
+                    "ppt",  "week", "ug")
+  )
+
 ## Function to replace unit fragments in text
-.replace_ut_frag <- function(x, pattern, replacement) {
+
+.replace_ut_frag <- function(pattern, replacement, x) {
   gsub(paste0(.ut_sep1, pattern, .ut_sep2), replacement, x, perl = TRUE)
+}
+
+## Function to convert database field name to unit type
+
+.field_to_unit_type <- function(field) {
+  type <- .db_specs$foreign_key[endsWith(field, .db_specs$field_name)]
+  type <- gsub("[_].*", "", type) |> unique()
+  if (type == "sample") type <- "size"
+  type
 }
 
 #' Process ECOTOX search results by converting `character` to units where relevant
@@ -88,13 +111,6 @@ process_ecotox_units <- function(x, .fns = as_unit_ecotox, ..., .names = NULL) {
     )
 }
 
-.field_to_unit_type <- function(field) {
-  type <- .db_specs$foreign_key[endsWith(field, .db_specs$field_name)]
-  type <- gsub("[_].*", "", type) |> unique()
-  if (type == "sample") type <- "size"
-  type
-}
-
 #' Values represented by ECOTOX `character` to units
 #' 
 #' `r lifecycle::badge('experimental')` Convert text to units after
@@ -136,51 +152,72 @@ as_unit_ecotox <- function(
   
   fun <- if (warn) \(x) x else suppressWarnings
   
-  browser() #TODO
   x <-
     tibble(code = x) |>
     dplyr::mutate(
+      ## trim leading and trailing white spaces
       code          = trimws(.data$code),
+      
       ## remove square brackets and commas
       code          = gsub("\\[|\\]|,", "", .data$code),
+      
       ## remove known prefixes
-      code          = gsub("^(ae|AE|ai|AI|fl|litter) ", "", .data$code),
+      code          = gsub("(?<=^|[ ])(ae|AE|ai|AI|fl|litter) ", "",
+                           .data$code, perl = TRUE),
+      
       ## double spaces to single spaces
       code          = gsub("  ", " ", .data$code),
+      
       ## remove spaces around multiply symbol
       code          = gsub(" \\* ", "*", .data$code),
+      
       ## standardise scientific notation in numeric component
       code          = gsub("10[xX]", "1e", .data$code),
-      ## interpret '0/00' as parts per thousand.
-      code          = gsub("0/00", "ppt", .data$code, fixed = TRUE),
-      ## ensure 'wk' is parsed as week
-      code          = gsub("wk", "week", .data$code, perl = TRUE),
-      ## 'lbs' is not recognised as plural of 'lb' ## TODO not all lbs values are captured
-      code          = .replace_ut_frag("lbs", "lb", .data$code),
-      ##TODO regex to match "Nm" between space, asterisk or forward slash, also at start or end
-      code          = .replace_ut_frag("Nm", "nm", .data$code),
-      ## 'ac' is 'acre'
-      code          = .replace_ut_frag("ac", "acre", .data$code),
-      ## replace common count names with 'count'
-      code          = .replace_ut_frag("(beat|(cell(s?))|no|org)", "count", .data$code),
+
+      ## replace ambiguous patterns with more explicit strings
+      code          = {
+        result <- .data$code
+        for (i in seq_len(nrow(.ut_explicit))) {
+          result <- .replace_ut_frag(
+            .ut_explicit$pattern[[i]],
+            .ut_explicit$replacement[[i]],
+            result)
+        }
+        result
+      },
+
       ## remove various annotations (space followed by one of 'known' annotations)
-      code          = gsub(sprintf(" (%s)%s", paste(.ut_annot, collapse = "|"), .ut_sep2), "", .data$code),
+      code          = gsub(sprintf(" (%s)%s", paste(.ut_suffix, collapse = "|"), .ut_sep2), "",
+                           .data$code, perl = TRUE),
+      
       ## percentage preceded by decade of grams is in the mass unit per decilitre
       ## which is more specific
       code          = gsub("g([ ]?)%( w/v)?", "g/dL", .data$code),
+      
       ## percentage concentration mass over volume is more explicitly
       ## expressed as hectogram per millilitre
       code          = gsub("^%([ ]?)(m|w)(:|/)v$", "hg/L", .data$code),
+      
       ## percentage concentration volume over volume is more explicitly
       ## expressed as litre per hectolitre
       code          = gsub("^%([ ]?)v(:|/)v$", "L/hL", .data$code),
+      
       ## percentage concentration mass over mass is more explicitly
       ## expressed as grams per hectograms
       code          = gsub("^%([ ]?)(m|w)(:|/)(m|w)$", "g/hg", .data$code),
+      
       ## percentage concentration volume over mass is more explicitly
       ## expressed as grams per decalitre
       code          = gsub("^%([ ]?)v(:|/)(m|w)$", "g/dL", .data$code),
 
+      ## mM, uM, M is mmol/L, umol/L and mol/L respectively
+      code          = gsub(sprintf("(?<=^(u|m)|%s(u|m))M%s", .ut_sep0, .ut_sep2),
+                      "mol/L", .data$code, perl = TRUE),
+      code          = .replace_ut_frag("M", "mol/L", .data$code),
+      
+      ## in 'mol+', the '+' is just an annotation of positive ions
+      code          = gsub("mol+", "mol", .data$code, fixed = TRUE),
+      
       ## 'type' specific sanitation steps
       code          = if (type == "concentration") {
         
@@ -189,9 +226,6 @@ as_unit_ecotox <- function(
         result <- .replace_ut_frag("K", "Karmen", result)
         ## in case of concentration dpm is disintegrations (counts) per minute
         result <- .replace_ut_frag("(c|d)pm", "counts/min", result)
-        ## mM, uM, M is mmol/L, umol/L and mol/L respectively
-        result <- gsub(sprintf("(%s|(?<=^|%s[u|m]))M%s", .ut_sep1, .ut_sep0, .ut_sep2),
-                       "mol/L", result, perl = TRUE)
         result
         
       } else          if (type == "media") {
@@ -209,7 +243,8 @@ as_unit_ecotox <- function(
         ## scientific notation is not always parsed correctly by units package.
         ## In fact it's not even supported:
         ## https://github.com/r-quantities/units/issues/383#issuecomment-2703308481
-        ## Therefore, the scientific notation is replaced by decimal notation
+        ## Therefore, the scientific notation is replaced by decimal notation where
+        ## possible (abs(log10(number)) < 9)
         num <-
           stringr::str_extract_all(.data$code, "\\d+[.]?\\d*e[-|+]?\\d+") |>
           lapply(as.numeric) |>
@@ -223,8 +258,11 @@ as_unit_ecotox <- function(
       
       ## remove space if preceded by numeric and followed by alphabetical character
       code          = gsub("(?<=[0-9]) (?=[a-z|A-Z])", "", .data$code, perl = TRUE),
+      
       ## rename all equivalents of 'day' to 'day'
-      code          = gsub(sprintf(" (%s)%s", paste(.ut_day, collapse = "|"), .ut_sep2), "", .data$code),
+      code          = gsub(sprintf(" (%s)%s", paste(.ut_day, collapse = "|"), .ut_sep2), "",
+                           .data$code, perl = TRUE),
+      
       ## Use 'unit' by default as arbitrary unit
       code          = gsub("^(|--|NR|NC)$", "unit", .data$code)
     )
