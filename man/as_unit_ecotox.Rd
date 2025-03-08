@@ -2,7 +2,7 @@
 % Please edit documentation in R/process_unit.r
 \name{as_unit_ecotox}
 \alias{as_unit_ecotox}
-\title{Values represented by ECOTOX \code{character} to units}
+\title{Text from the ECOTOX database to \code{mixed_units}}
 \usage{
 as_unit_ecotox(
   x,
@@ -22,7 +22,7 @@ in the database (see \code{vignette("ecotox-schema")}). It can help to interpret
 units correctly. For instance, 'dpm' can both mean 'disintegrations per minute'
 (\code{type = "concentration"}) and 'days post-moult' (\code{type = "duration"}).}
 
-\item{...}{TODO}
+\item{...}{Ignored.}
 
 \item{warn}{If set to \code{FALSE} warnings while converting text to units are suppressed.}
 }
@@ -37,7 +37,57 @@ sanitising.
 The following steps are performed (in the order as listed)
 to sanitise text before coercing it to units:
 \itemize{
-\item TODO
+\item The following is removed:
+\itemize{
+\item Leading/trailing white spaces
+\item Square brackets and commas
+\item A list of common prefixes
+\item Double spaces are replaced by single spaces
+\item Brackets around multiply symbol
+}
+\item The following is corrected/adjusted:
+\itemize{
+\item 'for' is interpreted as multiplication
+\item Scientific notation of numbers is
+standardised where possible.
+\item A list of ambiguous patterns is replaced with
+more explicit strings. For instance,
+'deg' is replaced with 'degree'.
+}
+\item The following miscellaneous corrections are made:
+\itemize{
+\item A list of 'known' annotations are removed from the units
+\item A list of elements kown to represent counts are renamed
+'counts'.
+\item Percentages are renamed as explicit concentration in
+mass per volume or volume per volume units where possible
+\item 'CI' is renamed 'Curies'.
+\item 'M' is renamed 'mol/L'.
+\item Units expressed as 'parts per ...' are explicitly renamed
+to mass over volume, or volum over volume where possible
+}
+\item Type specific sanitation steps
+\itemize{
+\item Concentration units:
+\itemize{
+\item 'K' is renamed 'Karmen'
+\item 'dpm' is renamed 'counts/min' (i.e., disintegrations per minute)
+}
+\item Media units:
+\itemize{
+\item 'K' is renamed 'Kelvin'
+\item 'C' is renamed 'Celsius'
+}
+}
+\item Some final miscellaneous adjustments:
+\item Scientific notation in numbers is not supported by the units package.
+Numbers are formatted in decimal notation where possible.
+\itemize{
+\item Spaces are removed if preceded by numeric and followed by
+alphabetical character
+\item All equivalents of 'day' are explicitly renamed to 'day'
+\item unreported/missing units are renamed 'unit'
+}
 }
 
 It is your own responsibility to check if the sanitising steps are appropriate for
