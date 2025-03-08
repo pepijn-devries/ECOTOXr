@@ -11,6 +11,7 @@
 <url><loc>https://pepijn-devries.github.io/ECOTOXr/reference/ECOTOXr-package.html</loc></url>
 <url><loc>https://pepijn-devries.github.io/ECOTOXr/reference/as_date_ecotox.html</loc></url>
 <url><loc>https://pepijn-devries.github.io/ECOTOXr/reference/as_numeric_ecotox.html</loc></url>
+<url><loc>https://pepijn-devries.github.io/ECOTOXr/reference/as_unit_ecotox.html</loc></url>
 <url><loc>https://pepijn-devries.github.io/ECOTOXr/reference/build_ecotox_sqlite.html</loc></url>
 <url><loc>https://pepijn-devries.github.io/ECOTOXr/reference/cas.html</loc></url>
 <url><loc>https://pepijn-devries.github.io/ECOTOXr/reference/check_ecotox_availability.html</loc></url>
@@ -26,6 +27,7 @@
 <url><loc>https://pepijn-devries.github.io/ECOTOXr/reference/list_ecotox_fields.html</loc></url>
 <url><loc>https://pepijn-devries.github.io/ECOTOXr/reference/process_ecotox_dates.html</loc></url>
 <url><loc>https://pepijn-devries.github.io/ECOTOXr/reference/process_ecotox_numerics.html</loc></url>
+<url><loc>https://pepijn-devries.github.io/ECOTOXr/reference/process_ecotox_units.html</loc></url>
 <url><loc>https://pepijn-devries.github.io/ECOTOXr/reference/search_ecotox.html</loc></url>
 <url><loc>https://pepijn-devries.github.io/ECOTOXr/reference/websearch.html</loc></url>
 <url><loc>https://pepijn-devries.github.io/ECOTOXr/reference/websearch_comptox.html</loc></url>

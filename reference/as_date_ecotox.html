@@ -9,7 +9,7 @@ performs some text sanitising before coercing text to dates."><meta property="og
 
     <a class="navbar-brand me-2" href="../index.html">ECOTOXr</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.1.1.0011</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.1.1.0012</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -36,7 +36,7 @@ performs some text sanitising before coercing text to dates."><meta property="og
 <div class="row">
   <main id="main" class="col-md-9"><div class="page-header">
       <img src="../logo.svg" class="logo" alt=""><h1>Values represented by ECOTOX <code>character</code> to dates</h1>
-      <small class="dont-index">Source: <a href="https://github.com/pepijn-devries/ECOTOXr/blob/main/R/process.r" class="external-link"><code>R/process.r</code></a></small>
+      <small class="dont-index">Source: <a href="https://github.com/pepijn-devries/ECOTOXr/blob/main/R/process_date.R" class="external-link"><code>R/process_date.R</code></a></small>
       <div class="d-none name"><code>as_date_ecotox.Rd</code></div>
     </div>
 
@@ -80,7 +80,7 @@ use <code>nr = -1L</code>.</p></dd>
 
 
 <dt id="arg-warn">warn<a class="anchor" aria-label="anchor" href="#arg-warn"></a></dt>
-<dd><p>If set to <code>FALSE</code> warnings while converting text to numerics are suppressed.</p></dd>
+<dd><p>If set to <code>FALSE</code> warnings while converting text to dates are suppressed.</p></dd>
 
 </dl></div>
     <div class="section level2">
@@ -111,8 +111,10 @@ your analyses.</p>
     <h2 id="see-also">See also<a class="anchor" aria-label="anchor" href="#see-also"></a></h2>
     <div class="dont-index"><p>Other ecotox-sanitisers:
 <code><a href="as_numeric_ecotox.html">as_numeric_ecotox</a>()</code>,
+<code><a href="as_unit_ecotox.html">as_unit_ecotox</a>()</code>,
 <code><a href="process_ecotox_dates.html">process_ecotox_dates</a>()</code>,
-<code><a href="process_ecotox_numerics.html">process_ecotox_numerics</a>()</code></p></div>
+<code><a href="process_ecotox_numerics.html">process_ecotox_numerics</a>()</code>,
+<code><a href="process_ecotox_units.html">process_ecotox_units</a>()</code></p></div>
     </div>
     <div class="section level2">
     <h2 id="author">Author<a class="anchor" aria-label="anchor" href="#author"></a></h2>
