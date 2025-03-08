@@ -80,9 +80,9 @@ to mass over volume, or volum over volume where possible
 }
 }
 \item Some final miscellaneous adjustments:
+\itemize{
 \item Scientific notation in numbers is not supported by the units package.
 Numbers are formatted in decimal notation where possible.
-\itemize{
 \item Spaces are removed if preceded by numeric and followed by
 alphabetical character
 \item All equivalents of 'day' are explicitly renamed to 'day'
@@ -94,7 +94,17 @@ It is your own responsibility to check if the sanitising steps are appropriate f
 your analyses.
 }
 \examples{
-## TODO
+## Try parsing a random set of units from the database:
+c("ppm-d", "ml/2.5 cm eu", "fl oz/10 gal/1k sqft", "kg/100 L",
+  "mopm", "ng/kg", "ug", "AI ng/g", "PH", "pm", "uM/cm3", "1e-4 mM",
+  "degree", "fs", "mg/TI", "RR", "ug/g org/d", "1e+4 IU/TI", "pg/mg TE",
+  "pmol/mg", "1e-9/l", "no >15 cm", "umol/mg pro", "cc/org/wk", "PIg/L",
+  "ug/100 ul/org", "ae mg/kg diet/d", "umol/mg/h", "cmol/kg d soil",
+  "ug/L diet", "kg/100 kg sd", "1e+6 cells", "ul diet", "S", "mmol/h/g TI",
+  "g/70 d", "vg", "ng/200 mg diet", "uS/cm2", "AI ml/ha", "AI pt/acre",
+  "mg P/h/g TI", "no/m", "kg/ton sd", "ug/g wet wt", "AI mg/2 L diet",
+  "nmol/TI", "umol/g wet wt", "PSU", "Wijs number") |>
+  as_unit_ecotox(warn = FALSE)
 }
 \seealso{
 Other ecotox-sanitisers: 
