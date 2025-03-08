@@ -34,6 +34,7 @@ Imports:
     tibble (>= 3.2.1),
     tidyr (>= 1.3.0),
     tidyselect (>= 1.2.0),
+    units (>= 0.8.5),
     utils
 Suggests:
     DBI,
