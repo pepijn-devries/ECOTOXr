@@ -359,8 +359,8 @@ as_unit_ecotox <- function(
   
   result <-
     x |>
-    distinct() |>
-    mutate(
+    dplyr::distinct() |>
+    dplyr::mutate(
       unit = {
         y <-
           lapply(
