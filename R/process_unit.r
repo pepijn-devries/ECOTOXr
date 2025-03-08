@@ -215,7 +215,7 @@ as_unit_ecotox <- function(
   fun <- if (warn) \(x) x else suppressWarnings
   
   x <-
-    tibble(code = x) |>
+    dplyr::tibble(code = x) |>
     dplyr::mutate(
       ## trim leading and trailing white spaces
       code          = trimws(.data$code),
@@ -376,5 +376,5 @@ as_unit_ecotox <- function(
     )
   
   dplyr::left_join(x, result, "code") |>
-    pull("unit")
+    dplyr::pull("unit")
 }
