@@ -92,6 +92,32 @@ sprintf("'%s'->'%s' [label = '%s', class = 'schema_any schema_%02i schema_%02i']
   svgdat <- gsub("<title>(.+?)</title>\n", "", svgdat)
   svgdat |>
     writeLines("man/figures/ecotox-schema.svg")
+  
+  svgdat2 <-
+    grViz(
+      "
+digraph 'ProTracker modules' {
+rankdir = 'LR';
+layout = 'dot';
+splines = ortho;
+node [fontname = Helvetica shape = box style = 'filled, rounded'
+      fillcolor = white fixedsize = true width = 1.8];
+
+build [label = 'build database\\nfrom EPA files' group = 'build'];
+query [label = 'query database' group = 'query'];
+post  [label = 'post process/\\ncleanup' group = 'post'];
+ana   [label = 'further analyses' group = 'ana'];
+
+build -> query -> post -> ana
+}
+") |>
+    DiagrammeRsvg::export_svg()
+
+  svgdat2 <- gsub("scale(1 1)", "scale (0.6 0.6)", svgdat2, fixed = TRUE)
+  svgdat2 <- gsub("0.00 0.00 636.00 44.00", "0.00 0.00 636.00 26.00", svgdat2)
+  svgdat2 |>
+    writeLines("man/figures/ecotox-workflow.svg")
+  
 } else {
   stop("Install required packages first and try again")
 }

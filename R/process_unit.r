@@ -7,24 +7,43 @@
 
 .ut_suffix <- 
   c("act", "AE", "ae", "arb", "ash", "ATP", "B-nap", "B-naph", "BAPNA", "bdwt", "blood",
-    "BO", "bt", "BTEE", "BW", "C", "C2H4", "caliper", "canopy", "cap", "CCT", "CEC",
-    "change", "clay", "clitellate", "CNTL", "CO2", "com", "corn", "cortex", "CREA", "dev",
-    "diet", "DNA", "DOPA", "dose", "dry", "DT", "earliness", "egg", "eu", "EU", "evolved",
-    "FA", "FATL", "fertile", "fl", "fluid", "FM", "folium", "GAIN", "GH", "H2O", "H2O2",
-    "Hb", "Hg", "ht", "humus", "in", "ingested", "INHIB", "initial", "intake", "lipid",
-    "lit", "litter", "lf", "mat", "max", "MDA", "mdhyde", "media", "min", "MIT", "N", "NH3",
-    "node", "O2", "OC", "of", "oil", "OM", "org", "P", "p450", "PBG", "PC", "PLIPD", "plt",
-    "pod", "pro", "prod", "PRTL", "RBC", "RBCE", "ret", "RI", "RNA", "ro", "root", "S",
-    "sat", "sd", "sed", "seed", "soil", "soln", "solvent", "srtl", "SP", "sperm", "TE",
-    "TEQ", "TI", "TIME", "tolerance", "total", "UA", "urea", "WBC", "WDTH", "wet", "wght",
-    "WGHT", "WSF", "wt", "yld", "Zn")
+    "BO", "bt", "BTEE", "BW", "C", "C2H4", "Ca", "CaO", "CaCO3", "caliper", "canopy", "cap",
+    "CCT", "CEC", "change", "clay", "clitellate", "CNTL", "CO2", "co2", "CO3", "com", "corn",
+    "cortex", "CREA", "d soil", "dev", "diet", "DNA", "DOPA", "dose", "dry", "DOPA", "DT",
+    "earliness", "EDTA", "egg", "eu", "EU", "evolved", "FA", "FATL", "fertile", "fl", "fluid",
+    "FM", "folium", "GAIN", "GH", "H2O", "H2O2", "HA", "Hb", "HCl", "HCO3", "Hg", "ht", "humus",
+    "in", "ingested", "INHIB", "initial", "intake", "K[+]", "lipid", "LIT", "lit", "litter",
+    "lf", "mat", "max", "MDA", "mdhyde", "media", "Mg", "min", "MIT", "MO", "N", "NaCl", "NH3",
+    "NO2", "node", "O2", "OC", "of", "OH", "oil", "OM", "org", "P", "P[+]", "p450", "PBG", "PC",
+    "phenolphth", "PLIPD", "plt", "pod", "pro", "prod", "PRTL", "RBC", "RBCE", "ret", "RI",
+    "RNA", "ro", "root", "S", "sat", "sd", "sed", "seed", "soil", "soln", "solvent", "srtl",
+    "SP", "sperm", "TE", "TEQ", "TI", "TIME", "tolerance", "total", "UA", "urea", "WBC", "WDTH",
+    "wet", "wght", "WGHT", "WSF", "wt", "yld", "Zn")
 
-## Equivalents for 'days':
+## Equivalents for 'durations':
+
+.ut_second   <-
+  c("s", "sec", "spf", "spref")
+
+.ut_minute   <-
+  c("mi", "mpf", "mph")
+
+.ut_hour   <-
+  c("h", "hbe", "hbf", "hbh", "hpe", "hpel", "hpf", "hph", "hpp", "hpr", "hps")
 
 .ut_day   <-
   c("BDAY", "dapu", "dayef", "dayg", "dayl", "daym", "dayv", "dbh", "dge", "dla", "dpe",
     "dpel", "dpes", "dpf", "dpfg", "dpfl", "dpgm", "dph", "dph", "dphv", "dpm", "dpmm",
     "dpn", "dpo", "dpp", "dpr", "dpref", "dps", "dpu", "dpw", "dpys", "dws", "hd")
+
+.ut_week   <-
+  c("wk", "wks", "wkpm", "wkprf", "wpe", "wph", "wphv", "wpp", "wps", "wpv3", "wpv5")
+
+.ut_month   <-
+  c("mo", "mope", "mopf", "moph", "mopm", "mopres", "mopswm", "mpgm", "mpp")
+
+.ut_year   <-
+  c("yr", "yc", "yph")
 
 ## Unit fragments representing counts
 ## Note that cc only stands for 'cubic centimetres' in case of 'cc/L'.
@@ -43,10 +62,10 @@
   data.frame(
     pattern     = c("lbs", "Nm", "ac",   "0/00", "wk(s?)", "u(g?)-atoms",
                     "pph(r?)", "[*]dyn", "gTI", "ga",  "cc/L",  "mi", "mo", "deg",
-                    "sqft"),
+                    "sqft", "PH",           "pm",          "fs",             "mgL"),
     replacement = c("lb",  "nm", "acre", "ppt",  "week",   "ug",
                     "10ppt",   "dyne",   "g",   "gal", "cm3/L", "min", "month", "degree",
-                    "ft2")
+                    "ft2",  "pithardening", "postmolting", "floweringstage", "mg*L")
   )
 
 ## Function to replace unit fragments in text
@@ -60,6 +79,7 @@
 .field_to_unit_type <- function(field) {
   type <- .db_specs$foreign_key[endsWith(field, .db_specs$field_name)]
   type <- gsub("[_].*", "", type) |> unique()
+  if (length(type) == 0) return("unknown")
   if (type == "sample") type <- "size"
   type
 }
@@ -107,7 +127,7 @@
 #' @export
 process_ecotox_units <- function(x, .fns = as_unit_ecotox, ..., .names = NULL) {
   ## identify unit columns
-  unit_columns <- .db_specs$field_name[grepl("_unit$", .db_specs$field_name)]
+  unit_columns <- c(.db_specs$field_name[grepl("_unit$", .db_specs$field_name)], "_unit")
   patt <- sprintf("^.*?(%s)$",
                   paste(unit_columns, collapse = "|"))
   
@@ -170,7 +190,8 @@ process_ecotox_units <- function(x, .fns = as_unit_ecotox, ..., .names = NULL) {
 #'      Numbers are formatted in decimal notation where possible.
 #'    * Spaces are removed if preceded by numeric and followed by
 #'      alphabetical character
-#'    * All equivalents of 'day' are explicitly renamed to 'day'
+#'    * All equivalents of ambiguous synonyms for time units are explicitly
+#'      renamed to their respective unit (e.g., 'dph' (days post hatching) -> 'day')
 #'    * unreported/missing units are renamed 'unit'
 #' 
 #' It is your own responsibility to check if the sanitising steps are appropriate for
@@ -198,11 +219,15 @@ process_ecotox_units <- function(x, .fns = as_unit_ecotox, ..., .names = NULL) {
 #'   "mg P/h/g TI", "no/m", "kg/ton sd", "ug/g wet wt", "AI mg/2 L diet",
 #'   "nmol/TI", "umol/g wet wt", "PSU", "Wijs number") |>
 #'   as_unit_ecotox(warn = FALSE)
+#' 
+#' ## Adding the type of measurement can affect interpretation:
+#' as_unit_ecotox(c("C", "K"), type = "concentration")
+#' as_unit_ecotox(c("C", "K"), type = "media")
 #' @family ecotox-sanitisers
 #' @export
 as_unit_ecotox <- function(
     x,
-    type = c("concentration", "duration", "length", "media", "application", "size", "weight"),
+    type = c("concentration", "duration", "length", "media", "application", "size", "weight", "unknown"),
     ..., warn = TRUE) {
   if (typeof(x) != "character") stop(
     paste("`as_unit_ecotox` should only convert `characters`.",
@@ -243,7 +268,10 @@ as_unit_ecotox <- function(
       ## standardise scientific notation in numeric component
       code          = gsub(" ?x10x(?=[0-9])", "1e", .data$code, perl = TRUE),
       code          = gsub("10[xX]", "1e", .data$code),
-
+      
+      ## numeric followed by 'k' is a thousandfold
+      code          = gsub(sprintf("(?<=[0-9])k%s", .ut_sep2), "000", .data$code, perl = TRUE),
+      
       ## replace ambiguous patterns with more explicit strings
       code          = {
         result <- .data$code
@@ -285,16 +313,22 @@ as_unit_ecotox <- function(
       code          = gsub("^%([ ]?)v(:|/)(m|w)$", "g/dL", .data$code),
 
       ## CI, mCI and uCI are Curies (milli and micro)
-      code          = gsub(sprintf("(?<=^(u|m)|%s(u|m))CI%s", .ut_sep0, .ut_sep2),
+      code          = gsub(sprintf("(?<=^(u|m|c)|%s(u|m|c))CI%s", .ut_sep0, .ut_sep2),
                            "Curies", .data$code, perl = TRUE),
       
       ## mM, uM, M is mmol/L, umol/L and mol/L respectively
-      code          = gsub(sprintf("(?<=^(u|m)|%s(u|m))M%s", .ut_sep0, .ut_sep2),
+      code          = gsub(sprintf("(?<=^(u|m)|%s(u|m|c))M%s", .ut_sep0, .ut_sep2),
                       "mol/L", .data$code, perl = TRUE),
       code          = .replace_ut_frag("M", "mol/L", .data$code),
       
       ## in 'mol+', the '+' is just an annotation of positive ions
       code          = gsub("mol+", "mol", .data$code, fixed = TRUE),
+
+      ## Da (Dalton) is same as unified atomic mass (u)
+      code          = gsub(sprintf("((?<=k)?)Da%s", .ut_sep2), "u", .data$code, perl = TRUE),
+      
+      ## mho is same as Siemens
+      code          = gsub("(mho(s?))", "Siemens", .data$code, perl = TRUE),
       
       ## 'parts per ...' followed by minus, should be product (i.e, ppt-h should be ppt*h)
       code          = gsub("(?<=pp(h|m|t))-", "*", .data$code, perl = TRUE),
@@ -306,7 +340,7 @@ as_unit_ecotox <- function(
       ## ppmw === ppm w/w === ppm dw
       code          = gsub("(ppm dw)|(ppm w/w)|(ppmw)", "ug/g", .data$code),
       code          = gsub("(ppt w/w)|(pptw)", "mg/g", .data$code),
-      
+
       ## 'type' specific sanitation steps
       code          = if (type == "concentration") {
         
@@ -348,9 +382,42 @@ as_unit_ecotox <- function(
       ## remove space if preceded by numeric and followed by alphabetical character
       code          = gsub("(?<=[0-9]) (?=[a-z|A-Z])", "", .data$code, perl = TRUE),
       
+      ## rename all equivalents of 'seconds' to 'second'
+      code          = gsub(
+        sprintf("%s(%s)%s", .ut_sep1, paste(.ut_second, collapse = "|"), .ut_sep2), "second",
+        .data$code, perl = TRUE),
+
+      ## rotations per minute
+      code          = .replace_ut_frag("rpm", "counts/min", .data$code),
+      
+      ## rename all equivalents of 'minutes' to 'minute'
+      code          = gsub(
+        sprintf("%s(%s)%s", .ut_sep1, paste(.ut_minute, collapse = "|"), .ut_sep2), "minute",
+        .data$code, perl = TRUE),
+
+      ## rename all equivalents of 'hours' to 'hour'
+      code          = gsub(
+        sprintf("%s(%s)%s", .ut_sep1, paste(.ut_hour, collapse = "|"), .ut_sep2), "hour",
+        .data$code, perl = TRUE),
+      
       ## rename all equivalents of 'day' to 'day'
       code          = gsub(
         sprintf("%s(%s)%s", .ut_sep1, paste(.ut_day, collapse = "|"), .ut_sep2), "day",
+        .data$code, perl = TRUE),
+      
+      ## rename all equivalents of 'weeks' to 'week'
+      code          = gsub(
+        sprintf("%s(%s)%s", .ut_sep1, paste(.ut_week, collapse = "|"), .ut_sep2), "week",
+        .data$code, perl = TRUE),
+      
+      ## rename all equivalents of 'months' to 'month'
+      code          = gsub(
+        sprintf("%s(%s)%s", .ut_sep1, paste(.ut_month, collapse = "|"), .ut_sep2), "month",
+        .data$code, perl = TRUE),
+      
+      ## rename all equivalents of 'years' to 'year'
+      code          = gsub(
+        sprintf("%s(%s)%s", .ut_sep1, paste(.ut_year, collapse = "|"), .ut_sep2), "year",
         .data$code, perl = TRUE),
       
       ## Use 'unit' by default as arbitrary unit

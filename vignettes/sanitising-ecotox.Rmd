@@ -1,0 +1,255 @@
+---
+title: "Sanitising ECOTOX"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Sanitising ECOTOX}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+The ASCII files provided by the EPA, used for building the local database
+(`download_ecotox_data()`), contain all required data. As documented by the EPA most
+table fields are stored as text (with a few exceptions). During the build
+process, all fields are kept as is, without any cleanup or standardisation.
+This is done to avoid any data loss or corruption and keep it as close
+to the source as possible. Therefore, it is likely that you need to post-process
+data after querying the locally built database.
+
+```{r, echo=FALSE, results='asis'}
+htmltools::includeHTML("../man/figures/ecotox-workflow.svg")
+```
+
+Although it is the user's responsibility to  evaluate the correctness and
+validity of the data, the `ECOTOXr` package provides some tools to make the
+cleanup process easier. This vignette presents important aspects for cleaning:
+
+  * [units](#sanitising-units)
+  * [numeric data](#sanitising-numerics)
+  * [dates](#sanitising-dates)
+
+In general there are two types of sanitising functions; those named
+`as_..._ecotox()` and those starting with `process_ecotox_...s()`. Where
+'`...`' is the data type being sanitised (e.g. `unit`, `numeric`, or `date`).
+The first function type ('as') handles vectors of `character`s. The second
+function type ('process'), handles `data.frame`s, where relevant columns are
+automatically detected and processed with the 'as' type functions.
+
+Note that the sanitation routines are subject to development, so they may change.
+For reproducible results you should therefore always report the version of
+`ECOTOXr` you are using (`cite_ecotox()`).
+
+## Sanitising units
+
+Quantity units are vital for the interpretation of measurements. The ECOTOX database
+contains units as reported by its source publication. As a result, the units are often
+not stored consistently and are not standardised. The `ECOTOXr` package implements
+a function that sanitises the unit text fields and then parses them with the
+[units package](https://r-quantities.github.io/units/). This package provides
+instruments to convert units using the
+[UNIDATA udunits library](https://www.unidata.ucar.edu/software/udunits/).
+
+The advantage of using the `units` package is that it provides a mechanism
+to apply arithmetic manipulations of data and conversion between compatible
+units. Or as the documentation of the package puts it:
+"*When used in expression, it automatically converts units, and simplifies units of
+results when possible; in case of incompatible units, errors are raised*"
+
+So the goal of the sanitation steps here is to create a format that can be parsed
+by the `units` package. In order to achieve this the following steps are performed:
+
+  * Annotations are stripped (i.e., prefixes and suffixes to units, indicating
+    for instance 'active ingredient', the medium it refers to (e.g. soil), etc.)
+  * Ambiguous units like percentages and 'parts per ...' are converted to more
+    explicit units where possible. This is only possible when it is recorded if the
+    units indicate if they are w/w, w/v, v/v or v/w. If this conversion is not
+    possible, the unit is kept as is.
+  * Units that are not known or interpreted incorrectly by the `units` package are
+    converted such that they are handled correctly. For instance 'C' in the ECOTOX
+    database frequently stands for 'degrees Celsius' (although it is also used to
+    indicate Carbon). So if it's not an annotation, 'C' is replaced with 'Celsius'.
+    Another example is 'sqft' (square feet) which can not be interpreted by the
+    units package is replaced with 'ft2'.
+  * Units that are not reported or interpretable are set as generic 'unit'
+    (`units::mixed_units(1, "unit")`).
+
+The documentation of the `as_unit_ecotox()` function has a more detailed description
+of the cleanup procedure. If you need even more details you can check the
+[source code](https://github.com/pepijn-devries/ECOTOXr/blob/main/R/process_unit.r).
+
+In order to demonstrate how unit sanitation works in this packages,
+let's first initialise a vector of mishmash units. These are
+actually a random sample from the ECOTOX database, not necessarily
+the most common ones:
+
+```{r unit_mishmash}
+library(ECOTOXr) |> suppressMessages()
+library(dplyr)   |> suppressMessages()
+
+mishmash <-
+  c("ppm-d", "ml/2.5 cm eu", "fl oz/10 gal/1k sqft", "kg/100 L",
+    "mopm", "ng/kg", "ug", "AI ng/g", "PH", "pm", "uM/cm3", "1e-4 mM",
+    "degree", "fs", "mg/TI", "RR", "ug/g org/d", "1e+4 IU/TI", "pg/mg TE",
+    "pmol/mg", "1e-9/l", "no >15 cm", "umol/mg pro", "cc/org/wk", "PIg/L",
+    "ug/100 ul/org", "ae mg/kg diet/d", "umol/mg/h", "cmol/kg d soil",
+    "ug/L diet", "kg/100 kg sd", "1e+6 cells", "ul diet", "S", "mmol/h/g TI",
+    "g/70 d", "vg", "ng/200 mg diet", "uS/cm2", "AI ml/ha", "AI pt/acre",
+    "mg P/h/g TI", "no/m", "kg/ton sd", "ug/g wet wt", "AI mg/2 L diet",
+    "nmol/TI", "umol/g wet wt", "PSU", "Wijs number")
+```
+
+With `as_unit_ecotox()`, the mishmash of units, represented by `character` strings
+are cleaned and coerced to `units::mixed_units()`. As `units` objects have a numeric
+component, but the `character` strings from the database do not, each unit is given
+a value of `1`. As you can see not all units in the `mishmash` vector can be interpreted
+and are just returned as arbitrary `1 unit`.
+
+```{r as_unit}
+as_unit_ecotox(mishmash, warn = FALSE)
+```
+
+With `process_ecotox_units()` you can process an entire `data.frame`/`tibble`, where
+each column ending with `_unit` is processed (i.e. `as_unit_ecotox()` is called on them).
+By setting the `.names` argument, you can preserve the original unit column:
+
+```{r unit_process}
+tibble(mishmash_unit = mishmash) |>
+  process_ecotox_units(.names = "{.col}_parsed", warn = FALSE)
+```
+
+### Consequences of unit sanitation
+
+As the database contains over 6,000 unique unit codes, it is likely that not all
+units are processable. Also, because the codes are not always consistent, some
+of them may not be interpreted correctly. Most frequently occurring units should
+parse correctly. If you think a specific code is not parsed correctly, and it is
+not highly outlandish, you could
+[file an issue report](https://github.com/pepijn-devries/ECOTOXr/issues).
+Furthermore, you should always inspect automatically parsed units for correctness.
+
+Another point of attention is the removal of annotations from the unit.
+Consider the concentration unit with the following annotations:
+
+```{r unit_annotation}
+as_unit_ecotox(c("mg/L CO3", "mg/L CaCO3", "mg/L HCO3"))
+```
+
+Note that they are all interpreted as `[mg/L]`. Although technically the same unit,
+they are definitely not directly compatible. The `units` package does
+not support annotations, so you need to keep track of them yourself.
+
+## Sanitising numerics
+
+First let me explain what is meant by 'numerics' in the ECOTOX database. These
+are all records that have a accompanying measurement unit in the database. This
+includes, concentrations, durations and many others. These records are stored
+as text fields in the database. So in order to interpret them as actual numerics
+in R, they need to be coerced to numerics. You could use a simple call to
+`as.numeric()` to do this, but that will not always work.
+
+The text fields may contain operators such as '<', '>', '~', etc. I think this is
+a mistake and not by design, because many of the numeric fields have a corresponding
+operator field where this operator could be stored. Text fields can also contain
+labelling text (such as asterisk symbol) or inconsistent decimal or thousand separators.
+
+This is why there is `as_numeric_ecotox()` which first cleans the text records before
+coercing them to numerics:
+
+```{r as_numeric}
+## Text fields as possibly encountered in the database
+text_records <-
+  c("10", " 2", "3 ", "~5", "9.2*", "2,33",
+    "2,333", "2.1(1.0 - 3.2)", "1-5", "1e-3")
+  
+as_numeric_ecotox(text_records)
+```
+You can use `process_ecotox_numerics()` to process a `data.frame`/`tibble` resulting
+from a search query. It automatically applies `as_numeric_ecotox()` to columns containing
+numeric information:
+
+```{r process_numerics}
+text_tbl <- tibble(conc1_mean = text_records)
+
+process_ecotox_numerics(text_tbl, warn = FALSE)
+```
+
+### Consequences of numeric sanitation
+
+As indicated above all notations and operators included with numerics are stripped in
+the cleaning process. These notations and operators are potentially important for the
+interpretation of the values. It may be wise to keep track of them. One way to do this
+is by first trying to coerce texts to numerics with `as.numeric()` and then with
+`as_numeric_ecotox()`. The cases where the first returns `NA` but the latter returns a
+value, is likely to contain notations or operators (or is just inconsistently formatted).
+You could also use the `.names` argument in `process_ecotox_numerics()` to rename
+the numeric columns and keep the original text fields.
+
+```{r process_numerics_rename}
+process_ecotox_numerics(text_tbl, warn = FALSE, .names = "{.col}_num") |>
+  mutate(
+    test = is.na(as.numeric(conc1_mean)) &
+      !is.na(as_numeric_ecotox(conc1_mean, warn = FALSE))
+    )
+```
+
+<!-- ## Combining units with numerics -->
+
+<!-- *TODO* -->
+
+<!-- ```{r numerics_and_units} -->
+<!-- tibble( -->
+<!--   conc1_mean = c("1", "2", "5e-4", "0.2"), -->
+<!--   conc1_unit = c("mg/L", "M", "% w/v", "ppt w/v") -->
+<!-- ) |> -->
+<!--   process_ecotox_numerics() |> -->
+<!--   process_ecotox_units() |> -->
+<!--   mutate( -->
+<!--     conc1_combined = conc1_mean * conc1_unit, -->
+<!--     conc1_standard = { -->
+<!--       result <- -->
+<!--         lapply(conc1_combined, \(x) { -->
+<!--           tryCatch({ units::set_units(x, "ug/L") }, -->
+<!--                    error = function(e) { units::set_units(NA, "ug/L") }) -->
+<!--         }) -->
+<!--       do.call(c, result) -->
+<!--     }) -->
+<!-- ``` -->
+
+## Sanitising dates
+
+The ECOTOX contains several date fields. They can represent meta-information
+about the record (date created and modified), administrative information
+(publication date), or excremental information (application date). These
+dates are stored as text in the database. As not all records are consistent
+or complete, some cleaning is required before coercing the text to a Date
+object (`?Date`).
+
+The example below shows some typical date formats as encountered in the
+database and how to coerce them to `Date` objects using `as_date_ecotox()`:
+
+```{r as_date_ecotox}
+char_date <- c("5-19-1987   ", "5/dd/2021", "3/19/yyyy", "1985", "mm/19/1999",
+               "October 2004", "nr/nr/2015")
+
+as_date_ecotox(char_date)
+```
+
+The only date that cannot be coerced is the one with an unspecified year. It
+is returned as `NA`.
+
+You can use `process_ecotox_dates()` to process a `data.frame`/`tibble` as returned
+by a search query. Date columns are automatically coerced with `as_date_ecotox()`.
+Column names ending with `_date` are recognised as date records.
+
+```{r process_ecotox_dates}
+tibble(
+  my_date = char_date
+) |>
+  process_ecotox_dates()
+```

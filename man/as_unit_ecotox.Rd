@@ -7,7 +7,7 @@
 as_unit_ecotox(
   x,
   type = c("concentration", "duration", "length", "media", "application", "size",
-    "weight"),
+    "weight", "unknown"),
   ...,
   warn = TRUE
 )
@@ -85,7 +85,8 @@ to mass over volume, or volum over volume where possible
 Numbers are formatted in decimal notation where possible.
 \item Spaces are removed if preceded by numeric and followed by
 alphabetical character
-\item All equivalents of 'day' are explicitly renamed to 'day'
+\item All equivalents of ambiguous synonyms for time units are explicitly
+renamed to their respective unit (e.g., 'dph' (days post hatching) -> 'day')
 \item unreported/missing units are renamed 'unit'
 }
 }
@@ -105,6 +106,10 @@ c("ppm-d", "ml/2.5 cm eu", "fl oz/10 gal/1k sqft", "kg/100 L",
   "mg P/h/g TI", "no/m", "kg/ton sd", "ug/g wet wt", "AI mg/2 L diet",
   "nmol/TI", "umol/g wet wt", "PSU", "Wijs number") |>
   as_unit_ecotox(warn = FALSE)
+
+## Adding the type of measurement can affect interpretation:
+as_unit_ecotox(c("C", "K"), type = "concentration")
+as_unit_ecotox(c("C", "K"), type = "media")
 }
 \seealso{
 Other ecotox-sanitisers: 

@@ -38,3 +38,13 @@ test_that("Text is sanitised to numerics as expected", {
       )
   })
 })
+
+test_that("Text is sanitised to units as expected", {
+  expect_true({
+    x <-
+      as_unit_ecotox(c("C", "K"), type = "media") |>
+      lapply(units::deparse_unit) |>
+      unlist()
+    all(x == c("°C", "K"))
+  })
+})
