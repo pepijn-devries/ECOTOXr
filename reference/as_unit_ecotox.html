@@ -9,7 +9,7 @@ sanitising."><meta property="og:image" content="https://pepijn-devries.github.io
 
     <a class="navbar-brand me-2" href="../index.html">ECOTOXr</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.1.1.0012</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.1.1.0013</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -22,6 +22,7 @@ sanitising."><meta property="og:image" content="https://pepijn-devries.github.io
   <button class="nav-link dropdown-toggle" type="button" id="dropdown-articles" data-bs-toggle="dropdown" aria-expanded="false" aria-haspopup="true">Articles</button>
   <ul class="dropdown-menu" aria-labelledby="dropdown-articles"><li><a class="dropdown-item" href="../articles/ecotox-schema.html">ECOTOX database schema</a></li>
     <li><a class="dropdown-item" href="../articles/reproducibility.html">Reproducibility</a></li>
+    <li><a class="dropdown-item" href="../articles/sanitising-ecotox.html">Sanitising ECOTOX</a></li>
     <li><a class="dropdown-item" href="../articles/searching-ecotox.html">Searching ECOTOX</a></li>
   </ul></li>
 <li class="nav-item"><a class="nav-link" href="../news/index.html">Changelog</a></li>
@@ -50,7 +51,7 @@ sanitising.</p>
     <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">as_unit_ecotox</span><span class="op">(</span></span>
 <span>  <span class="va">x</span>,</span>
 <span>  type <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"concentration"</span>, <span class="st">"duration"</span>, <span class="st">"length"</span>, <span class="st">"media"</span>, <span class="st">"application"</span>, <span class="st">"size"</span>,</span>
-<span>    <span class="st">"weight"</span><span class="op">)</span>,</span>
+<span>    <span class="st">"weight"</span>, <span class="st">"unknown"</span><span class="op">)</span>,</span>
 <span>  <span class="va">...</span>,</span>
 <span>  warn <span class="op">=</span> <span class="cn">TRUE</span></span>
 <span><span class="op">)</span></span></code></pre></div>
@@ -122,7 +123,8 @@ to mass over volume, or volum over volume where possible</p></li>
 Numbers are formatted in decimal notation where possible.</p></li>
 <li><p>Spaces are removed if preceded by numeric and followed by
 alphabetical character</p></li>
-<li><p>All equivalents of 'day' are explicitly renamed to 'day'</p></li>
+<li><p>All equivalents of ambiguous synonyms for time units are explicitly
+renamed to their respective unit (e.g., 'dph' (days post hatching) -&gt; 'day')</p></li>
 <li><p>unreported/missing units are renamed 'unit'</p></li>
 </ul></li>
 </ul><p>It is your own responsibility to check if the sanitising steps are appropriate for
@@ -155,8 +157,16 @@ your analyses.</p>
 <span class="r-in"><span>  <span class="st">"mg P/h/g TI"</span>, <span class="st">"no/m"</span>, <span class="st">"kg/ton sd"</span>, <span class="st">"ug/g wet wt"</span>, <span class="st">"AI mg/2 L diet"</span>,</span></span>
 <span class="r-in"><span>  <span class="st">"nmol/TI"</span>, <span class="st">"umol/g wet wt"</span>, <span class="st">"PSU"</span>, <span class="st">"Wijs number"</span><span class="op">)</span> <span class="op">|&gt;</span></span></span>
 <span class="r-in"><span>  <span class="fu">as_unit_ecotox</span><span class="op">(</span>warn <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Mixed units: d*ppm (1), ml/2.5cm (1), unit (13), kg/100L (1), ng/kg (1), ug (1), ng/g (1), PH (1), pm (1), umol/L/cm3 (1), 0.0001mmol/L (1), ° (1), fs (1), ug/d/g (1), pg/mg (1), pmol/mg (1), umol/mg (1), counts/counts/week (1), ug/100ul/counts (1), mg/d/kg (1), umol/h/mg (1), ug/L (1), kg/100kg (1), 1000000counts (1), ul (1), S (1), mmol/g/h (1), g/70d (1), ng/200mg (1), uS/cm2 (1), ml/ha (1), pt/acre (1), mg/g/h (1), counts/m (1), kg/ton (1), ug/g (1), mg/2L (1), umol/g (1) </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1 [d*ppm], 1 [ml/2.5cm], 1 [unit], 1 [kg/100L], 1 [unit], 1 [ng/kg], 1 [ug], 1 [ng/g], 1 [PH], 1 [pm], 1 [umol/L/cm3], 1 [0.0001mmol/L], 1 [°], 1 [fs], 1 [unit], 1 [unit], 1 [ug/d/g], 1 [unit], 1 [pg/mg], 1 [pmol/mg], 1 [unit], 1 [unit], 1 [umol/mg], 1 [counts/counts/week], 1 [unit], 1 [ug/100ul/counts], 1 [mg/d/kg], 1 [umol/h/mg], 1 [unit], 1 [ug/L], 1 [kg/100kg], 1 [1000000counts], 1 [ul], 1 [S], 1 [mmol/g/h], 1 [g/70d], 1 [unit], 1 [ng/200mg], 1 [uS/cm2], 1 [ml/ha], 1 [pt/acre], 1 [mg/g/h], 1 [counts/m], 1 [kg/ton], 1 [ug/g], 1 [mg/2L], 1 [unit], 1 [umol/g], 1 [unit], 1 [unit] </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Mixed units: d*ppm (1), ml/2.5cm (1), oz/1000ft2/10gal (1), kg/100L (1), month (1), ng/kg (1), ug (1), ng/g (1), unit (13), umol/L/cm3 (1), 0.0001mmol/L (1), ° (1), ug/d/g (1), pg/mg (1), pmol/mg (1), umol/mg (1), counts/counts/week (1), ug/100ul/counts (1), mg/d/kg (1), umol/h/mg (1), cmol/kg (1), ug/L (1), kg/100kg (1), 1000000counts (1), ul (1), S (1), mmol/g/h (1), g/70d (1), ng/200mg (1), uS/cm2 (1), ml/ha (1), pt/acre (1), mg/g/h (1), counts/m (1), kg/ton (1), ug/g (1), mg/2L (1), umol/g (1) </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1 [d*ppm], 1 [ml/2.5cm], 1 [oz/1000ft2/10gal], 1 [kg/100L], 1 [month], 1 [ng/kg], 1 [ug], 1 [ng/g], 1 [unit], 1 [unit], 1 [umol/L/cm3], 1 [0.0001mmol/L], 1 [°], 1 [unit], 1 [unit], 1 [unit], 1 [ug/d/g], 1 [unit], 1 [pg/mg], 1 [pmol/mg], 1 [unit], 1 [unit], 1 [umol/mg], 1 [counts/counts/week], 1 [unit], 1 [ug/100ul/counts], 1 [mg/d/kg], 1 [umol/h/mg], 1 [cmol/kg], 1 [ug/L], 1 [kg/100kg], 1 [1000000counts], 1 [ul], 1 [S], 1 [mmol/g/h], 1 [g/70d], 1 [unit], 1 [ng/200mg], 1 [uS/cm2], 1 [ml/ha], 1 [pt/acre], 1 [mg/g/h], 1 [counts/m], 1 [kg/ton], 1 [ug/g], 1 [mg/2L], 1 [unit], 1 [umol/g], 1 [unit], 1 [unit] </span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co">## Adding the type of measurement can affect interpretation:</span></span></span>
+<span class="r-in"><span><span class="fu">as_unit_ecotox</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"C"</span>, <span class="st">"K"</span><span class="op">)</span>, type <span class="op">=</span> <span class="st">"concentration"</span><span class="op">)</span></span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Mixed units: C (1), unit (1) </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1 [C], 1 [unit] </span>
+<span class="r-in"><span><span class="fu">as_unit_ecotox</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"C"</span>, <span class="st">"K"</span><span class="op">)</span>, type <span class="op">=</span> <span class="st">"media"</span><span class="op">)</span></span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Mixed units: °C (1), K (1) </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1 [°C], 1 [K] </span>
 </code></pre></div>
     </div>
   </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>

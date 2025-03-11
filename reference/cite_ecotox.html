@@ -9,7 +9,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">ECOTOXr</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.1.1.0012</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.1.1.0013</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -22,6 +22,7 @@
   <button class="nav-link dropdown-toggle" type="button" id="dropdown-articles" data-bs-toggle="dropdown" aria-expanded="false" aria-haspopup="true">Articles</button>
   <ul class="dropdown-menu" aria-labelledby="dropdown-articles"><li><a class="dropdown-item" href="../articles/ecotox-schema.html">ECOTOX database schema</a></li>
     <li><a class="dropdown-item" href="../articles/reproducibility.html">Reproducibility</a></li>
+    <li><a class="dropdown-item" href="../articles/sanitising-ecotox.html">Sanitising ECOTOX</a></li>
     <li><a class="dropdown-item" href="../articles/searching-ecotox.html">Searching ECOTOX</a></li>
   </ul></li>
 <li class="nav-item"><a class="nav-link" href="../news/index.html">Changelog</a></li>
@@ -95,10 +96,36 @@ function to obtain a citation to that specific download.</p>
 
     <div class="section level2">
     <h2 id="ref-examples">Examples<a class="anchor" aria-label="anchor" href="#ref-examples"></a></h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="kw">if</span> <span class="op">(</span><span class="fu"><a href="check_ecotox_availability.html">check_ecotox_availability</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span> <span class="op">{</span></span></span>
-<span class="r-in"><span>  <span class="co">## In order to cite downloaded database and this package:</span></span></span>
-<span class="r-in"><span>  <span class="fu">cite_ecotox</span><span class="op">(</span><span class="op">)</span></span></span>
-<span class="r-in"><span><span class="op">}</span></span></span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="co">## In order to cite downloaded database and this package:</span></span></span>
+<span class="r-in"><span><span class="fu">cite_ecotox</span><span class="op">(</span><span class="op">)</span> <span class="op">|&gt;</span> <span class="fu"><a href="https://rdrr.io/r/base/warning.html" class="external-link">suppressWarnings</a></span><span class="op">(</span><span class="op">)</span></span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [[1]]</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [[1]]$title</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "ECOTOXr: An R package for reproducible and transparent retrieval of data from EPA's ECOTOX database"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [[1]]$author</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "P. de Vries"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [[1]]$journal</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "Chemosphere"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [[1]]$year</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "2024"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [[1]]$volume</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "364"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [[1]]$pages</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "143078"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [[1]]$doi</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "10.1016/j.chemosphere.2024.143078"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [[1]]$note</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "R package version 1.1.1.0013"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> attr(,"bibtype")</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "Article"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 </code></pre></div>
     </div>
   </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>
