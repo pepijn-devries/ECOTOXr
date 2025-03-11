@@ -118,8 +118,10 @@ search_ecotox <- function(search, output_fields = list_ecotox_fields("default"),
                                       group_by_results = group_by_results, ...)
   database_file <- attributes(search_result)$database_file
   dbcon         <- search_result[["src"]]$con
+  on.exit({
+    dbDisconnect(dbcon)
+  })
   search_result <- search_result |> collect()
-  dbDisconnect(dbcon)
   ## group by result_id if requested
   
   if (group_by_results) search_result <- .group_nest_results(search_result)

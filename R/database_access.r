@@ -87,22 +87,27 @@ dbDisconnectEcotox <- function(conn, ...) {
 #' @rdname cite_ecotox
 #' @name cite_ecotox
 #' @examples
-#' if (check_ecotox_availability()) {
-#'   ## In order to cite downloaded database and this package:
-#'   cite_ecotox()
-#' }
+#' ## In order to cite downloaded database and this package:
+#' cite_ecotox() |> suppressWarnings()
 #' @author Pepijn de Vries
 #' @family database-access-functions
 #' @export
 cite_ecotox <- function(path = get_ecotox_path(), version) {
   db  <- tryCatch({ get_ecotox_sqlite_file(path, version) }, error = \(x) "")
   bib <- gsub(".sqlite", "_cit.txt", db, fixed = T)
-  if (!file.exists(bib)) {
-    message("No bibentry reference to database download found!")
-    return(invisible(NULL))
+  if (file.exists(bib)) {
+    downloaded_data <- utils::readCitationFile(bib)
+  } else {
+    downloaded_data <- NULL
+    warning("No bibentry reference to database download found!")
   }
-  result <- utils::readCitationFile(bib)
-  return(c(result, utils::citation("ECOTOXr")))
+  chemosphere <- utils::citation("ECOTOXr")
+  atts <- attributes(chemosphere)
+  chemosphere <- unclass(chemosphere)
+  meta <- utils::packageDescription(pkg = "ECOTOXr")
+  chemosphere[[1]]$note <- sprintf("R package version %s", meta$Version)
+  attributes(chemosphere) <- atts
+  return(c(downloaded_data, chemosphere))
 }
 
 #' Get information on the local ECOTOX database when available
@@ -229,6 +234,9 @@ check_ecotox_build <- function(path = get_ecotox_path(), version, ...) {
     attr(validity, "reasons") <-
       c(attr(validity, "reasons"), "Cannot connect with 'target' and 'version'.")
   } else {
+    on.exit({
+      dbDisconnect(con)
+    })
     tables <- RSQLite::dbListTables(con)
     missing_tables <- .db_specs$table[!.db_specs$table %in% tables]
     if (length(missing_tables) > 0) {
@@ -249,7 +257,6 @@ check_ecotox_build <- function(path = get_ecotox_path(), version, ...) {
         }
       }
     }
-    dbDisconnect(con)
   }
   return (validity)
 }

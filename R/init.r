@@ -328,6 +328,9 @@ build_ecotox_sqlite <- function(source, destination = get_ecotox_path(), write_l
   Sys.setenv("VROOM_CONNECTION_SIZE" = "41950304") # Increase the size for read_table
   dbname <- paste0(basename(source), ".sqlite")
   dbcon  <- RSQLite::dbConnect(RSQLite::SQLite(), file.path(destination, dbname))
+  on.exit({
+    RSQLite::dbDisconnect(dbcon)
+  })
   unexpected_fields <- character(0)
   missing_fields    <- character(0)
   missing_tables    <- character(0)
@@ -468,7 +471,6 @@ build_ecotox_sqlite <- function(source, destination = get_ecotox_path(), write_l
       )
     }
   })
-  RSQLite::dbDisconnect(dbcon)
 
   if (write_log) {
     logfile      <- file.path(destination, paste0(basename(source), ".log"))

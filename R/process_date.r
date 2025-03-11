@@ -45,7 +45,7 @@ process_ecotox_dates <- function(x, .fns = as_date_ecotox, ..., .names = NULL) {
   ## identify date columns
   date_columns <- .db_specs$field_name[grepl("_date$", .db_specs$field_name)]
   patt <- sprintf("^.*?(%s)$",
-                  paste(date_columns, collapse = "|"))
+                  paste(c(date_columns, "_date"), collapse = "|"))
   
   fun <- function(x) { .fns(x, ...) }
   x |>

@@ -61,3 +61,9 @@ test_that("Can only convert characters to ECOTOX dates", {
     as_date_ecotox(1L)
   })
 })
+
+test_that("Can only convert characters to ECOTOX units", {
+  expect_error({
+    as_unit_ecotox(1L)
+  })
+})
