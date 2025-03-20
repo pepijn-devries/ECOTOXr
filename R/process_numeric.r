@@ -140,7 +140,7 @@ process_ecotox_numerics <- function(x, .fns = as_numeric_ecotox, ..., add_units 
 #' @family ecotox-sanitisers
 #' @export
 as_numeric_ecotox <- function(x, range_fun = NULL, ..., warn = TRUE) {
-  if (typeof(x) == "numeric") return (x)
+  if (typeof(x) == "double") return (x)
   if (typeof(x) != "character") stop(
     paste("`as_numeric_ecotox` should only convert `characters`.",
           "I got", typeof(x), "instead."))
