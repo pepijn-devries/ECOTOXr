@@ -1,7 +1,7 @@
 Package: ECOTOXr
 Type: Package
 Title: Download and Extract Data from US EPA's ECOTOX Database
-Version: 1.1.1.0013
+Version: 1.2.0
 Authors@R: c(person("Pepijn", "de Vries", role = c("aut", "cre", "dtc"),
     email = "pepijn.devries@outlook.com",
     comment = c(ORCID = "0000-0002-7961-6646")))
@@ -57,3 +57,15 @@ RoxygenNote: 7.2.3
 Config/testthat/edition: 3
 Roxygen: list(markdown = TRUE)
 VignetteBuilder: knitr
+Collate: 
+    'ECOTOXr-package.r'
+    'cas_handlers.r'
+    'database_access.r'
+    'helpers.r'
+    'imports.r'
+    'init.r'
+    'online.r'
+    'process_date.r'
+    'process_unit.r'
+    'process_numeric.r'
+    'wrappers.r'

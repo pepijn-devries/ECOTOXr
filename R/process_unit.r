@@ -229,6 +229,7 @@ as_unit_ecotox <- function(
     x,
     type = c("concentration", "duration", "length", "media", "application", "size", "weight", "unknown"),
     ..., warn = TRUE) {
+  if (inherits(x, "mixed_units")) return(x)
   if (typeof(x) != "character") stop(
     paste("`as_unit_ecotox` should only convert `characters`.",
           "I got", typeof(x), "instead."))
@@ -444,4 +445,36 @@ as_unit_ecotox <- function(
   
   dplyr::left_join(x, result, "code") |>
     dplyr::pull("unit")
+}
+
+#' Convert mixed units to a specific unit
+#' 
+#' Converts a list of mixed units to a specific unit, using the `units`
+#' package.
+#' @param x A mixed units object (`units::mixed_units()`) to be converted
+#' to the `target_unit`
+#' @param target_unit A `character` string representing the target
+#' unit
+#' @returns Returns a units object (`?units::units`). Values with units
+#' that cannot be converted to the `target_unit` is returned as `NA`.
+#' @examples
+#' mishmash <- as_unit_ecotox(c("mg/L", "ppt w/v", "% w/v", "mmol/L"))
+#' 
+#' ## Note that 'mmol/L' cannot be converted to 'ug/L'
+#' ## without a molar mass. It is returned as `NA`
+#' mixed_to_single_unit(mishmash, "ug/L")
+#' 
+#' mishmash <- as_unit_ecotox(c("h", "sec", "mi", "dph"))
+#' 
+#' mixed_to_single_unit(mishmash, "h")
+#' @author Pepijn de Vries
+#' @family ecotox-sanitisers
+#' @export
+mixed_to_single_unit <- function(x, target_unit) {
+  result <-
+    lapply(x, \(y)
+           tryCatch(units::set_units(units::mixed_units(y), target_unit)[[1]],
+                    error = function(e) units::as_units(NA, target_unit))
+    )
+  do.call(c, result)
 }

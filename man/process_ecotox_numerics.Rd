@@ -4,7 +4,13 @@
 \alias{process_ecotox_numerics}
 \title{Process ECOTOX search results by converting \code{character} to \code{numeric} where relevant}
 \usage{
-process_ecotox_numerics(x, .fns = as_numeric_ecotox, ..., .names = NULL)
+process_ecotox_numerics(
+  x,
+  .fns = as_numeric_ecotox,
+  ...,
+  add_units = FALSE,
+  .names = NULL
+)
 }
 \arguments{
 \item{x}{A \code{data.frame} obtained with \code{search_ecotox()}, for which the numerics need
@@ -15,6 +21,9 @@ is used which also sanitises the input. You can also use \code{as.numeric()} if 
 want the sanitation step. You can also write a custom function.}
 
 \item{...}{Arguments passed to \code{.fns}.}
+
+\item{add_units}{A \code{logical} value. When set to \code{TRUE} corresponding units
+are parsed with \code{as_unit_ecotox()} (if available) and added to the numeric value.}
 
 \item{.names}{A 'glue' specification used to rename the numeric columns. By default
 it is \code{"{.col}"}, which will overwrite existing text columns with numeric columns.
@@ -48,7 +57,7 @@ if (check_ecotox_availability()) {
     ), list_ecotox_fields("full"))
 
   df_num <-
-    process_ecotox_numerics(df, warn = FALSE)
+    process_ecotox_numerics(df, add_units = TRUE, warn = FALSE)
 }
 }
 \seealso{
@@ -56,6 +65,7 @@ Other ecotox-sanitisers:
 \code{\link{as_date_ecotox}()},
 \code{\link{as_numeric_ecotox}()},
 \code{\link{as_unit_ecotox}()},
+\code{\link{mixed_to_single_unit}()},
 \code{\link{process_ecotox_dates}()},
 \code{\link{process_ecotox_units}()}
 }

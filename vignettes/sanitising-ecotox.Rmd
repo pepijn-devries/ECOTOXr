@@ -14,8 +14,8 @@ knitr::opts_chunk$set(
 )
 ```
 
-The ASCII files provided by the EPA, used for building the local database
-(`download_ecotox_data()`), contain all required data. As documented by the EPA most
+The ASCII files provided by the EPA contain all data required  for building the
+local database (`download_ecotox_data()`). As documented by the EPA most
 table fields are stored as text (with a few exceptions). During the build
 process, all fields are kept as is, without any cleanup or standardisation.
 This is done to avoid any data loss or corruption and keep it as close
@@ -198,34 +198,35 @@ process_ecotox_numerics(text_tbl, warn = FALSE, .names = "{.col}_num") |>
     )
 ```
 
-<!-- ## Combining units with numerics -->
+## Combining numerics with units
 
-<!-- *TODO* -->
+The steps above show how to sanitise numerics and units separately. In order
+to standardise numeric values to a specific unit, these steps need to be combined.
+This can be achieved by calling `process_ecotox_numerics()` with `add_units` set to
+`TRUE`. This will add the corresponding units to the numeric value. But they are
+still mixed units. By calling `mixed_to_single_unit()` you can convert the values
+to a specific unit.
 
-<!-- ```{r numerics_and_units} -->
-<!-- tibble( -->
-<!--   conc1_mean = c("1", "2", "5e-4", "0.2"), -->
-<!--   conc1_unit = c("mg/L", "M", "% w/v", "ppt w/v") -->
-<!-- ) |> -->
-<!--   process_ecotox_numerics() |> -->
-<!--   process_ecotox_units() |> -->
-<!--   mutate( -->
-<!--     conc1_combined = conc1_mean * conc1_unit, -->
-<!--     conc1_standard = { -->
-<!--       result <- -->
-<!--         lapply(conc1_combined, \(x) { -->
-<!--           tryCatch({ units::set_units(x, "ug/L") }, -->
-<!--                    error = function(e) { units::set_units(NA, "ug/L") }) -->
-<!--         }) -->
-<!--       do.call(c, result) -->
-<!--     }) -->
-<!-- ``` -->
+```{r numerics_and_units}
+tibble(
+  conc1_mean = c("1", "2", "5e-4", "0.2"),
+  conc1_unit = c("mg/L", "M", "% w/v", "ppt w/v")
+) |>
+  process_ecotox_numerics(add_units = TRUE) |>
+  mutate(
+    conc1_mean_standard = mixed_to_single_unit(conc1_mean, "ug/L")
+  )
+```
+
+Note that in the example above not all units can be converted to the
+target unit `"ug/L"`. This is because concentrations in 'mol/L' requires
+the molar mass of the solute in order to convert. It is returned as `NA`.
 
 ## Sanitising dates
 
 The ECOTOX contains several date fields. They can represent meta-information
 about the record (date created and modified), administrative information
-(publication date), or excremental information (application date). These
+(publication date), or experimental information (application date). These
 dates are stored as text in the database. As not all records are consistent
 or complete, some cleaning is required before coercing the text to a Date
 object (`?Date`).

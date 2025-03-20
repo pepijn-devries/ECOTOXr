@@ -115,6 +115,7 @@ as_unit_ecotox(c("C", "K"), type = "media")
 Other ecotox-sanitisers: 
 \code{\link{as_date_ecotox}()},
 \code{\link{as_numeric_ecotox}()},
+\code{\link{mixed_to_single_unit}()},
 \code{\link{process_ecotox_dates}()},
 \code{\link{process_ecotox_numerics}()},
 \code{\link{process_ecotox_units}()}

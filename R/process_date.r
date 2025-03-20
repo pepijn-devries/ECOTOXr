@@ -118,6 +118,7 @@ process_ecotox_dates <- function(x, .fns = as_date_ecotox, ..., .names = NULL) {
 #' @family ecotox-sanitisers
 #' @export
 as_date_ecotox <- function(x, dd = 1L, mm = 1L, nr = 1L, ..., warn = TRUE) {
+  if (inherits(x, "Date")) return(x)
   if (typeof(x) != "character") stop(
     paste("`as_date_ecotox` should only convert `characters`.",
           "I got", typeof(x), "instead."))
