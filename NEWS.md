@@ -1,4 +1,4 @@
-ECOTOXr v1.1.1.0013
+ECOTOXr v1.2.0
 -------------
 
   * Added data sanitisers `process_ecotox_numerics()`,
@@ -9,6 +9,7 @@ ECOTOXr v1.1.1.0013
   * Fixed check upon attach
   * Correction in database specifications
   * Improved test coverage
+  * Testet against 2025-03-13 release of ECOTOX
 
 ECOTOXr v1.1.1
 -------------

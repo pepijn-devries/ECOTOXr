@@ -12,6 +12,8 @@
 #' is used which also sanitises the input. You can also use `as.numeric()` if you don't
 #' want the sanitation step. You can also write a custom function.
 #' @param ... Arguments passed to `.fns`.
+#' @param add_units A `logical` value. When set to `TRUE` corresponding units
+#' are parsed with `as_unit_ecotox()` (if available) and added to the numeric value.
 #' @param .names A 'glue' specification used to rename the numeric columns. By default
 #' it is `"{.col}"`, which will overwrite existing text columns with numeric columns.
 #' You can for instance add a suffix with `"{.col}_num"` if you want to
@@ -34,11 +36,12 @@
 #'     ), list_ecotox_fields("full"))
 #'
 #'   df_num <-
-#'     process_ecotox_numerics(df, warn = FALSE)
+#'     process_ecotox_numerics(df, add_units = TRUE, warn = FALSE)
 #' }
 #' @family ecotox-sanitisers
+#' @include process_unit.r
 #' @export
-process_ecotox_numerics <- function(x, .fns = as_numeric_ecotox, ..., .names = NULL) {
+process_ecotox_numerics <- function(x, .fns = as_numeric_ecotox, ..., add_units = FALSE, .names = NULL) {
 
   ## identify numeric columns
   ## numeric columns are columns that have a similarly named unit column
@@ -50,7 +53,8 @@ process_ecotox_numerics <- function(x, .fns = as_numeric_ecotox, ..., .names = N
 
   ## coerce identified columns to numeric using .fns
   fun <- function(x) { .fns(x, ...) }
-  x |>
+  x <-
+    x |>
     dplyr::mutate(
       dplyr::across(
         .cols = dplyr::matches(patt, perl = TRUE),
@@ -58,6 +62,40 @@ process_ecotox_numerics <- function(x, .fns = as_numeric_ecotox, ..., .names = N
         .names = .names
       )
     )
+  if (add_units) {
+    warn <- rlang::`%||%`(list(...)$warn, TRUE)
+    x <-
+      x |>
+      process_ecotox_units(warn = warn, .names = "{col}_parsed") |> 
+      dplyr::mutate(
+        dplyr::across(
+          .cols = dplyr::matches(patt, perl = TRUE),
+          .fns  = ~ {
+            col_units <-
+              dplyr::cur_column() |>
+              stringr::str_replace("_min|_max|_mean", "") |>
+              paste0("_unit_parsed") |>
+              dplyr::any_of() |>
+              dplyr::pick()
+            if (ncol(col_units) == 0L) {
+              if (warn)
+                warning(sprintf("Skipping '%s' as there is no unit column available",
+                                dplyr::cur_column()))
+            } else if (ncol(col_units) > 1L) {
+              if (warn)
+                warning(sprintf("Skipping '%s' as there are multiple unit columns available",
+                                dplyr::cur_column()))
+            } else {
+              .x <- .x * col_units[[1]]
+            }
+            .x
+          },
+          .names = .names
+        )
+      ) |>
+      dplyr::select(-dplyr::ends_with("_unit_parsed"))
+  }
+  x
 }
 
 #' Values represented by ECOTOX `character` to `numeric`
@@ -102,6 +140,7 @@ process_ecotox_numerics <- function(x, .fns = as_numeric_ecotox, ..., .names = N
 #' @family ecotox-sanitisers
 #' @export
 as_numeric_ecotox <- function(x, range_fun = NULL, ..., warn = TRUE) {
+  if (typeof(x) == "numeric") return (x)
   if (typeof(x) != "character") stop(
     paste("`as_numeric_ecotox` should only convert `characters`.",
           "I got", typeof(x), "instead."))
