@@ -48,3 +48,26 @@ test_that("Text is sanitised to units as expected", {
     all(x == c("°C", "K"))
   })
 })
+
+test_that("Converting numerics with units works as expected", {
+  expect_equal({
+    tibble(
+      conc1_mean = c("1", "2", "5e-4", "0.2"),
+      conc1_unit = c("mg/L", "M", "% w/v", "ppt w/v")
+    ) |>
+      process_ecotox_numerics(add_units = TRUE) |>
+      mutate(
+        conc1_mean_standard = mixed_to_single_unit(conc1_mean, "ug/L")) |>
+      pull("conc1_mean_standard") |>
+      as.numeric()
+  }, c(1e+03, NA_real_, 5e+04, 2e+05))
+})
+
+test_that("Sanitising what is already is sanitised returns as is", {
+  expect_true({
+    as_numeric_ecotox(1) == 1 &&
+      as_date_ecotox(as.Date("2025-03-20")) == as.Date("2025-03-20") &
+      as_unit_ecotox(units::mixed_units(1, "mg/L")) ==
+      units::mixed_units(1, "mg/L")
+  })
+})

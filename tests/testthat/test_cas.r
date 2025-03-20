@@ -69,6 +69,7 @@ test_that("Simple S3 functions work", {
     sink(mysink)
     my_cas <- as.cas("71432")
     print.cas(my_cas)
+    print.cas(cas(0))
     show.cas(my_cas)
     sink()
     file.remove(mysink)
