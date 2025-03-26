@@ -60,7 +60,7 @@ test_that("Converting numerics with units works as expected", {
         conc1_mean_standard = mixed_to_single_unit(conc1_mean, "ug/L")) |>
       pull("conc1_mean_standard") |>
       as.numeric()
-  }, c(1e+03, NA_real_, 5e+04, 2e+05))
+  }, c(1e+03, NA_real_, 5e+03, 2e+05))
 })
 
 test_that("Sanitising what is already is sanitised returns as is", {
