@@ -299,7 +299,7 @@ as_unit_ecotox <- function(
       
       ## percentage concentration mass over volume is more explicitly
       ## expressed as hectogram per millilitre
-      code          = gsub("^%([ ]?)(m|w)(:|/)v$", "hg/L", .data$code),
+      code          = gsub("^%([ ]?)(m|w)(:|/)v$", "g/dL", .data$code),
       
       ## percentage concentration volume over volume is more explicitly
       ## expressed as litre per hectolitre

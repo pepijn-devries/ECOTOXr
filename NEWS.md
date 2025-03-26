@@ -1,7 +1,8 @@
-ECOTOXr v1.2.0.0001
+ECOTOXr v1.2.0.0002
 -------------
 
   * Improved test coverage
+  * Fixed error in units conversion
 
 ECOTOXr v1.2.0
 -------------
