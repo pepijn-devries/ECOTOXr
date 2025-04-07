@@ -1,4 +1,4 @@
-ECOTOXr v1.2.0.0002
+ECOTOXr v1.2.0.0003
 -------------
 
   * Improved test coverage

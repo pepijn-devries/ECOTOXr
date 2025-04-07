@@ -332,7 +332,7 @@ as_unit_ecotox <- function(
       code          = gsub("(mho(s?))", "Siemens", .data$code, perl = TRUE),
       
       ## 'parts per ...' followed by minus, should be product (i.e, ppt-h should be ppt*h)
-      code          = gsub("(?<=pp(h|m|t))-", "*", .data$code, perl = TRUE),
+      code          = gsub("(?<=pp(h|t|m|b))-", "*", .data$code, perl = TRUE),
       ## make ppt and ppm more explicit where possible
       ## ppmw/soil vol === ppm w/v === ppmv
       code          = gsub("(ppmw/soil vol)|(ppm w/v)", "mg/L", .data$code),
@@ -341,7 +341,12 @@ as_unit_ecotox <- function(
       ## ppmw === ppm w/w === ppm dw
       code          = gsub("(ppm dw)|(ppm w/w)|(ppmw)", "ug/g", .data$code),
       code          = gsub("(ppt w/w)|(pptw)", "mg/g", .data$code),
-
+      ## In case of no annotation assume weight over volume
+      code          = gsub("ppb", "ug/L", .data$code),
+      code          = gsub("ppm", "mg/L", .data$code),
+      code          = gsub("ppt", "g/L", .data$code),
+      code          = gsub("pph", "dg/L", .data$code),
+      
       ## 'type' specific sanitation steps
       code          = if (type == "concentration") {
         

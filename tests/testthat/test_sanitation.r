@@ -1,3 +1,11 @@
+library(dplyr, quietly = TRUE)
+
+check_db <- function() {
+  if (!check_ecotox_availability()) {
+    skip("ECOTOX database not available")
+  }
+}
+
 test_that("Text is sanitised to numerics as expected", {
   expect_true({
     char_num <- c("10", " 2", "3 ", "~5", "9.2*", "2,33",
@@ -69,5 +77,61 @@ test_that("Sanitising what is already is sanitised returns as is", {
       as_date_ecotox(as.Date("2025-03-20")) == as.Date("2025-03-20") &
       as_unit_ecotox(units::mixed_units(1, "mg/L")) ==
       units::mixed_units(1, "mg/L")
+  })
+})
+
+test_that("Locally converted units correspond well with online standards", {
+  check_db()
+  skip_if_offline()
+  skip_on_cran()
+  expect_true({
+
+    data_local <- search_ecotox(
+      list(
+        test_cas = list(
+          terms          = "1912249",
+          method         = "exact"
+        ),
+        endpoint = list(
+          terms          = "LC50",
+          method         = "exact"
+        ),
+        media_type = list(
+          terms          = c("FW", "SW"),
+          method         = "contains"
+        )
+      ),
+      output_fields = c("species.latin_name", "results.conc1_mean",
+                        "results.conc1_unit", "results.result_id")) |>
+      suppressWarnings()
+  
+    data_online <-
+      websearch_ecotox(
+        list_ecotox_web_fields(
+          txAdvancedChemicalEntries = "1912249",
+          RBCHEMSEARCHTYPE          = "EXACT",
+          cbResult_number = "Result+Number",
+          sortfield = "AQ.RESULT_NUMBER",
+          cbResultsGroup12a = "LC50",
+          cbemwFresh = "emwFresh",
+          cbemwSalt = "emwSalt")
+      )
+    
+    compare <-
+      left_join(
+        temp,
+        temp2 |>
+          select(
+            result_id = "Result+Number",
+            reference_number = "Reference Number",
+            conc_standardised = "Conc 1 Mean (Standardized)"),
+        by = c("result_id", "reference_number")
+      ) |>
+      process_ecotox_numerics(add_units = TRUE, warn = FALSE) |>
+      mutate(conc_package = mixed_to_single_unit(conc1_mean, "mg/L") |> as.numeric(),
+             ratio = conc_standardised / conc_package) |>
+      filter(!is.na(ratio))
+    
+    all(abs(compare$ratio - 1) < 1e-6)
   })
 })

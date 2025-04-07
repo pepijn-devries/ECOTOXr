@@ -97,16 +97,18 @@ You can also use the package to
 [search using the online webform](https://cfpub.epa.gov/ecotox/search.cfm):
 
 ```{r}
-search_fields <-
-  list_ecotox_web_fields(
-    txAdvancedSpecEntries     = "daphnia magna",
-    RBSPECSEARCHTYPE          = "EXACT",
-    txAdvancedChemicalEntries = "benzene",
-    RBCHEMSEARCHTYPE          = "EXACT")
+tryCatch({
+  search_fields <-
+    list_ecotox_web_fields(
+      txAdvancedSpecEntries     = "daphnia magna",
+      RBSPECSEARCHTYPE          = "EXACT",
+      txAdvancedChemicalEntries = "benzene",
+      RBCHEMSEARCHTYPE          = "EXACT")
 
-search_results <- websearch_ecotox(search_fields, verify_ssl = FALSE)
+  search_results <- websearch_ecotox(search_fields, verify_ssl = FALSE)
 
-search_results$`Aquatic-Export`
+  search_results$`Aquatic-Export`
+})
 ```
 
 When aiming for reproducibility it is better to query the local database, as the online
