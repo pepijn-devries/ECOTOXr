@@ -20,7 +20,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">ECOTOXr</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.2.0.0002</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.2.0.0003</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -173,8 +173,8 @@ can see not all units in the <code>mishmash</code> vector can be
 interpreted and are just returned as arbitrary <code>1 unit</code>.</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/as_unit_ecotox.html">as_unit_ecotox</a></span><span class="op">(</span><span class="va">mishmash</span>, warn <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span>
-<span><span class="co">#&gt; Mixed units: d*ppm (1), ml/2.5cm (1), oz/1000ft2/10gal (1), kg/100L (1), month (1), ng/kg (1), ug (1), ng/g (1), unit (13), umol/cm3/L (1), 0.0001mmol/L (1), ° (1), ug/d/g (1), pg/mg (1), pmol/mg (1), umol/mg (1), counts/counts/week (1), ug/100ul/counts (1), mg/d/kg (1), umol/h/mg (1), cmol/kg (1), ug/L (1), kg/100kg (1), 1000000counts (1), ul (1), S (1), mmol/g/h (1), g/70d (1), ng/200mg (1), uS/cm2 (1), ml/ha (1), pt/acre (1), mg/g/h (1), counts/m (1), kg/ton (1), ug/g (1), mg/2L (1), umol/g (1) </span></span>
-<span><span class="co">#&gt; 1 [d*ppm], 1 [ml/2.5cm], 1 [oz/1000ft2/10gal], 1 [kg/100L], 1 [month], 1 [ng/kg], 1 [ug], 1 [ng/g], 1 [unit], 1 [unit], 1 [umol/cm3/L], 1 [0.0001mmol/L], 1 [°], 1 [unit], 1 [unit], 1 [unit], 1 [ug/d/g], 1 [unit], 1 [pg/mg], 1 [pmol/mg], 1 [unit], 1 [unit], 1 [umol/mg], 1 [counts/counts/week], 1 [unit], 1 [ug/100ul/counts], 1 [mg/d/kg], 1 [umol/h/mg], 1 [cmol/kg], 1 [ug/L], 1 [kg/100kg], 1 [1000000counts], 1 [ul], 1 [S], 1 [mmol/g/h], 1 [g/70d], 1 [unit], 1 [ng/200mg], 1 [uS/cm2], 1 [ml/ha], 1 [pt/acre], 1 [mg/g/h], 1 [counts/m], 1 [kg/ton], 1 [ug/g], 1 [mg/2L], 1 [unit], 1 [umol/g], 1 [unit], 1 [unit]</span></span></code></pre></div>
+<span><span class="co">#&gt; Mixed units: d*mg/L (1), ml/2.5cm (1), oz/1000ft2/10gal (1), kg/100L (1), month (1), ng/kg (1), ug (1), ng/g (1), unit (13), umol/cm3/L (1), 0.0001mmol/L (1), ° (1), ug/d/g (1), pg/mg (1), pmol/mg (1), umol/mg (1), counts/counts/week (1), ug/100ul/counts (1), mg/d/kg (1), umol/h/mg (1), cmol/kg (1), ug/L (1), kg/100kg (1), 1000000counts (1), ul (1), S (1), mmol/g/h (1), g/70d (1), ng/200mg (1), uS/cm2 (1), ml/ha (1), pt/acre (1), mg/g/h (1), counts/m (1), kg/ton (1), ug/g (1), mg/2L (1), umol/g (1) </span></span>
+<span><span class="co">#&gt; 1 [d*mg/L], 1 [ml/2.5cm], 1 [oz/1000ft2/10gal], 1 [kg/100L], 1 [month], 1 [ng/kg], 1 [ug], 1 [ng/g], 1 [unit], 1 [unit], 1 [umol/cm3/L], 1 [0.0001mmol/L], 1 [°], 1 [unit], 1 [unit], 1 [unit], 1 [ug/d/g], 1 [unit], 1 [pg/mg], 1 [pmol/mg], 1 [unit], 1 [unit], 1 [umol/mg], 1 [counts/counts/week], 1 [unit], 1 [ug/100ul/counts], 1 [mg/d/kg], 1 [umol/h/mg], 1 [cmol/kg], 1 [ug/L], 1 [kg/100kg], 1 [1000000counts], 1 [ul], 1 [S], 1 [mmol/g/h], 1 [g/70d], 1 [unit], 1 [ng/200mg], 1 [uS/cm2], 1 [ml/ha], 1 [pt/acre], 1 [mg/g/h], 1 [counts/m], 1 [kg/ton], 1 [ug/g], 1 [mg/2L], 1 [unit], 1 [umol/g], 1 [unit], 1 [unit]</span></span></code></pre></div>
 <p>With <code><a href="../reference/process_ecotox_units.html">process_ecotox_units()</a></code> you can process an entire
 <code>data.frame</code>/<code>tibble</code>, where each column ending
 with <code>_unit</code> is processed (i.e. <code><a href="../reference/as_unit_ecotox.html">as_unit_ecotox()</a></code>
@@ -186,7 +186,7 @@ preserve the original unit column:</p>
 <span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 50 × 2</span></span></span>
 <span><span class="co">#&gt;    mishmash_unit        mishmash_unit_parsed</span></span>
 <span><span class="co">#&gt;    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>                       <span style="color: #949494; font-style: italic;">&lt;mixed_units&gt;</span></span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 1</span> ppm-d                           1<span style="color: #949494;"> [d*ppm]</span></span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 1</span> ppm-d                          1<span style="color: #949494;"> [d*mg/L]</span></span></span>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;"> 2</span> ml/2.5 cm eu                 1<span style="color: #949494;"> [ml/2.5cm]</span></span></span>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;"> 3</span> fl oz/10 gal/1k sqft 1<span style="color: #949494;"> [oz/1000ft2/10gal]</span></span></span>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;"> 4</span> kg/100 L                      1<span style="color: #949494;"> [kg/100L]</span></span></span>
