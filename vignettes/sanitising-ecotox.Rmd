@@ -68,8 +68,9 @@ by the `units` package. In order to achieve this the following steps are perform
     for instance 'active ingredient', the medium it refers to (e.g. soil), etc.)
   * Ambiguous units like percentages and 'parts per ...' are converted to more
     explicit units where possible. This is only possible when it is recorded if the
-    units indicate if they are w/w, w/v, v/v or v/w. If this conversion is not
-    possible, the unit is kept as is.
+    units indicate if they are w/w, w/v, v/v or v/w. If this annotation is missing
+    from 'parts per ...' units, it is assumed to be weight over volume. The same is
+    true for percentages, but only if the unit type is `concentration`.
   * Units that are not known or interpreted incorrectly by the `units` package are
     converted such that they are handled correctly. For instance 'C' in the ECOTOX
     database frequently stands for 'degrees Celsius' (although it is also used to

@@ -119,13 +119,12 @@ test_that("Locally converted units correspond well with online standards", {
     
     compare <-
       left_join(
-        temp,
-        temp2 |>
+        data_local,
+        data_online$`Aquatic-Export` |>
           select(
             result_id = "Result+Number",
-            reference_number = "Reference Number",
             conc_standardised = "Conc 1 Mean (Standardized)"),
-        by = c("result_id", "reference_number")
+        by = "result_id"
       ) |>
       process_ecotox_numerics(add_units = TRUE, warn = FALSE) |>
       mutate(conc_package = mixed_to_single_unit(conc1_mean, "mg/L") |> as.numeric(),
