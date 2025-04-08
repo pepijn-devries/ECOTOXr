@@ -342,10 +342,10 @@ as_unit_ecotox <- function(
       code          = gsub("(ppm dw)|(ppm w/w)|(ppmw)", "ug/g", .data$code),
       code          = gsub("(ppt w/w)|(pptw)", "mg/g", .data$code),
       ## In case of no annotation assume weight over volume
-      code          = gsub("ppb", "ug/L", .data$code),
-      code          = gsub("ppm", "mg/L", .data$code),
-      code          = gsub("ppt", "g/L", .data$code),
-      code          = gsub("pph", "dg/L", .data$code),
+      code          = gsub("^ppb$", "ug/L", .data$code),
+      code          = gsub("^ppm$", "mg/L", .data$code),
+      code          = gsub("^ppt$", "g/L", .data$code),
+      code          = gsub("^pph$", "g/dL", .data$code),
       
       ## 'type' specific sanitation steps
       code          = if (type == "concentration") {
@@ -355,6 +355,9 @@ as_unit_ecotox <- function(
         result <- .replace_ut_frag("K", "Karmen", result)
         ## in case of concentration dpm is disintegrations (counts) per minute
         result <- .replace_ut_frag("(c|d)pm", "counts/min", result)
+        ## in case of 'percent' and type 'concentration' it is assumed to
+        ## be weight over volume
+        result <- gsub("^[%]$", "dg/L", result)
         result
         
       } else          if (type == "media") {
