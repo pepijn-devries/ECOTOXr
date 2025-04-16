@@ -1,3 +1,8 @@
+ECOTOXr v1.2.1.0001
+-------------
+
+  * Added Code of Conduct 
+
 ECOTOXr v1.2.1
 -------------
 
