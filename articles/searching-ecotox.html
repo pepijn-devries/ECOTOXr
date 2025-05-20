@@ -20,7 +20,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">ECOTOXr</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.2.1.0001</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.2.1.0002</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -149,13 +149,43 @@ and provides clues on how to construct custom queries with
 <p>All three approaches shown above generate identical results.
 Although, the first has additional information joined automatically.</p>
 </div>
+<div class="section level3">
+<h3 id="the-curious-case-of-chemical-cas-numbers">The curious case of chemical CAS numbers<a class="anchor" aria-label="anchor" href="#the-curious-case-of-chemical-cas-numbers"></a>
+</h3>
+<p>This example shows a pitfall when using the generic
+<code><a href="../reference/search_ecotox.html">search_ecotox()</a></code> function, and how to deal with it. In the
+database, chemicals are stored with the CAS Registry number as unique
+identifier. It is stored in a table named <code>"chemicals"</code> in a
+field named <code>"cas_number"</code>. When you are searching the
+database for a particular chemical, based on its CAS registry number,
+one may be tempted to search for a matching <code>"cas_number"</code>
+field. That would be a mistake, and this is why.</p>
+<p>There are multiple tables associated with the CAS registry number.
+Both the table <code>"chemical_carriers"</code> and <code>"tests"</code>
+rely on data from the <code>"chemicals"</code> table, and both use the
+CAS registry number to refer to it. You can see this in the schema of
+the database (<code><a href="../articles/ecotox-schema.html">vignette("ecotox-schema")</a></code>). So when you are
+searching for a matching <code>"cas_number"</code> field, the
+<code><a href="../reference/search_ecotox.html">search_ecotox()</a></code> routine doesn’t know if you are looking for
+a test chemical, or a chemical carrier.</p>
+<p>The solution? Most frequently, people search for test chemicals. So,
+search explicitly for a matching <code>"test_cas"</code> field in the
+<code>"tests"</code> table. This is shown in the code snippet below.</p>
+<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="../reference/search_ecotox.html">search_ecotox</a></span><span class="op">(</span></span>
+<span>  <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span></span>
+<span>    test_cas   <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>terms <span class="op">=</span> <span class="st">"71432"</span>,         method <span class="op">=</span> <span class="st">"exact"</span><span class="op">)</span>,</span>
+<span>    latin_name <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>terms <span class="op">=</span> <span class="st">"Daphnia magna"</span>, method <span class="op">=</span> <span class="st">"exact"</span><span class="op">)</span></span>
+<span>  <span class="op">)</span></span>
+<span><span class="op">)</span></span></code></pre></div>
+</div>
 </div>
 <div class="section level2">
 <h2 id="searching-the-online-database">Searching the online database<a class="anchor" aria-label="anchor" href="#searching-the-online-database"></a>
 </h2>
 <p>You can also use the package to <a href="https://cfpub.epa.gov/ecotox/search.cfm" class="external-link">search using the online
 webform</a>:</p>
-<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/conditions.html" class="external-link">tryCatch</a></span><span class="op">(</span><span class="op">{</span></span>
 <span>  <span class="va">search_fields</span> <span class="op">&lt;-</span></span>
 <span>    <span class="fu"><a href="../reference/websearch.html">list_ecotox_web_fields</a></span><span class="op">(</span></span>
@@ -205,7 +235,7 @@ on the server which forms a black box. See also
 </div>
 
 <div class="pkgdown-footer-right">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.1.1.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.1.2.</p>
 </div>
 
     </footer>
