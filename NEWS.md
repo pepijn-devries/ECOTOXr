@@ -1,7 +1,8 @@
-ECOTOXr v1.2.1.0001
+ECOTOXr v1.2.1.0002
 -------------
 
-  * Added Code of Conduct 
+  * Added Code of Conduct
+  * Improved documentation
 
 ECOTOXr v1.2.1
 -------------

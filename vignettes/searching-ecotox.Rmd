@@ -91,6 +91,35 @@ dbGetQuery(con, "SELECT * FROM results WHERE result_id='401386'") |>
 All three approaches shown above generate identical results. Although, the first has
 additional information joined automatically.
 
+### The curious case of chemical CAS numbers
+
+This example shows a pitfall when using the generic `search_ecotox()` function, and
+how to deal with it. In the database, chemicals are stored with the CAS Registry number as
+unique identifier. It is stored in a table named `"chemicals"` in a field named
+`"cas_number"`. When you are searching the database for a particular chemical, based on
+its CAS registry number, one may be tempted to search for a matching `"cas_number"` field.
+That would be a mistake, and this is why.
+
+There are multiple tables associated with the CAS registry number. Both the table
+`"chemical_carriers"` and `"tests"` rely on data from the `"chemicals"` table, and
+both use the CAS registry number to refer to it. You can see this in the schema of the
+database (`vignette("ecotox-schema")`). So when you are searching for a
+matching `"cas_number"` field, the `search_ecotox()` routine doesn't know if you
+are looking for a test chemical, or a chemical carrier.
+
+The solution? Most frequently, people search for test chemicals. So, search explicitly
+for a matching `"test_cas"` field in the `"tests"` table. This is shown in the
+code snippet below.
+
+```{r, eval = FALSE}
+search_ecotox(
+  list(
+    test_cas   = list(terms = "71432",         method = "exact"),
+    latin_name = list(terms = "Daphnia magna", method = "exact")
+  )
+)
+```
+
 ## Searching the online database
 
 You can also use the package to
