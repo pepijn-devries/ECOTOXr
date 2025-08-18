@@ -125,7 +125,7 @@ search_ecotox(
 You can also use the package to
 [search using the online webform](https://cfpub.epa.gov/ecotox/search.cfm):
 
-```{r}
+```{r eval = FALSE}
 tryCatch({
   search_fields <-
     list_ecotox_web_fields(
@@ -138,6 +138,27 @@ tryCatch({
 
   search_results$`Aquatic-Export`
 })
+
+#> # A tibble: 56 × 87
+#>    `CAS Number` `Chemical Name` `Chemical Grade` `Chemical Analysis`
+#>           <dbl> <chr>           <chr>            <chr>              
+#>  1        71432 Benzene         NA               NA                 
+#>  2        71432 Benzene         NA               NA                 
+#>  3        71432 Benzene         NA               Unmeasured         
+#>  4        71432 Benzene         NA               Unmeasured         
+#>  5        71432 Benzene         NA               Unmeasured         
+#>  6        71432 Benzene         NA               Unmeasured         
+#>  7        71432 Benzene         NA               Unmeasured         
+#>  8        71432 Benzene         NA               Measured           
+#>  9        71432 Benzene         NA               Unmeasured         
+#> 10        71432 Benzene         NA               Unmeasured         
+#> # ℹ 46 more rows
+#> # ℹ 83 more variables: `Chemical Purity Mean Op` <chr>,
+#> #   `Chemical Purity Mean(%)` <dbl>, `Chemical Purity Min Op` <lgl>,
+#> #   `Chemical Purity Min(%)` <lgl>, `Chemical Purity Max Op` <lgl>,
+#> #   `Chemical Purity Max(%)` <lgl>, `Species Scientific Name` <chr>,
+#> #   `Species Common Name` <chr>, `Species Group` <chr>,
+#> #   `Organism Lifestage` <chr>, `Organism Age Mean Op` <chr>, …
 ```
 
 When aiming for reproducibility it is better to query the local database, as the online
