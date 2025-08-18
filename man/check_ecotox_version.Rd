@@ -29,7 +29,7 @@ from the EPA against the specified version (latest by default) of the database b
 locally. Returns \code{TRUE} when they are the same.
 }
 \examples{
-if (check_ecotox_availability()) {
+if (interactive() && check_ecotox_availability()) {
   check_ecotox_version()
 }
 }
