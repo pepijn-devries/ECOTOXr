@@ -1,12 +1,12 @@
 pandoc: 3.1.11
-pkgdown: 2.1.2
+pkgdown: 2.1.3
 pkgdown_sha: ~
 articles:
   ecotox-schema: ecotox-schema.html
   reproducibility: reproducibility.html
   sanitising-ecotox: sanitising-ecotox.html
   searching-ecotox: searching-ecotox.html
-last_built: 2025-05-20T16:20Z
+last_built: 2025-08-18T14:21Z
 urls:
   reference: https://pepijn-devries.github.io/ECOTOXr/reference
   article: https://pepijn-devries.github.io/ECOTOXr/articles
