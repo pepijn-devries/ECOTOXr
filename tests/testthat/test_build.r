@@ -60,7 +60,7 @@ test_that("The newly build database can be checked", {
 })
 
 test_that("Newly build version is faulty as it is a mockup", {
-  skip_if_offline()
+  skip_if_offline("cfpub.epa.gov/ecotox/")
   expect_false({
     check_ecotox_version(tempdir(), verify_ssl = FALSE) |>
       suppressMessages()

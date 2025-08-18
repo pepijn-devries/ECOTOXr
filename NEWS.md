@@ -1,8 +1,11 @@
-ECOTOXr v1.2.1.0002
+ECOTOXr v1.2.2
 -------------
 
   * Added Code of Conduct
   * Improved documentation
+  * Improved test coverage
+  * Fixed checks such they will pass even when
+    EPA is temporary offline
 
 ECOTOXr v1.2.1
 -------------
