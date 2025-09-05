@@ -1,3 +1,8 @@
+ECOTOXr v1.2.2.0001
+-------------
+
+  * Added extra fail safe to examples
+
 ECOTOXr v1.2.2
 -------------
 

@@ -276,7 +276,7 @@ check_ecotox_build <- function(path = get_ecotox_path(), version, ...) {
 #' @rdname check_ecotox_version
 #' @name check_ecotox_version
 #' @examples
-#' if (check_ecotox_availability()) {
+#' if (interactive() && check_ecotox_availability()) {
 #'   check_ecotox_version()
 #' }
 #' @author Pepijn de Vries
