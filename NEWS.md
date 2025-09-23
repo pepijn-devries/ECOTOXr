@@ -1,4 +1,4 @@
-ECOTOXr v1.2.2.0001
+ECOTOXr v1.2.2.0002
 -------------
 
   * Added extra fail safe to examples
