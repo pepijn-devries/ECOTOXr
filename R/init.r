@@ -397,8 +397,7 @@ build_ecotox_sqlite <- function(source, destination = get_ecotox_path(), write_l
         ## These should not be interpreted as table separators and will mess up the table.read call
         body       <- stringr::str_replace_all(body, "(?<=\\().+?(?=\\))", function(x){
           ## there should not be another opening bracket, double pipe or forward slash! in that case leave as is
-          if (grepl("[\\(/]", x) || grepl("||", x, fixed = T)) return(x)
-          gsub("[|]", "-", x)
+          ifelse (grepl("[\\(/]", x) | grepl("||", x, fixed = T), x, gsub("[|]", "-", x))
         })
         
         lines.read <- lines.read + length(body)
