@@ -53,7 +53,7 @@ not stored consistently and are not standardised. The `ECOTOXr` package implemen
 a function that sanitises the unit text fields and then parses them with the
 [units package](https://r-quantities.github.io/units/). This package provides
 instruments to convert units using the
-[UNIDATA udunits library](https://www.unidata.ucar.edu/software/udunits/).
+[UNIDATA udunits library](https://www.unidata.ucar.edu/software/udunits).
 
 The advantage of using the `units` package is that it provides a mechanism
 to apply arithmetic manipulations of data and conversion between compatible
