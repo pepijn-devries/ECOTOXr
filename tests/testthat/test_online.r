@@ -8,7 +8,8 @@ check_db <- function() {
 
 test_that("Online and local search yield the same results", {
   check_db()
-  skip_if_offline("cfpub.epa.gov/ecotox/")
+  skip_if_offline()
+  skip_on_cran()
   expect_true({
     load(file.path(testthat::test_path(), "test_data", "insecticides.rdata"))
     insecticides$cas <- format(as.cas(insecticides$cas), hyphenate = FALSE)
@@ -117,14 +118,16 @@ test_that("Online and local search yield the same results", {
 })
 
 test_that("Can get download URL", {
-  skip_if_offline("cfpub.epa.gov/ecotox/")
+  skip_if_offline()
+  skip_on_cran()
   expect_true({
     get_ecotox_url(verify_ssl = FALSE) |> endsWith(".zip")
   })
 })
 
 test_that("Download from EPA ECOTOX starts", {
-  skip_if_offline("cfpub.epa.gov/ecotox/")
+  skip_if_offline()
+  skip_on_cran()
   expect_true({
     tryCatch({
       ## 'maxfilesize' is set such that it can obtain the download link, but
