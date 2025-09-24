@@ -82,7 +82,7 @@ test_that("Sanitising what is already is sanitised returns as is", {
 
 test_that("Locally converted units correspond well with online standards", {
   check_db()
-  skip_if_offline("cfpub.epa.gov/ecotox/")
+  skip_if_offline()
   skip_on_cran()
   expect_true({
 

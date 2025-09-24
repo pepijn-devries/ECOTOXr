@@ -1,7 +1,9 @@
-ECOTOXr v1.2.2.0002
+ECOTOXr v1.2.3
 -------------
 
-  * Added extra fail safe to examples
+  * Added extra fail-safe to examples
+  * Improved test coverage
+  * Fix for new `stringr` release
 
 ECOTOXr v1.2.2
 -------------

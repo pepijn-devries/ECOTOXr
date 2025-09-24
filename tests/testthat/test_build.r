@@ -47,6 +47,7 @@ test_that("Newly build database can be queried", {
       search = list(
         result_id = (list(terms = 2565223L, method = "exact"))
       ),
+      output_fields = list_ecotox_fields("full"),
       path = tempdir()
     ) |>
       suppressMessages()
@@ -60,7 +61,8 @@ test_that("The newly build database can be checked", {
 })
 
 test_that("Newly build version is faulty as it is a mockup", {
-  skip_if_offline("cfpub.epa.gov/ecotox/")
+  skip_if_offline()
+  skip_on_cran()
   expect_false({
     check_ecotox_version(tempdir(), verify_ssl = FALSE) |>
       suppressMessages()
@@ -131,5 +133,12 @@ test_that("Unknownfields are ignored", {
   })
 })
 
+test_that("Version check works", {
+  skip_if_offline()
+  skip_on_cran()
+  expect_false({
+    check_ecotox_version(tempdir()) |> suppressMessages()
+  })
+})
 unlink(sprintf("%s.sqlite", source_path))
 unlink(file.path(source_path, "ecotox_12_12_20224"), recursive = TRUE)
