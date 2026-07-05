@@ -60,11 +60,11 @@ unzip(source_file, exdir = source_path)
 build_ecotox_sqlite(source_path, tempdir())
 }
 \seealso{
-Other database-build-functions: 
-\code{\link{check_ecotox_build}()},
-\code{\link{check_ecotox_version}()},
-\code{\link{download_ecotox_data}()},
-\code{\link{get_ecotox_url}()}
+Other database-build-functions:
+\code{\link[=check_ecotox_build]{check_ecotox_build()}},
+\code{\link[=check_ecotox_version]{check_ecotox_version()}},
+\code{\link[=download_ecotox_data]{download_ecotox_data()}},
+\code{\link[=get_ecotox_url]{get_ecotox_url()}}
 }
 \author{
 Pepijn de Vries

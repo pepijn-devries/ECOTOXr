@@ -31,7 +31,7 @@ In case of \code{\link[=websearch_ecotox]{websearch_ecotox()}} the dots can be u
 field names, use \code{names(list_ecotox_web_fields())}}
 }
 \value{
-Returns named \code{list} of \link[dplyr:reexports]{dplyr::tibble}s with search results. Results are unpolished and `as is' returned by EPA's web service.
+Returns named \code{list} of \link[dplyr:tibble]{dplyr::tibble}s with search results. Results are unpolished and `as is' returned by EPA's web service.
 
 \code{\link[=list_ecotox_web_fields]{list_ecotox_web_fields()}} returns a named list with fields that can be used in a web search of EPA's ECOTOX database, using
 \code{\link[=websearch_ecotox]{websearch_ecotox()}}.
@@ -62,12 +62,12 @@ if (interactive()) {
 }
 }
 \seealso{
-Other online-functions: 
-\code{\link{download_ecotox_data}()},
-\code{\link{get_ecotox_url}()}
+Other online-functions:
+\code{\link[=download_ecotox_data]{download_ecotox_data()}},
+\code{\link[=get_ecotox_url]{get_ecotox_url()}}
 
-Other search-functions: 
-\code{\link{search_ecotox}()}
+Other search-functions:
+\code{\link[=search_ecotox]{search_ecotox()}}
 }
 \author{
 Pepijn de Vries

@@ -75,13 +75,13 @@ as_date_ecotox(char_date, mm = 6L)
 as_date_ecotox(char_date, nr = 6L)
 }
 \seealso{
-Other ecotox-sanitisers: 
-\code{\link{as_numeric_ecotox}()},
-\code{\link{as_unit_ecotox}()},
-\code{\link{mixed_to_single_unit}()},
-\code{\link{process_ecotox_dates}()},
-\code{\link{process_ecotox_numerics}()},
-\code{\link{process_ecotox_units}()}
+Other ecotox-sanitisers:
+\code{\link[=as_numeric_ecotox]{as_numeric_ecotox()}},
+\code{\link[=as_unit_ecotox]{as_unit_ecotox()}},
+\code{\link[=mixed_to_single_unit]{mixed_to_single_unit()}},
+\code{\link[=process_ecotox_dates]{process_ecotox_dates()}},
+\code{\link[=process_ecotox_numerics]{process_ecotox_numerics()}},
+\code{\link[=process_ecotox_units]{process_ecotox_units()}}
 }
 \author{
 Pepijn de Vries

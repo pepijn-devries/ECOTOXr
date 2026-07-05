@@ -67,7 +67,7 @@ is not verified. Can also be set as option:
 \item{...}{Arguments passed on to \code{\link[httr2:req_options]{httr2::req_options()}} requests.}
 }
 \value{
-Returns a named \code{list} of \link[dplyr:reexports]{dplyr::tibble}s containing the search results for the requested output tables and fields.
+Returns a named \code{list} of \link[dplyr:tibble]{dplyr::tibble}s containing the search results for the requested output tables and fields.
 Results are unpolished and `as is' returned by EPA's web service.
 }
 \description{
