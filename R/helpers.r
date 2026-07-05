@@ -381,7 +381,7 @@
       dplyr::group_by(dplyr::across(dplyr::any_of("result_id"))) |>
       dplyr::summarise_all(~all(is.na(.)) || all(.[[1]] == .)) |>
       dplyr::ungroup() |>
-      select(tidyselect::vars_select_helpers$where(~ !is.logical || all(.))) |>
+      select(tidyselect::vars_select_helpers$where(~ !is.logical(.) || all(.))) |>
       colnames()
     if (all(colnames(search_result) %in% group_by)) return (search_result) else{
       search_result <-
