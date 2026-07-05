@@ -170,14 +170,14 @@ process_ecotox_units <- function(x, .fns = as_unit_ecotox, ..., .names = NULL) {
 #'      'deg' is replaced with 'degree'.
 #'  * The following miscellaneous corrections are made:
 #'    * A list of 'known' annotations are removed from the units
-#'    * A list of elements kown to represent counts are renamed
+#'    * A list of elements known to represent counts are renamed
 #'      'counts'.
 #'    * Percentages are renamed as explicit concentration in
 #'      mass per volume or volume per volume units where possible
 #'    * 'CI' is renamed 'Curies'.
 #'    * 'M' is renamed 'mol/L'.
 #'    * Units expressed as 'parts per ...' are explicitly renamed
-#'      to mass over volume, or volum over volume where possible
+#'      to mass over volume, or volume over volume where possible
 #'  * Type specific sanitation steps
 #'    * Concentration units:
 #'      * 'K' is renamed 'Karmen'

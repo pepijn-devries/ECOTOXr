@@ -21,7 +21,7 @@ or \code{\link[RSQLite:SQLite]{dbDisconnect()}} method.}
 Returns an indicative logical value whether the database is not corrupted.
 \code{TRUE} indicates the database is most likely OK. \code{FALSE} indicates that something might
 be wrong. Additional messages (when \code{FALSE}) are included as attributes containing hints
-on the outcoming of the tests. See also the 'details' section.
+on the outcome of the tests. See also the 'details' section.
 }
 \description{
 \ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#stable}{\figure{lifecycle-stable.svg}{options: alt='[Stable]'}}}{\strong{[Stable]}} Performs some simple tests to check whether the

@@ -213,7 +213,7 @@ list_ecotox_fields <- function(which = c("default", "extended", "full", "all"), 
 #' @returns Returns an indicative logical value whether the database is not corrupted.
 #' `TRUE` indicates the database is most likely OK. `FALSE` indicates that something might
 #' be wrong. Additional messages (when `FALSE`) are included as attributes containing hints
-#' on the outcoming of the tests. See also the 'details' section.
+#' on the outcome of the tests. See also the 'details' section.
 #' @rdname check_ecotox_build
 #' @name check_ecotox_build
 #' @examples

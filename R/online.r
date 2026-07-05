@@ -157,7 +157,7 @@ list_ecotox_web_fields <- function(...) {
 #'   ## on https://comptox.epa.gov/dashboard:
 #'   comptox_results <- websearch_comptox(c("benzene", "108-88-3"))
 #' 
-#'   ## search for substances with monoisotopic mass of 100+/-5:
+#'   ## search for substances with mono-isotopic mass of 100+/-5:
 #'   comptox_results2 <- websearch_comptox("100", inputType = "MASS", massError = 5)
 #' }
 #' @author Pepijn de Vries
