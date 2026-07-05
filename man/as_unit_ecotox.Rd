@@ -57,14 +57,14 @@ more explicit strings. For instance,
 \item The following miscellaneous corrections are made:
 \itemize{
 \item A list of 'known' annotations are removed from the units
-\item A list of elements kown to represent counts are renamed
+\item A list of elements known to represent counts are renamed
 'counts'.
 \item Percentages are renamed as explicit concentration in
 mass per volume or volume per volume units where possible
 \item 'CI' is renamed 'Curies'.
 \item 'M' is renamed 'mol/L'.
 \item Units expressed as 'parts per ...' are explicitly renamed
-to mass over volume, or volum over volume where possible
+to mass over volume, or volume over volume where possible
 }
 \item Type specific sanitation steps
 \itemize{

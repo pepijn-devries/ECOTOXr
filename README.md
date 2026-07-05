@@ -106,7 +106,7 @@ By contributing to this project, you agree to abide by its terms.
 ## Resources
 
 - De Vries, P. (2024) ECOTOXr: An R package for reproducible and
-  transparent retrieval of data from EPA’s ECOTOX database.
+  transparent retrieval of data from EPA's ECOTOX database.
   *Chemosphere* 364 143078
   <https://doi.org/10.1016/j.chemosphere.2024.143078>
 - [Manual of the CRAN
