@@ -1,0 +1,180 @@
+# Searching ECOTOX
+
+``` r
+
+library(ECOTOXr)
+```
+
+## Searching the local database
+
+Obviously, searching the local database is only possible after the
+download and build is ready (see
+[`?download_ecotox_data`](https://pepijn-devries.github.io/ECOTOXr/reference/download_ecotox_data.md)
+or
+[`?build_ecotox_sqlite`](https://pepijn-devries.github.io/ECOTOXr/reference/build_ecotox_sqlite.md)).
+Once built, it can be queried with
+[`?search_ecotox`](https://pepijn-devries.github.io/ECOTOXr/reference/search_ecotox.md).
+
+> Search the local database for tests of water flea Daphnia magna
+> exposed to benzene
+
+``` r
+
+search_ecotox(
+  list(
+    latin_name    = list(terms = "Daphnia magna", method = "exact"),
+    chemical_name = list(terms = "benzene",       method = "exact")
+  )
+)
+```
+
+### Three ways of querying the local database
+
+Let’s have a look at 3 different approaches for retrieving a specific
+record from the local database, using the unique identifier `result_id`.
+The first option is to use the build in `search_ecotox` function. It
+uses simple `R` syntax and allows you to search and collect any field
+from any table in the database. Furthermore, all requested output fields
+are automatically joined to the result without the end-user needing to
+know much about the database structure.
+
+> Using the prefab function `search_ecotox` packaged by `ECOTOXr`
+
+``` r
+
+search_ecotox(
+  list(
+    result_id = list(terms = "401386", method = "exact")
+  ),
+  as_data_frame = F
+)
+```
+
+The approach shown above is provided for the user’s convenience.
+However, it is a relatively blunt instrument. It’s a hammer, which is
+fine when you have nails, but less effective when you have screws. In
+most cases it is more efficient to create a custom query for you
+specific needs. In those cases you can use two different strategies,
+involving either `tidyverse` verbs or the simple query language (SQL).
+
+If you like to use [`dplyr`](https://dplyr.tidyverse.org/) verbs, you
+are in luck. SQLite database can be approached using `dplyr` verbs. This
+approach will only return information from the `results` table. The
+end-user will have to join other information (like test species and test
+substance) manually. This does require knowledge of the database
+structure (see
+[`vignette("ecotox-schema")`](https://pepijn-devries.github.io/ECOTOXr/articles/ecotox-schema.md)).
+
+> Using `dplyr` verbs
+
+``` r
+
+con <- dbConnectEcotox()
+dplyr::tbl(con, "results") |>
+  dplyr::filter(result_id == "401386") |>
+  dplyr::collect()
+```
+
+If you prefer working using `SQL` directly, that is fine too. The
+[`RSQLite`](https://cran.r-project.org/package=RSQLite) package allows
+you to get queries using `SQL` statements. The result is identical to
+that of the previous approach. Here too the end-user needs knowledge of
+the database structure in order to join additional data. For more
+details see
+[`vignette("ecotox-schema")`](https://pepijn-devries.github.io/ECOTOXr/articles/ecotox-schema.md),
+it shows the database structure and provides clues on how to construct
+custom queries with `dplyr`.
+
+> Using `SQL` syntax
+
+``` r
+
+dbGetQuery(con, "SELECT * FROM results WHERE result_id='401386'") |>
+  dplyr::as_tibble()
+```
+
+All three approaches shown above generate identical results. Although,
+the first has additional information joined automatically.
+
+### The curious case of chemical CAS numbers
+
+This example shows a pitfall when using the generic
+[`search_ecotox()`](https://pepijn-devries.github.io/ECOTOXr/reference/search_ecotox.md)
+function, and how to deal with it. In the database, chemicals are stored
+with the CAS Registry number as unique identifier. It is stored in a
+table named `"chemicals"` in a field named `"cas_number"`. When you are
+searching the database for a particular chemical, based on its CAS
+registry number, one may be tempted to search for a matching
+`"cas_number"` field. That would be a mistake, and this is why.
+
+There are multiple tables associated with the CAS registry number. Both
+the table `"chemical_carriers"` and `"tests"` rely on data from the
+`"chemicals"` table, and both use the CAS registry number to refer to
+it. You can see this in the schema of the database
+([`vignette("ecotox-schema")`](https://pepijn-devries.github.io/ECOTOXr/articles/ecotox-schema.md)).
+So when you are searching for a matching `"cas_number"` field, the
+[`search_ecotox()`](https://pepijn-devries.github.io/ECOTOXr/reference/search_ecotox.md)
+routine doesn’t know if you are looking for a test chemical, or a
+chemical carrier.
+
+The solution? Most frequently, people search for test chemicals. So,
+search explicitly for a matching `"test_cas"` field in the `"tests"`
+table. This is shown in the code snippet below.
+
+``` r
+
+search_ecotox(
+  list(
+    test_cas   = list(terms = "71432",         method = "exact"),
+    latin_name = list(terms = "Daphnia magna", method = "exact")
+  )
+)
+```
+
+## Searching the online database
+
+You can also use the package to [search using the online
+webform](https://cfpub.epa.gov/ecotox/search.cfm):
+
+``` r
+
+tryCatch({
+  search_fields <-
+    list_ecotox_web_fields(
+      txAdvancedSpecEntries     = "daphnia magna",
+      RBSPECSEARCHTYPE          = "EXACT",
+      txAdvancedChemicalEntries = "benzene",
+      RBCHEMSEARCHTYPE          = "EXACT")
+
+  search_results <- websearch_ecotox(search_fields, verify_ssl = FALSE)
+
+  search_results$`Aquatic-Export`
+})
+
+#> # A tibble: 56 × 87
+#>    `CAS Number` `Chemical Name` `Chemical Grade` `Chemical Analysis`
+#>           <dbl> <chr>           <chr>            <chr>              
+#>  1        71432 Benzene         NA               NA                 
+#>  2        71432 Benzene         NA               NA                 
+#>  3        71432 Benzene         NA               Unmeasured         
+#>  4        71432 Benzene         NA               Unmeasured         
+#>  5        71432 Benzene         NA               Unmeasured         
+#>  6        71432 Benzene         NA               Unmeasured         
+#>  7        71432 Benzene         NA               Unmeasured         
+#>  8        71432 Benzene         NA               Measured           
+#>  9        71432 Benzene         NA               Unmeasured         
+#> 10        71432 Benzene         NA               Unmeasured         
+#> # ℹ 46 more rows
+#> # ℹ 83 more variables: `Chemical Purity Mean Op` <chr>,
+#> #   `Chemical Purity Mean(%)` <dbl>, `Chemical Purity Min Op` <lgl>,
+#> #   `Chemical Purity Min(%)` <lgl>, `Chemical Purity Max Op` <lgl>,
+#> #   `Chemical Purity Max(%)` <lgl>, `Species Scientific Name` <chr>,
+#> #   `Species Common Name` <chr>, `Species Group` <chr>,
+#> #   `Organism Lifestage` <chr>, `Organism Age Mean Op` <chr>, …
+```
+
+When aiming for reproducibility it is better to query the local
+database, as the online tool may not be able to search and export all
+fields; data may change and is beyond your control; and it is processed
+on the server which forms a black box. See also
+[`vignette("reproducibility")`](https://pepijn-devries.github.io/ECOTOXr/articles/reproducibility.md).

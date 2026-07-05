@@ -1,0 +1,143 @@
+# Search and retrieve substance information from <https://comptox.epa.gov/dashboard>
+
+**\[experimental\]** Search <https://comptox.epa.gov/dashboard> for
+substances and their chemico-physical properties and meta-information.
+
+## Usage
+
+``` r
+websearch_comptox(
+  searchItems,
+  identifierTypes = c("chemical_name", "CASRN", "INCHIKEY", "dtxsid"),
+  inputType = c("IDENTIFIER", "DTXCID", "INCHIKEY_SKELETON", "MSREADY_FORMULA",
+    "EXACT_FORMULA", "MASS"),
+  downloadItems = c("DTXCID", "CASRN", "INCHIKEY", "IUPAC_NAME", "SMILES",
+    "INCHI_STRING", "MS_READY_SMILES", "QSAR_READY_SMILES", "MOLECULAR_FORMULA",
+    "AVERAGE_MASS", "MONOISOTOPIC_MASS", "QC_LEVEL", "SAFETY_DATA", "EXPOCAST",
+    "DATA_SOURCES", "TOXVAL_DATA", "NUMBER_OF_PUBMED_ARTICLES", "PUBCHEM_DATA_SOURCES",
+    "CPDAT_COUNT", "IRIS_LINK", "PPRTV_LINK", "WIKIPEDIA_ARTICLE", "QC_NOTES",
+    "ABSTRACT_SHIFTER", "TOXPRINT_FINGERPRINT", "ACTOR_REPORT", "SYNONYM_IDENTIFIER",
+    "RELATED_RELATIONSHIP", "ASSOCIATED_TOXCAST_ASSAYS", 
+     "TOXVAL_DETAILS",
+    "CHEMICAL_PROPERTIES_DETAILS", "BIOCONCENTRATION_FACTOR_TEST_PRED",
+    "BOILING_POINT_DEGC_TEST_PRED", "48HR_DAPHNIA_LC50_MOL/L_TEST_PRED",
+    "DENSITY_G/CM^3_TEST_PRED", "DEVTOX_TEST_PRED",
+    "96HR_FATHEAD_MINNOW_MOL/L_TEST_PRED", "FLASH_POINT_DEGC_TEST_PRED",
+    "MELTING_POINT_DEGC_TEST_PRED", "AMES_MUTAGENICITY_TEST_PRED",
+    "ORAL_RAT_LD50_MOL/KG_TEST_PRED", "SURFACE_TENSION_DYN/CM_TEST_PRED",
+    "THERMAL_CONDUCTIVITY_MW/(M*K)_TEST_PRED",
+    "TETRAHYMENA_PYRIFORMIS_IGC50_MOL/L_TEST_PRED", "VISCOSITY_CP_CP_TEST_PRED", 
+    
+    "VAPOR_PRESSURE_MMHG_TEST_PRED", "WATER_SOLUBILITY_MOL/L_TEST_PRED",
+    "ATMOSPHERIC_HYDROXYLATION_RATE_(AOH)_CM3/MOLECULE*SEC_OPERA_PRED",
+    "BIOCONCENTRATION_FACTOR_OPERA_PRED",
+    "BIODEGRADATION_HALF_LIFE_DAYS_DAYS_OPERA_PRED", "BOILING_POINT_DEGC_OPERA_PRED",
+    "HENRYS_LAW_ATM-M3/MOLE_OPERA_PRED", "OPERA_KM_DAYS_OPERA_PRED",
+    "OCTANOL_AIR_PARTITION_COEFF_LOGKOA_OPERA_PRED",
+    "SOIL_ADSORPTION_COEFFICIENT_KOC_L/KG_OPERA_PRED",
+    "OCTANOL_WATER_PARTITION_LOGP_OPERA_PRED", "MELTING_POINT_DEGC_OPERA_PRED", 
+    
+    "OPERA_PKAA_OPERA_PRED", "OPERA_PKAB_OPERA_PRED", "VAPOR_PRESSURE_MMHG_OPERA_PRED",
+    "WATER_SOLUBILITY_MOL/L_OPERA_PRED",
+    "EXPOCAST_MEDIAN_EXPOSURE_PREDICTION_MG/KG-BW/DAY", "NHANES",
+    "TOXCAST_NUMBER_OF_ASSAYS/TOTAL", "TOXCAST_PERCENT_ACTIVE"),
+  massError = 0,
+  timeout = 300,
+  verify_ssl = getOption("ECOTOXr_verify_ssl"),
+  ...
+)
+```
+
+## Arguments
+
+- searchItems:
+
+  A `vector` of `character`s where each element is a substance
+  descriptor (any of the selected `identifierType`s) you wish to query.
+
+- identifierTypes:
+
+  Substance identifiers for searching CompTox. Only used when
+  `inputType` is set to `"IDENTIFIER"`.
+
+- inputType:
+
+  Type of input used for searching CompTox. See usage section for valid
+  entries.
+
+- downloadItems:
+
+  Output fields of CompTox data for requested substances
+
+- massError:
+
+  Error tolerance when searching for substances based on their
+  monoisotopic mass. Only used for `inputType = "MASS"`.
+
+- timeout:
+
+  Time in seconds (default is 300 secs), that the routine will wait for
+  the download link to get ready. It will throw an error if it takes
+  longer than the specified `timeout`.
+
+- verify_ssl:
+
+  When set to `FALSE` the SSL certificate of the host (EPA) is not
+  verified. Can also be set as option:
+  `options(ECOTOXr_verify_ssl = TRUE)`. Default is `TRUE`.
+
+- ...:
+
+  Arguments passed on to
+  [`httr2::req_options()`](https://httr2.r-lib.org/reference/req_options.html)
+  requests.
+
+## Value
+
+Returns a named `list` of
+[dplyr::tibble](https://tibble.tidyverse.org/reference/tibble.html)s
+containing the search results for the requested output tables and
+fields. Results are unpolished and \`as is' returned by EPA's web
+service.
+
+## Details
+
+The [CompTox Chemicals Dashboard](https://comptox.epa.gov/dashboard) is
+a freely accessible online U.S. EPA database. It contains information on
+physico-chemical properties, environmental fate and transport, exposure,
+usage, *in vivo* toxicity, and *in vitro* bioassay of a wide range of
+substances.
+
+The function described here to search and retrieve records from the
+online database is experimental. This is because this feature is not
+formally supported by the EPA, and it may break in future incarnations
+of the online database. The function forms an interface between R and
+the [CompTox](https://comptox.epa.gov/dashboard) website and is
+therefore limited by the restrictions documented there.
+
+## References
+
+Official US EPA CompTox website: <https://comptox.epa.gov/dashboard/>
+
+Williams, A.J., Grulke, C.M., Edwards, J., McEachran, A.D., Mansouri, K,
+Baker, N.C., Patlewicz, G., Shah, I., Wambaugh, J.F., Judson, R.S. &
+Richard, A.M. (2017), The CompTox Chemistry Dashboard: a community data
+resource for environmental chemistry. *J Cheminform*, 9(61)
+[doi:10.1186/s13321-017-0247-6](https://doi.org/10.1186/s13321-017-0247-6)
+
+## Author
+
+Pepijn de Vries
+
+## Examples
+
+``` r
+if (interactive()){
+  ## search for substance name 'benzene' and CAS registration number 108-88-3
+  ## on https://comptox.epa.gov/dashboard:
+  comptox_results <- websearch_comptox(c("benzene", "108-88-3"))
+
+  ## search for substances with monoisotopic mass of 100+/-5:
+  comptox_results2 <- websearch_comptox("100", inputType = "MASS", massError = 5)
+}
+```
