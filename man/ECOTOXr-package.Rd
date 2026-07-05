@@ -32,7 +32,7 @@ you can call \code{\link[=build_ecotox_sqlite]{build_ecotox_sqlite()}} to build 
 \item When the previous steps have been performed successfully, you can now search the database by calling
 \code{\link[=search_ecotox]{search_ecotox()}}. You can also use \code{\link[=dbConnectEcotox]{dbConnectEcotox()}} to open a connection to the
 database. You can query the database using this connection and any of the methods provided from the
-\link[DBI:DBI-package]{DBI} or \link[RSQLite:SQLite]{RSQLite} packages.
+\link[DBI:DBI]{DBI} or \link[RSQLite:RSQLite]{RSQLite} packages.
 }
 }
 
@@ -104,6 +104,11 @@ Useful links:
 }
 \author{
 \strong{Maintainer}: Pepijn de Vries \email{pepijn.devries@outlook.com} (\href{https://orcid.org/0000-0002-7961-6646}{ORCID}) [data contributor]
+
+Authors:
+\itemize{
+  \item Pepijn de Vries \email{pepijn.devries@outlook.com} (\href{https://orcid.org/0000-0002-7961-6646}{ORCID}) [data contributor]
+}
 
 }
 \keyword{internal}

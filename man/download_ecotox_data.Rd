@@ -64,15 +64,15 @@ if (interactive()) {
 }
 }
 \seealso{
-Other database-build-functions: 
-\code{\link{build_ecotox_sqlite}()},
-\code{\link{check_ecotox_build}()},
-\code{\link{check_ecotox_version}()},
-\code{\link{get_ecotox_url}()}
+Other database-build-functions:
+\code{\link[=build_ecotox_sqlite]{build_ecotox_sqlite()}},
+\code{\link[=check_ecotox_build]{check_ecotox_build()}},
+\code{\link[=check_ecotox_version]{check_ecotox_version()}},
+\code{\link[=get_ecotox_url]{get_ecotox_url()}}
 
-Other online-functions: 
-\code{\link{get_ecotox_url}()},
-\code{\link{websearch_ecotox}()}
+Other online-functions:
+\code{\link[=get_ecotox_url]{get_ecotox_url()}},
+\code{\link[=websearch_ecotox]{websearch_ecotox()}}
 }
 \author{
 Pepijn de Vries

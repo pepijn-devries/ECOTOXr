@@ -73,7 +73,7 @@ this parameter to \code{TRUE}. Database queries are then computed in the process
 slower. Alternatively, you could try to include less output fields in order to simplify the query.}
 
 \item{as_data_frame}{\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#experimental}{\figure{lifecycle-experimental.svg}{options: alt='[Experimental]'}}}{\strong{[Experimental]}} \code{logical} value indicating whether the result should be
-converted into a \code{data.frame} (default is \code{TRUE}). When set to \code{FALSE} the data will be returned as a \code{\link[dplyr:reexports]{tbl_df()}}.}
+converted into a \code{data.frame} (default is \code{TRUE}). When set to \code{FALSE} the data will be returned as a \code{\link[dplyr:tibble]{tbl_df()}}.}
 
 \item{...}{Arguments passed to \code{\link[=dbConnectEcotox]{dbConnectEcotox()}} and other functions. You can use this when the database
 is not located at the default path (\code{\link[=get_ecotox_path]{get_ecotox_path()}}).}
@@ -140,8 +140,8 @@ if (check_ecotox_availability()) {
 }
 }
 \seealso{
-Other search-functions: 
-\code{\link{websearch_ecotox}()}
+Other search-functions:
+\code{\link[=websearch_ecotox]{websearch_ecotox()}}
 }
 \author{
 Pepijn de Vries
