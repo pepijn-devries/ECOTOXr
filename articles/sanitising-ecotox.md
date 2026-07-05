@@ -5,7 +5,7 @@ building the local database
 ([`download_ecotox_data()`](https://pepijn-devries.github.io/ECOTOXr/reference/download_ecotox_data.md)).
 As documented by the EPA most table fields are stored as text (with a
 few exceptions). During the build process, all fields are kept as is,
-without any cleanup or standardisation. This is done to avoid any data
+without any clean-up or standardisation. This is done to avoid any data
 loss or corruption and keep it as close to the source as possible.
 Therefore, it is likely that you need to post-process data after
 querying the locally built database.
@@ -14,8 +14,8 @@ querying the locally built database.
 
 Although it is the user’s responsibility to evaluate the correctness and
 validity of the data, the `ECOTOXr` package provides some tools to make
-the cleanup process easier. This vignette presents important aspects for
-cleaning:
+the clean-up process easier. This vignette presents important aspects
+for cleaning:
 
 - [units](#sanitising-units)
 - [numeric data](#sanitising-numerics)
@@ -77,7 +77,7 @@ steps are performed:
 
 The documentation of the
 [`as_unit_ecotox()`](https://pepijn-devries.github.io/ECOTOXr/reference/as_unit_ecotox.md)
-function has a more detailed description of the cleanup procedure. If
+function has a more detailed description of the clean-up procedure. If
 you need even more details you can check the [source
 code](https://github.com/pepijn-devries/ECOTOXr/blob/main/R/process_unit.r).
 

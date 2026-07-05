@@ -57,7 +57,7 @@ with some explanation. Quoted text below is from [De Vries
   (as other characters may not reproduce well on different systems).”*
   The text files used to build the local database are assumed to be
   encoded in [UTF-8](https://en.wikipedia.org/wiki/UTF-8). While parsing
-  the files non-convertable bytes are substituted with asterisk symbols.
+  the files non-convertible bytes are substituted with asterisk symbols.
   Furthermore, formulating search texts containing exotic characters may
   result in platform-dependent results. This is why using only
   non-accented alphanumerical characters in searches is recommended.

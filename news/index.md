@@ -1,7 +1,8 @@
 # Changelog
 
-## ECOTOXr v1.2.4.0001
+## ECOTOXr v1.2.4.0002
 
+- Corrected some typos
 - Some housekeeping of documentation and workflows
 
 ## ECOTOXr v1.2.4

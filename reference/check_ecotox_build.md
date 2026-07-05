@@ -38,7 +38,7 @@ check_ecotox_build(path = get_ecotox_path(), version, ...)
 Returns an indicative logical value whether the database is not
 corrupted. `TRUE` indicates the database is most likely OK. `FALSE`
 indicates that something might be wrong. Additional messages (when
-`FALSE`) are included as attributes containing hints on the outcoming of
+`FALSE`) are included as attributes containing hints on the outcome of
 the tests. See also the 'details' section.
 
 ## Details

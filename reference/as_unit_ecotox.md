@@ -75,7 +75,7 @@ text before coercing it to units:
 
   - A list of 'known' annotations are removed from the units
 
-  - A list of elements kown to represent counts are renamed 'counts'.
+  - A list of elements known to represent counts are renamed 'counts'.
 
   - Percentages are renamed as explicit concentration in mass per volume
     or volume per volume units where possible
@@ -85,7 +85,7 @@ text before coercing it to units:
   - 'M' is renamed 'mol/L'.
 
   - Units expressed as 'parts per ...' are explicitly renamed to mass
-    over volume, or volum over volume where possible
+    over volume, or volume over volume where possible
 
 - Type specific sanitation steps
 
