@@ -28,7 +28,7 @@ Returns a \code{character} string of the path.
 }
 \details{
 It can be useful to know where the database is located on your disk. This function
-returns the location as provided by \code{\link[rappdirs:app_dir]{rappdirs::app_dir()}}, or as
+returns the location as provided by \code{\link[tools:R_user_dir]{tools::R_user_dir()}}, or as
 specified by you using \code{options(ECOTOXr_path = "mypath")}.
 }
 \examples{

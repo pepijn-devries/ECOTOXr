@@ -100,7 +100,7 @@ check_ecotox_availability <- function(target = get_ecotox_path()) {
 #' (or will be) placed.
 #'
 #' It can be useful to know where the database is located on your disk. This function
-#' returns the location as provided by [rappdirs::app_dir()], or as
+#' returns the location as provided by [tools::R_user_dir()], or as
 #' specified by you using `options(ECOTOXr_path = "mypath")`.
 #'
 #' @param path When you have a copy of the database somewhere other than the default
@@ -124,7 +124,44 @@ check_ecotox_availability <- function(target = get_ecotox_path()) {
 #' @family database-access-functions
 #' @export
 get_ecotox_path <- function() {
-  getOption("ECOTOXr_path", rappdirs::app_dir("ECOTOXr")$cache())
+  getOption("ECOTOXr_path", {
+    adir <- rappdirs::app_dir("ECOTOXr")$cache()
+    udir <- tools::R_user_dir("ECOTOXr", "data")
+    if (normalizePath(adir) |> suppressWarnings() !=
+        normalizePath(udir) |> suppressWarnings()) {
+      if (dir.exists(adir) && length(list.files(adir)) > 0) {
+        ## This is a temporary check. It allows users to transition
+        ## from `rappdirs` to `tools`
+        cli::cli_warn(c(
+          w = paste("You are using using an outdated `rappdirs` path for your ECOTOX data.",
+                    "It may not work in future releases"),
+          i = "Please call {.run ECOTOXr::migrate_ecotox_path()} to migrate data"
+        ))
+      }
+    }
+    udir
+  })
+}
+
+#' Temporary function to switch to new ECOTOX path
+#' 
+#' Since ECOTOXr v1.2.5, the path is located with the base package `tools`
+#' instead of the previously used `rappdirs`. Use this function to migrate
+#' your old files to this new location.
+#' @param overwrite `logical` value. Should files that already exist in the
+#' new location be overwritten?
+#' @returns Returns `NULL` invisibly.
+#' @export
+migrate_ecotox_path <- function(overwrite = FALSE) {
+  ## This is a temporary function. It allows users to transition
+  ## from `rappdirs` to `tools`
+  adir <- rappdirs::app_dir("ECOTOXr")$cache()
+  udir <- tools::R_user_dir("ECOTOXr", "data")
+  if (!dir.exists(udir)) dir.create(udir, recursive = TRUE)
+  file.copy(from = list.files(adir, include.dirs = TRUE, full.names = TRUE),
+            to = udir, recursive = TRUE, overwrite = overwrite)
+  unlink(adir, recursive = TRUE)
+  invisible()
 }
 
 #' Download and extract ECOTOX database files and compose database
