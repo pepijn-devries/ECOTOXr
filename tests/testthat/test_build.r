@@ -60,6 +60,19 @@ test_that("The newly build database can be checked", {
   })
 })
 
+test_that("Unsupported constraint method throws error", {
+  expect_error({
+    search <-
+      list(
+        latin_name = list(
+          terms    = c("Skeletonema", "Daphnia"),
+          method   = "foobar"
+        )
+      )
+    search_ecotox_lazy(search)
+  }, "specified search method is not implemented")
+})
+
 test_that("Newly build version is faulty as it is a mockup", {
   skip_if_offline()
   skip_on_cran()

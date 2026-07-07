@@ -69,19 +69,6 @@ test_that("Can only convert characters to ECOTOX units", {
   })
 })
 
-test_that("Unsupported constraint method throws error", {
-  expect_error({
-    search <-
-      list(
-        latin_name    = list(
-          terms          = c("Skeletonema", "Daphnia"),
-          method         = "foobar"
-        )
-      )
-    search_ecotox_lazy(search)
-  }, "specified search method is not implemented")
-})
-
 test_that("Cannot find link on wrong site", {
   skip_if_offline()
   skip_on_cran()
