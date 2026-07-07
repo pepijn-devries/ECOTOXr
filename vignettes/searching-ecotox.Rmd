@@ -50,7 +50,7 @@ search_ecotox(
   list(
     result_id = list(terms = "401386", method = "exact")
   ),
-  as_data_frame = F
+  as_data_frame = FALSE
 )
 ```
 

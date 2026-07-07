@@ -27,7 +27,7 @@ search_q <- if (check_ecotox_availability()) {
 
 throws_errors <- function(expression) {
   result <- FALSE
-  tryCatch(expression, error = function(e) {result <<- T}, warning = function(w) {invisible(NULL)})
+  tryCatch(expression, error = function(e) {result <<- TRUE}, warning = function(w) {invisible(NULL)})
   result
 }
 

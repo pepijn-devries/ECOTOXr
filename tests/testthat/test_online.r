@@ -6,13 +6,43 @@ check_db <- function() {
   }
 }
 
+get_insecticides <- function() {
+  load(file.path(testthat::test_path(), "test_data", "insecticides.rdata"))
+  insecticides$cas <- format(as.cas(insecticides$cas), hyphenate = FALSE)
+  insecticides
+}
+
+online_search <- function(insecticides) {
+  websearch <- list_ecotox_web_fields(
+    txAdvancedChemicalEntries   = paste(insecticides$cas,
+                                        collapse = "\r\n"),
+    RBCHEMSEARCHTYPE            = "EXACT",
+    txAdvancedSpecEntries       = "daphnia magna",
+    RBSPECSEARCHTYPE            = "EXACT",
+    cbResultsGroup12a           = "LC50",
+    cbResultsGroup13a           = "EC50",
+    cbResultsGroup6             = "MOR",
+    cbResultsGroup7c            = "ITX",
+    txExposureDurationStd       = "2",
+    cbResult_number             = "Result Number")
+  
+  websearch <- suppressWarnings(websearch_ecotox(websearch))
+  websearch <- websearch$`Aquatic-Export` |>
+    dplyr::filter(!is.na(`Conc 1 Mean (Standardized)`) &
+                    `Conc 1 Units (Standardized)` == "AI mg/L") |>
+    select(result_id  = "Result Number",
+           conc1_ug_l = "Conc 1 Mean (Standardized)",
+           test_cas   = "CAS Number") |>
+    mutate(test_cas   = as.character(as.cas(test_cas)), ## hyphenate the CAS numbers
+           conc1_ug_l = 1e3*conc1_ug_l)
+}
+
 test_that("Online and local search yield the same results", {
   check_db()
   skip_if_offline()
   skip_on_cran()
   expect_true({
-    load(file.path(testthat::test_path(), "test_data", "insecticides.rdata"))
-    insecticides$cas <- format(as.cas(insecticides$cas), hyphenate = FALSE)
+    insecticides <- get_insecticides()
     unit_conversion <-
       data.frame(what       = c(rep("mass", 8), rep("volume", 2)),
                  unit       = c("pg", "ng", "ug", "mg", "g", "nmol", "umol", "mmol", "L", "m3"),
@@ -70,28 +100,7 @@ test_that("Online and local search yield the same results", {
       suppressWarnings() |>
       suppressMessages()
     
-    websearch <- list_ecotox_web_fields(
-      txAdvancedChemicalEntries   = paste(insecticides$cas,
-                                          collapse = "\r\n"),
-      RBCHEMSEARCHTYPE            = "EXACT",
-      txAdvancedSpecEntries       = "daphnia magna",
-      RBSPECSEARCHTYPE            = "EXACT",
-      cbResultsGroup12a           = "LC50",
-      cbResultsGroup13a           = "EC50",
-      cbResultsGroup6             = "MOR",
-      cbResultsGroup7c            = "ITX",
-      txExposureDurationStd       = "2",
-      cbResult_number             = "Result Number")
-    
-    websearch <- suppressWarnings(websearch_ecotox(websearch))
-    websearch <- websearch$`Aquatic-Export` |>
-      dplyr::filter(!is.na(`Conc 1 Mean (Standardized)`) &
-                      `Conc 1 Units (Standardized)` == "AI mg/L") |>
-      select(result_id  = "Result Number",
-             conc1_ug_l = "Conc 1 Mean (Standardized)",
-             test_cas   = "CAS Number") |>
-      mutate(test_cas   = as.character(as.cas(test_cas)), ## hyphenate the CAS numbers
-             conc1_ug_l = 1e3*conc1_ug_l)
+    websearch <- online_search(insecticides)
     conc_check <-
       full_join(
         websearch |>
@@ -138,5 +147,15 @@ test_that("Download from EPA ECOTOX starts", {
     }, error = function(e) {
       endsWith(e$request$url, ".zip")
     })
+  })
+})
+
+test_that("Online search does not throw errors", {
+  skip_if_offline()
+  skip_on_cran()
+  expect_true({
+    websearch <- online_search(get_insecticides())
+    nrow(websearch) > 1000L &&
+      all(c("result_id", "conc1_ug_l", "test_cas") %in% names(websearch))
   })
 })

@@ -93,7 +93,7 @@ check_ecotox_availability <- function(target = get_ecotox_path()) {
   }
   result <- length(files) > 0
   attributes(result)$files <- data.frame(path = target, database = files, date = file_reg,
-                                         stringsAsFactors = F)
+                                         stringsAsFactors = FALSE)
   return(result)
 }
 
@@ -233,7 +233,7 @@ download_ecotox_data <- function(
       return(invisible(NULL))
     }
   }
-  if (!dir.exists(target)) dir.create(target, recursive = T)
+  if (!dir.exists(target)) dir.create(target, recursive = TRUE)
   ## Obtain download link from EPA website:
   prgs_bar <-
     cli::cli_progress_step("Obtaining download link from EPA website...")
@@ -443,7 +443,7 @@ build_ecotox_sqlite <- function(source, destination = get_ecotox_path(), write_l
     RSQLite::dbExecute(dbcon, sprintf("DROP TABLE IF EXISTS [%s];", tab$table[[1]]))
     
     ## specify query to create the table in the sqlite database
-    foreign_keys <- tab[tab$foreign_key != "",, drop = F]
+    foreign_keys <- tab[tab$foreign_key != "",, drop = FALSE]
     if (nrow(foreign_keys) > 0) {
       foreign_keys <- apply(foreign_keys, 1, function(x) {
         sprintf("\tFOREIGN KEY(%s) REFERENCES [%s]", x[["field_name"]], x[["foreign_key"]])
@@ -466,14 +466,14 @@ build_ecotox_sqlite <- function(source, destination = get_ecotox_path(), write_l
     cli::cli_progress_update(id = prgs_bar)
     repeat {
       if (is.null(head)) {
-        head <- iconv(readr::read_lines(filename, skip = 0, n_max = 1, progress = F), to = "UTF8", sub = "*")
+        head <- iconv(readr::read_lines(filename, skip = 0, n_max = 1, progress = FALSE), to = "UTF8", sub = "*")
       } else {
         testsize   <- ifelse(lines.read == 1, frag.size - 1, frag.size)
         ## readr sometimes generates warnings for possible parsing problems (inherited from vroom)
         ## however, running 'readr::problems' does not show any issues, muffle this warning
         ## if this is the case:
         body       <- withCallingHandlers({
-          chunk <- readr::read_lines(filename, skip = lines.read, n_max = testsize, progress = F)
+          chunk <- readr::read_lines(filename, skip = lines.read, n_max = testsize, progress = FALSE)
         }, warning = function(w) if (nrow(readr::problems(chunk)) == 0) rlang::cnd_muffle(w))
         body       <- suppressWarnings({iconv(body, to = "UTF8", sub = "*")})
         ## Some records incorrectly contain line feed characters. Replace with space:
@@ -482,7 +482,7 @@ build_ecotox_sqlite <- function(source, destination = get_ecotox_path(), write_l
         ## These should not be interpreted as table separators and will mess up the table.read call
         body       <- stringr::str_replace_all(body, "(?<=\\().+?(?=\\))", function(x){
           ## there should not be another opening bracket, double pipe or forward slash! in that case leave as is
-          ifelse (grepl("[\\(/]", x) | grepl("||", x, fixed = T), x, gsub("[|]", "-", x))
+          ifelse (grepl("[\\(/]", x) | grepl("||", x, fixed = TRUE), x, gsub("[|]", "-", x))
         })
         
         lines.read <- lines.read + length(body)
@@ -496,7 +496,7 @@ build_ecotox_sqlite <- function(source, destination = get_ecotox_path(), write_l
           } else break
         }
         
-        ## strip.white is set to F, as they occur in primary keys!
+        ## strip.white is set to FALSE, as they occur in primary keys!
         table.frag <- utils::read.table(text = c(head, body),
                                         sep = "|", header = TRUE, quote = "", comment.char = "",
                                         stringsAsFactors = FALSE, strip.white = FALSE)

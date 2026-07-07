@@ -97,7 +97,7 @@ dbDisconnectEcotox <- function(conn, ...) {
 #' @export
 cite_ecotox <- function(path = get_ecotox_path(), version) {
   db  <- tryCatch({ get_ecotox_sqlite_file(path, version) }, error = \(x) "")
-  bib <- gsub(".sqlite", "_cit.txt", db, fixed = T)
+  bib <- gsub(".sqlite", "_cit.txt", db, fixed = TRUE)
   if (file.exists(bib)) {
     downloaded_data <- utils::readCitationFile(bib)
   } else {
@@ -140,7 +140,7 @@ get_ecotox_info <- function(path = get_ecotox_path(), version) {
   default <- "No information available\n"
   inf <- tryCatch({
     db  <- get_ecotox_sqlite_file(path, version)
-    gsub(".sqlite", ".log", db, fixed = T)
+    gsub(".sqlite", ".log", db, fixed = TRUE)
   }, error = function(e) return(default))
   if (file.exists(inf)) {
     inf <- readLines(inf)

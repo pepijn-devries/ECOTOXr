@@ -20,7 +20,7 @@
   .data <- field <- terms <- table_mod <- NULL
 
   search_result <-
-    lapply(search, as.data.frame, strings.as.factors = F) |>
+    lapply(search, as.data.frame, strings.as.factors = FALSE) |>
     dplyr::bind_rows(.id = "field") |>
     dplyr::mutate(
       table = lapply(field, function(x) {
@@ -53,7 +53,7 @@
           tbl(dbcon, .x$table[[1]]) |>
             dplyr::filter(!!sql(paste(sprintf("(%s)", .x$where), collapse = " AND ")))),
         table = .x$table[[1]]
-      )}, .keep = T) |>
+      )}, .keep = TRUE) |>
     dplyr::bind_rows() |>
     dplyr::group_by(table_mod = gsub("_synonyms", "", table)) |>
     dplyr::summarise(
@@ -81,9 +81,9 @@
         cur_fields <- colnames(my_tab)
         if (any(c("result_id", "test_id") %in% cur_fields)) break
         referring <- .db_specs[.db_specs$table %in% c("results", "tests") &
-                                 .db_specs$foreign_key %in% sprintf("%s(%s)", ..2$table, cur_fields),,drop = F]
+                                 .db_specs$foreign_key %in% sprintf("%s(%s)", ..2$table, cur_fields),,drop = FALSE]
         if (nrow(referring) == 1) {
-          foreign <- unlist(regmatches(referring$foreign_key, gregexpr("(?<=\\().+(?=\\))", referring$foreign_key, perl = T)))
+          foreign <- unlist(regmatches(referring$foreign_key, gregexpr("(?<=\\().+(?=\\))", referring$foreign_key, perl = TRUE)))
           my_tab <-
             my_tab |>
             left_join(tbl(dbcon, referring$table), by = structure(referring$field_name, names = foreign))
@@ -123,7 +123,7 @@
 
 .search_ecotox_lazy_append_fields <- function(dbcon, search_result, output_fields, compute, ...) {
   con                  <- search_result[["src"]]$con
-  output_fields        <- as.data.frame(do.call(rbind, strsplit(output_fields, ".", fixed = T)), stringsAsFactors = F)
+  output_fields        <- as.data.frame(do.call(rbind, strsplit(output_fields, ".", fixed = TRUE)), stringsAsFactors = FALSE)
   names(output_fields) <- c("table", "field")
   ## Duplicated field names need to be renamed to avoid ambiguous results, keep track of those in 'new_field'
   output_fields$new_field <- output_fields$field
@@ -146,12 +146,12 @@
          endsWith(.db_specs$foreign_key, "(code)")) |
         .db_specs$table == parent_tab &
         grepl(paste0(foreigns[foreigns %in% output_fields$table], "\\(",collapse="|"), .db_specs$foreign_key),,
-      drop = F]
+      drop = FALSE]
     tabs$foreign_tab <- gsub("\\(code\\)", "", tabs$foreign_key)
     
     .db_specs[
       .db_specs$table == parent_tab &
-        startsWith(.db_specs$foreign_key, paste0(foreigns[foreigns %in% output_fields$table], "(")),,drop=F]
+        startsWith(.db_specs$foreign_key, paste0(foreigns[foreigns %in% output_fields$table], "(")),,drop=FALSE]
     if (nrow(tabs) > 0) {
       for (tab in unique(tabs$foreign_tab)) {
         flds <- tabs$field_name[tabs$foreign_tab == tab]
@@ -291,7 +291,7 @@
     field  = .db_specs$field_name[.db_specs$foreign_key != "" & .db_specs$table == "tests"]
   ) |> dplyr::filter(!table %in% c("tests", "results"))
   
-  test_foreigns <- test_foreigns[test_foreigns$table %in% output_fields$table,,drop = F]
+  test_foreigns <- test_foreigns[test_foreigns$table %in% output_fields$table,,drop = FALSE]
   test_foreigns$foreign <- .db_specs$field_name[.db_specs$primary_key != ""][
     match(test_foreigns$table, .db_specs$table[.db_specs$primary_key != ""])]
   
