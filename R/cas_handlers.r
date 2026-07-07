@@ -109,7 +109,10 @@ cas <- function(length = 0L) {
 is.cas <- function(x) {
   if (!inherits(x, "cas")) return(FALSE)
   checksums <- attributes(x)$checksum
-  if (length(checksums) != length(x)) stop("Each CAS registry in the vector needs a checksum")
+  if (length(checksums) != length(x))
+    rlang::abort(c(
+      x = "Each CAS registry in the vector needs a checksum",
+      i = "Check the origin of this cas object"))
   validate <- outer(unclass(x), 0:9, function(x, y) {
     floor(x/(10^y)) %% 10
   })
@@ -133,12 +136,18 @@ as.cas <- function(x) {
     stringr::str_sub(x[is_hyphenated], -4, -3),
     stringr::str_sub(x[is_hyphenated], -1, -1)
   )
-  if (any(!grepl("^[0-9]+$", x))) stop("CAS numbers can only contain hyphens at correct positions and numeric characters otherwise...")
+  if (any(!grepl("^[0-9]+$", x)))
+    rlang::abort(c(
+      x = "CAS numbers can only contain hyphens at correct positions and numeric characters otherwise",
+      i = "Correct the hyphenation and try again"))
   registry  <- as.integer(stringr::str_sub(x, 1, -2))
   registry[is.na(registry)] <- 0L
   attributes(registry)$checksum <- as.raw(as.integer(stringr::str_sub(x, -1, -1)))
   class(registry) <- "cas"
-  if (!is.cas(registry)) stop("Input contains invalid CAS numbers")
+  if (!is.cas(registry))
+    rlang::abort(c(
+      x = "Input contains invalid CAS numbers",
+      i = "Correct the input CAS numbers and try again"))
   registry
 }
 

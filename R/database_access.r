@@ -5,15 +5,18 @@ get_ecotox_sqlite_file <- function(path = get_ecotox_path(), version) {
   if (missing(version)) {
     version <- NULL
   } else {
-    if (length(version) != 1) stop("Argument 'version' should hold a single element!")
+    if (length(version) != 1)
+      rlang::abort(c(
+        x = "Argument 'version' should hold a single element!",
+        i = "Parse a single value to argument 'version'"))
     version <- as.Date(version, format = "%m_%d_%Y")
   }
   files <- attributes(.fail_on_missing(path))$files
   results <- nrow(files)
   files <- files[which(files$date == ifelse(is.null(version), max(files$date)[[1]], version)),]
   if (results > 1 && is.null(version)) {
-      warning(sprintf("Multiple versions of the database found and not one specified. Using the most recent version (%s)",
-                      format(files$date, "%Y-%m-%d")))
+    rlang::warn(sprintf("Multiple versions of the database found and not one specified. Using the most recent version (%s)",
+                        format(files$date, "%Y-%m-%d")))
   }
   return(file.path(files$path, files$database))
 }
@@ -99,7 +102,7 @@ cite_ecotox <- function(path = get_ecotox_path(), version) {
     downloaded_data <- utils::readCitationFile(bib)
   } else {
     downloaded_data <- NULL
-    warning("No bibentry reference to database download found!")
+    rlang::warn("No bibentry reference to database download found!")
   }
   chemosphere <- utils::citation("ECOTOXr")
   atts <- attributes(chemosphere)
@@ -144,7 +147,7 @@ get_ecotox_info <- function(path = get_ecotox_path(), version) {
   } else {
     inf <- default
   }
-  message(crayon::white(paste(inf, collapse = "\n")))
+  cli::cli_alert_info(paste(inf, collapse = "\n"))
   return(invisible(inf))
 }
 
@@ -288,9 +291,7 @@ check_ecotox_version <- function(path = get_ecotox_path(), version, verbose = TR
   available <- check_ecotox_availability(path)
   if (!available) {
     if (verbose) {
-      message(crayon::red(
-        "No database present at the specified path"
-      ))
+      cli::cli_alert_danger("No database present at the specified path")
     }
     return(invisible(FALSE))
   }
@@ -309,22 +310,23 @@ check_ecotox_version <- function(path = get_ecotox_path(), version, verbose = TR
   result <- f == u
   if (verbose) {
     if (result) {
-      message(crayon::green(
-        paste("The locally build database represents",
-              "the latest available EPA release",
-              format(f, format = "(%Y-%m-%d). You are up to date."),
-              sep = "\n")))
+      cli::cli_alert_success(paste(
+        "The locally build database represents",
+        "the latest available EPA release",
+        "{format(f, format = \"(%Y-%m-%d)\")}. You are up to date.",
+        sep = "\n")
+      )
     } else if (f < u) {
-      message(crayon::red(
-        paste(format(f, "The locally build database (%Y-%m-%d) represents"),
-              format(u, "an older EPA release (%Y-%m-%d). Please download"),
-              "and build the latest relase if you.",
-              "wish to be up to date.", sep = "\n")))
+      cli::cli_alert_warning(paste(
+        format(f, "The locally build database (%Y-%m-%d) represents"),
+        format(u, "an older EPA release (%Y-%m-%d). Please download"),
+        "and build the latest relase if you.",
+        "wish to be up to date.", sep = "\n"))
     } else if (f > u) {
-      message(crayon::red(
-        paste(format(f, "You have installed a future release (%Y-%m-%d)"),
-              format(u, "of the EPA database (%Y-%m-%d). Are you a time"),
-              "traveller?", sep = "\n")))
+      cli::cli_alert_danger(paste(
+        format(f, "You have installed a future release (%Y-%m-%d)"),
+        format(u, "of the EPA database (%Y-%m-%d). Are you a time"),
+        "traveller?", sep = "\n"))
     }
   }
   return(invisible(result))

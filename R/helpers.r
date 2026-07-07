@@ -9,7 +9,9 @@
 .fail_on_missing <- function(path = get_ecotox_path()) {
   test <- check_ecotox_availability(path)
   if (!test) {
-    stop("No local database located. Download data first by calling 'download_ecotox_data()'")
+    rlang::abort(c(
+      x = "No local database located.",
+      i = "Download data first by calling 'download_ecotox_data()'"))
   } else return(test)
 }
 
@@ -39,7 +41,9 @@
         } else if(method == "contains"){
           paste(sprintf("`%s` LIKE '%%%s%%'", field, terms), collapse = " OR ")
         } else {
-          stop("Sorry, specified search method is not implemented.")
+          rlang::abort(c(
+            x = "Sorry, specified search method is not implemented.",
+            i = "Try one of 'exact' or 'contains'"))
         }
       }) |>
     dplyr::group_by(table) |>
@@ -70,7 +74,10 @@
       count <- 0
       repeat {
         count <- count + 1
-        if (count > 5) stop("Sorry could not build a query for the search you have specified.")
+        if (count > 5)
+          rlang::abort(c(
+            x = "Sorry could not build a query for the search you have specified.",
+            i = "Try simplifying your request"))
         cur_fields <- colnames(my_tab)
         if (any(c("result_id", "test_id") %in% cur_fields)) break
         referring <- .db_specs[.db_specs$table %in% c("results", "tests") &
@@ -81,7 +88,9 @@
             my_tab |>
             left_join(tbl(dbcon, referring$table), by = structure(referring$field_name, names = foreign))
         } else {
-          stop("Sorry could not build a query for the search you have specified.")
+          rlang::abort(c(
+            x = "Sorry could not build a query for the search you have specified.",
+            i = "Try simplifying your request"))
         }
       }
       dplyr::tibble(tbl = list(my_tab |> select(dplyr::any_of(c("result_id", "test_id")))))
@@ -359,17 +368,17 @@
   result <- result |> .process_lookups("tests")
   
   renamed <- output_fields$field != output_fields$new_field
-  message(
-    crayon::white(
-      paste(
-        sprintf("'%s.%s' was renamed '%s'",
-                output_fields$table[renamed],
-                output_fields$field[renamed],
-                output_fields$new_field[renamed]),
-        collapse = "\n")
-    )
-  )
-  
+
+  if (any(renamed)) {
+    dummy <- mapply(\(old_table, old_field, new_field) {
+      cli::cli_alert_info("'{old_table}.{old_field}' was renamed '{new_field}'")
+      invisible()
+    },
+    output_fields$table[renamed],
+    output_fields$field[renamed],
+    output_fields$new_field[renamed])
+  }
+
   result <- result |> select(dplyr::any_of(union(unique(output_fields$new_field), "result_id")))
   return(result)
 }
@@ -389,4 +398,9 @@
         dplyr::group_nest(dplyr::across(dplyr::any_of(group_by)), .key = "nested_data")
     }
   } else search_result
+}
+
+.unsuppressable_message <- function(msg, env) {
+  styled_text <- cli::format_message(message = msg, .envir = env)
+  cat(styled_text)
 }

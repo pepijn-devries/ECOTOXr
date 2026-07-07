@@ -1,4 +1,4 @@
-ECOTOXr v1.2.4.0003
+ECOTOXr v1.2.4.0004
 -------------
 
  * Switched from using `rappdirs` to `tools` for locating user dir

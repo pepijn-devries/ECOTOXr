@@ -63,7 +63,7 @@ websearch_ecotox <- function(
   search_response <- search_post |> httr2::resp_body_html()
   warnings <- search_response |> rvest::html_element(xpath = "//div[@class='callout alert']") |>
     rvest::html_text2()
-  if (!is.na(warnings)) stop(warnings)
+  if (!is.na(warnings)) rlang::abort(warnings)
   search_response <- jsonlite::parse_json(search_post |> httr2::resp_body_string())
   headers <- lapply(search_response$headers, `[[`, 1) |> unlist()
   table_preview <- search_response$records |> lapply(structure, names = headers) |> lapply(dplyr::as_tibble) |> dplyr::bind_rows()
@@ -84,7 +84,7 @@ websearch_ecotox <- function(
     warn_text <- httr_result |> httr2::resp_body_html() |> rvest::html_text2() |>
       stringr::str_replace("Warning", "") |> trimws()
     warn_text <- paste(warn_text, "Returning online preview data only")
-    warning(warn_text)
+    rlang::warn(warn_text)
     return(list(`online preview` = table_preview))
   }
   
@@ -236,8 +236,11 @@ websearch_comptox <- function(
     .check_http_status(search_status, "Failed to check download status")
     if ((search_status |> httr2::resp_body_string()) == "true") break
     i <- i + 1
-    if (i == 30) warning("It is taking exceptionally long for preparing the download, you may wish to abort...")
-    if (i == timeout) stop("Did not succeed before timeout, try again or increase the timeout...")
+    if (i == 30) rlang::warn("It is taking exceptionally long for preparing the download, you may wish to abort...")
+    if (i == timeout)
+      rlang::abort(c(
+        x = "Did not succeed before timeout",
+        i = "try again or increase the timeout..."))
     Sys.sleep(1)
   }
 
@@ -265,9 +268,9 @@ websearch_comptox <- function(
 .check_http_status <- function(httr2_response, message = "") {
   ## http status between 200 and 299 indicates success
   if (!dplyr::between(as.numeric(httr2_response$status_code), 200, 299)) {
-    stop(sprintf("%s. Http response %s status code %s",
-                 message,
-                 httr2::resp_status_desc(httr2_response),
-                 httr2::resp_status(httr2_response)))
+    rlang::abort(sprintf("%s. Http response %s status code %s",
+                         message,
+                         httr2::resp_status_desc(httr2_response),
+                         httr2::resp_status(httr2_response)))
   }
 }

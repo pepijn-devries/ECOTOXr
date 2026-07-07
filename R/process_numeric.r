@@ -79,12 +79,12 @@ process_ecotox_numerics <- function(x, .fns = as_numeric_ecotox, ..., add_units 
               dplyr::pick()
             if (ncol(col_units) == 0L) {
               if (warn)
-                warning(sprintf("Skipping '%s' as there is no unit column available",
-                                dplyr::cur_column()))
+                rlang::warn(sprintf("Skipping '%s' as there is no unit column available",
+                                    dplyr::cur_column()))
             } else if (ncol(col_units) > 1L) {
               if (warn)
-                warning(sprintf("Skipping '%s' as there are multiple unit columns available",
-                                dplyr::cur_column()))
+                rlang::warn(sprintf("Skipping '%s' as there are multiple unit columns available",
+                                    dplyr::cur_column()))
             } else {
               .x <- .x * col_units[[1]]
             }
@@ -141,9 +141,9 @@ process_ecotox_numerics <- function(x, .fns = as_numeric_ecotox, ..., add_units 
 #' @export
 as_numeric_ecotox <- function(x, range_fun = NULL, ..., warn = TRUE) {
   if (typeof(x) == "double") return (x)
-  if (typeof(x) != "character") stop(
-    paste("`as_numeric_ecotox` should only convert `characters`.",
-          "I got", typeof(x), "instead."))
+  if (typeof(x) != "character") rlang::abort(c(
+    x = "`as_numeric_ecotox` should only convert `characters`.",
+    i = paste("I got", typeof(x), "instead.")))
   regex_note   <- "[*x/]"
   regex_oper   <- "^(er)|(ca)|(>)|(>=)|(<)|(<=)|(~)|(=)"
   regex_brac   <- "\\((.*?)\\)"
