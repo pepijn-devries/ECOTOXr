@@ -159,3 +159,13 @@ test_that("Online search does not throw errors", {
       all(c("result_id", "conc1_ug_l", "test_cas") %in% names(websearch))
   })
 })
+
+test_that("Online CompTox search does not throw errors", {
+  skip_if_offline()
+  skip_on_cran()
+  expect_true({
+    comptox_results <- websearch_comptox(c("benzene", "108-88-3"))
+    nrow(comptox_results$`Main Data`) == 2L &&
+      all(c("Cover Sheet", "Main Data") %in% names(comptox_results))
+  })
+})
