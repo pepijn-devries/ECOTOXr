@@ -185,6 +185,9 @@ By contributing to this project, you agree to abide by its terms.
   **\[stable\]** : List the field names that are available from the
   ECOTOX database
 
+- [`migrate_ecotox_path()`](https://pepijn-devries.github.io/ECOTOXr/reference/migrate_ecotox_path.md)
+  : Temporary function to switch to new ECOTOX path
+
 - [`mixed_to_single_unit()`](https://pepijn-devries.github.io/ECOTOXr/reference/mixed_to_single_unit.md)
   : Convert mixed units to a specific unit
 

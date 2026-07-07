@@ -85,7 +85,7 @@ cite_ecotox() |> suppressWarnings()
 #> [1] "10.1016/j.chemosphere.2024.143078"
 #> 
 #> [[1]]$note
-#> [1] "R package version 1.2.4.0002"
+#> [1] "R package version 1.2.4.0004"
 #> 
 #> attr(,"bibtype")
 #> [1] "Article"

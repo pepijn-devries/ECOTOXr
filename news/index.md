@@ -1,7 +1,8 @@
 # Changelog
 
-## ECOTOXr v1.2.4.0002
+## ECOTOXr v1.2.4.0004
 
+- Switched from using `rappdirs` to `tools` for locating user dir
 - Corrected some typos
 - Some housekeeping of documentation and workflows
 

@@ -36,8 +36,8 @@ return the path to the sqlite file when it exists.
 
 It can be useful to know where the database is located on your disk.
 This function returns the location as provided by
-[`rappdirs::app_dir()`](https://rappdirs.r-lib.org/reference/app_dir.html),
-or as specified by you using `options(ECOTOXr_path = "mypath")`.
+[`tools::R_user_dir()`](https://rdrr.io/r/tools/userdir.html), or as
+specified by you using `options(ECOTOXr_path = "mypath")`.
 
 ## See also
 
@@ -58,7 +58,7 @@ Pepijn de Vries
 
 ``` r
 get_ecotox_path()
-#> [1] "~/.cache/ECOTOXr"
+#> [1] "/home/runner/.local/share/R/ECOTOXr"
 
 if (check_ecotox_availability()) {
   ## This will only work if a local database exists:
