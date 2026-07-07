@@ -48,7 +48,10 @@ get_ecotox_url <- function(verify_ssl = getOption("ECOTOXr_verify_ssl"), ...) {
     rvest::html_elements("a") |>
     rvest::html_attr("href")
   link <- link[!is.na(link) & endsWith(link, ".zip")]
-  if (length(link) == 0) stop("Could not find ASCII download link...")
+  if (length(link) == 0)
+    rlang::abort(c(
+      x = "Could not find ASCII download link...",
+      i = "Please file a reproducible issue report at https://www.github.com/pepijn-devries/ECOTOXr/issues"))
   link[!startsWith(link, "http")] <- paste0(url, link[!startsWith(link, "http")])
   link_dates <-
     stringr::str_sub(link, -14, -5) |>
@@ -100,7 +103,7 @@ check_ecotox_availability <- function(target = get_ecotox_path()) {
 #' (or will be) placed.
 #'
 #' It can be useful to know where the database is located on your disk. This function
-#' returns the location as provided by [rappdirs::app_dir()], or as
+#' returns the location as provided by [tools::R_user_dir()], or as
 #' specified by you using `options(ECOTOXr_path = "mypath")`.
 #'
 #' @param path When you have a copy of the database somewhere other than the default
@@ -124,7 +127,44 @@ check_ecotox_availability <- function(target = get_ecotox_path()) {
 #' @family database-access-functions
 #' @export
 get_ecotox_path <- function() {
-  getOption("ECOTOXr_path", rappdirs::app_dir("ECOTOXr")$cache())
+  getOption("ECOTOXr_path", {
+    adir <- rappdirs::app_dir("ECOTOXr")$cache()
+    udir <- tools::R_user_dir("ECOTOXr", "data")
+    if (normalizePath(adir) |> suppressWarnings() !=
+        normalizePath(udir) |> suppressWarnings()) {
+      if (dir.exists(adir) && length(list.files(adir)) > 0) {
+        ## This is a temporary check. It allows users to transition
+        ## from `rappdirs` to `tools`
+        cli::cli_warn(c(
+          w = paste("You are using using an outdated `rappdirs` path for your ECOTOX data.",
+                    "It may not work in future releases"),
+          i = "Please call {.run ECOTOXr::migrate_ecotox_path()} to migrate data"
+        ))
+      }
+    }
+    udir
+  })
+}
+
+#' Temporary function to switch to new ECOTOX path
+#' 
+#' Since ECOTOXr v1.2.5, the path is located with the base package `tools`
+#' instead of the previously used `rappdirs`. Use this function to migrate
+#' your old files to this new location.
+#' @param overwrite `logical` value. Should files that already exist in the
+#' new location be overwritten?
+#' @returns Returns `NULL` invisibly.
+#' @export
+migrate_ecotox_path <- function(overwrite = FALSE) {
+  ## This is a temporary function. It allows users to transition
+  ## from `rappdirs` to `tools`
+  adir <- rappdirs::app_dir("ECOTOXr")$cache()
+  udir <- tools::R_user_dir("ECOTOXr", "data")
+  if (!dir.exists(udir)) dir.create(udir, recursive = TRUE)
+  file.copy(from = list.files(adir, include.dirs = TRUE, full.names = TRUE),
+            to = udir, recursive = TRUE, overwrite = overwrite)
+  unlink(adir, recursive = TRUE)
+  invisible()
 }
 
 #' Download and extract ECOTOX database files and compose database
@@ -172,46 +212,71 @@ get_ecotox_path <- function() {
 #' @family online-functions
 #' @export
 download_ecotox_data <- function(
-    target = get_ecotox_path(), write_log = TRUE, ask = TRUE,
+    target = get_ecotox_path(), write_log = TRUE, ask = interactive(),
     verify_ssl = getOption("ECOTOXr_verify_ssl"), ...) {
   if (!interactive() && ask)
-    stop("I cannot 'ask' if the session is not interactive")
+    rlang::abort(c(
+      x = "I cannot 'ask' if the session is not interactive",
+      i = "Try setting 'ask' to `FALSE`"))
   if (is.null(verify_ssl)) verify_ssl <- TRUE
   avail <- check_ecotox_availability(target)
   if (avail && ask) {
-    cat(sprintf("A local database already exists (%s).", paste(attributes(avail)$file$database, collapse = ", ")))
-    prompt <- readline(prompt = "Do you wish to continue and potentially overwrite the existing database? (y/n) ")
+    dbs <- paste(attributes(avail)$file$database, collapse = ", ")
+    .unsuppressable_message(paste(
+      "A local database already exists ({dbs}).",
+      "Do you wish to continue and potentially overwrite",
+      "the existing database? (y/n) "
+      ), rlang::current_env())
+    prompt <- readline(prompt = "")
     if (!startsWith("Y", toupper(prompt))) {
-      message("Download aborted...\n")
+      cli::cli_alert_warning("Download aborted...")
       return(invisible(NULL))
     }
   }
   if (!dir.exists(target)) dir.create(target, recursive = T)
   ## Obtain download link from EPA website:
-  message(crayon::white("Obtaining download link from EPA website... "))
+  prgs_bar <-
+    cli::cli_progress_step("Obtaining download link from EPA website...")
   link <- get_ecotox_url(verify_ssl, ...)
   dest_path <- file.path(target, utils::tail(unlist(strsplit(link, "/")), 1))
-  message(crayon::green("Done\n"))
-  proceed.download <- T
+  cli::cli_progress_done(prgs_bar)
+  proceed.download <- TRUE
   if (file.exists(dest_path) && ask) {
-    prompt <- readline(prompt = sprintf("ECOTOX data is already present (%s), overwrite (y/n)? ", dest_path))
+    .unsuppressable_message(
+      "ECOTOX data is already present ({dest_path}), overwrite (y/n)? ",
+      rlang::current_env())
+    prompt <- readline(prompt = "")
     proceed.download <- startsWith("Y", toupper(prompt))
   }
   if (proceed.download) {
-    message(crayon::white(sprintf("Start downloading ECOTOX data from %s...\n", link)))
+    cli::cli_alert_info("Start downloading ECOTOX data from {.href [EPA]({link})}")
     cfg <- list(...)
     if (!verify_ssl) {
       Sys.setenv(OPENSSL_CONF = system.file("openssl.cnf", package = "ECOTOXr"))
       cfg[["ssl_verifyhost"]] <- 0
       cfg[["ssl_verifypeer"]] <- 0
     }
+    cfg[["noprogress"]] <- FALSE
+    cfg[["xferinfofunction"]] <- function(down, up) {
+      if (down[[1]] == 0) return(TRUE)
+      cli::cli_progress_update(
+        .envir = rlang::env_parent(),
+        set = as.integer(down[[2]]),
+        total = as.integer(down[[1]]))
+      return(TRUE)
+    }
+    
+    prgs_bar <- cli::cli_progress_bar(
+      status = "Downloading",
+      type = "download", total = 0)
     
     httr2::request(link) |>
       httr2::req_options(!!!cfg) |>
-      httr2::req_progress() |>
       httr2::req_perform(path = dest_path)
     
-    message(crayon::green("Done\n"))
+    cli::cli_progress_update(id = prgs_bar, force = TRUE)
+    cli::cli_progress_done(prgs_bar)
+    cli::cli_alert_success("Done")
   }
   
   ## create bib-file for later reference
@@ -223,16 +288,21 @@ download_ecotox_data <- function(
   if (dir.exists(extr.path)) {
     test.files <- list.files(extr.path)
     if (length(test.files) >= 12 && any(test.files == "chemical_carriers.txt") && ask) {
-      cat("Extracted zip files already appear to exist.\n")
-      prompt <- readline(prompt = "Continue unzipping and overwriting these files (y/n)? ")
+      .unsuppressable_message(paste(
+        "Extracted zip files already appear to exist.",
+        "Continue unzipping and overwriting these files (y/n)? "),
+        rlang::current_env())
+      prompt <- readline(prompt = "")
       proceed.unzip <- startsWith("Y", toupper(prompt))
     }
   }
   
   if (proceed.unzip) .unzip_ecotox(ask, link, target)
   
-  message(crayon::white("Start constructing SQLite database from downloaded tables...\n"))
-  message(crayon::white("Note that this may take some time...\n"))
+  cli::cli_alert_info(paste(
+    "Start constructing SQLite database from downloaded tables...",
+    "Note that this may take some time...", sep = "\n"
+  ))
   build_ecotox_sqlite(extr.path, target, write_log)
   return(invisible(NULL))
 }
@@ -252,23 +322,29 @@ download_ecotox_data <- function(
 }
 
 .unzip_ecotox <- function(ask, link, target, remove = TRUE) {
-  message(crayon::white("Extracting downloaded zip file... "))
+  prgs_bar <- cli::cli_progress_step("Extracting downloaded zip file...")
   exdir     <- gsub(".zip", "", basename(link))
   file_list <- utils::unzip(file.path(target, utils::tail(unlist(strsplit(link, "/")), 1)),
                             list = TRUE)$Name
   if (all(startsWith(file_list, exdir))) exdir <- ""
   utils::unzip(file.path(target, utils::tail(unlist(strsplit(link, "/")), 1)),
                exdir = file.path(target, exdir))
-  message(crayon::green("Done\n"))
-  if ((ask &&
-       startsWith("Y", toupper(readline(prompt = "Done extracting zip file, remove it to save disk space (y/n)? ")))) || remove) {
-    message(crayon::white("Trying to delete zip file... "))
-    tryCatch({
-      file.remove(file.path(target, utils::tail(unlist(strsplit(link, "/")), 1)))
-      message(crayon::green("Done\n"))
-    }, error = function(e) {
-      message(crayon::red("Failed to delete the file, continuing with next step"))
-    })
+  cli::cli_progress_done(prgs_bar)
+  if (ask) {
+    .unsuppressable_message(
+      "Done extracting zip file, remove it to save disk space (y/n)? ",
+      rlang::current_env()
+    )
+    if (startsWith("Y", toupper(readline(prompt = ""))) || remove) {
+      
+      prgs_bar <- cli::cli_progress_step("Trying to delete zip file...")
+      tryCatch({
+        file.remove(file.path(target, utils::tail(unlist(strsplit(link, "/")), 1)))
+        cli::cli_process_done(prgs_bar)
+      }, error = function(e) {
+        cli::cli_progress_done(result = "failed")
+      })
+    }
   }
 }
 
@@ -338,19 +414,28 @@ build_ecotox_sqlite <- function(source, destination = get_ecotox_path(), write_l
   
   ## Loop the text file tables and add them to the sqlite database 1 by 1
   i <- 0
-  
+
+  n_tables <- length(unique(.db_specs$table))
+  lines <- 0
+  tab <- .db_specs[1,]
+  progress_msg <- paste(
+    "{cli::pb_spin} Table ({.val {i}}/{n_tables}), added {.strong {lines}} lines",
+    "to '{tab$table[[1]]}'"
+  )
+  prgs_bar <- cli::cli_progress_message(
+    progress_msg, format_done = "Done",
+    format_failed = "Failed", .auto_close = FALSE)
   by(.db_specs, .db_specs$table, function(tab) {
     i <<- i + 1
-    message(crayon::white(sprintf("Adding '%s' table (%i/%i) to database:\n",
-                                  tab$table[[1]], i, length(unique(.db_specs$table)))))
+    cli::cli_progress_update(id = prgs_bar)
     filename <- file.path(source, paste0(tab$table[[1]], ".txt"))
     if (!file.exists(filename)) filename <- file.path(source, "validation", paste0(tab$table[[1]], ".txt"))
     if (!file.exists(filename)) {
       missing_tables <<- c(missing_tables, tab$table[[1]])
-      message(stringr::str_pad(sprintf("\r File for table '%s' does not exist. This may occur for older ECOTOX releases\n",
-                                       tab$table[[1]]),
-                               width = 80, "right"))
-      message(stringr::str_pad("\r Will try to continue without this table\n", width = 80, "right"))
+      cli::cli_alert_warning(paste(
+        "File for table '{tab$table[[1]]}' does not exist.",
+        "This may occur for older ECOTOX releases.",
+        "Will try to continue without this table."))
       return(NULL)
     }
     
@@ -375,10 +460,10 @@ build_ecotox_sqlite <- function(source, destination = get_ecotox_path(), write_l
     
     head  <- NULL
     lines.read <- 1
+    lines <- "1"
     ## Copy tables in 50000 line fragments to database, to avoid memory issues
     frag.size  <- 50000
-    message(crayon::white(sprintf("\r  0 lines (incl. header) of '%s' added to database", tab$table[[1]])),
-            appendLF = FALSE)
+    cli::cli_progress_update(id = prgs_bar)
     repeat {
       if (is.null(head)) {
         head <- iconv(readr::read_lines(filename, skip = 0, n_max = 1, progress = F), to = "UTF8", sub = "*")
@@ -433,12 +518,10 @@ build_ecotox_sqlite <- function(source, destination = get_ecotox_path(), write_l
                                            update_cols = names(table.frag)[-prim_key])
           written_len <- RSQLite::dbExecute(dbcon, updt)
           if (written_len < nrow(table.frag)) {
-            message(
-              stringr::str_pad(
-                sprintf("\r Table '%s' contains less records than read from source. Likely cause: duplicate records in source.\n",
-                        tab$table[[1]]),
-                width = 80, "right")
-            )
+            cli::cli_alert_warning(paste(
+              "Table '{tab$table[[1]]}' contains less records than read from source.",
+              "Likely cause: duplicate records in source."
+            ))
             incomplete_check <- union(incomplete_check, tab$table[[1]])
           }
           invisible(RSQLite::dbExecute(dbcon, "DROP TABLE IF EXISTS temp;"))
@@ -447,30 +530,23 @@ build_ecotox_sqlite <- function(source, destination = get_ecotox_path(), write_l
                                 table.frag[,setdiff(tab$field_name, missing_cols), drop = FALSE], append = TRUE)
         }
         
-        message(crayon::white(sprintf("\r %i lines (incl. header) of '%s' added to database", lines.read, tab$table[[1]])),
-                appendLF = F)
+        lines <- format(lines.read, scientific = FALSE)
+        cli::cli_progress_update(id = prgs_bar)
         if (length(body) < testsize) break
       }
     }
-    message(crayon::green(" Done\n"))
     if (any(startsWith(unexpected_fields, paste0(tab$table[[1]], ".")))) {
-      message(
-        stringr::str_pad(
-          sprintf("\r Ignored unexpected column(s) '%s'\n",
-                  paste(unexpected_fields[startsWith(unexpected_fields, paste0(tab$table[[1]], "."))], collapse = "', '")),
-          width = 80, "right")
-      )
+      unexpects <-
+        paste(unexpected_fields[startsWith(unexpected_fields, paste0(tab$table[[1]], "."))], collapse = "', '")
+      cli::cli_alert_warning("Ignored unexpected column(s) '{unexpects}'")
     }
     if (any(startsWith(missing_fields, paste0(tab$table[[1]], ".")))) {
-      message(
-        stringr::str_pad(
-          sprintf("\r Missing column(s) '%s'\n",
-                  paste(missing_fields[startsWith(missing_fields, paste0(tab$table[[1]], "."))], collapse = "', '")),
-          width = 80, "right")
-      )
+      missing_cols <- paste(missing_fields[startsWith(missing_fields, paste0(tab$table[[1]], "."))], collapse = "', '")
+      cli::cli_alert_warning("Missing column(s) '{missing_cols}'.")
     }
   })
-
+  cli::cli_progress_done(prgs_bar)
+  
   if (write_log) {
     logfile      <- file.path(destination, paste0(basename(source), ".log"))
     downloadinfo <- file.path(destination, paste0(basename(source), "_cit.txt"))
@@ -493,6 +569,7 @@ build_ecotox_sqlite <- function(source, destination = get_ecotox_path(), write_l
       paste(incomplete_check, collapse = ", ")
     ),
     con = logfile)
+    cli::cli_alert_success("Completed building the database")
   }
   return(invisible(NULL))
 }

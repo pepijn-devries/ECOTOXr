@@ -7,7 +7,7 @@
 download_ecotox_data(
   target = get_ecotox_path(),
   write_log = TRUE,
-  ask = TRUE,
+  ask = interactive(),
   verify_ssl = getOption("ECOTOXr_verify_ssl"),
   ...
 )

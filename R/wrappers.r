@@ -141,8 +141,8 @@ search_ecotox <- function(search, output_fields = list_ecotox_fields("default"),
 search_ecotox_lazy <- function(search, output_fields = list_ecotox_fields("default"),
                                compute = FALSE, ...) {
   ignored_fields <- !(output_fields %in% list_ecotox_fields("all"))
-  if (any(ignored_fields)) warning(sprintf("The following fields are unknown and ignored: %s.",
-                                           paste(output_fields[ignored_fields], collapse =", ")))
+  if (any(ignored_fields)) rlang::warn(sprintf("The following fields are unknown and ignored: %s.",
+                                               paste(output_fields[ignored_fields], collapse =", ")))
   output_fields <- output_fields[!ignored_fields]
   ## Note that the database connection is opened here, but not closed. It's the end-users responsibility
   ## to close the connection when no longer required.

@@ -14,8 +14,8 @@ test_that("Source code should not have things on TODO list", {
           content <- suppressWarnings(readLines(file))
           result  <- grepl("TODO", content) & !grepl("grepl\\(\"TODO\"", content) & !grepl("on TODO list", content)
           if (any(result)) {
-            warning(sprintf("File `%s` has items on TODO list at lines `%s`",
-                            file, paste(which(result), collapse = "`, `")))
+            rlang::warn(sprintf("File `%s` has items on TODO list at lines `%s`",
+                                file, paste(which(result), collapse = "`, `")))
           }
           any(result)
         })

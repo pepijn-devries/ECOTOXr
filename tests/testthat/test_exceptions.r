@@ -27,6 +27,7 @@ test_that("Cannot ask in a non-interactive session", {
     }
   })
 })
+
 test_that("Cannot pass multiple versions to get_ecotox_sqlite_file", {
   expect_error({
     get_ecotox_sqlite_file(version = c("2024-06-13", "2024-12-12"))

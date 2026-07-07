@@ -230,9 +230,9 @@ as_unit_ecotox <- function(
     type = c("concentration", "duration", "length", "media", "application", "size", "weight", "unknown"),
     ..., warn = TRUE) {
   if (inherits(x, "mixed_units")) return(x)
-  if (typeof(x) != "character") stop(
-    paste("`as_unit_ecotox` should only convert `characters`.",
-          "I got", typeof(x), "instead."))
+  if (typeof(x) != "character") rlang::abort(c(
+    x = "`as_unit_ecotox` should only convert `characters`.",
+    i = paste("I got", typeof(x), "instead.")))
   
   type <- rlang::arg_match(type)
   # Declare variables to pass CRAN checks

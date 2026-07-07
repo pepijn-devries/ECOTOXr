@@ -205,7 +205,7 @@ test_that("In a simple search test that there is a publication year when there i
 test_that("A simple search does not necessarily result in unique result ids when chemical carriers are added to output", {
   check_db()
   expect_false({
-    results <- suppressWarnings(
+    results <- suppressMessages(
       search_ecotox(
         list(test_id = list(terms = "1000260")),
         c("tests.test_id", "results.result_id", "chemical_carriers.carrier_id"),

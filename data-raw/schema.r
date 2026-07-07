@@ -37,7 +37,7 @@ if (requireNamespace(c("DiagrammeR", "DiagrammeRsvg", "dplyr", "ECOTOXr"))) {
     mutate(from = match(source_table, tables), to = match(target_table, tables))
   
   links_to_check <- links[is.na(links$to),]
-  if (nrow(links_to_check) > 0) stop("Database specs contain erronous links")
+  if (nrow(links_to_check) > 0) rlang::abort("Database specs contain erronous links")
   links <- links[!is.na(links$to),]
   
   graph_dot <- sprintf(
@@ -119,5 +119,7 @@ build -> query -> post -> ana
     writeLines("man/figures/ecotox-workflow.svg")
   
 } else {
-  stop("Install required packages first and try again")
+  rlang::abort(c(
+    x = "Not all required packages available",
+    i = "Install required packages first and try again"))
 }

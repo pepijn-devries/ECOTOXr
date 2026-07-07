@@ -80,5 +80,5 @@ if (check_ecotox_availability()) {
   setwd(wd)
   unlink(nd1, recursive = TRUE)
 } else {
-  warning("Build a local copy of the ECOTOX database before you create the test files")
+  rlang::warn("Build a local copy of the ECOTOX database before you create the test files")
 }
