@@ -1,7 +1,7 @@
 Package: ECOTOXr
 Type: Package
 Title: Download and Extract Data from US EPA's ECOTOX Database
-Version: 1.2.4.0005
+Version: 1.2.4.0006
 Authors@R: c(person("Pepijn", "de Vries", role = c("aut", "cre", "dtc"),
     email = "pepijn.devries@outlook.com",
     comment = c(ORCID = "0000-0002-7961-6646")))
@@ -18,6 +18,7 @@ Depends:
     R (>= 4.1.0),
     RSQLite (>= 2.3.4)
 Imports:
+    bit64 (>= 4.6.0),
     cli (>= 3.6.4),
     dbplyr (>= 2.4.0),
     dplyr (>= 1.1.4),

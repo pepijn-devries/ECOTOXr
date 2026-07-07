@@ -173,26 +173,36 @@ websearch_comptox <- function(
     searchItems,
     identifierTypes = c("chemical_name", "CASRN", "INCHIKEY", "dtxsid"),
     inputType       = c("IDENTIFIER", "DTXCID", "INCHIKEY_SKELETON", "MSREADY_FORMULA", "EXACT_FORMULA", "MASS"),
-    downloadItems   = c("DTXCID", "CASRN", "INCHIKEY", "IUPAC_NAME", "SMILES", "INCHI_STRING", "MS_READY_SMILES",
-                        "QSAR_READY_SMILES", "MOLECULAR_FORMULA", "AVERAGE_MASS", "MONOISOTOPIC_MASS",
-                        "QC_LEVEL", "SAFETY_DATA", "EXPOCAST", "DATA_SOURCES", "TOXVAL_DATA",
-                        "NUMBER_OF_PUBMED_ARTICLES", "PUBCHEM_DATA_SOURCES", "CPDAT_COUNT", "IRIS_LINK",
-                        "PPRTV_LINK", "WIKIPEDIA_ARTICLE", "QC_NOTES", "ABSTRACT_SHIFTER", "TOXPRINT_FINGERPRINT",
-                        "ACTOR_REPORT", "SYNONYM_IDENTIFIER", "RELATED_RELATIONSHIP", "ASSOCIATED_TOXCAST_ASSAYS",
-                        "TOXVAL_DETAILS", "CHEMICAL_PROPERTIES_DETAILS", "BIOCONCENTRATION_FACTOR_TEST_PRED",
-                        "BOILING_POINT_DEGC_TEST_PRED", "48HR_DAPHNIA_LC50_MOL/L_TEST_PRED", "DENSITY_G/CM^3_TEST_PRED",
-                        "DEVTOX_TEST_PRED", "96HR_FATHEAD_MINNOW_MOL/L_TEST_PRED", "FLASH_POINT_DEGC_TEST_PRED",
-                        "MELTING_POINT_DEGC_TEST_PRED", "AMES_MUTAGENICITY_TEST_PRED", "ORAL_RAT_LD50_MOL/KG_TEST_PRED",
-                        "SURFACE_TENSION_DYN/CM_TEST_PRED", "THERMAL_CONDUCTIVITY_MW/(M*K)_TEST_PRED",
-                        "TETRAHYMENA_PYRIFORMIS_IGC50_MOL/L_TEST_PRED", "VISCOSITY_CP_CP_TEST_PRED",
-                        "VAPOR_PRESSURE_MMHG_TEST_PRED", "WATER_SOLUBILITY_MOL/L_TEST_PRED",
-                        "ATMOSPHERIC_HYDROXYLATION_RATE_(AOH)_CM3/MOLECULE*SEC_OPERA_PRED", "BIOCONCENTRATION_FACTOR_OPERA_PRED",
-                        "BIODEGRADATION_HALF_LIFE_DAYS_DAYS_OPERA_PRED", "BOILING_POINT_DEGC_OPERA_PRED",
-                        "HENRYS_LAW_ATM-M3/MOLE_OPERA_PRED", "OPERA_KM_DAYS_OPERA_PRED",
-                        "OCTANOL_AIR_PARTITION_COEFF_LOGKOA_OPERA_PRED", "SOIL_ADSORPTION_COEFFICIENT_KOC_L/KG_OPERA_PRED",
-                        "OCTANOL_WATER_PARTITION_LOGP_OPERA_PRED", "MELTING_POINT_DEGC_OPERA_PRED",
-                        "OPERA_PKAA_OPERA_PRED", "OPERA_PKAB_OPERA_PRED", "VAPOR_PRESSURE_MMHG_OPERA_PRED",
-                        "WATER_SOLUBILITY_MOL/L_OPERA_PRED", "EXPOCAST_MEDIAN_EXPOSURE_PREDICTION_MG/KG-BW/DAY",
+    downloadItems   = c("DTXCID", "CASRN", "INCHIKEY", "IUPAC_NAME", "SMILES",
+                        "INCHI_STRING", "MS_READY_SMILES", "QSAR_READY_SMILES",
+                        "MOLECULAR_FORMULA", "AVERAGE_MASS", "MONOISOTOPIC_MASS",
+                        "TOXPRINTS_CHEMOTYPER", "TOXPRINTS_FINGERPRINT", "QC_LEVEL",
+                        "SAFETY_DATA", "EXPOCAST", "DATA_SOURCES", "TOXVAL_DATA",
+                        "IRIS_LINK", "PPRTV_LINK", "WIKIPEDIA_ARTICLE", "QC_NOTES",
+                        "BIOCONCENTRATION_FACTOR_TEST_PRED",
+                        "BOILING_POINT_DEGC_TEST_PRED",
+                        "48HR_DAPHNIA_LC50_MOL/L_TEST_PRED", "DENSITY_G/CM^3_TEST_PRED",
+                        "DEVTOX_TEST_PRED", "96HR_FATHEAD_MINNOW_MOL/L_TEST_PRED",
+                        "FLASH_POINT_DEGC_TEST_PRED", "MELTING_POINT_DEGC_TEST_PRED",
+                        "AMES_MUTAGENICITY_TEST_PRED", "ORAL_RAT_LD50_MOL/KG_TEST_PRED",
+                        "SURFACE_TENSION_DYN/CM_TEST_PRED",
+                        "THERMAL_CONDUCTIVITY_MW/(M*K)_TEST_PRED",
+                        "TETRAHYMENA_PYRIFORMIS_IGC50_MOL/L_TEST_PRED",
+                        "VISCOSITY_CP_CP_TEST_PRED",
+                        "VAPOR_PRESSURE_MMHG_TEST_PRED",
+                        "WATER_SOLUBILITY_MOL/L_TEST_PRED",
+                        "ATMOSPHERIC_HYDROXYLATION_RATE_(AOH)_CM3/MOLECULE*SEC_OPERA_PRED",
+                        "BIOCONCENTRATION_FACTOR_OPERA_PRED",
+                        "BIODEGRADATION_HALF_LIFE_DAYS_DAYS_OPERA_PRED",
+                        "BOILING_POINT_DEGC_OPERA_PRED", "HENRYS_LAW_ATM-M3/MOLE_OPERA_PRED",
+                        "OPERA_KM_DAYS_OPERA_PRED",
+                        "OCTANOL_AIR_PARTITION_COEFF_LOGKOA_OPERA_PRED",
+                        "SOIL_ADSORPTION_COEFFICIENT_KOC_L/KG_OPERA_PRED",
+                        "OCTANOL_WATER_PARTITION_LOGP_OPERA_PRED",
+                        "MELTING_POINT_DEGC_OPERA_PRED", "OPERA_PKAA_OPERA_PRED",
+                        "OPERA_PKAB_OPERA_PRED", "VAPOR_PRESSURE_MMHG_OPERA_PRED",
+                        "WATER_SOLUBILITY_MOL/L_OPERA_PRED", "LOGD5.5", "LOGD7.4",
+                        "READY_BIO_DEG", "EXPOCAST_MEDIAN_EXPOSURE_PREDICTION_MG/KG-BW/DAY",
                         "NHANES", "TOXCAST_NUMBER_OF_ASSAYS/TOTAL", "TOXCAST_PERCENT_ACTIVE"),
     massError = 0,
     timeout   = 300,
@@ -205,25 +215,27 @@ websearch_comptox <- function(
     cfg[["ssl_verifyhost"]] <- 0
     cfg[["ssl_verifypeer"]] <- 0
   }
+  
   search_form <-
     list(
-      identifierTypes = match.arg(identifierTypes, several.ok = TRUE),
+      identifierTypes = as.list(match.arg(identifierTypes, several.ok = TRUE)),
       massError       = massError,
-      downloadItems   = match.arg(downloadItems, several.ok = TRUE),
+      downloadItems   = as.list(match.arg(downloadItems, several.ok = TRUE)), # <- this is causing issues!
       searchItems     = paste0(searchItems, collapse = "\n"),
       inputType       = match.arg(inputType),
       downloadType    = "EXCEL"
     )
 
   post_result <-
-    "https://comptox.epa.gov/dashboard-api/batchsearch/export/?lb2ljny4" |>
+    "https://comptox.epa.gov/dashboard-api/batchsearch/export/?" |>
+    paste0(.comptox_timestamp()) |>
     httr2::request() |>
     httr2::req_body_json(search_form) |>
     httr2::req_method("POST") |>
     httr2::req_options(!!!cfg) |>
     httr2::req_perform()
   .check_http_status(post_result, "Failed to post search query")
-  
+
   ## Wait for download to get ready, by checking its status every second
   i <- 0
   repeat {
@@ -273,4 +285,21 @@ websearch_comptox <- function(
                          httr2::resp_status_desc(httr2_response),
                          httr2::resp_status(httr2_response)))
   }
+}
+
+.comptox_timestamp <- function() {
+  n <- round(as.numeric(Sys.time()) * 1000)
+  
+  alphabet <- c(0:9, letters)
+  
+  n <- bit64::as.integer64(n)
+  base36_str <- ""
+  
+  while (n > 0) {
+    remainder <- as.integer(n %% 36)
+    base36_str <- paste0(alphabet[remainder + 1], base36_str)
+    n <- n %/% 36
+  }
+  
+  return(base36_str)
 }
