@@ -207,9 +207,9 @@ websearch_comptox <- function(
   }
   search_form <-
     list(
-      identifierTypes = match.arg(identifierTypes, several.ok = T),
+      identifierTypes = match.arg(identifierTypes, several.ok = TRUE),
       massError       = massError,
-      downloadItems   = match.arg(downloadItems, several.ok = T),
+      downloadItems   = match.arg(downloadItems, several.ok = TRUE),
       searchItems     = paste0(searchItems, collapse = "\n"),
       inputType       = match.arg(inputType),
       downloadType    = "EXCEL"
