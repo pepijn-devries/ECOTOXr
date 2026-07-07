@@ -54,12 +54,6 @@ test_that("Newly build database can be queried", {
   })
 })
 
-test_that("The newly build database can be checked", {
-  expect_no_error({
-    check_ecotox_build(tempdir()) |> suppressMessages()
-  })
-})
-
 test_that("Unsupported constraint method throws error", {
   expect_error({
     search <-
@@ -69,8 +63,14 @@ test_that("Unsupported constraint method throws error", {
           method   = "foobar"
         )
       )
-    search_ecotox_lazy(search)
+    search_ecotox_lazy(search, path = tempdir())
   }, "specified search method is not implemented")
+})
+
+test_that("The newly build database can be checked", {
+  expect_no_error({
+    check_ecotox_build(tempdir()) |> suppressMessages()
+  })
 })
 
 test_that("Newly build version is faulty as it is a mockup", {
