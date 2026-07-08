@@ -1,7 +1,7 @@
 # Convert mixed units to a specific unit
 
-Converts a list of mixed units to a specific unit, using the `units`
-package.
+**\[experimental\]** Converts a list of mixed units to a specific unit,
+using the `units` package.
 
 ## Usage
 

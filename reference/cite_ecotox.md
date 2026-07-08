@@ -51,7 +51,8 @@ Other database-access-functions:
 [`dbConnectEcotox()`](https://pepijn-devries.github.io/ECOTOXr/reference/dbConnectEcotox.md),
 [`get_ecotox_info()`](https://pepijn-devries.github.io/ECOTOXr/reference/get_ecotox_info.md),
 [`get_ecotox_sqlite_file()`](https://pepijn-devries.github.io/ECOTOXr/reference/get_path.md),
-[`list_ecotox_fields()`](https://pepijn-devries.github.io/ECOTOXr/reference/list_ecotox_fields.md)
+[`list_ecotox_fields()`](https://pepijn-devries.github.io/ECOTOXr/reference/list_ecotox_fields.md),
+[`migrate_ecotox_path()`](https://pepijn-devries.github.io/ECOTOXr/reference/migrate_ecotox_path.md)
 
 ## Author
 
@@ -85,7 +86,7 @@ cite_ecotox() |> suppressWarnings()
 #> [1] "10.1016/j.chemosphere.2024.143078"
 #> 
 #> [[1]]$note
-#> [1] "R package version 1.2.4.0007"
+#> [1] "R package version 1.2.4.0008"
 #> 
 #> attr(,"bibtype")
 #> [1] "Article"

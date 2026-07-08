@@ -7,7 +7,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">ECOTOXr</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.2.4.0007</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.2.4.0008</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -38,9 +38,9 @@
     </div>
 
     <div class="section level2">
-      <h2 id="all-functions">All functions<a class="anchor" aria-label="anchor" href="#all-functions"></a></h2>
+      <h2 id="building-and-maintenance">Building and maintenance<a class="anchor" aria-label="anchor" href="#building-and-maintenance"></a></h2>
 
-
+      <div class="section-desc"><p>Functions for building and maintaining the local ECOTOX database</p></div>
 
       <dl></dl></div><div class="section level2">
 
@@ -49,27 +49,6 @@
 
       <dl><dt>
 
-          <code><a href="as_date_ecotox.html">as_date_ecotox()</a></code>
-          <span class="badge lifecycle lifecycle-experimental">experimental</span>
-        </dt>
-        <dd>Values represented by ECOTOX <code>character</code> to dates</dd>
-
-        <dt>
-
-          <code><a href="as_numeric_ecotox.html">as_numeric_ecotox()</a></code>
-          <span class="badge lifecycle lifecycle-experimental">experimental</span>
-        </dt>
-        <dd>Values represented by ECOTOX <code>character</code> to <code>numeric</code></dd>
-
-        <dt>
-
-          <code><a href="as_unit_ecotox.html">as_unit_ecotox()</a></code>
-          <span class="badge lifecycle lifecycle-experimental">experimental</span>
-        </dt>
-        <dd>Text from the ECOTOX database to <code>mixed_units</code></dd>
-
-        <dt>
-
           <code><a href="build_ecotox_sqlite.html">build_ecotox_sqlite()</a></code>
           <span class="badge lifecycle lifecycle-stable">stable</span>
         </dt>
@@ -77,12 +56,42 @@
 
         <dt>
 
-          <code><a href="cas.html">cas()</a></code> <code><a href="cas.html">is.cas()</a></code> <code><a href="cas.html">as.cas()</a></code> <code><a href="cas.html">`[[`(<i>&lt;cas&gt;</i>)</a></code> <code><a href="cas.html">`[`(<i>&lt;cas&gt;</i>)</a></code> <code><a href="cas.html">`[[&lt;-`(<i>&lt;cas&gt;</i>)</a></code> <code><a href="cas.html">`[&lt;-`(<i>&lt;cas&gt;</i>)</a></code> <code><a href="cas.html">format(<i>&lt;cas&gt;</i>)</a></code> <code><a href="cas.html">as.character(<i>&lt;cas&gt;</i>)</a></code> <code><a href="cas.html">show.cas()</a></code> <code><a href="cas.html">print(<i>&lt;cas&gt;</i>)</a></code> <code><a href="cas.html">as.list(<i>&lt;cas&gt;</i>)</a></code> <code><a href="cas.html">as.double(<i>&lt;cas&gt;</i>)</a></code> <code><a href="cas.html">as.integer(<i>&lt;cas&gt;</i>)</a></code> <code><a href="cas.html">c(<i>&lt;cas&gt;</i>)</a></code> <code><a href="cas.html">as.data.frame(<i>&lt;cas&gt;</i>)</a></code>
+          <code><a href="check_ecotox_build.html">check_ecotox_build()</a></code>
           <span class="badge lifecycle lifecycle-stable">stable</span>
         </dt>
-        <dd>Functions for handling chemical abstract service (CAS) registry numbers</dd>
+        <dd>Check the locally build database for validity</dd>
 
         <dt>
+
+          <code><a href="check_ecotox_version.html">check_ecotox_version()</a></code>
+          <span class="badge lifecycle lifecycle-stable">stable</span>
+        </dt>
+        <dd>Check if the locally build database is up to date</dd>
+
+        <dt>
+
+          <code><a href="download_ecotox_data.html">download_ecotox_data()</a></code>
+          <span class="badge lifecycle lifecycle-stable">stable</span>
+        </dt>
+        <dd>Download and extract ECOTOX database files and compose database</dd>
+
+        <dt>
+
+          <code><a href="get_ecotox_url.html">get_ecotox_url()</a></code>
+          <span class="badge lifecycle lifecycle-stable">stable</span>
+        </dt>
+        <dd>Get ECOTOX download URL from EPA website</dd>
+      </dl></div><div class="section level2">
+      <h2 id="accessing-the-local-database">Accessing the local database<a class="anchor" aria-label="anchor" href="#accessing-the-local-database"></a></h2>
+
+      <div class="section-desc"><p>Functions accessing and querying the local ECOTOX database</p></div>
+
+      <dl></dl></div><div class="section level2">
+
+
+
+
+      <dl><dt>
 
           <code><a href="check_ecotox_availability.html">check_ecotox_availability()</a></code>
           <span class="badge lifecycle lifecycle-stable">stable</span>
@@ -119,24 +128,10 @@
 
         <dt>
 
-          <code><a href="download_ecotox_data.html">download_ecotox_data()</a></code>
-          <span class="badge lifecycle lifecycle-stable">stable</span>
-        </dt>
-        <dd>Download and extract ECOTOX database files and compose database</dd>
-
-        <dt>
-
           <code><a href="get_ecotox_info.html">get_ecotox_info()</a></code>
           <span class="badge lifecycle lifecycle-stable">stable</span>
         </dt>
         <dd>Get information on the local ECOTOX database when available</dd>
-
-        <dt>
-
-          <code><a href="get_ecotox_url.html">get_ecotox_url()</a></code>
-          <span class="badge lifecycle lifecycle-stable">stable</span>
-        </dt>
-        <dd>Get ECOTOX download URL from EPA website</dd>
 
         <dt>
 
@@ -161,8 +156,75 @@
 
         <dt>
 
-          <code><a href="mixed_to_single_unit.html">mixed_to_single_unit()</a></code>
+          <code><a href="search_ecotox.html">search_ecotox()</a></code> <code><a href="search_ecotox.html">search_ecotox_lazy()</a></code> <code><a href="search_ecotox.html">search_query_ecotox()</a></code>
+          <span class="badge lifecycle lifecycle-stable">stable</span>
+        </dt>
+        <dd>Search and retrieve toxicity records from the database</dd>
 
+        <dt>
+
+          <code><a href="websearch.html">websearch_ecotox()</a></code> <code><a href="websearch.html">list_ecotox_web_fields()</a></code>
+          <span class="badge lifecycle lifecycle-experimental">experimental</span>
+        </dt>
+        <dd>Search and retrieve toxicity records from the online database</dd>
+      </dl></div><div class="section level2">
+      <h2 id="online-searching">Online searching<a class="anchor" aria-label="anchor" href="#online-searching"></a></h2>
+
+      <div class="section-desc"><p>Functions for searching online databases</p></div>
+
+      <dl></dl></div><div class="section level2">
+
+
+
+
+      <dl><dt>
+
+          <code><a href="websearch.html">websearch_ecotox()</a></code> <code><a href="websearch.html">list_ecotox_web_fields()</a></code>
+          <span class="badge lifecycle lifecycle-experimental">experimental</span>
+        </dt>
+        <dd>Search and retrieve toxicity records from the online database</dd>
+
+        <dt>
+
+          <code><a href="websearch_comptox.html">websearch_comptox()</a></code>
+          <span class="badge lifecycle lifecycle-experimental">experimental</span>
+        </dt>
+        <dd>Search and retrieve substance information from <a href="https://comptox.epa.gov/dashboard" class="external-link">https://comptox.epa.gov/dashboard</a></dd>
+      </dl></div><div class="section level2">
+      <h2 id="sanitisers">Sanitisers<a class="anchor" aria-label="anchor" href="#sanitisers"></a></h2>
+
+      <div class="section-desc"><p>Functions for sanitising data collected from local ECOTOX database</p></div>
+
+      <dl></dl></div><div class="section level2">
+
+
+
+
+      <dl><dt>
+
+          <code><a href="as_date_ecotox.html">as_date_ecotox()</a></code>
+          <span class="badge lifecycle lifecycle-experimental">experimental</span>
+        </dt>
+        <dd>Values represented by ECOTOX <code>character</code> to dates</dd>
+
+        <dt>
+
+          <code><a href="as_numeric_ecotox.html">as_numeric_ecotox()</a></code>
+          <span class="badge lifecycle lifecycle-experimental">experimental</span>
+        </dt>
+        <dd>Values represented by ECOTOX <code>character</code> to <code>numeric</code></dd>
+
+        <dt>
+
+          <code><a href="as_unit_ecotox.html">as_unit_ecotox()</a></code>
+          <span class="badge lifecycle lifecycle-experimental">experimental</span>
+        </dt>
+        <dd>Text from the ECOTOX database to <code>mixed_units</code></dd>
+
+        <dt>
+
+          <code><a href="mixed_to_single_unit.html">mixed_to_single_unit()</a></code>
+          <span class="badge lifecycle lifecycle-experimental">experimental</span>
         </dt>
         <dd>Convert mixed units to a specific unit</dd>
 
@@ -186,29 +248,25 @@
           <span class="badge lifecycle lifecycle-experimental">experimental</span>
         </dt>
         <dd>Process ECOTOX search results by converting <code>character</code> to units where relevant</dd>
+      </dl></div><div class="section level2">
+      <h2 id="cas-handlers">CAS handlers<a class="anchor" aria-label="anchor" href="#cas-handlers"></a></h2>
 
-        <dt>
+      <div class="section-desc"><p>Functions for handling CAS registry numbers</p></div>
 
-          <code><a href="search_ecotox.html">search_ecotox()</a></code> <code><a href="search_ecotox.html">search_ecotox_lazy()</a></code> <code><a href="search_ecotox.html">search_query_ecotox()</a></code>
+      <dl></dl></div><div class="section level2">
+
+
+
+
+      <dl><dt>
+
+          <code><a href="cas.html">cas()</a></code> <code><a href="cas.html">is.cas()</a></code> <code><a href="cas.html">as.cas()</a></code> <code><a href="cas.html">`[[`(<i>&lt;cas&gt;</i>)</a></code> <code><a href="cas.html">`[`(<i>&lt;cas&gt;</i>)</a></code> <code><a href="cas.html">`[[&lt;-`(<i>&lt;cas&gt;</i>)</a></code> <code><a href="cas.html">`[&lt;-`(<i>&lt;cas&gt;</i>)</a></code> <code><a href="cas.html">format(<i>&lt;cas&gt;</i>)</a></code> <code><a href="cas.html">as.character(<i>&lt;cas&gt;</i>)</a></code> <code><a href="cas.html">show.cas()</a></code> <code><a href="cas.html">print(<i>&lt;cas&gt;</i>)</a></code> <code><a href="cas.html">as.list(<i>&lt;cas&gt;</i>)</a></code> <code><a href="cas.html">as.double(<i>&lt;cas&gt;</i>)</a></code> <code><a href="cas.html">as.integer(<i>&lt;cas&gt;</i>)</a></code> <code><a href="cas.html">c(<i>&lt;cas&gt;</i>)</a></code> <code><a href="cas.html">as.data.frame(<i>&lt;cas&gt;</i>)</a></code>
           <span class="badge lifecycle lifecycle-stable">stable</span>
         </dt>
-        <dd>Search and retrieve toxicity records from the database</dd>
-
-        <dt>
-
-          <code><a href="websearch.html">websearch_ecotox()</a></code> <code><a href="websearch.html">list_ecotox_web_fields()</a></code>
-          <span class="badge lifecycle lifecycle-experimental">experimental</span>
-        </dt>
-        <dd>Search and retrieve toxicity records from the online database</dd>
-
-        <dt>
-
-          <code><a href="websearch_comptox.html">websearch_comptox()</a></code>
-          <span class="badge lifecycle lifecycle-experimental">experimental</span>
-        </dt>
-        <dd>Search and retrieve substance information from <a href="https://comptox.epa.gov/dashboard" class="external-link">https://comptox.epa.gov/dashboard</a></dd>
+        <dd>Functions for handling chemical abstract service (CAS) registry numbers</dd>
       </dl></div>
-  </main></div>
+  </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>
+    </nav></aside></div>
 
 
     <footer><div class="pkgdown-footer-left">
