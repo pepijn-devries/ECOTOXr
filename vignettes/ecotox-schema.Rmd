@@ -103,7 +103,7 @@ if required for your purpose.
 
 ## Setting up queries: some examples
 
-For setting up custom queries, I recommend to use [tidyverse](https://www.tidyverse.org/)
+For setting up custom queries, I recommend to use [tidyverse](https://tidyverse.org/)
 packages like [dplyr](https://dplyr.tidyverse.org/). This is why in the following examples
 the `dplyr` package is used to construct queries. The examples intend to show how the
 diagram above can be used to collect information from the database.
