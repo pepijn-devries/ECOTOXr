@@ -154,6 +154,7 @@ get_ecotox_path <- function() {
 #' @param overwrite `logical` value. Should files that already exist in the
 #' new location be overwritten?
 #' @returns Returns `NULL` invisibly.
+#' @family database-access-functions
 #' @export
 migrate_ecotox_path <- function(overwrite = FALSE) {
   ## This is a temporary function. It allows users to transition
