@@ -457,8 +457,8 @@ as_unit_ecotox <- function(
 
 #' Convert mixed units to a specific unit
 #' 
-#' Converts a list of mixed units to a specific unit, using the `units`
-#' package.
+#' `r lifecycle::badge('experimental')` Converts a list of mixed units to a
+#' specific unit, using the `units` package.
 #' @param x A mixed units object (`units::mixed_units()`) to be converted
 #' to the `target_unit`
 #' @param target_unit A `character` string representing the target

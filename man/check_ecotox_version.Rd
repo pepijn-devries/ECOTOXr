@@ -41,7 +41,8 @@ Other database-access-functions:
 \code{\link[=dbConnectEcotox]{dbConnectEcotox()}},
 \code{\link[=get_ecotox_info]{get_ecotox_info()}},
 \code{\link[=get_ecotox_sqlite_file]{get_ecotox_sqlite_file()}},
-\code{\link[=list_ecotox_fields]{list_ecotox_fields()}}
+\code{\link[=list_ecotox_fields]{list_ecotox_fields()}},
+\code{\link[=migrate_ecotox_path]{migrate_ecotox_path()}}
 
 Other database-build-functions:
 \code{\link[=build_ecotox_sqlite]{build_ecotox_sqlite()}},

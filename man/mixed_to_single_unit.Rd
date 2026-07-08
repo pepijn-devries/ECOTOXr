@@ -18,8 +18,8 @@ Returns a units object (\code{?units::units}). Values with units
 that cannot be converted to the \code{target_unit} is returned as \code{NA}.
 }
 \description{
-Converts a list of mixed units to a specific unit, using the \code{units}
-package.
+\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#experimental}{\figure{lifecycle-experimental.svg}{options: alt='[Experimental]'}}}{\strong{[Experimental]}} Converts a list of mixed units to a
+specific unit, using the \code{units} package.
 }
 \examples{
 mishmash <- as_unit_ecotox(c("mg/L", "ppt w/v", "\% w/v", "mmol/L"))

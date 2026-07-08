@@ -1,4 +1,26 @@
 url: https://pepijn-devries.github.io/ECOTOXr/
 template:
   bootstrap: 5
-
+reference:
+  - title: "Building and maintenance"
+    desc: "Functions for building and maintaining the local ECOTOX database"
+    contents:
+      - has_concept("database-build-functions")
+  - title: "Accessing the local database"
+    desc: "Functions accessing and querying the local ECOTOX database"
+    contents:
+      - has_concept("database-access-functions")
+      - matches("search_ecotox")
+  - title: "Online searching"
+    desc: "Functions for searching online databases"
+    contents:
+      - starts_with("websearch")
+      - ends_with("web_fields")
+  - title: "Sanitisers"
+    desc: "Functions for sanitising data collected from local ECOTOX database"
+    contents:
+      - has_concept("ecotox-sanitisers")
+  - title: "CAS handlers"
+    desc: "Functions for handling CAS registry numbers"
+    contents:
+      - matches("cas|registry numbers")
