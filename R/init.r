@@ -227,6 +227,7 @@ download_ecotox_data <- function(
       "Do you wish to continue and potentially overwrite",
       "the existing database? (y/n) "
       ), rlang::current_env())
+    utils::flush.console()
     prompt <- readline(prompt = "")
     if (!startsWith("Y", toupper(prompt))) {
       cli::cli_alert_warning("Download aborted...")
@@ -245,6 +246,7 @@ download_ecotox_data <- function(
     .unsuppressable_message(
       "ECOTOX data is already present ({dest_path}), overwrite (y/n)? ",
       rlang::current_env())
+    utils::flush.console()
     prompt <- readline(prompt = "")
     proceed.download <- startsWith("Y", toupper(prompt))
   }
@@ -276,7 +278,8 @@ download_ecotox_data <- function(
     
     cli::cli_progress_update(id = prgs_bar, force = TRUE)
     cli::cli_progress_done(prgs_bar)
-    cli::cli_alert_success("Done")
+    cli::cli_progress_cleanup()
+    cli::cli_alert_success("Downloading done")
   }
   
   ## create bib-file for later reference
@@ -292,6 +295,7 @@ download_ecotox_data <- function(
         "Extracted zip files already appear to exist.",
         "Continue unzipping and overwriting these files (y/n)? "),
         rlang::current_env())
+      utils::flush.console()
       prompt <- readline(prompt = "")
       proceed.unzip <- startsWith("Y", toupper(prompt))
     }
@@ -335,6 +339,7 @@ download_ecotox_data <- function(
       "Done extracting zip file, remove it to save disk space (y/n)? ",
       rlang::current_env()
     )
+    utils::flush.console()
     if (startsWith("Y", toupper(readline(prompt = ""))) || remove) {
       
       prgs_bar <- cli::cli_progress_step("Trying to delete zip file...")
