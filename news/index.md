@@ -1,12 +1,12 @@
 # Changelog
 
-## ECOTOXr v1.2.4.0008
+## ECOTOXr v1.2.5
 
 - Switched from using `rappdirs` to `tools` for locating user dir
 - Fixed
   [`websearch_comptox()`](https://pepijn-devries.github.io/ECOTOXr/reference/websearch_comptox.md)
 - Redesigned logo
-- Improved (progress) messages, warnings and errors
+- Improved warning, error and other messages
 - Corrected some typos
 - Some housekeeping of documentation and workflows
 
