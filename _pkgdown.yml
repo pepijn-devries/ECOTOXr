@@ -10,7 +10,6 @@ reference:
     desc: "Functions accessing and querying the local ECOTOX database"
     contents:
       - has_concept("database-access-functions")
-      - matches("search_ecotox")
   - title: "Online searching"
     desc: "Functions for searching online databases"
     contents:

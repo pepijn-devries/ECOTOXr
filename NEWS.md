@@ -1,3 +1,8 @@
+ECOTOXr v1.2.5.0001
+-------------
+
+ * Updated documentation
+
 ECOTOXr v1.2.5
 -------------
 

@@ -142,8 +142,20 @@ if (check_ecotox_availability()) {
 \seealso{
 Other search-functions:
 \code{\link[=websearch_ecotox]{websearch_ecotox()}}
+
+Other database-access-functions:
+\code{\link[=check_ecotox_availability]{check_ecotox_availability()}},
+\code{\link[=check_ecotox_build]{check_ecotox_build()}},
+\code{\link[=check_ecotox_version]{check_ecotox_version()}},
+\code{\link[=cite_ecotox]{cite_ecotox()}},
+\code{\link[=dbConnectEcotox]{dbConnectEcotox()}},
+\code{\link[=get_ecotox_info]{get_ecotox_info()}},
+\code{\link[=get_ecotox_sqlite_file]{get_ecotox_sqlite_file()}},
+\code{\link[=list_ecotox_fields]{list_ecotox_fields()}},
+\code{\link[=migrate_ecotox_path]{migrate_ecotox_path()}}
 }
 \author{
 Pepijn de Vries
 }
+\concept{database-access-functions}
 \concept{search-functions}
