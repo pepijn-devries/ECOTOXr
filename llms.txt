@@ -158,10 +158,6 @@ Functions accessing and querying the local ECOTOX database
   [`search_query_ecotox()`](https://pepijn-devries.github.io/ECOTOXr/reference/search_ecotox.md)
   **\[stable\]** : Search and retrieve toxicity records from the
   database
-- [`websearch_ecotox()`](https://pepijn-devries.github.io/ECOTOXr/reference/websearch.md)
-  [`list_ecotox_web_fields()`](https://pepijn-devries.github.io/ECOTOXr/reference/websearch.md)
-  **\[experimental\]** : Search and retrieve toxicity records from the
-  online database
 
 ## Online searching
 
