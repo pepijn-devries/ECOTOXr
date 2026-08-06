@@ -241,7 +241,8 @@ check_ecotox_build <- function(path = get_ecotox_path(), version, ...) {
       dbDisconnect(con)
     })
     tables <- RSQLite::dbListTables(con)
-    missing_tables <- .db_specs$table[!.db_specs$table %in% tables]
+    missing_tables <- .db_specs$table[!.db_specs$table %in% tables] |>
+      unique() |> sort()
     if (length(missing_tables) > 0) {
       validity <- FALSE
       attr(validity, "reasons") <-
