@@ -452,7 +452,10 @@ build_ecotox_sqlite <- function(source, destination = get_ecotox_path(), write_l
     foreign_keys <- tab[tab$foreign_key != "",, drop = FALSE]
     if (nrow(foreign_keys) > 0) {
       foreign_keys <- apply(foreign_keys, 1, function(x) {
-        sprintf("\tFOREIGN KEY(%s) REFERENCES [%s]", x[["field_name"]], x[["foreign_key"]])
+        fn <- stringr::str_replace(x[["foreign_key"]],
+                                   "^(\\w+)\\((\\w+)\\)$",
+                                   "[\\1]([\\2])")
+        sprintf("\tFOREIGN KEY(%s) REFERENCES %s", x[["field_name"]], fn)
       })
       foreign_keys <- paste(foreign_keys, collapse = ",\n")
     } else foreign_keys <- ""
